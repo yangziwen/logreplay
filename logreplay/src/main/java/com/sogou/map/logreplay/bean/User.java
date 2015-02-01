@@ -1,11 +1,22 @@
 package com.sogou.map.logreplay.bean;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 
-public class User {
+@Table(name="user")
+public class User extends AbstractBean {
 
+	@Id
+	@Column
 	private Long id;
+	
+	@Column
 	private String username;
+	
+	@Column
 	private String password;
 	
 	public User() {}
