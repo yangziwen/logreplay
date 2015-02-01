@@ -49,11 +49,9 @@
 		<property name="unauthorizedUrl" value="/unauthorized.htm"/>
 		<property name="filterChainDefinitions">
 			<value>
-				/test/** = anon
 				/js/** = anon
 				/css/** = anon
 				/img/** = anon
-				/bower_components/** = anon
 				/fonts/** = anon
 				/register** = anon
 				/register/** = anon

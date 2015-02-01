@@ -44,14 +44,14 @@
 	</filter-mapping>
 
 	<!-- access log filter -->
-	<filter>
+<!-- 	<filter>
 		<filter-name>AccessLoggerFilter</filter-name>
 		<filter-class>com.sogou.map.mengine.http.filter.AccessLoggerFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>AccessLoggerFilter</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	</filter-mapping> -->
 
 	<!-- uncatched exception filter -->
 	<filter>
