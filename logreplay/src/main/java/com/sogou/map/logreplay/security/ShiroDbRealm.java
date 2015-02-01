@@ -1,7 +1,5 @@
 package com.sogou.map.logreplay.security;
 
-
-
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -13,14 +11,14 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 
 import com.sogou.map.logreplay.bean.User;
-import com.sogou.map.logreplay.dao.UserDao;
+import com.sogou.map.logreplay.service.UserService;
 
 public class ShiroDbRealm extends AuthorizingRealm {
 	
-	private UserDao userDao;
+	private UserService userService;
 	
-	public void setUserDao(UserDao userDao) {
-		this.userDao = userDao;
+	public void setUserService(UserService userService) {
+		this.userService = userService;
 	}
 	
 	/**
@@ -29,7 +27,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-		User user = userDao.getByUsername(token.getUsername());
+		User user = userService.getUserByUsername(token.getUsername());
 		if (user == null) {
 			return null;
 		}

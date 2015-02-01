@@ -34,7 +34,7 @@
 	</bean>
 	
 	<bean id="shiroDbRealm" class="com.sogou.map.logreplay.security.ShiroDbRealm" >
-		<property name="userDao" ref="userDao" />
+		<property name="userService" ref="userService" />
 	</bean>
 
 	<bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
