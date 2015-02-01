@@ -1,0 +1,12 @@
+.metadata/
+target/
+bin/
+src/main/webapp/WEB-INF/classes/
+.project
+.classpath
+.settings/
+.mymetadata
+.svn/
+*.class
+WebRoot/WEB-INF/classes/
+RemoteSystemsTempFiles/
