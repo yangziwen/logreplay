@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="GBK"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<display-name>logreplay</display-name>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath*:spring/applicationContext*.xml</param-value>
+	</context-param>
+	
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<!-- Shiro Filter -->
+	<filter>
+		<filter-name>shiroFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>shiroFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+	</filter-mapping>
+	
+	<!-- prerequest filter-->
+	<filter>
+		<display-name>RequestPreprocessFilter</display-name>
+		<filter-name>RequestPreprocessFilter</filter-name>
+		<filter-class>com.sogou.map.mengine.http.filter.RequestPreprocessFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>RequestPreprocessFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- access log filter -->
+	<filter>
+		<filter-name>AccessLoggerFilter</filter-name>
+		<filter-class>com.sogou.map.mengine.http.filter.AccessLoggerFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AccessLoggerFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- uncatched exception filter -->
+	<filter>
+		<display-name>exceptionCatchFilter</display-name>
+		<filter-name>exceptionCatchFilter</filter-name>
+		<filter-class>com.sogou.map.mengine.http.filter.ExceptionCatchFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>exceptionCatchFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>forwardToJSPFilter</filter-name>
+		<filter-class>com.sogou.map.logreplay.filter.ForwardToJSPFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>forwardToJSPFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>Jersey</filter-name>
+		<filter-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</filter-class>
+		<init-param>
+			<param-name>com.sun.jersey.config.feature.Redirect</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>com.sun.jersey.config.property.JSPTemplatesBasePath</param-name>
+			<param-value>/WEB-INF/view</param-value>
+		</init-param>
+		<init-param>
+			<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>com.sun.jersey.config.feature.FilterForwardOn404</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>com.sun.jersey.config.property.WebPageContentRegex</param-name>
+			<param-value>/(img|css|html|js|fonts|view)/.*</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>Jersey</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+	</filter-mapping>
+	
+	<session-config>
+		<session-timeout>30</session-timeout>
+		<tracking-mode>COOKIE</tracking-mode>
+	</session-config>
+
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	
+</web-app>
