@@ -4,6 +4,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class Page<E> {
+	
+	public static final String DEFAULT_START = "0";
+	public static final String DEFAULT_LIMIT = "30";
 
 	private int start;
 	private int limit;
