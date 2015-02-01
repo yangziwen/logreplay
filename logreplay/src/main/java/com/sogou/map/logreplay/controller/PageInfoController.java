@@ -33,11 +33,16 @@ public class PageInfoController extends BaseService {
 			@DefaultValue(Page.DEFAULT_START) @QueryParam("start") int start,
 			@DefaultValue(Page.DEFAULT_LIMIT) @QueryParam("limit") int limit,
 			@QueryParam("pageNo") Integer pageNo,
-			@QueryParam("name") String name
+			@QueryParam("name") String name,
+			@QueryParam("updateBeginTime") String updateBeginTime,
+			@QueryParam("updateEndTime") String updateEndTime
 			) {
-		Page<PageInfo> page = pageInfoService.getPageInfoPaginateResult(start, limit, new QueryParamMap()
+		Page<PageInfo> page = pageInfoService.getPageInfoPageResult(start, limit, new QueryParamMap()
 			.addParam(pageNo != null, "pageNo", pageNo)
 			.addParam(StringUtils.isNotBlank(name), "name__contains", name)
+			.addParam(StringUtils.isNotBlank(updateBeginTime), "updateTime__ge", updateBeginTime)
+			.addParam(StringUtils.isNotBlank(updateEndTime), "updateTime__le", updateEndTime)
+			.orderByAsc("pageNo")
 		);
 		return successResultToJson(page, JsonUtil.configInstance(), true);
 	}
@@ -54,14 +59,17 @@ public class PageInfoController extends BaseService {
 	public Response update(@PathParam("id") Long id,
 			@QueryParam("pageNo") Integer pageNo,
 			@QueryParam("name") String name) throws ApiException {
+		if(pageNo == null || StringUtils.isBlank(name)) {
+			throw LogReplayException.invalidParameterException("Parameters are invalid!");
+		}
 		PageInfo info = pageInfoService.getPageInfoById(id);
 		if(info == null) {
-			throw LogReplayException.notExistException(String.format("PageInfo[%d] does not exist!", id));
+			throw LogReplayException.invalidParameterException(String.format("PageInfo[%d] does not exist!", id));
 		}
 		try {
 			info.setName(name);
 			info.setPageNo(pageNo);
-			pageInfoService.update(info);
+			pageInfoService.updatePageInfo(info);
 			return successResultToJson(String.format("PageInfo[%d] is updated successfully!", id), true);
 		} catch (Exception e) {
 			throw LogReplayException.operationFailedException(String.format("Failed to update PageInfo[%d]", id));
@@ -77,16 +85,12 @@ public class PageInfoController extends BaseService {
 		if(pageNo == null || StringUtils.isBlank(name)) {
 			throw LogReplayException.invalidParameterException("Parameters are invalid!");
 		}
-		// 下面只是个简单的判断，同时要在数据库的字段上设unique
-		if(pageInfoService.getPageInfoByPageNo(pageNo) != null) {
-			throw LogReplayException.invalidParameterException(String.format("PageNo[%d] is duplicated!", pageNo));
-		}
 		try {
 			PageInfo info = new PageInfo(pageNo, name);
-			pageInfoService.create(info);
+			pageInfoService.createPageInfo(info);
 			return successResultToJson(String.format("PageInfo[%s] is created successfully!", info.getId()), true);
 		} catch (Exception e) {
-			throw LogReplayException.operationFailedException("Failed to update PageInfo[%d]");
+			throw LogReplayException.operationFailedException("Failed to create PageInfo!");
 		}
 	}
 	

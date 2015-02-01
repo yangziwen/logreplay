@@ -17,7 +17,7 @@ public class PageInfoService {
 	@Autowired
 	private PageInfoDao pageInfoDao;
 	
-	public Page<PageInfo> getPageInfoPaginateResult(int start, int limit, Map<String, Object> param) {
+	public Page<PageInfo> getPageInfoPageResult(int start, int limit, Map<String, Object> param) {
 		return pageInfoDao.paginate(start, limit, param);
 	}
 	
@@ -29,12 +29,12 @@ public class PageInfoService {
 		return pageInfoDao.first(new QueryParamMap().addParam("pageNo", pageNo));
 	}
 	
-	public void update(PageInfo info) {
+	public void updatePageInfo(PageInfo info) {
 		info.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 		pageInfoDao.update(info);
 	}
 	
-	public void create(PageInfo info) {
+	public void createPageInfo(PageInfo info) {
 		info.setCreateTime(new Timestamp(System.currentTimeMillis()));
 		pageInfoDao.save(info);
 	}

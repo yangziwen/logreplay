@@ -2,6 +2,7 @@ package com.sogou.map.logreplay.dao.base;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -78,7 +79,7 @@ public class QueryParamMap extends HashMap<String, Object> {
 	private Map<String, String> ensureOrderByMap() {
 		Map<String, String> orderByMap = (Map<String, String>) get(DaoConstant.ORDER_BY);
 		if(orderByMap == null) {
-			orderByMap = new HashMap<String, String>();
+			orderByMap = new LinkedHashMap<String, String>();
 			put(DaoConstant.ORDER_BY, orderByMap);
 		}
 		return orderByMap;

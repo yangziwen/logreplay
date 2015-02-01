@@ -22,6 +22,8 @@ public class TagInfo extends AbstractBean {
 	@Column(name = "page_info_id")
 	private Long pageInfoId;
 	
+	private PageInfo pageInfo;
+	
 	@Column(name = "action_id")
 	private Long actionId;
 	
@@ -73,6 +75,14 @@ public class TagInfo extends AbstractBean {
 
 	public void setPageInfoId(Long pageInfoId) {
 		this.pageInfoId = pageInfoId;
+	}
+
+	public PageInfo getPageInfo() {
+		return pageInfo;
+	}
+
+	public void setPageInfo(PageInfo pageInfo) {
+		this.pageInfo = pageInfo;
 	}
 
 	public Long getActionId() {
