@@ -1,17 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=GBK"
-    pageEncoding="GBK"%>
+<%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
 <%@ include file="./include/include.jsp" %>
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>
     <title>home</title>
-	<%@include file="./include/includeCss.jsp" %>
+	<%@ include file="./include/includeCss.jsp" %>
 </head>
+<body style="height: 3000px;">
+<%@ include file="./include/includeTopBar.jsp" %>
+<p>hello world</p>
 
-<body>
-<h1>hello log replay</h1>
-<a href="${ctx_path}/logout.htm">ÍË³ö</a>
-<%@include file="./include/includeJs.jsp" %>
+<%@ include file="./include/includeJs.jsp" %>
 </body>
 </html>
 
