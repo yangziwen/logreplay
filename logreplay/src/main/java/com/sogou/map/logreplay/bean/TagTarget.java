@@ -1,12 +1,20 @@
 package com.sogou.map.logreplay.bean;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Table(name = "tag_target")
 public class TagTarget extends AbstractBean {
 
+	@Id
+	@Column
 	private Long id;
+	
+	@Column
 	private String name;
+	
+	@Column
 	private Boolean enabled;
 	
 	public TagTarget() {}

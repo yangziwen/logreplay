@@ -1,5 +1,7 @@
 package com.sogou.map.logreplay.bean;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -18,6 +20,12 @@ public class User extends AbstractBean {
 	
 	@Column
 	private String password;
+	
+	@Column(name = "create_time")
+	private Timestamp createTime;
+	
+	@Column(name = "update_time")
+	private Timestamp updateTime;
 	
 	public User() {}
 	
@@ -44,10 +52,17 @@ public class User extends AbstractBean {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this);
+	public Timestamp getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Timestamp createTime) {
+		this.createTime = createTime;
+	}
+	public Timestamp getUpdateTime() {
+		return updateTime;
+	}
+	public void setUpdateTime(Timestamp updateTime) {
+		this.updateTime = updateTime;
 	}
 	
 }
