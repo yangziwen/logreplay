@@ -4,8 +4,9 @@ body {
 	font-size: 18px;
 }
 .top-bar ul>li {
-	font-size: 20px;
-	font-family: 'Microsoft Yahei'
+	font-size: 14x;
+	font-family: 'Microsoft Yahei';
+	font-weight: bold;
 }
 .top-bar ul>li.title {
 	font-size: 25px;

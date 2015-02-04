@@ -13,7 +13,7 @@
 <%@ include file="./include/includeTopBar.jsp" %>
 <div>
 	<div class="row" style="margin: 80px auto; width: 560px;">
-		<div class="well center login-box" style="padding-bottom: 8px;">
+		<div class="well center login-box" style="padding-bottom: 8px; text-align: center;">
 			<c:if test="${not empty errorMessage}">
 				<div class="alert alert-danger">${errorMessage}</div>
 			</c:if>

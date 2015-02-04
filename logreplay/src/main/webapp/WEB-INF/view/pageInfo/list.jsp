@@ -1,0 +1,97 @@
+<%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
+<%@ include file="../include/include.jsp" %>
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <title>home</title>
+	<%@ include file="../include/includeCss.jsp" %>
+	<style>
+		table.table {
+			text-align: center;
+		}
+		table.table tr>th {
+			text-align: center;
+			background-color: #eee;
+		}
+	</style>
+</head>
+<body style="height: 3000px;">
+<%@ include file="../include/includeTopBar.jsp" %>
+
+<div class="container" style="_width: 1200px;">
+	<div class="row">
+	
+		<%@ include file="../include/includeMenuBar.jsp" %>
+		
+		<div class="col-lg-10 col-sm-10">
+			<div>
+			    <ul class="breadcrumb">
+			        <li>
+			            	当前位置: <a>日志项管理</a> > <a>页面管理</a>
+			        </li> 
+			    </ul>
+			</div>
+			
+			<div class="row">
+			    <div class="col-md-12">
+			     	<div id="J_queryArea" style="height: 100px; border: 1px solid #ccc; text-align: center;">
+			     		<h2 style="line-height: 50px;">查询区占位</h2>
+			     	</div>
+			     	<hr>
+			     	<div>
+			     		<button class="btn btn-primary">新增</button>
+			     	</div>
+			     	<div style="margin-top: 20px;">
+				     	<table class="table table-bordered table-striped table-condensed table-hover ">
+				     		<thead>
+				     			<tr>
+				     				<th>页面编号</th>
+				     				<th>页面名称</th>
+				     				<th>创建时间</th>
+				     				<th>修改时间</th>
+				     				<th>操作</th>
+				     			</tr>
+				     		</thead>
+				     		<tbody>
+				     			<tr>
+				     				<td>1</td>
+				     				<td>首页</td>
+				     				<td>--</td>
+				     				<td>--</td>
+				     				<td>
+				     					<a href="###">修改</a>
+				     					|
+				     					<a href="###">删除</a>
+				     					|
+				     					<a href="###">新增标签</a>
+				     				</td>
+				     			</tr>
+				     			<tr>
+				     				<td>2</td>
+				     				<td>另一个页面</td>
+				     				<td>--</td>
+				     				<td>--</td>
+				     				<td>
+				     					<a href="###">修改</a>
+				     					|
+				     					<a href="###">删除</a>
+				     					|
+				     					<a href="###">新增标签</a>
+				     				</td>
+				     			</tr>
+				     		</tbody>
+				     	</table>
+			     	</div>
+			     	
+			    </div>
+			</div><!--/row-->
+			
+		</div>
+		
+	</div>
+</div>
+
+<%@ include file="../include/includeJs.jsp" %>
+</body>
+</html>
+

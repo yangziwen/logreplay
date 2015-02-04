@@ -9,6 +9,7 @@
 			</ul>
 			<shiro:user>
 				<ul class="nav navbar-nav navbar-right">
+					<li><a href="${ctx_path}/home.htm">Ö÷Ò³</a></li>
 					<li><a href="###"><shiro:principal/></a></li>
 					<li><a href="${ctx_path}/logout.htm">ÍË³ö</a></li>
 					<li style="width: 10px;"></li>
