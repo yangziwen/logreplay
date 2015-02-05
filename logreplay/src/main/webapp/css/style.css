@@ -1,17 +1,20 @@
 @CHARSET "GBK";
 body { 
 	padding-top: 70px; 
-	font-size: 18px;
+	font-size: 14px;
 }
 .top-bar ul>li {
 	font-size: 14x;
 	font-family: 'Microsoft Yahei';
 	font-weight: bold;
 }
-.top-bar ul>li.title {
+.top-bar .title {
 	font-size: 25px;
+}
+.top-bar {
+	font-size: 16px;
 }
 .btn {
 	font-family: 'Microsoft Yahei';
-	font-size: 18px;
+	font-size: 16px;
 }

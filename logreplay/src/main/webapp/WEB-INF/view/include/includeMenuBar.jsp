@@ -5,6 +5,9 @@
 			<div class="nav-sm nav nav-stacked"></div>
 			<ul class="nav nav-pills nav-stacked">
 				<li class="active">
+					<a href="###"><i class="glyphicon glyphicon-home"></i><span> 主页</span></a>
+				</li>
+				<li class="active">
 					<a href="###"><i class="glyphicon glyphicon-plus"></i><span> 日志项管理</span></a>
 				</li>
 				<li class="active">

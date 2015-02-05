@@ -45,11 +45,11 @@
 				     	<table class="table table-bordered table-striped table-condensed table-hover ">
 				     		<thead>
 				     			<tr>
-				     				<th>页面编号</th>
+				     				<th style="width: 100px;">页面编号</th>
 				     				<th>页面名称</th>
-				     				<th>创建时间</th>
-				     				<th>修改时间</th>
-				     				<th>操作</th>
+				     				<th style="width: 150px;">创建时间</th>
+				     				<th style="width: 150px;">修改时间</th>
+				     				<th style="width: 200px;">操作</th>
 				     			</tr>
 				     		</thead>
 				     		<tbody>
@@ -63,7 +63,7 @@
 				     					|
 				     					<a href="###">删除</a>
 				     					|
-				     					<a href="###">新增标签</a>
+				     					<a href="###">标签</a>
 				     				</td>
 				     			</tr>
 				     			<tr>
@@ -76,7 +76,7 @@
 				     					|
 				     					<a href="###">删除</a>
 				     					|
-				     					<a href="###">新增标签</a>
+				     					<a href="###">标签</a>
 				     				</td>
 				     			</tr>
 				     		</tbody>
