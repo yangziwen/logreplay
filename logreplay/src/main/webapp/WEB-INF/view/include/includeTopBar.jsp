@@ -3,10 +3,12 @@
 <nav class="navbar navbar-default navbar-fixed-top top-bar" role="navigation">
 	<div class="container-fluit">
 		<div class="collapse navbar-collapse">
-			<div class="col-sm-3 col-md-4"></div>
-			<ul class="nav navbar-left" style="margin-top:6px; padding-left: 50px;">
-				<li class="title"><strong>Sogou客户端日志埋点回放系统</strong></li>
-			</ul>
+			<div class="col-sm-3 col-md-3"></div>
+			<div class="col-sm-6 col-md-6">
+				<ul class="nav navbar-left text-center" style="margin-top:6px; width: 100%;">
+					<li class="title"><strong>Sogou客户端日志埋点回放系统</strong></li>
+				</ul>
+			</div>
 			<shiro:user>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="${ctx_path}/home.htm">主页</a></li>

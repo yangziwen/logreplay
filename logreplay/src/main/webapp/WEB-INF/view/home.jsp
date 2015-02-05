@@ -40,6 +40,11 @@
 </div>
 
 <%@ include file="./include/includeJs.jsp" %>
+<script>
+seajs.use('app/home', function(home) {
+	home.init();
+});
+</script>
 </body>
 </html>
 

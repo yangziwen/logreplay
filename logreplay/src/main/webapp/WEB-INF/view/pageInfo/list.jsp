@@ -92,6 +92,11 @@
 </div>
 
 <%@ include file="../include/includeJs.jsp" %>
+<script>
+seajs.use('app/pageInfo/list', function(list) {
+	list.init();
+});
+</script>
 </body>
 </html>
 
