@@ -18,7 +18,7 @@
 			<div>
 			    <ul class="breadcrumb">
 			        <li>
-			            	当前位置: <a href="${ctx_path}/home.htm">主页</a>
+						当前位置: <a href="${ctx_path}/home.htm">主页</a>
 			        </li> 
 			    </ul>
 			</div>
@@ -29,16 +29,16 @@
 			            <div class="box-content" style="height: 500px;">
 			                <!-- put your content here -->
 			                <p>Welcome <shiro:principal />!</p>
+			                <button id="J_alertTest" class="btn btn-default">alert</button>
+							<button id="J_confirmTest" class="btn btn-default">confirm</button>
 			            </div>
 			        </div>
 			    </div>
 			</div><!--/row-->
 			
 		</div>
-		
 	</div>
 </div>
-
 <%@ include file="./include/includeJs.jsp" %>
 <script>
 seajs.use('app/home', function(home) {

@@ -15,24 +15,22 @@
 		}
 	</style>
 </head>
-<body style="height: 3000px;">
+<body>
+
 <%@ include file="../include/includeTopBar.jsp" %>
 
 <div class="container" style="_width: 1200px;">
-	<div class="row">
-	
+	<div class="row"><!-- row1 -->
 		<%@ include file="../include/includeMenuBar.jsp" %>
-		
 		<div class="col-lg-10 col-sm-10">
 			<div>
 			    <ul class="breadcrumb">
 			        <li>
-			            	当前位置: <a>日志项管理</a> > <a>页面管理</a>
+						当前位置: <a>日志项管理</a> > <a>页面管理</a>
 			        </li> 
 			    </ul>
 			</div>
-			
-			<div class="row">
+			<div class="row"><!-- row2 -->
 			    <div class="col-md-12">
 			     	<div id="J_queryArea" style="height: 100px; border: 1px solid #ccc; text-align: center;">
 			     		<h2 style="line-height: 50px;">查询区占位</h2>
@@ -69,15 +67,11 @@
 							</script>
 				     	</table>
 			     	</div>
-			     	
 			    </div>
-			</div><!--/row-->
-			
+			</div><!--/row2-->
 		</div>
-		
-	</div>
+	</div><!-- /row1 -->
 </div>
-
 <%@ include file="../include/includeJs.jsp" %>
 <script>
 seajs.use('app/pageInfo/list', function(list) {

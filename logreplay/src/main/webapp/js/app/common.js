@@ -28,6 +28,26 @@ define(function(require, exports, module){
 	/**
 	 * 调用bootstrap样式的弹出框
 	 */
+	var alertMsgTmpl = [
+		'<div class="modal" tabindex="-1" id="J_alertModal">',
+			'<div class="modal-dialog">',
+				'<div class="modal-content">',
+					'<div class="modal-header">',
+						'<button type="button" class="close" data-dismiss="modal">',
+							'<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>',
+						'</button>',
+						'<h4 class="modal-title"><strong>提示<strong></h4>',
+					'</div>',
+					'<div class="modal-body">',
+						'<p style="font-size: 16px; text-align: center;"></p>',
+					'</div>',
+					'<div class="modal-footer">',
+						'<button class="btn btn-primary" data-dismiss="modal">确定</button>',
+					'</div>',
+				'</div>',
+			'</div>',
+		'</div>'
+	].join('');
 	function alertMsg (msg) {
 		var deferred = $.Deferred();
 		var width = 350;
@@ -37,19 +57,21 @@ define(function(require, exports, module){
 		}
 		var $modal = $('#J_alertModal');
 		if($modal.size() == 0) {
-			alert(msg);
-			return deferred.resolve().promise();
+			$modal = $(alertMsgTmpl).appendTo('body');
+//			alert(msg);
+//			return deferred.resolve().promise();
 		}
 		msg = ('' + msg).replace(/\n/g, '<br/>');
 		$modal.find('.modal-body p').html(msg);
-		$modal.modal().css({
+		$modal.find('.modal-dialog').css({
 			width: width,
-			'margin-left': function() {
-				return - $(this).width() / 2;
-			},
 			'margin-top': function() {
 				return ( $(window).height() - $(this).height() ) / 3;	 // 乱诌的一句，完全没有道理，太神奇了
 			}
+		});
+		$modal.modal({
+			backdrop: 'static',
+			keyboard: false
 		});
 		$modal.on('hidden', function(){
 			$(this).off('hidden');
@@ -61,6 +83,27 @@ define(function(require, exports, module){
 	/**
 	 * 调用bootstrap样式的确认框
 	 */
+	var confirmMsgTmpl = [
+		'<div class="modal" tabindex="-1" id="J_confirmModal">',
+			'<div class="modal-dialog">',
+				'<div class="modal-content">',
+					'<div class="modal-header">',
+						'<button type="button" class="close" data-dismiss="modal">',
+							'<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>',
+						'</button>',
+						'<h4 class="modal-title"><strong>确认<strong></h4>',
+					'</div>',
+					'<div class="modal-body">',
+						'<p style="font-size: 16px; text-align: center;"></p>',
+					'</div>',
+					'<div class="modal-footer">',
+						'<button class="btn btn-primary confirm" data-dismiss="modal">确定</button>',
+						'<button class="btn btn-default cancel" data-dismiss="modal">取消</button>',
+					'</div>',
+				'</div>',
+			'</div>',
+		'</div>'
+	].join('');
 	function confirmMsg (msg) {
 		var deferred = $.Deferred();
 		var width = 350;
@@ -70,18 +113,20 @@ define(function(require, exports, module){
 		}
 		var $modal = $('#J_confirmModal');
 		if($modal.size() == 0) {
-			return deferred.resolve(confirm(msg)).promise();
+			$modal = $(confirmMsgTmpl).appendTo('body');
+//			return deferred.resolve(confirm(msg)).promise();
 		}
 		msg = ('' + msg).replace(/\n/g, '<br/>');
 		$modal.find('.modal-body p').html(msg);
-		$modal.modal().css({
+		$modal.find('.modal-dialog').css({
 			width: width,
-			'margin-left': function() {
-				return - $(this).width() / 2;
-			},
 			'margin-top': function() {
 				return ( $(window).height() - $(this).height() ) / 3;	 // 乱诌的一句，完全没有道理，太神奇了
 			}
+		});
+		$modal.modal({
+			backdrop: 'static',
+			keyboard: 'false'
 		});
 		$modal.on('click', '.modal-footer .confirm', function(){
 			$modal.off('click');
