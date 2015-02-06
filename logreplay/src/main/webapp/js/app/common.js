@@ -66,15 +66,15 @@ define(function(require, exports, module){
 		$modal.find('.modal-dialog').css({
 			width: width,
 			'margin-top': function() {
-				return ( $(window).height() - $(this).height() ) / 3;	 // 乱诌的一句，完全没有道理，太神奇了
+				return ( $(window).height() - $(this).height() ) / 3;
 			}
 		});
 		$modal.modal({
 			backdrop: 'static',
 			keyboard: false
 		});
-		$modal.on('hidden', function(){
-			$(this).off('hidden');
+		$modal.on('hidden.bs.modal', function(){
+			$(this).off('hidden.bs.modal');
 			deferred.resolve();
 		});
 		return deferred.promise();
@@ -121,7 +121,7 @@ define(function(require, exports, module){
 		$modal.find('.modal-dialog').css({
 			width: width,
 			'margin-top': function() {
-				return ( $(window).height() - $(this).height() ) / 3;	 // 乱诌的一句，完全没有道理，太神奇了
+				return ( $(window).height() - $(this).height() ) / 3;
 			}
 		});
 		$modal.modal({
@@ -180,21 +180,22 @@ define(function(require, exports, module){
 		return url;
 	}
 	
+	/**
+	 * @deprecated
+	 */
 	function submitForm(form, ignoreEmptyParams) {
 		if(!form) {
 			return;
 		}
 		var params = collectParams($(form).find('input[type!=button][type!=submit][type!=reset], select'));
 		var url = buildUrlByParams($(form).attr('action'), params, ignoreEmptyParams);
-		location.href = url;
 	}
 	
-	function clearForm(form, ignoreEmptyParams) {
+	function clearForm(form) {
 		if(!form) {
 			return;
 		}
 		$(form).find('input[type!=button][type!=submit][type!=reset], select').val('');
-		submitForm(form, ignoreEmptyParams);
 	}
 	
 	function openWin(options) {

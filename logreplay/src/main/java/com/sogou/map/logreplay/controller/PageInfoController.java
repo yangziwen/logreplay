@@ -1,7 +1,9 @@
 package com.sogou.map.logreplay.controller;
 
 import javax.ws.rs.DefaultValue;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
@@ -54,11 +56,11 @@ public class PageInfoController extends BaseService {
 		return successResultToJson(info, JsonUtil.configInstance(), true);
 	}
 	
-	@GET
+	@POST
 	@Path("/update/{id}")
 	public Response update(@PathParam("id") Long id,
-			@QueryParam("pageNo") Integer pageNo,
-			@QueryParam("name") String name) throws ApiException {
+			@FormParam("pageNo") Integer pageNo,
+			@FormParam("name") String name) throws ApiException {
 		if(pageNo == null || StringUtils.isBlank(name)) {
 			throw LogReplayException.invalidParameterException("Parameters are invalid!");
 		}
@@ -76,11 +78,11 @@ public class PageInfoController extends BaseService {
 		}
 	}
 	
-	@GET
+	@POST
 	@Path("/create")
 	public Response create(
-			@QueryParam("pageNo") Integer pageNo,
-			@QueryParam("name") String name
+			@FormParam("pageNo") Integer pageNo,
+			@FormParam("name") String name
 			) throws ApiException {
 		if(pageNo == null || StringUtils.isBlank(name)) {
 			throw LogReplayException.invalidParameterException("Parameters are invalid!");

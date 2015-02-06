@@ -16,5 +16,7 @@ body {
 }
 .btn {
 	font-family: 'Microsoft Yahei';
+}
+.btn-lg-font {
 	font-size: 16px;
 }
