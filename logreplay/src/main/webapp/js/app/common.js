@@ -1,5 +1,7 @@
 define(function(require, exports, module){
 	
+	"use strict";
+	
 	var $ = require('jquery');
 	require('bootstrap');
 	
@@ -94,16 +96,6 @@ define(function(require, exports, module){
 		return deferred.promise();
 	};
 	
-	function initEnvLogo () {
-		$('#J_envLogo').on('click', function(){
-			var version = $('#J_releasedVersion').val(),
-				environment = $('#J_environment').val();
-			var str = '代码发布系统 V' + version + '\n'
-				+ '当前发布环境 ' + environment;
-			alertMsg(str);
-		});
-	};
-	
 	function collectParams(selector) {
 		var params = {};
 		if(!selector) {
@@ -147,7 +139,7 @@ define(function(require, exports, module){
 		if(!form) {
 			return;
 		}
-		var params = collectParams($(form).find('input[type!=button][type!=submit], select'));
+		var params = collectParams($(form).find('input[type!=button][type!=submit][type!=reset], select'));
 		var url = buildUrlByParams($(form).attr('action'), params, ignoreEmptyParams);
 		location.href = url;
 	}
@@ -156,7 +148,7 @@ define(function(require, exports, module){
 		if(!form) {
 			return;
 		}
-		$(form).find('input[type!=button][type!=submit], select').val('');
+		$(form).find('input[type!=button][type!=submit][type!=reset], select').val('');
 		submitForm(form, ignoreEmptyParams);
 	}
 	

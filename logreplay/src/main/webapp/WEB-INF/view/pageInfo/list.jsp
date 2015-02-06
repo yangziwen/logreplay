@@ -52,34 +52,21 @@
 				     				<th style="width: 200px;">操作</th>
 				     			</tr>
 				     		</thead>
-				     		<tbody>
-				     			<tr>
-				     				<td>1</td>
-				     				<td>首页</td>
-				     				<td>--</td>
-				     				<td>--</td>
-				     				<td>
-				     					<a href="###">修改</a>
-				     					|
-				     					<a href="###">删除</a>
-				     					|
-				     					<a href="###">标签</a>
-				     				</td>
-				     			</tr>
-				     			<tr>
-				     				<td>2</td>
-				     				<td>另一个页面</td>
-				     				<td>--</td>
-				     				<td>--</td>
-				     				<td>
-				     					<a href="###">修改</a>
-				     					|
-				     					<a href="###">删除</a>
-				     					|
-				     					<a href="###">标签</a>
-				     				</td>
-				     			</tr>
+				     		<tbody id="J_pageInfoTbody">
 				     		</tbody>
+							<script type="text/x-jquery-tmpl" id="J_pageInfoTmpl">
+								<tr data-id="${'${'}id}">
+				     				<td>${'${'}pageNo}</td>
+				     				<td>${'${'}name}</td>
+				     				<td>${'${'}createTime? new Date(createTime).format('yyyy-MM-dd hh:mm:ss'): '--'}</td>
+				     				<td>${'${'}updateTime? new Date(updateTime).format('yyyy-MM-dd hh:mm:ss'): '--'}</td>
+				     				<td>
+				     					<a href="###">修改</a>
+				     					|
+				     					<a href="###">标签</a>
+				     				</td>
+				     			</tr>
+							</script>
 				     	</table>
 			     	</div>
 			     	
