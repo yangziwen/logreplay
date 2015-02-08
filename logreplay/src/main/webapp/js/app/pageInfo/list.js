@@ -189,7 +189,7 @@ define(function(require, exports, module) {
 				pageName = $tds.eq(1).html();
 			var $modal = $('#J_tagInfoModal');
 			common.clearForm($modal.find('form'));
-			$modal.find('.modal-title > strong').html('新增操作信息');
+			$modal.find('.modal-title > strong').html('新增操作项');
 			$modal.find('input[name=pageInfoId]').val(pageInfoId);
 			$modal.find('input[name=pageNo]').val(pageNo).attr({disabled: true});
 			$modal.find('input[name=pageName]').val(pageName).attr({disabled: true});

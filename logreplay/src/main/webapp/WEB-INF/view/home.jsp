@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>
-    <title>home</title>
+    <title>主页</title>
 	<%@ include file="./include/includeCss.jsp" %>
 </head>
 <body style="height: 3000px;">
@@ -12,7 +12,7 @@
 <div class="container" style="_width: 1200px;">
 	<div class="row">
 	
-		<%@ include file="./include/includeMenuBar.jsp" %>
+		<%@ include file="./include/includeLeftMenu.jsp" %>
 		
 		<div class="col-lg-10 col-sm-10">
 			<div>
@@ -25,6 +25,11 @@
 			
 			<div class="row">
 			    <div class="box col-md-12">
+			    	<div style="font-family: 'Microsoft Yahei'; text-align: center;">
+				    	<h2><strong>欢迎你，<shiro:principal />！</strong></h2>
+				    	<h2><strong>又将是美好的一天！</strong></h2>
+			    	</div>
+			    	<%--
 			        <div class="box-inner"> 
 			            <div class="box-content" style="height: 500px;">
 			                <!-- put your content here -->
@@ -32,8 +37,10 @@
 			                <button id="J_alertTest" class="btn btn-default">alert</button>
 							<button id="J_confirmTest" class="btn btn-default">confirm</button>
 							<div id="J_pagebar"></div>
+							<h2>${fn:endsWith(pageContext.request.requestURI, '/home.jsp')}</h2>
 			            </div>
 			        </div>
+			         --%>
 			    </div>
 			</div><!--/row-->
 			

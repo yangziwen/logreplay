@@ -83,7 +83,7 @@ define(function(require, exports, module) {
 			var url = CTX_PATH + '/tagInfo/detail/' + id;
 			$.get(url, function(data) {
 				var tagInfo = data.response;
-				$modal.find('.modal-title > strong').html('修改操作项信息');
+				$modal.find('.modal-title > strong').html('修改操作项');
 				$modal.find('input[name=id]').val(tagInfo.id);
 				$modal.find('input[name=pageInfoId]').val(tagInfo.pageInfoId);
 				$modal.find('input[name=pageNo]').val(tagInfo.pageInfo.pageNo).attr({disabled: true});

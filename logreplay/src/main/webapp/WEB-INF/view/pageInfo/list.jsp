@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>
-    <title>home</title>
+    <title>页面信息管理</title>
 	<%@ include file="../include/includeCss.jsp" %>
 </head>
 <body>
@@ -12,12 +12,13 @@
 
 <div class="container" style="margin-bottom: 50px;">
 	<div class="row"><!-- row1 -->
-		<%@ include file="../include/includeMenuBar.jsp" %>
+		<%@ include file="../include/includeLeftMenu.jsp" %>
 		<div class="col-lg-10 col-sm-10">
 			<div>
 			    <ul class="breadcrumb">
 			        <li>
-						当前位置: <a>日志项管理</a> > <a>页面管理</a>
+						当前位置: <a data-toggle="collapse" href="#J_logConfigSubmenu">日志项管理</a>
+						 &gt; <a href="${ctx_path}/pageInfo/list.htm">页面信息管理</a>
 			        </li> 
 			    </ul>
 			</div>

@@ -33,3 +33,6 @@ table.table > tbody > tr > td {
 .modal-header {
 	font-family: 'Microsoft Yahei';
 }
+ul.submenu {
+	overflow: hidden;
+}
