@@ -27,12 +27,8 @@ public class TagInfo extends AbstractBean {
 	@Column(name = "action_id")
 	private Long actionId;
 	
-	private String action;
-	
 	@Column(name = "target_id")
 	private Long targetId;
-	
-	private String target;
 	
 	@Column(name = "comment")
 	private String comment;
@@ -93,28 +89,12 @@ public class TagInfo extends AbstractBean {
 		this.actionId = actionId;
 	}
 
-	public String getAction() {
-		return action;
-	}
-
-	public void setAction(String action) {
-		this.action = action;
-	}
-
 	public Long getTargetId() {
 		return targetId;
 	}
 
 	public void setTargetId(Long targetId) {
 		this.targetId = targetId;
-	}
-
-	public String getTarget() {
-		return target;
-	}
-
-	public void setTarget(String target) {
-		this.target = target;
 	}
 
 	public String getComment() {

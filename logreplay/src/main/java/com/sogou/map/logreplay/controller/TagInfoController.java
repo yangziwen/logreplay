@@ -50,7 +50,7 @@ public class TagInfoController extends BaseService {
 			.addParam(StringUtils.isNotBlank(name), "name__contain", name)
 			.addParam(StringUtils.isNotBlank(updateBeginTime), "updateTime__ge", updateBeginTime)
 			.addParam(StringUtils.isNotBlank(updateEndTime), "updateTime__le", updateEndTime)
-			.orderByAsc("pageInfoId").orderByAsc("tagNo")
+			.orderByAsc("page_info.page_no").orderByAsc("tagNo")
 		);
 		return successResultToJson(page, JsonUtil.configInstance(), true);
 	}

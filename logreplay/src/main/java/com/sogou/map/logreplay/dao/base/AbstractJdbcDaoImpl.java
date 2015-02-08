@@ -61,7 +61,7 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean> {
 	
 	protected final String updateSql = generateUpdateSql(tableName, idFieldName, fieldColumnMapping);
 	
-	public final RowMapper<E> ROW_MAPPER = ParameterizedBeanPropertyRowMapper.newInstance(entityClass);
+	protected final RowMapper<E> ROW_MAPPER = ParameterizedBeanPropertyRowMapper.newInstance(entityClass);
 	
 	@SuppressWarnings("unchecked")
 	protected final E[] emptyArray = (E[])Array.newInstance(entityClass, 0);
@@ -173,10 +173,7 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean> {
 	}
 
 	public E getById(Long id) {
-		String sql = "select * from " + tableName + " where " + getColumnByField(idFieldName) + " = :id ";
-		SqlParameterSource paramSource = new MapSqlParameterSource("id", id);
-		List<E> list = jdbcTemplate.query(sql, paramSource, ROW_MAPPER);
-		return CollectionUtils.isNotEmpty(list)? list.get(0): null;
+		return first(new QueryParamMap().addParam(getColumnByField(idFieldName), id));
 	}
 
 	public List<E> list(int start, int limit, Map<String, Object> param) {
@@ -188,7 +185,7 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean> {
 		return list(0, 0, param);
 	}
 	
-	private List<E> doList(String sql, Map<String, Object> param) {
+	protected List<E> doList(String sql, Map<String, Object> param) {
 		return jdbcTemplate.query(sql, param, ROW_MAPPER);
 	}
 
@@ -197,7 +194,7 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean> {
 		return doCount(sql, param);
 	}
 	
-	private int doCount(String sql, Map<String, Object> param) {
+	protected int doCount(String sql, Map<String, Object> param) {
 		int beginPos = sql.indexOf("from");
 		int endPos = sql.indexOf("order by");
 		if(endPos == -1) {
@@ -500,7 +497,7 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean> {
 		return column;
 	}
 	
-	private OperationParsedResult parseOperation(String keyWithOper) {
+	protected OperationParsedResult parseOperation(String keyWithOper) {
 		if (StringUtils.isBlank(keyWithOper)) {
 			return null;
 		}

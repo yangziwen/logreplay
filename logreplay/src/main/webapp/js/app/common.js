@@ -195,7 +195,7 @@ define(function(require, exports, module){
 		if(!form) {
 			return;
 		}
-		$(form).find('input[type!=button][type!=submit][type!=reset], select').val('');
+		$(form).find('input[type!=button][type!=submit][type!=reset], select, textarea').val('');
 	}
 	
 	function openWin(options) {

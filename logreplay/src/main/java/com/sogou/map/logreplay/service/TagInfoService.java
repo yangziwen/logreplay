@@ -28,11 +28,12 @@ public class TagInfoService {
 	
 	public Page<TagInfo> getTagInfoPageResult(int start, int limit, Map<String, Object> param) {
 		Page<TagInfo> page = tagInfoDao.paginate(start, limit, param);
-		List<TagInfo> list = page.getList();
-		fillPageInfoToTagInfo(list);
+//		List<TagInfo> list = page.getList();
+//		fillPageInfoToTagInfo(list);
 		return page;
 	}
 	
+	@Deprecated
 	void fillPageInfoToTagInfo(List<TagInfo> tagInfoList) {
 		if(CollectionUtils.isEmpty(tagInfoList)) {
 			return;
@@ -64,8 +65,6 @@ public class TagInfoService {
 		if(tagInfo == null) {
 			return null;
 		}
-		PageInfo pageInfo = pageInfoDao.getById(tagInfo.getPageInfoId());
-		tagInfo.setPageInfo(pageInfo);
 		return tagInfo;
 	}
 	
@@ -74,8 +73,6 @@ public class TagInfoService {
 		if(tagInfo == null) {
 			return null;
 		}
-		PageInfo pageInfo = pageInfoDao.getById(tagInfo.getPageInfoId());
-		tagInfo.setPageInfo(pageInfo);
 		return tagInfo;
 	}
 	
