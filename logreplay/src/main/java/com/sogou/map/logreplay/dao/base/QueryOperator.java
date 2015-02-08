@@ -113,7 +113,7 @@ public enum QueryOperator {
 	}
 	;
 	
-	private static VarArgsSQLFunction concatFunction = new VarArgsSQLFunction(new StringType(), "(","||", ")");
+	private static VarArgsSQLFunction concatFunction = new VarArgsSQLFunction(new StringType(), "concat(",",", ")");
 	
 	public abstract OperationParsedResult buildResult(String fieldName, String originKey);
 	

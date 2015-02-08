@@ -1,6 +1,8 @@
 define(function(require, exports, module) {
 	
-	var common = require('app/common');
+	require('bootstrap.pagebar');
+	var common = require('app/common'),
+		$ = require('jquery');
 	
 	function init() {
 		$('#J_alertTest').on('click', function() {
@@ -11,6 +13,7 @@ define(function(require, exports, module) {
 				alert(confirmed? 'yes': 'no');
 			});
 		});
+		common.buildPageBar('#J_pagebar', 0, 10, 100);
 	}
 	
 	module.exports = {

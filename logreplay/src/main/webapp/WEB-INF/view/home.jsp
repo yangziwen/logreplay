@@ -31,6 +31,7 @@
 			                <p>Welcome <shiro:principal />!</p>
 			                <button id="J_alertTest" class="btn btn-default">alert</button>
 							<button id="J_confirmTest" class="btn btn-default">confirm</button>
+							<div id="J_pagebar"></div>
 			            </div>
 			        </div>
 			    </div>

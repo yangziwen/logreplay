@@ -13,6 +13,7 @@ seajs.config({
 		'jquery': 'jquery/jquery.js',
 		'jquery.tmpl': 'jquery/jquery.tmpl.js',
 		'bootstrap': 'bootstrap/bootstrap.min.js',
+		'bootstrap.pagebar': 'bootstrap/bootstrapPageBar.js'
 	}
 });
 </script>

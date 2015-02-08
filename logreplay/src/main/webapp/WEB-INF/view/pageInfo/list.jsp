@@ -9,9 +9,12 @@
 		table.table {
 			text-align: center;
 		}
-		table.table tr>th {
+		table.table > thead > tr > th {
 			text-align: center;
 			background-color: #eee;
+		}
+		table.table > tbody > tr > td {
+			line-height: 25px;
 		}
 	</style>
 </head>
@@ -36,8 +39,13 @@
 			     		<h2 style="line-height: 50px;">查询区占位</h2>
 			     	</div>
 			     	<hr>
-			     	<div>
-			     		<button class="btn btn-primary btn-lg-font" id="J_openCreateModalBtn">新增</button>
+			     	<div class="row">
+			     		<div class="col-sm-2">
+			     			<button class="btn btn-primary btn-lg-font" id="J_openCreateModalBtn">新增</button>
+			     		</div>
+			     		<div id="J_pagebar" class="col-sm-10">
+			     			
+			     		</div>
 			     	</div>
 			     	<div style="margin-top: 20px;">
 				     	<table class="table table-bordered table-striped table-condensed table-hover ">
@@ -59,8 +67,8 @@
 				     				<td>${'${'}createTime? new Date(createTime).format('yyyy-MM-dd hh:mm:ss'): '--'}</td>
 				     				<td>${'${'}updateTime? new Date(updateTime).format('yyyy-MM-dd hh:mm:ss'): '--'}</td>
 				     				<td>
-				     					<button class="btn btn-primary btn-sm open-update-modal">修改</button>
-				     					<button class="btn btn-primary btn-sm">标签</a>
+				     					<button class="btn btn-primary btn-xs open-update-modal">修改</button>
+				     					<button class="btn btn-primary btn-xs">标签</button>
 				     				</td>
 				     			</tr>
 							</script>

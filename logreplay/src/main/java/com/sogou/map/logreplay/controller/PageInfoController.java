@@ -41,7 +41,7 @@ public class PageInfoController extends BaseService {
 			) {
 		Page<PageInfo> page = pageInfoService.getPageInfoPageResult(start, limit, new QueryParamMap()
 			.addParam(pageNo != null, "pageNo", pageNo)
-			.addParam(StringUtils.isNotBlank(name), "name__contains", name)
+			.addParam(StringUtils.isNotBlank(name), "name__contain", name)
 			.addParam(StringUtils.isNotBlank(updateBeginTime), "updateTime__ge", updateBeginTime)
 			.addParam(StringUtils.isNotBlank(updateEndTime), "updateTime__le", updateEndTime)
 			.orderByAsc("pageNo")

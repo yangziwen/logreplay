@@ -230,7 +230,8 @@ define(function(require, exports, module){
 			maxBtnNum: 10,
 			pageSize: limit,
 			siblingBtnNum: 2,
-			paginationCls: 'pagination-right',
+			paginationCls: 'pull-right',
+			paginationCss: {'margin-top': 0, 'margin-bottom': 0},
 			click: clickFn || $.noop
 		});
 	}

@@ -3,11 +3,14 @@ define(function(require, exports, module) {
 	"use strict";
 
 	require('jquery.tmpl');
+	require('bootstrap.pagebar');
 	var $ = require('jquery'),
 		common = require('app/common');
 	
+	var start = 0, limit = 30;	// 翻页信息
+	
 	function loadPageInfoResult(callback) {
-		var params = {};
+		var params = {start: start, limit: limit};
 		var url = CTX_PATH + '/pageInfo/list';
 		$.get(url, params, function(data) {
 			if(!data || !data.response || !data.response.list) {
@@ -25,7 +28,12 @@ define(function(require, exports, module) {
 	
 	function refreshPageInfoTbl() {
 		loadPageInfoResult(function(data) {
-			renderPageInfoTbody(data.response.list);
+			var result = data.response;
+			common.buildPageBar('#J_pagebar', result.start, result.limit, result.count, function(i, pageNum) {
+				start = (pageNum - 1) * limit;
+				refreshPageInfoTbl();
+			});
+			renderPageInfoTbody(result.list);
 		});
 	}
 	
@@ -72,9 +80,7 @@ define(function(require, exports, module) {
 					common.alertMsg('创建成功!').done(function() {
 						$('#J_pageInfoModal').modal('hide');
 					});
-					loadPageInfoResult(function(data) {
-						renderPageInfoTbody(data.response.list);
-					});
+					refreshPageInfoTbl();
 				}
 			},
 			error: function() {
@@ -135,9 +141,7 @@ define(function(require, exports, module) {
 					common.alertMsg('更新成功!').done(function() {
 						$('#J_pageInfoModal').modal('hide');
 					});
-					loadPageInfoResult(function(data) {
-						renderPageInfoTbody(data.response.list);
-					});
+					refreshPageInfoTbl();
 				}
 			},
 			error: function() {
