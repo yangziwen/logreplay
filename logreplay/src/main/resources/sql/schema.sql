@@ -19,7 +19,8 @@ CREATE TABLE `tag_info` (
   `target_id` BIGINT (20),
   `comment` VARCHAR (100),
   `create_time` DATETIME,
-  `update_time` DATETIME
+  `update_time` DATETIME,
+  UNIQUE KEY `page_info_id_tag_no` (`page_info_id`,`tag_no`)
 ) ENGINE = INNODB DEFAULT CHARSET = GBK ;
 
 -- tagµÄ²Ù×÷

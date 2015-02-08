@@ -9,6 +9,30 @@ define(function(require, exports, module) {
 	
 	var start = 0, limit = 30;	// 翻页信息
 	
+	function refreshTagActionOptions() {
+		var url = CTX_PATH + '/tagAction/list';
+		$.get(url, function(data) {
+			if(!data || !data.response) {
+				return;
+			}
+			$('#T_actionId').empty().append($.map(data.response, function(action) {
+				return $('<option value="' + action.id + '">' + action.name + '</option>');
+			}));
+		});
+	}
+	
+	function refreshTagTargetOptions() {
+		var url = CTX_PATH + '/tagTarget/list';
+		$.get(url, function(data) {
+			if(!data || !data.response) {
+				return;
+			}
+			$('#T_targetId').empty().append($.map(data.response, function(target) {
+				return $('<option value="' + target.id + '">' + target.name + '</option>');
+			}));
+		});
+	}
+	
 	function loadPageInfoResult(callback) {
 		var params = {start: start, limit: limit};
 		var url = CTX_PATH + '/pageInfo/list';
@@ -218,6 +242,8 @@ define(function(require, exports, module) {
 	/** 新增tagInfo结束 **/
 	
 	function init() {
+		refreshTagActionOptions();
+		refreshTagTargetOptions();
 		refreshPageInfoTbl();
 		initOpenCreateModalBtn();
 		initCreatePageInfoBtn();

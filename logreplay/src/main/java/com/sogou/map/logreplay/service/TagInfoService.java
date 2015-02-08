@@ -51,7 +51,7 @@ public class TagInfoService {
 			tagInfoListMap.put(pageInfoId, list);
 			pageInfoIdList.add(pageInfoId);
 		}
-		List<PageInfo> pageInfoList = pageInfoDao.list(new QueryParamMap().addParam("pageInfoId__in", pageInfoIdList));
+		List<PageInfo> pageInfoList = pageInfoDao.list(new QueryParamMap().addParam("id__in", pageInfoIdList));
 		for(PageInfo pageInfo: pageInfoList) {
 			for(TagInfo tagInfo: tagInfoListMap.get(pageInfo.getId())) {
 				tagInfo.setPageInfo(pageInfo);

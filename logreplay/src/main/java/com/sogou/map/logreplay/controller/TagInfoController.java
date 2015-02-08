@@ -48,9 +48,9 @@ public class TagInfoController extends BaseService {
 			.addParam(pageNo != null, "pageNo", pageNo)
 			.addParam(tagNo != null, "tagNo", tagNo)
 			.addParam(StringUtils.isNotBlank(name), "name__contain", name)
-			.addParam(StringUtils.isNotBlank("updateBeginTime"), "updateTime__ge", updateBeginTime)
-			.addParam(StringUtils.isNotBlank("updateEndTime"), "updateTime__le", updateEndTime)
-			.orderByAsc("pageNo").orderByAsc("tagNo")
+			.addParam(StringUtils.isNotBlank(updateBeginTime), "updateTime__ge", updateBeginTime)
+			.addParam(StringUtils.isNotBlank(updateEndTime), "updateTime__le", updateEndTime)
+			.orderByAsc("pageInfoId").orderByAsc("tagNo")
 		);
 		return successResultToJson(page, JsonUtil.configInstance(), true);
 	}
@@ -62,15 +62,16 @@ public class TagInfoController extends BaseService {
 		return successResultToJson(tagInfo, JsonUtil.configInstance(), true);
 	}
 	
-	@GET	// ‘› ±”√get£¨∑Ω±„≤‚ ‘
+	@POST
 	@Path("/update")
-	public Response update(@PathParam("id") Long id,
-			@QueryParam("tagNo") Integer tagNo,
-			@QueryParam("name") String name,
-			@QueryParam("pageInfoId") Long pageInfoId,
-			@QueryParam("actionId") Long actionId,
-			@QueryParam("targetId") Long targetId,
-			@QueryParam("comment") String comment
+	public Response update(
+			@FormParam("id") Long id,
+			@FormParam("tagNo") Integer tagNo,
+			@FormParam("name") String name,
+			@FormParam("pageInfoId") Long pageInfoId,
+			@FormParam("actionId") Long actionId,
+			@FormParam("targetId") Long targetId,
+			@FormParam("comment") String comment
 			) {
 		if(StringUtils.isBlank(name)
 				|| tagNo == null
