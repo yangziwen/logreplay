@@ -1,7 +1,9 @@
 package com.sogou.map.logreplay.controller;
 
 import javax.ws.rs.DefaultValue;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
@@ -100,15 +102,15 @@ public class TagInfoController extends BaseService {
 		
 	}
 	
-	@GET
+	@POST
 	@Path("/create")
 	public Response create(
-			@QueryParam("tagNo") Integer tagNo,
-			@QueryParam("name") String name,
-			@QueryParam("pageInfoId") Long pageInfoId,
-			@QueryParam("actionId") Long actionId,
-			@QueryParam("targetId") Long targetId,
-			@QueryParam("comment") String comment
+			@FormParam("tagNo") Integer tagNo,
+			@FormParam("name") String name,
+			@FormParam("pageInfoId") Long pageInfoId,
+			@FormParam("actionId") Long actionId,
+			@FormParam("targetId") Long targetId,
+			@FormParam("comment") String comment
 			) {
 		if(StringUtils.isBlank(name)
 				|| tagNo == null
