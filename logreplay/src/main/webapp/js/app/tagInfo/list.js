@@ -70,6 +70,7 @@ define(function(require, exports, module) {
 			});
 			renderTagInfoTbody(result.list);
 			initOpenUpdateTagModalBtn();
+			initOpenUpdateTagParamModalBtn();
 		});
 	}
 	
@@ -94,7 +95,8 @@ define(function(require, exports, module) {
 				$modal.find('select[name=targetId]').val(tagInfo.targetId);
 				$modal.find('textarea[name=comment]').val(tagInfo.comment);
 				$modal.find('.modal-dialog').css({
-					width: 400
+					width: 400,
+					'margin-top': 100
 				});
 				$modal.find('button.create-tag-info').hide();
 				$modal.find('button.update-tag-info').show();
@@ -143,12 +145,65 @@ define(function(require, exports, module) {
 	}
 	/** 新增tagInfo结束 **/
 	
+	/** 更新tagParam开始 **/
+	function initOpenUpdateTagParamModalBtn() {
+		
+		$('#TP_paramInfoTbody').on('click', '.remove-param-info-btn', function(ev) {
+			var $tr = $(this).parents('tr').eq(0);
+			$tr.remove();
+		});
+		
+		$("#J_tagInfoTbody .open-update-tag-param-modal").on('click', function() {
+			var $tr = $(this).parents('tr').eq(0),
+				$tds = $tr.children();
+			var tagInfoId = $tr.data('id');
+			var $modal = $('#J_tagParamModal');
+			common.clearForm($modal.find('form'));
+			//var url = CTX_PATH + '/tagInfo/detail/' + id;
+			$modal.find('input[name=pageNo]').val($tds.eq(0).html()).attr({disabled: true});
+			$modal.find('input[name=pageName]').val($tds.eq(1).html()).attr({disabled: true});
+			$modal.find('input[name=tagNo]').val($tds.eq(2).html()).attr({disabled: true});
+			$modal.find('input[name=tagName]').val($tds.eq(3).html()).attr({disabled: true});
+			
+			var url = CTX_PATH + '/tagParam/detail';
+			$.get(url, {tagInfoId: tagInfoId}, function(data) {
+				var tagParam = data.response,
+					paramInfoList = tagParam? tagParam.paramInfoList: [];
+				$modal.find('textarea[name=comment]').val(tagParam? tagParam.comment: '');
+				if($.isEmptyObject(paramInfoList)) {
+					paramInfoList = [{}];
+				}
+				$('#TP_paramInfoTbody').empty().append($('#TP_paramInfoTmpl').tmpl(paramInfoList, {
+					
+				}).appendTo('#TP_paramInfoTbody'));
+				$modal.find('.modal-dialog').css({
+					width: 650,
+					'margin-top': 100
+				});
+				$modal.find('button.update-tag-param').show();
+				$modal.modal({
+					backdrop: 'static'
+				});
+			});
+		});
+	}
+	function initAddNewTagParamBtn() {
+		$('#TP_addNewTagParam').on('click', function() {
+			var $tr = $('#TP_paramInfoTmpl').tmpl({});
+			$tr.appendTo('#TP_paramInfoTbody');
+			var $backdrop = $('#J_tagParamModal .modal-backdrop.in');
+			$backdrop.height($backdrop.height() + $tr.height());
+		});
+	}
+	/** 更新tagParam结束 **/
+	
 	function init() {
 		$.when(refreshTagActionOptions(),refreshTagTargetOptions())
 		.done(function() {
 			refreshTagInfoTbl();
 		});
 		initUpdateTagInfoBtn();
+		initAddNewTagParamBtn();
 	}
 	
 	module.exports = {init: init};

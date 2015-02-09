@@ -5,6 +5,17 @@
 <head>
     <title>操作项管理</title>
 	<%@ include file="../include/includeCss.jsp" %>
+	<style>
+		table.inner-table {
+			width: 100%;
+		}
+		table.inner-table tr > th, table.inner-table tr > td {
+			text-align: center;
+		}
+		table.inner-table td {
+			padding: 5px;
+		}
+	</style>
 </head>
 <body>
 
@@ -56,6 +67,7 @@
 				     				<td>${'${'}$item.getTargetName(targetId)}</td>
 				     				<td>
 				     					<button class="btn btn-primary btn-xs open-update-tag-modal">修改</button>
+				     					<button class="btn btn-primary btn-xs open-update-tag-param-modal">参数</button>
 				     				</td>
 				     			</tr>
 							</script>
@@ -128,6 +140,115 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary create-tag-info" id="J_createTagInfoBtn" >创建</button>
 				<button type="button" class="btn btn-primary update-tag-info" id="J_updateTagInfoBtn" >更新</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 修改tagParam的弹出层 -->
+<div class="modal" id="J_tagParamModal" tabindex="-1">
+    <div class="modal-dialog">
+    	<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title"><strong>更新参数</strong></h4>
+			</div>
+			<div class="modal-body">
+					<form class="form-horizontal" role="form">
+						<input type="hidden" id="TP_id" name="id" />
+						<input type="hidden" id="TP_tagInfoId" name="tagInfoId" />
+						<div class="form-group">
+							<label for="TP_pageNo" class="col-sm-2 control-label">页面编号：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="TP_pageNo" name="pageNo" placeholder="请输入页面编号" />
+							</div>
+							<label for="TP_pageName" class="col-sm-2 control-label">页面名称：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="TP_pageName" name="pageName" placeholder="请输入页面名称" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="TP_tagNo" class="col-sm-2 control-label">操作编号：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="TP_tagNo" name="tagNo" placeholder="请输入操作编号" />
+							</div>
+							<label for="TP_tagName" class="col-sm-2 control-label">操作名称：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="TP_tagName" name="tagName" placeholder="请输入操作名称" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">参数设置：</label>
+							<div class="col-sm-10">
+								<table class="inner-table">
+									<thead>
+										<tr>
+											<th width="20%">参数名</th>
+											<th width="20%">参数值</th>
+											<th width="50%">描述</th>
+											<th width="10%" style="line-height: 0px;">
+												<a id="TP_addNewTagParam" href="###" style="font-size: 20px;" title="添加参数">
+													<i class="glyphicon glyphicon-plus-sign"></i>
+												</a>
+											</th>
+										</tr>
+									</thead>
+									<tbody id="TP_paramInfoTbody">
+										<tr>
+											<td>
+												<select class="form-control input-sm">
+													<option>type</option>
+													<option>idx</option>
+													<option>num</option>
+													<option>color</option>
+													<option>cont</option>
+													<option>mode</option>
+												</select>
+											</td>
+											<td>
+												<input type="text" class="input-sm form-control" />
+											</td>
+											<td>
+												<input type="text" class="input-sm form-control" />
+											</td>
+											<td><a href="###" style="font-size:20px;" title="删除参数"><i class="glyphicon glyphicon-minus-sign"></i></a></td>
+										</tr>
+									</tbody>
+									<script type="text/x-jquery-tmpl" id="TP_paramInfoTmpl">
+										<tr data-param-info-id="${'${'}id}">
+				     						<td>
+												<select class="form-control input-sm">
+													<option>type</option>
+													<option>idx</option>
+													<option>num</option>
+													<option>color</option>
+													<option>cont</option>
+													<option>mode</option>
+												</select>
+											</td>
+				     						<td><input type="text" class="input-sm form-control" value="${'${'}value}" /></td>
+				     						<td><input type="text" class="input-sm form-control" value="${'${'}description}" /></td>
+				     						<td style="line-height: 0px;">
+												<a href="###" style="font-size:20px;" title="删除参数" class="remove-param-info-btn">
+													<i class="glyphicon glyphicon-minus-sign"></i>
+												</a>
+											</td>
+				     					</tr>
+									</script>
+								</table>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="TP_comment" class="col-sm-2 control-label">备注：</label>
+							<div class="col-sm-10">
+								<textarea id="TP_comment" name="comment" class="form-control" rows="5" placeholder="请输入备注，100字以内"></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary update-tag-param" id="J_updateTagParamBtn" >更新</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 			</div>
 		</div><!-- /.modal-content -->

@@ -1,5 +1,7 @@
 package com.sogou.map.logreplay.bean;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -13,6 +15,8 @@ public class TagParam extends AbstractBean {
 	
 	@Column(name = "tag_info_id")
 	private Long tagInfoId;
+	
+	private List<ParamInfo> paramInfoList;
 	
 	@Column
 	private String comment;
@@ -33,6 +37,14 @@ public class TagParam extends AbstractBean {
 
 	public void setTagInfoId(Long tagInfoId) {
 		this.tagInfoId = tagInfoId;
+	}
+	
+	public List<ParamInfo> getParamInfoList() {
+		return paramInfoList;
+	}
+
+	public void setParamInfoList(List<ParamInfo> paramInfoList) {
+		this.paramInfoList = paramInfoList;
 	}
 
 	public String getComment() {
