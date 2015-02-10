@@ -22,6 +22,11 @@ public class TagParam extends AbstractBean {
 	private String comment;
 	
 	public TagParam() {}
+	
+	public TagParam(Long tagInfoId, String comment) {
+		this.tagInfoId = tagInfoId;
+		this.comment = comment;
+	}
 
 	public Long getId() {
 		return id;

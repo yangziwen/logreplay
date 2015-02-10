@@ -144,6 +144,8 @@ define(function(require, exports, module) {
 	/** 新增tagInfo结束 **/
 	
 	/** 更新tagParam开始 **/
+	var paramNameList = ['num', 'idx', 'type', 'color', 'cont', 'mode', 'sum', 'choose'];
+	
 	function initOpenUpdateTagParamModalBtn() {
 		
 		$('#TP_paramInfoTbody').on('click', '.remove-param-info-btn', function(ev) {
@@ -157,7 +159,7 @@ define(function(require, exports, module) {
 			var tagInfoId = $tr.data('id');
 			var $modal = $('#J_tagParamModal');
 			common.clearForm($modal.find('form'));
-			//var url = CTX_PATH + '/tagInfo/detail/' + id;
+			$modal.find('input[name=tagInfoId]').val($tr.data('id'));
 			$modal.find('input[name=pageNo]').val($tds.eq(0).html()).attr({disabled: true});
 			$modal.find('input[name=pageName]').val($tds.eq(1).html()).attr({disabled: true});
 			$modal.find('input[name=tagNo]').val($tds.eq(2).html()).attr({disabled: true});
@@ -172,7 +174,11 @@ define(function(require, exports, module) {
 					paramInfoList = [{}];
 				}
 				$('#TP_paramInfoTbody').empty().append($('#TP_paramInfoTmpl').tmpl(paramInfoList, {
-					
+					renderParamNameOptions: function(selectedName) {
+						return $.map(paramNameList, function(name, i) {
+							return '<option ' + (name == selectedName? 'selected="selected"': '') + '>' + name + '</option>';
+						}).join('');
+					}
 				}).appendTo('#TP_paramInfoTbody'));
 				$modal.find('.modal-dialog').css({
 					width: 650,
@@ -187,16 +193,64 @@ define(function(require, exports, module) {
 	}
 	function initAddNewTagParamBtn() {
 		$('#TP_addNewTagParam').on('click', function() {
-			var $tr = $('#TP_paramInfoTmpl').tmpl({});
+			var $tr = $('#TP_paramInfoTmpl').tmpl({}, {
+				renderParamNameOptions: function(selectedName) {
+					return $.map(paramNameList, function(name, i) {
+						return '<option ' + (name == selectedName? 'selected="selected"': '') + '>' + name + '</option>';
+					}).join('');
+				}
+			});
 			$tr.appendTo('#TP_paramInfoTbody');
 			var $backdrop = $('#J_tagParamModal .modal-backdrop.in');
 			$backdrop.height($backdrop.height() + $tr.height());
 		});
 	}
+	function initUpdateTagParamBtn() {
+		$('#J_updateTagParamBtn').on('click', function() {
+			var tagInfoId = $('#TP_tagInfoId').val();
+			var paramInfoList = $('#TP_paramInfoTbody tr').map(function(i, paramInfoTr) {
+				var $tr = $(paramInfoTr);
+				return {
+					id: $tr.data('param-info-id'),
+					name: $tr.find('.param-info-name').val(),
+					value: $tr.find('.param-info-value').val(),
+					description: $tr.find('.param-info-description').val()
+				}
+			}).toArray();
+			var params = {
+				tagInfoId: tagInfoId,
+				comment: $('#TP_comment').val(),
+				paramInfoList: JSON.stringify(paramInfoList)
+			};
+			doUpdateTagParam(params);
+		});
+	}
+	function doUpdateTagParam(params) {
+		$.ajax({
+			url: CTX_PATH + '/tagParam/update',
+			type: 'POST',
+			dataType: 'json',
+			data: params,
+			success: function(data) {
+				if(data.code !== 0) {
+					common.alertMsg('更新失败!');
+					return;
+				} else {
+					common.alertMsg('更新成功!').done(function() {
+						refreshTagInfoTbl();
+						$('#J_tagParamModal').modal('hide');
+					});
+				}
+			},
+			error: function() {
+				common.alertMsg('请求失败!');
+			}
+		});
+	}
 	/** 更新tagParam结束 **/
 	
 	function init() {
-		$.when(refreshTagActionOptions(),refreshTagTargetOptions())
+		$.when(refreshTagActionOptions(), refreshTagTargetOptions())
 		.done(function() {
 			refreshTagInfoTbl();
 		});
@@ -204,6 +258,7 @@ define(function(require, exports, module) {
 		initOpenUpdateTagParamModalBtn();
 		initUpdateTagInfoBtn();
 		initAddNewTagParamBtn();
+		initUpdateTagParamBtn();
 	}
 	
 	module.exports = {init: init};

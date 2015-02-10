@@ -302,6 +302,14 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean> {
 				batchUpdate(toUpdateList.toArray(emptyArray), batchSize);
 	}
 	
+	public int batchDeleteByIds(Collection<Long> ids) {
+		if(CollectionUtils.isEmpty(ids)) {
+			return 0;
+		}
+		String sql = "delete from " + tableName + " where " + getColumnByField(idFieldName) + " in (:ids)";
+		return jdbcTemplate.update(sql, new MapSqlParameterSource().addValue("ids", ids));
+	}
+	
 	public int executeSql(String sql) {
 		return jdbcTemplate.getJdbcOperations().update(sql);
 	}

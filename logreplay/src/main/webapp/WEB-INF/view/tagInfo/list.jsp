@@ -156,7 +156,7 @@
 			</div>
 			<div class="modal-body">
 					<form class="form-horizontal" role="form">
-						<input type="hidden" id="TP_id" name="id" />
+						<!-- <input type="hidden" id="TP_id" name="id" /> -->
 						<input type="hidden" id="TP_tagInfoId" name="tagInfoId" />
 						<div class="form-group">
 							<label for="TP_pageNo" class="col-sm-2 control-label">页面编号：</label>
@@ -195,42 +195,18 @@
 										</tr>
 									</thead>
 									<tbody id="TP_paramInfoTbody">
-										<tr>
-											<td>
-												<select class="form-control input-sm">
-													<option>type</option>
-													<option>idx</option>
-													<option>num</option>
-													<option>color</option>
-													<option>cont</option>
-													<option>mode</option>
-												</select>
-											</td>
-											<td>
-												<input type="text" class="input-sm form-control" />
-											</td>
-											<td>
-												<input type="text" class="input-sm form-control" />
-											</td>
-											<td><a href="###" style="font-size:20px;" title="删除参数"><i class="glyphicon glyphicon-minus-sign"></i></a></td>
-										</tr>
 									</tbody>
 									<script type="text/x-jquery-tmpl" id="TP_paramInfoTmpl">
 										<tr data-param-info-id="${'${'}id}">
 				     						<td>
-												<select class="form-control input-sm">
-													<option>type</option>
-													<option>idx</option>
-													<option>num</option>
-													<option>color</option>
-													<option>cont</option>
-													<option>mode</option>
+												<select class="form-control input-sm param-info-name">
+													{{html $item.renderParamNameOptions(name) }}
 												</select>
 											</td>
-				     						<td><input type="text" class="input-sm form-control" value="${'${'}value}" /></td>
-				     						<td><input type="text" class="input-sm form-control" value="${'${'}description}" /></td>
+				     						<td><input type="text" class="input-sm form-control param-info-value" value="${'${'}value}" /></td>
+				     						<td><input type="text" class="input-sm form-control param-info-description" value="${'${'}description}" /></td>
 				     						<td style="line-height: 0px;">
-												<a href="###" style="font-size:20px;" title="删除参数" class="remove-param-info-btn">
+												<a tabindex="-1" href="###" style="font-size:20px;" title="删除参数" class="remove-param-info-btn">
 													<i class="glyphicon glyphicon-minus-sign"></i>
 												</a>
 											</td>
