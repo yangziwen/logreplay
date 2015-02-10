@@ -47,8 +47,6 @@ define(function(require, exports, module) {
 	
 	function renderPageInfoTbody(list) {
 		$('#J_pageInfoTbody').empty().append($('#J_pageInfoTmpl').tmpl(list));
-		initOpenUpdateModalBtn();
-		initOpenCreateTagModalBtn();
 	}
 	
 	function refreshPageInfoTbl() {
@@ -118,7 +116,7 @@ define(function(require, exports, module) {
 	
 	/** 修改pageInfo开始 **/
 	function initOpenUpdateModalBtn() {
-		$('#J_pageInfoTbody button.open-update-modal').on('click', function() {
+		$('#J_pageInfoTbody').on('click', 'button.open-update-modal', function() {
 			var $this = $(this);
 			var $tr = $this.parents('tr').eq(0),
 				$tds = $tr.children();
@@ -181,7 +179,7 @@ define(function(require, exports, module) {
 	
 	/** 新增tagInfo开始 **/
 	function initOpenCreateTagModalBtn() {
-		$("#J_pageInfoTbody .open-create-tag-modal").on('click', function() {
+		$("#J_pageInfoTbody").on('click', '.open-create-tag-modal', function() {
 			var $tr = $(this).parents('tr').eq(0);
 			var $tds = $tr.children();
 			var pageInfoId = $tr.data('id'),
@@ -246,6 +244,8 @@ define(function(require, exports, module) {
 		refreshTagTargetOptions();
 		refreshPageInfoTbl();
 		initOpenCreateModalBtn();
+		initOpenUpdateModalBtn();
+		initOpenCreateTagModalBtn();
 		initCreatePageInfoBtn();
 		initUpdatePageInfoBtn();
 		initCreateTagInfoBtn();

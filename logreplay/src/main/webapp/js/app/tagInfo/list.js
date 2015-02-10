@@ -69,14 +69,12 @@ define(function(require, exports, module) {
 				refreshTagInfoTbl();
 			});
 			renderTagInfoTbody(result.list);
-			initOpenUpdateTagModalBtn();
-			initOpenUpdateTagParamModalBtn();
 		});
 	}
 	
 	/** 新增tagInfo开始 **/
 	function initOpenUpdateTagModalBtn() {
-		$("#J_tagInfoTbody .open-update-tag-modal").on('click', function() {
+		$("#J_tagInfoTbody").on('click', '.open-update-tag-modal', function() {
 			var $tr = $(this).parents('tr').eq(0);
 			var id = $tr.data('id');
 			var $modal = $('#J_tagInfoModal');
@@ -153,7 +151,7 @@ define(function(require, exports, module) {
 			$tr.remove();
 		});
 		
-		$("#J_tagInfoTbody .open-update-tag-param-modal").on('click', function() {
+		$('#J_tagInfoTbody').on('click', '.open-update-tag-param-modal', function() {
 			var $tr = $(this).parents('tr').eq(0),
 				$tds = $tr.children();
 			var tagInfoId = $tr.data('id');
@@ -202,6 +200,8 @@ define(function(require, exports, module) {
 		.done(function() {
 			refreshTagInfoTbl();
 		});
+		initOpenUpdateTagModalBtn();
+		initOpenUpdateTagParamModalBtn();
 		initUpdateTagInfoBtn();
 		initAddNewTagParamBtn();
 	}
