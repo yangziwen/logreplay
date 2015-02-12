@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configure class="org.mortbay.jetty.webapp.WebAppContext">  
+    <New id="dataSource" class="org.mortbay.jetty.plus.naming.Resource">  
+        <Arg>jdbc/dataSource</Arg>  
+        <Arg>  
+            <New class="com.jolbox.bonecp.BoneCPDataSource">
+                <Set name="jdbcUrl">jdbc:mysql://localhost:3306/logreplay?characterEncoding=GBK</Set>
+                <Set name="username">mobile</Set>
+                <Set name="password">mobile</Set>
+                <Set name="idleConnectionTestPeriod">60</Set>
+                <Set name="idleMaxAge">240</Set>
+                <Set name="maxConnectionsPerPartition">3</Set>
+                <Set name="minConnectionsPerPartition">1</Set>
+                <Set name="partitionCount">1</Set>
+                <Set name="acquireIncrement">5</Set>
+                <Set name="statementsCacheSize">100</Set>
+                <Set name="releaseHelperThreads">3</Set>
+                <Set name="defaultAutoCommit">true</Set>
+            </New>  
+        </Arg>  
+    </New>  
+</Configure>  

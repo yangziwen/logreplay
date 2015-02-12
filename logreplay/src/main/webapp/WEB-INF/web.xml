@@ -5,6 +5,13 @@
 	id="WebApp_ID" version="2.5">
 	<display-name>logreplay</display-name>
 
+	<resource-ref><!-- for jetty, seems not necessary for tomcat -->
+		<description>MySQL DataSource Reference</description>
+		<res-ref-name>jdbc/dataSource</res-ref-name>
+		<res-type>com.jolbox.bonecp.BoneCPDataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath*:spring/applicationContext*.xml</param-value>

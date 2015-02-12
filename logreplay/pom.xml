@@ -106,6 +106,7 @@
 				<configuration>
 					<contextPath>/logreplay</contextPath>
 					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<jettyEnvXml>${basedir}/conf/jetty-env-dev.xml</jettyEnvXml>
 					<scanTargetPatterns>
 						<scanTargetPattern>
 							<directory>src/main/webapp</directory>
@@ -117,7 +118,7 @@
 					</scanTargetPatterns>
 					<connectors>
 						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-							<port>8080</port>
+							<port>8075</port>
 							<maxIdleTime>60000</maxIdleTime>
 						</connector>
 					</connectors>
@@ -132,9 +133,7 @@
 					<port>8075</port>
 					<charset>GBK</charset>
 					<uriEncoding>GBK</uriEncoding>
-					<systemProperties>
-						<spring.profiles.active>${spring.profiles.active}</spring.profiles.active>
-					</systemProperties>
+					<contextFile>${basedir}/conf/tomcat-context-dev.xml</contextFile>
 				</configuration>
 			</plugin>
 		</plugins>
