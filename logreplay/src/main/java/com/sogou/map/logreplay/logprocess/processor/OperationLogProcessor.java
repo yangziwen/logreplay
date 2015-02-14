@@ -1,4 +1,4 @@
-package com.sogou.map.logreplay.logprocess.parser;
+package com.sogou.map.logreplay.logprocess.processor;
 
 import java.util.ArrayList;
 import java.util.List;

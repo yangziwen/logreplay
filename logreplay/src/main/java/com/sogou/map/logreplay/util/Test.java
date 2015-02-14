@@ -11,7 +11,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.SystemUtils;
 
 import com.sogou.map.logreplay.logprocess.log.OperationLog;
-import com.sogou.map.logreplay.logprocess.parser.OperationLogProcessor;
+import com.sogou.map.logreplay.logprocess.processor.OperationLogProcessor;
 
 
 /**
