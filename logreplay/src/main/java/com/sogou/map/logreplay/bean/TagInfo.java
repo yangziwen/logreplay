@@ -22,6 +22,9 @@ public class TagInfo extends AbstractBean {
 	@Column(name = "page_info_id")
 	private Long pageInfoId;
 	
+	@Column(name = "page_no")	// 冗余，为了查询方便
+	private Integer pageNo;
+	
 	private PageInfo pageInfo;
 	
 	@Column(name = "action_id")
@@ -71,6 +74,14 @@ public class TagInfo extends AbstractBean {
 
 	public void setPageInfoId(Long pageInfoId) {
 		this.pageInfoId = pageInfoId;
+	}
+
+	public Integer getPageNo() {
+		return pageNo;
+	}
+
+	public void setPageNo(Integer pageNo) {
+		this.pageNo = pageNo;
 	}
 
 	public PageInfo getPageInfo() {

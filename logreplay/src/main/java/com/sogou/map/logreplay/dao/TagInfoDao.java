@@ -12,9 +12,16 @@ import com.sogou.map.logreplay.bean.PageInfo;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.dao.base.AbstractJdbcDaoImpl;
 import com.sogou.map.logreplay.dao.base.OperationParsedResult;
+import com.sogou.map.logreplay.dao.base.QueryParamMap;
 
 @Repository
 public class TagInfoDao extends AbstractJdbcDaoImpl<TagInfo> {
+	
+	public void updatePageNoByPageInfoId(Long pageInfoId, Integer pageNo) {
+		String sql = "update tag_info set page_no = :pageNo where page_info_id = :pageInfoId";
+		Map<String, Object> param = new QueryParamMap().addParam("pageInfoId", pageInfoId).addParam("pageNo", pageNo);
+		jdbcTemplate.update(sql, param);
+	}
 	
 	@Override
 	protected String generateSqlByParam(int start, int limit, Map<String, Object> param) {
@@ -30,14 +37,7 @@ public class TagInfoDao extends AbstractJdbcDaoImpl<TagInfo> {
 	
 	@Override
 	protected String generateSqlByParam(int start, int limit, String selectClause, Map<String, Object> param) {
-		return new StringBuilder()
-			.append(selectClause)
-			.append(" from ").append(tableName).append(" inner join page_info on page_info.id = page_info_id ")
-			.append(" ").append(generateWhereByParam(param))
-			.append(" ").append(generateGroupByByParam(param))
-			.append(" ").append(generateOrderByByParam(param))
-			.append(" ").append(generateLimit(start, limit, param))
-			.toString();
+		return generateSqlByParam(start, limit, selectClause, " from " + tableName + " inner join page_info on page_info.id = page_info_id ", param);
 	}
 	
 	@Override

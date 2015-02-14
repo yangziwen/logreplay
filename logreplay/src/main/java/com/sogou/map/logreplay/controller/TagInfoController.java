@@ -92,6 +92,7 @@ public class TagInfoController extends BaseService {
 			tagInfo.setTagNo(tagNo);
 			tagInfo.setName(name);
 			tagInfo.setPageInfoId(pageInfoId);
+			tagInfo.setPageNo(pageInfo.getPageNo());
 			tagInfo.setActionId(actionId);
 			tagInfo.setTargetId(targetId);
 			tagInfo.setComment(comment);
@@ -129,6 +130,7 @@ public class TagInfoController extends BaseService {
 			tagInfo.setTagNo(tagNo);
 			tagInfo.setName(name);
 			tagInfo.setPageInfoId(pageInfoId);
+			tagInfo.setPageNo(pageInfo.getPageNo());
 			tagInfo.setActionId(actionId);
 			tagInfo.setTargetId(targetId);
 			tagInfo.setComment(comment);

@@ -7,7 +7,10 @@ CREATE TABLE `operation_record` (
   `uvid` VARCHAR (100),
   `os` VARCHAR (30),
   `version` INT (10),
-  `timestamp` DATETIME
+  `timestamp` DATETIME,
+  `page_no` INT(11),
+  `tag_no` INT(11),
+  `params_json` VARCHAR(256)
 ) ENGINE = INNODB DEFAULT CHARSET = GBK;
 
 -- 页面信息
@@ -27,12 +30,14 @@ CREATE TABLE `tag_info` (
   `tag_no` INT (11) NOT NULL,
   `name` VARCHAR (50),
   `page_info_id` BIGINT (20) NOT NULL,
+  `page_no` int(11),
   `action_id` BIGINT (20),
   `target_id` BIGINT (20),
   `comment` VARCHAR (100),
   `create_time` DATETIME,
   `update_time` DATETIME,
-  UNIQUE KEY `page_info_id_tag_no` (`page_info_id`,`tag_no`)
+  UNIQUE KEY `page_info_id_tag_no` (`page_info_id`,`tag_no`),
+  UNIQUE KEY `page_no_tag_no` (`page_no`, `tag_no`)
 ) ENGINE = INNODB DEFAULT CHARSET = GBK ;
 
 -- tag的操作

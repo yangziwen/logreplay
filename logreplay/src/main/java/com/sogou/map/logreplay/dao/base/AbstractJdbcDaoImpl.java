@@ -333,9 +333,13 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean> {
 	}
 	
 	protected String generateSqlByParam(int start, int limit, String selectClause, Map<String, Object> param) {
+		return generateSqlByParam(start, limit, selectClause, " from " + tableName, param);
+	}
+	
+	protected String generateSqlByParam(int start, int limit, String selectClause, String fromClause, Map<String, Object> param) {
 		return new StringBuilder()
 			.append(selectClause)
-			.append(" from ").append(tableName)
+			.append(fromClause)
 			.append(" ").append(generateWhereByParam(param))
 			.append(" ").append(generateGroupByByParam(param))
 			.append(" ").append(generateOrderByByParam(param))

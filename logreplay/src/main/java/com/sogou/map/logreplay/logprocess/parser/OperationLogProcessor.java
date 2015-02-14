@@ -73,9 +73,13 @@ public class OperationLogProcessor {
 		}
 		JSONArray subInfoList = null;
 		try {
-			subInfoList = JSONObject.parseArray(event6000Info.getString("info"));
+			if(event6000Info.get("info") instanceof JSONArray) {
+				subInfoList = event6000Info.getJSONArray("info");
+			} else {
+				subInfoList = JSONObject.parseArray(event6000Info.getString("info"));
+			}
 		} catch (Exception e) {
-			logger.warn("Unexpected log format [{}]", event6000Info.getString("info").toString());
+			logger.warn("Unexpected OperationLog format [{}]", event6000Info.getString("info").toString());
 			return null;
 		}
 		List<Map<String, Object>> operationList = new ArrayList<Map<String,Object>>();

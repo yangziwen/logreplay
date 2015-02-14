@@ -31,6 +31,17 @@ public class OperationRecord extends AbstractBean {
 	@Column
 	private Timestamp timestamp;
 	
+	@Column(name = "page_no")
+	private Integer pageNo;
+	
+	@Column(name = "tag_no")
+	private Integer tagNo;
+	
+	@Column(name = "params_json")
+	private String params;
+	
+	private Long tagInfoId;
+	
 	public OperationRecord() {}
 
 	@Override
@@ -89,6 +100,38 @@ public class OperationRecord extends AbstractBean {
 
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
+	}
+
+	public Integer getPageNo() {
+		return pageNo;
+	}
+
+	public void setPageNo(Integer pageNo) {
+		this.pageNo = pageNo;
+	}
+
+	public Integer getTagNo() {
+		return tagNo;
+	}
+
+	public void setTagNo(Integer tagNo) {
+		this.tagNo = tagNo;
+	}
+
+	public String getParams() {
+		return params;
+	}
+
+	public void setParams(String params) {
+		this.params = params;
+	}
+
+	public Long getTagInfoId() {
+		return tagInfoId;
+	}
+
+	public void setTagInfoId(Long tagInfoId) {
+		this.tagInfoId = tagInfoId;
 	}
 	
 }

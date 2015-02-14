@@ -1,6 +1,7 @@
 package com.sogou.map.logreplay.service;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.sogou.map.logreplay.bean.PageInfo;
 import com.sogou.map.logreplay.dao.PageInfoDao;
+import com.sogou.map.logreplay.dao.TagInfoDao;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 
@@ -17,8 +19,15 @@ public class PageInfoService {
 	@Autowired
 	private PageInfoDao pageInfoDao;
 	
+	@Autowired
+	private TagInfoDao tagInfoDao;
+	
 	public Page<PageInfo> getPageInfoPageResult(int start, int limit, Map<String, Object> param) {
 		return pageInfoDao.paginate(start, limit, param);
+	}
+	
+	public List<PageInfo> getPageInfoListResult(Map<String, Object> param) {
+		return pageInfoDao.list(param);
 	}
 	
 	public PageInfo getPageInfoById(Long id) {
@@ -32,6 +41,7 @@ public class PageInfoService {
 	public void updatePageInfo(PageInfo info) {
 		info.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 		pageInfoDao.update(info);
+		tagInfoDao.updatePageNoByPageInfoId(info.getId(), info.getPageNo());
 	}
 	
 	public void createPageInfo(PageInfo info) {

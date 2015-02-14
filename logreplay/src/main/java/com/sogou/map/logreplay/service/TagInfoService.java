@@ -26,6 +26,10 @@ public class TagInfoService {
 	@Autowired
 	private PageInfoDao pageInfoDao;
 	
+	public List<TagInfo> getTagInfoListResult(Map<String, Object> param) {
+		return tagInfoDao.list(param);
+	}
+	
 	public Page<TagInfo> getTagInfoPageResult(int start, int limit, Map<String, Object> param) {
 		Page<TagInfo> page = tagInfoDao.paginate(start, limit, param);
 //		List<TagInfo> list = page.getList();
