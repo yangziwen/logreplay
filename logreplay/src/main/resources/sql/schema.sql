@@ -1,3 +1,15 @@
+-- 操作记录
+DROP TABLE IF EXISTS `operation_record`;
+CREATE TABLE `operation_record` (
+  `id` BIGINT (20) PRIMARY KEY AUTO_INCREMENT,
+  `ip` VARCHAR (25),
+  `device_id` VARCHAR (100),
+  `uvid` VARCHAR (100),
+  `os` VARCHAR (30),
+  `version` INT (10),
+  `timestamp` DATETIME
+) ENGINE = INNODB DEFAULT CHARSET = GBK;
+
 -- 页面信息
 DROP TABLE IF EXISTS `page_info`;
 CREATE TABLE `page_info` (
