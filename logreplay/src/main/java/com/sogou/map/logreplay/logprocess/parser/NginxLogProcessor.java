@@ -17,16 +17,17 @@ public class NginxLogProcessor {
 	;
 	
 	public NginxLog process(String log) {
+		parserChain.reset();
 		if(!parserChain.parse(log)) {
 			return null;
 		}
 		return new NginxLog.Builder()
-		.ip(parserChain.getParser(IpParser.class.getSimpleName()).getContent())
-		.timestamp(parserChain.getParser(TimestampParser.class.getSimpleName()).getContent())
-		.requestMethod(parserChain.getParser(RequestMethodParser.class.getSimpleName()).getContent())
-		.url(parserChain.getParser(UrlParser.class.getSimpleName()).getContent())
-		.httpProtocol(parserChain.getParser(HttpProtocolParser.class.getSimpleName()).getContent())
-		.build();
+			.ip(parserChain.getContent(IpParser.class))
+			.timestamp(parserChain.getContent(TimestampParser.class))
+			.requestMethod(parserChain.getContent(RequestMethodParser.class))
+			.url(parserChain.getContent(UrlParser.class))
+			.httpProtocol(parserChain.getContent(HttpProtocolParser.class))
+			.build();
 	}
 	
 	static class IpParser extends Parser {
@@ -68,6 +69,7 @@ public class NginxLogProcessor {
 			if(endIndex <= beginIndex) {
 				return false;
 			}
+			content = log.substring(beginIndex, endIndex);
 			return METHOD_LIST.contains(content.toUpperCase());
 		}
 	}
@@ -97,7 +99,7 @@ public class NginxLogProcessor {
 		});
 		@Override
 		public boolean parse(String log, int offset) {
-			beginIndex = log.indexOf(" HTTP/", offset);
+			beginIndex = log.indexOf(" HTTP/", offset) + 1;
 			endIndex = log.indexOf("\"", beginIndex);
 			if(endIndex <= beginIndex) {
 				return false;

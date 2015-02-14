@@ -1,5 +1,7 @@
 package com.sogou.map.logreplay.logprocess.log;
 
+
+
 public class NginxLog {
 	
 	private String ip;
@@ -39,6 +41,22 @@ public class NginxLog {
 
 	public String getHttpProtocol() {
 		return httpProtocol;
+	}
+	
+	@Override
+	public String toString() {
+		return new StringBuilder("NginxLog [")
+			.append("ip=").append(ip)
+			.append(", ")
+			.append("timestamp=").append(timestamp)
+			.append(", ")
+			.append("requestMethod=").append(requestMethod)
+			.append(", ")
+			.append("urlLength=").append(url != null? url.length(): 0)
+			.append(", ")
+			.append("httpProtocol=").append(httpProtocol)
+			.append("]")
+			.toString();
 	}
 
 	public static class Builder {

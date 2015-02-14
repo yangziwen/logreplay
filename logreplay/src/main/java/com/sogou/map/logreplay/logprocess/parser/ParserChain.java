@@ -40,10 +40,11 @@ public class ParserChain {
 		return parsers.get(name);
 	}
 	
-	public Parser getParser(Class<Parser> clazz) {
+	@SuppressWarnings("unchecked")
+	public <T extends Parser> T getParser(Class<T> clazz) {
 		for(Parser parser: parsers.values()) {
 			if(clazz.isInstance(parser)) {
-				return parser;
+				return (T) parser;
 			}
 		}
 		return null;
@@ -51,6 +52,21 @@ public class ParserChain {
 	
 	public Parser getParser(int index) {
 		return parsers.values().toArray(new Parser[]{})[index];
+	}
+	
+	public String getContent(String name) {
+		Parser parser = getParser(name);
+		return parser != null? parser.getContent(): null;
+	}
+	
+	public <T extends Parser> String getContent(Class<T> clazz) {
+		T parser = getParser(clazz);
+		return parser != null? parser.getContent(): null;
+	}
+	
+	public String getContent(int index) {
+		Parser parser = getParser(index);
+		return parser != null? parser.getContent(): null;
 	}
 	
 	public void reset() {
