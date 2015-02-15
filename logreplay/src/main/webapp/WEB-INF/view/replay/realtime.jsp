@@ -25,7 +25,7 @@
 			<div class="row"><!-- row2 -->
 			    <div class="col-md-12">
 			     	<div id="J_queryArea" class="row" style="text-align: center;">
-			     		<input type="hidden" name="limit" value="1"/>
+			     		<input type="hidden" name="limit" value="3"/>
 			     		<form class="form-horizontal col-md-offset-2 col-md-8" role="form">
 							<div class="form-group">
 								<label for="J_deviceId" class="col-sm-2 control-label">设备id：</label>
@@ -49,7 +49,7 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-6 col-sm-offset-3" style="margin-top: 20px;">
-									<button id="J_replaySwitchBtn" type="button" class="btn btn-primary btn-lg-font">开始重放</button>
+									<button id="J_replaySwitchBtn" type="button" class="btn btn-primary btn-lg-font">开始回放</button>
 									<button id="J_clearBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">清&nbsp;&nbsp;除</button>
 									<button id="J_lockScrollBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">锁定滚动</button>
 								</div>
@@ -60,16 +60,17 @@
 			     	<div style="margin-top: 20px;">
 				     	<pre id="J_replayArea" style="height: 500px;"></pre>
 				     	<script type="text/x-jquery-tmpl" id="J_replayTmpl">
-<div>
-<span><strong>设备id</strong> [${'${'}deviceId}] </span>
-<span><strong>用户id</strong> [${'${'}uvid}] </span>
-<span><strong>操作时间</strong> [${'${'}$item.formatTime(timestamp)}] </span>
-<br/>
-<span><strong>${'${'}pageName}</strong> [${'${'}pageNo}] </span>
-<span><strong>${'${'}tagName}</strong> [${'${'}tagNo}] </span>
-<span><strong>${'${'}$item.toActionName(actionId)}</strong> [${'${'}actionId}] </span>
-<span><strong>${'${'}$item.toTargetName(targetId)}</strong> [${'${'}targetId}] </span>
-<div><br/>
+<div class="${'${'}$item.bgClass()}" style="padding: 10px 0px;">
+	<span><strong>设备id</strong> [${'${'}deviceId}] </span>
+	<span><strong>用户id</strong> [${'${'}uvid}] </span>
+	<span><strong>操作时间</strong> [${'${'}$item.formatTime(timestamp)}] </span>
+	<span><strong>IP</strong> [${'${'}ip}]</span>
+	<br/>
+	<span><strong>${'${'}pageName}</strong> [${'${'}pageNo}] </span>
+	<span><strong>${'${'}tagName}</strong> [${'${'}tagNo}] </span>
+	<span><strong>${'${'}$item.toActionName(actionId)}</strong> [${'${'}actionId}] </span>
+	<span><strong>${'${'}$item.toTargetName(targetId)}</strong> [${'${'}targetId}] </span>
+</div>
 						</script>
 			     	</div>
 			    </div>

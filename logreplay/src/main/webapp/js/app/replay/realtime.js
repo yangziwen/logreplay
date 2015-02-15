@@ -6,7 +6,7 @@ define(function(require, exports, module) {
 	var $ = require('jquery'),
 		common = require('app/common');
 
-	var replaying = false, lockScroll = false;
+	var replaying = false, lockScroll = false, logNum = 0;
 	
 	var tagActionDict = {}, tagTargetDict = {};
 	
@@ -49,13 +49,13 @@ define(function(require, exports, module) {
 	
 	function switchButtonStatus(replaying) {
 		if(replaying) {
-			$replaySwitchBtn.html('停止重放');
+			$replaySwitchBtn.html('停止回放');
 			$clearBtn.attr({disabled: true});
 			var params = common.collectParams('#J_queryArea input[type!=button]');
-			params.since = 1167645952436;
+			params.since = $.now();
 			doReplay(params, 1000);
 		} else {
-			$replaySwitchBtn.html('开始重放');
+			$replaySwitchBtn.html('开始回放');
 			$clearBtn.attr({disabled: false});
 		}
 	}
@@ -82,23 +82,28 @@ define(function(require, exports, module) {
 				return;
 			}
 			var recordList = data.response;
-			$replayTmpl.tmpl(recordList, {
-				formatTime: function(t) {
-					if(!t) {
-						return '--';
+			if(recordList && recordList.length > 0) {
+				$replayArea.append($replayTmpl.tmpl(recordList, {
+					formatTime: function(t) {
+						if(!t) {
+							return '--';
+						}
+						var ts = t + '';
+						return new Date(t).format('yyyy-MM-dd hh:mm:ss') + '.' + ts.substring(ts.length - 3, ts.length);
+					}, 
+					toActionName: function(actionId) {
+						return tagActionDict[actionId] || '';
+					},
+					toTargetName: function(targetId) {
+						return tagTargetDict[targetId] || '';
+					},
+					bgClass: function() {
+						return (logNum ++  % 2)? 'bg-warning': 'bg-info';
 					}
-					var ts = t + '';
-					return new Date(t).format('yyyy-MM-dd hh:mm:ss') + '.' + ts.substring(ts.length - 3, ts.length);
-				}, 
-				toActionName: function(actionId) {
-					return tagActionDict[actionId] || '';
-				},
-				toTargetName: function(targetId) {
-					return tagTargetDict[targetId] || '';
+				}));
+				if(!lockScroll) {
+					$replayArea.scrollTop($replayArea[0].scrollHeight - $replayArea.height());
 				}
-			}).appendTo($replayArea);
-			if(!lockScroll) {
-				$replayArea.scrollTop($replayArea[0].scrollHeight - $replayArea.height());
 			}
 		});
 	}
@@ -106,6 +111,7 @@ define(function(require, exports, module) {
 	function initClearBtn() {
 		$('#J_clearBtn').on('click', function() {
 			$replayArea.empty();
+			logNum = 0;
 		});
 	}
 	

@@ -72,6 +72,9 @@ public class OperationRecordController extends BaseService {
 	}
 	
 	private List<OperationRecordDto> convertToDtoList(List<OperationRecord> list) {
+		if(CollectionUtils.isEmpty(list)) {
+			return Collections.emptyList();
+		}
 		List<TagInfo> tagInfoList = tagInfoService.getTagInfoListResult(new QueryParamMap()
 			.addParam("id__in", collectTagInfoId(list))
 		);
