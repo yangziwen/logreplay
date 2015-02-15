@@ -49,9 +49,9 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-6 col-sm-offset-3" style="margin-top: 20px;">
-									<button id="J_replaySwitchBtn" type="button" class="btn btn-primary btn-lg-font">开始回放</button>
-									<button id="J_clearBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">清&nbsp;&nbsp;除</button>
+									<button id="J_replaySwitchBtn" type="button" class="btn btn-primary btn-lg-font">开始校验</button>
 									<button id="J_lockScrollBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">锁定滚动</button>
+									<button id="J_clearBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">清&nbsp;&nbsp;除</button>
 								</div>
 							</div>
 						</form>

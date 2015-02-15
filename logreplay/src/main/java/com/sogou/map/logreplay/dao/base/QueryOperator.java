@@ -3,9 +3,6 @@ package com.sogou.map.logreplay.dao.base;
 
 import java.util.Arrays;
 
-import org.hibernate.dialect.function.VarArgsSQLFunction;
-import org.hibernate.type.StringType;
-
 public enum QueryOperator {
 
 	eq {
@@ -47,14 +44,14 @@ public enum QueryOperator {
 	contain {
 		@Override
 		public OperationParsedResult buildResult(String fieldName, String originKey) {
-			String placeholder = concatFunction.render(Arrays.asList("'%'", ":" + originKey, "'%'"), null);
+			String placeholder = concatFunction.render(Arrays.asList("'%'", ":" + originKey, "'%'"));
 			return new OperationParsedResult(fieldName, " like ", placeholder, originKey);
 		}
 	},
 	not_contain {
 		@Override
 		public OperationParsedResult buildResult(String fieldName, String originKey) {
-			String placeholder = concatFunction.render(Arrays.asList("'%'", ":" + originKey, "'%'"), null);
+			String placeholder = concatFunction.render(Arrays.asList("'%'", ":" + originKey, "'%'"));
 			return new OperationParsedResult(fieldName, " not like ", placeholder, originKey);
 			
 		}
@@ -62,28 +59,28 @@ public enum QueryOperator {
 	start_with {
 		@Override
 		public OperationParsedResult buildResult(String fieldName, String originKey) {
-			String placeholder = concatFunction.render(Arrays.asList(":" + originKey, "'%'"), null);
+			String placeholder = concatFunction.render(Arrays.asList(":" + originKey, "'%'"));
 			return new OperationParsedResult(fieldName, " like ", placeholder, originKey);
 		}
 	},
 	not_start_with {
 		@Override
 		public OperationParsedResult buildResult(String fieldName, String originKey) {
-			String placeholder = concatFunction.render(Arrays.asList(":" + originKey, "'%'"), null);
+			String placeholder = concatFunction.render(Arrays.asList(":" + originKey, "'%'"));
 			return new OperationParsedResult(fieldName, " not like ", placeholder, originKey);
 		}
 	},
 	end_with {
 		@Override
 		public OperationParsedResult buildResult(String fieldName, String originKey) {
-			String placeholder = concatFunction.render(Arrays.asList("'%'", ":" + originKey), null);
+			String placeholder = concatFunction.render(Arrays.asList("'%'", ":" + originKey));
 			return new OperationParsedResult(fieldName, " like ", placeholder, originKey);
 		}
 	},
 	not_end_with {
 		@Override
 		public OperationParsedResult buildResult(String fieldName, String originKey) {
-			String placeholder = concatFunction.render(Arrays.asList("'%'", ":" + originKey), null);
+			String placeholder = concatFunction.render(Arrays.asList("'%'", ":" + originKey));
 			return new OperationParsedResult(fieldName, " not like ", placeholder, originKey);
 		}
 	},
@@ -113,7 +110,7 @@ public enum QueryOperator {
 	}
 	;
 	
-	private static VarArgsSQLFunction concatFunction = new VarArgsSQLFunction(new StringType(), "concat(",",", ")");
+	private static VarArgsSQLFunction concatFunction = new VarArgsSQLFunction("concat(",",", ")");
 	
 	public abstract OperationParsedResult buildResult(String fieldName, String originKey);
 	
