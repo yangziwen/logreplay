@@ -1,5 +1,9 @@
 package com.sogou.map.logreplay.controller;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,6 +20,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,6 +29,8 @@ import com.sogou.map.logreplay.bean.OperationRecord;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.dto.OperationRecordDto;
+import com.sogou.map.logreplay.exception.LogReplayException;
+import com.sogou.map.logreplay.logprocess.processor.OperationLogProcessor;
 import com.sogou.map.logreplay.service.OperationRecordService;
 import com.sogou.map.logreplay.service.PageInfoService;
 import com.sogou.map.logreplay.service.TagInfoService;
@@ -94,6 +101,40 @@ public class OperationRecordController extends BaseService {
 			tagInfoIdSet.add(record.getTagInfoId());
 		}
 		return tagInfoIdSet;
+	}
+	
+	@GET
+	@Path("/import")
+	public Response importData(
+			@QueryParam("source") String sourcePath) {
+		File source = null;
+		if(StringUtils.isBlank(sourcePath) || !(source =  new File(sourcePath)).exists()) {
+			throw LogReplayException.notExistException(String.format("File under the path [%s] does not exist!", sourcePath));
+		}
+		BufferedReader reader = null;
+		String line = "";
+		int count = 0;
+		try {
+			reader = new BufferedReader(new InputStreamReader(new FileInputStream(source), "UTF-8"));
+			List<OperationRecord> recordList = new ArrayList<OperationRecord>(500);
+			OperationLogProcessor processor = new OperationLogProcessor();
+			while((line = reader.readLine()) != null) {
+				recordList.addAll(processor.process(line).toRecordList());
+				if(recordList.size() > 1000) {
+					count += operationRecordService.batchSaveOrUpdateOperationRecord(recordList);
+					recordList = new ArrayList<OperationRecord>();
+				}
+			}
+			if(recordList.size() > 0) {
+				count += operationRecordService.batchSaveOrUpdateOperationRecord(recordList);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw LogReplayException.operationFailedException("Failed while importing log data!");
+		} finally {
+			IOUtils.closeQuietly(reader);
+		}
+		return successResultToJson(String.format("Successfully import [%d] records!", count), true);
 	}
 	
 }

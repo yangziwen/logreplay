@@ -7,7 +7,7 @@ CREATE TABLE `operation_record` (
   `uvid` VARCHAR (100),
   `os` VARCHAR (30),
   `version` INT (10),
-  `timestamp` DATETIME,
+  `timestamp` BIGINT(15),
   `page_no` INT(11),
   `tag_no` INT(11),
   `params_json` VARCHAR(256)

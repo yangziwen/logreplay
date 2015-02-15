@@ -1,6 +1,5 @@
 package com.sogou.map.logreplay.bean;
 
-import java.sql.Timestamp;
 import java.util.Map;
 
 import javax.persistence.Column;
@@ -36,7 +35,7 @@ public class OperationRecord extends AbstractBean {
 	private Long version;
 	
 	@Column
-	private Timestamp timestamp;
+	private Long timestamp;
 	
 	@Column(name = "page_no")
 	private Integer pageNo;
@@ -58,7 +57,7 @@ public class OperationRecord extends AbstractBean {
 			String uvid,
 			String os,
 			Long version,
-			Timestamp timestamp,
+			Long timestamp,
 			Integer pageNo,
 			Integer tagNo,
 			String params) {
@@ -124,11 +123,11 @@ public class OperationRecord extends AbstractBean {
 		this.version = version;
 	}
 
-	public Timestamp getTimestamp() {
+	public Long getTimestamp() {
 		return timestamp;
 	}
 
-	public void setTimestamp(Timestamp timestamp) {
+	public void setTimestamp(Long timestamp) {
 		this.timestamp = timestamp;
 	}
 
@@ -196,7 +195,7 @@ public class OperationRecord extends AbstractBean {
 		String uvid;
 		String os;
 		Long version;
-		Timestamp timestamp;
+		Long timestamp;
 		Integer pageNo;
 		Integer tagNo;
 		Map<String, Object> params;
@@ -231,13 +230,9 @@ public class OperationRecord extends AbstractBean {
 			return this;
 		}
 		
-		public Builder timestamp(Timestamp timestamp) {
+		public Builder timestamp(Long timestamp) {
 			this.timestamp = timestamp;
 			return this;
-		}
-		
-		public Builder timestamp(Long timestamp) {
-			return timestamp(new Timestamp(timestamp));
 		}
 		
 		public Builder pageNo(Integer pageNo) {

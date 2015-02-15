@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -49,6 +51,57 @@ public class OperationRecordDao extends AbstractJdbcDaoImpl<OperationRecord> {
 				return record;
 			}
 		});
+	}
+	
+	public int batchSaveByDirectSql(OperationRecord[] records, int batchSize) {
+		if(ArrayUtils.isEmpty(records)) {
+			return 0;
+		}
+		for(OperationRecord record: records) {
+			if(record.getId() != null) {
+				throw new IllegalArgumentException("Id of the OperationRecord should be 0 before insert! [" + record + "]");
+			}
+		}
+		if(batchSize <= 0) {
+			batchSize = 100;
+		}
+		for(int i = 0, l = records.length; i < l; i += batchSize) {
+			String sql = generateBatchSaveSql(records, i, Math.min(i + batchSize, l));
+			jdbcTemplate.getJdbcOperations().execute(sql);
+		}
+		return records.length;
+	}
+	
+	protected static String generateBatchSaveSql(OperationRecord[] records, int startIndexInclusive, int endIndexExclusive) {
+		StringBuilder sqlBuff = new StringBuilder()
+			.append(" insert into operation_record (ip, device_id, uvid, os, version, timestamp, page_no, tag_no, params_json) values ");
+		OperationRecord record = null;
+		for(int i = startIndexInclusive; i < endIndexExclusive; i++) {
+			if(i > startIndexInclusive) {
+				sqlBuff.append(",");
+			}
+			record = records[i];
+			sqlBuff.append("(")
+				.append(escapeSqlStringValue(record.getIp()))
+				.append(", ")
+				.append(escapeSqlStringValue(record.getDeviceId()))
+				.append(", ")
+				.append(escapeSqlStringValue(record.getUvid()))
+				.append(", ")
+				.append(escapeSqlStringValue(record.getOs()))
+				.append(", ")
+				.append(record.getVersion())
+				.append(", ")
+				.append(record.getTimestamp())
+				.append(", ")
+				.append(record.getPageNo())
+				.append(", ")
+				.append(record.getTagNo())
+				.append(", ")
+				.append(escapeSqlStringValue(record.getParams()))
+				.append(")");
+		}
+		return sqlBuff.toString();
 	}
 	
 }

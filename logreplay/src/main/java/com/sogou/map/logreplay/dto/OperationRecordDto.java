@@ -141,7 +141,7 @@ public class OperationRecordDto {
 		dto.uvid = record.getUvid();
 		dto.os = record.getOs();
 		dto.version = record.getVersion();
-		dto.timestamp = record.getTimestamp().getTime();
+		dto.timestamp = record.getTimestamp();
 		dto.pageNo = record.getPageNo();
 		dto.tagNo = record.getTagNo();
 		if(tagInfo != null) {

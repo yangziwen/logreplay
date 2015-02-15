@@ -18,4 +18,8 @@ public class OperationRecordService {
 	public List<OperationRecord> getOperationRecordListResult(int start, int limit, Map<String, Object> param) {
 		return operationRecordDao.list(start, limit, param);
 	}
+	
+	public int batchSaveOrUpdateOperationRecord(List<OperationRecord> recordList) {
+		return operationRecordDao.batchSaveByDirectSql(recordList.toArray(new OperationRecord[]{}), 500);
+	}
 }

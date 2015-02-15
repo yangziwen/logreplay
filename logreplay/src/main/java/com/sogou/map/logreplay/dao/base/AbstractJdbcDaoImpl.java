@@ -20,6 +20,7 @@ import javax.sql.DataSource;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
@@ -524,6 +525,13 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean> {
 			return null;
 		}
 		return QueryOperator.valueOf(operName).buildResult(getColumnByField(key), keyWithOper);
+	}
+	
+	protected static String escapeSqlStringValue(String value) {
+		if(value == null) {
+			return null;
+		}
+		return "'" + StringEscapeUtils.escapeSql(value) + "'";
 	}
 
 }
