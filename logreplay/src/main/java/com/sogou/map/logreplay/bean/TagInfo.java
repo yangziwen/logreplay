@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Table(name = "tag_info")
 public class TagInfo extends AbstractBean {
@@ -25,6 +26,7 @@ public class TagInfo extends AbstractBean {
 	@Column(name = "page_no")	// 冗余，为了查询方便
 	private Integer pageNo;
 	
+	@Transient
 	private PageInfo pageInfo;
 	
 	@Column(name = "action_id")

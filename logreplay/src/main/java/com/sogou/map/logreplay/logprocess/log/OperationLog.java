@@ -1,10 +1,15 @@
 package com.sogou.map.logreplay.logprocess.log;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
+
+import com.sogou.map.logreplay.bean.OperationRecord;
 
 public class OperationLog {
 	
@@ -53,6 +58,41 @@ public class OperationLog {
 	}
 	public List<Map<String, Object>> getOperationList() {
 		return operationList;
+	}
+	
+	public List<OperationRecord> toRecordList() {
+		List<Map<String, Object>> operationList = this.operationList;
+		if(CollectionUtils.isEmpty(operationList)) {
+			return Collections.emptyList();
+		}
+		List<OperationRecord> recordList = new ArrayList<OperationRecord>();
+		for(Map<String, Object> operation: operationList) {
+			if(MapUtils.isEmpty(operation)) {
+				continue;
+			}
+			Integer pageNo = MapUtils.getIntValue(operation, "p");
+			Integer tagNo = MapUtils.getIntValue(operation, "tag");
+			Long timestamp = MapUtils.getLong(operation, "t");
+			
+			Map<String, Object> params = new HashMap<String, Object>(operation);
+			params.remove("p");
+			params.remove("tag");
+			params.remove("t");
+			
+			recordList.add(new OperationRecord.Builder()
+				.ip(ip)
+				.deviceId(deviceId)
+				.uvid(uvid)
+				.os(os)
+				.version(version)
+				.timestamp(timestamp)
+				.pageNo(pageNo)
+				.tagNo(tagNo)
+				.params(params)
+				.build()
+			);
+		}
+		return recordList;
 	}
 	
 	@Override

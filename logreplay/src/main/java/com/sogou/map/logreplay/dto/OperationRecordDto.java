@@ -10,7 +10,7 @@ public class OperationRecordDto {
 	private String deviceId;
 	private String uvid;
 	private String os;
-	private String version;
+	private Long version;
 	private Long timestamp;
 	private Integer pageNo;
 	private String pageName;
@@ -61,11 +61,11 @@ public class OperationRecordDto {
 		this.os = os;
 	}
 
-	public String getVersion() {
+	public Long getVersion() {
 		return version;
 	}
 
-	public void setVersion(String version) {
+	public void setVersion(Long version) {
 		this.version = version;
 	}
 

@@ -1,10 +1,17 @@
 package com.sogou.map.logreplay.bean;
 
 import java.sql.Timestamp;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.math.NumberUtils;
+
+import com.alibaba.fastjson.JSON;
 
 @Table(name = "operation_record")
 public class OperationRecord extends AbstractBean {
@@ -26,7 +33,7 @@ public class OperationRecord extends AbstractBean {
 	private String os;
 	
 	@Column
-	private String version;
+	private Long version;
 	
 	@Column
 	private Timestamp timestamp;
@@ -40,9 +47,32 @@ public class OperationRecord extends AbstractBean {
 	@Column(name = "params_json")
 	private String params;
 	
+	@Transient
 	private Long tagInfoId;
 	
 	public OperationRecord() {}
+	
+	private OperationRecord(
+			String ip,
+			String deviceId,
+			String uvid,
+			String os,
+			Long version,
+			Timestamp timestamp,
+			Integer pageNo,
+			Integer tagNo,
+			String params) {
+		
+		this.ip = ip;
+		this.deviceId = deviceId;
+		this.uvid = uvid;
+		this.os = os;
+		this.version = version;
+		this.timestamp = timestamp;
+		this.pageNo = pageNo;
+		this.tagNo = tagNo;
+		this.params = params;
+	}
 
 	@Override
 	public Long getId() {
@@ -86,11 +116,11 @@ public class OperationRecord extends AbstractBean {
 		this.os = os;
 	}
 
-	public String getVersion() {
+	public Long getVersion() {
 		return version;
 	}
 
-	public void setVersion(String version) {
+	public void setVersion(Long version) {
 		this.version = version;
 	}
 
@@ -134,4 +164,101 @@ public class OperationRecord extends AbstractBean {
 		this.tagInfoId = tagInfoId;
 	}
 	
+	@Override
+	public String toString() {
+		return new StringBuilder("OperationRecord [")
+			.append("id=").append(id)
+			.append(", ")
+			.append("ip=").append(ip)
+			.append(", ")
+			.append("deviceId=").append(deviceId)
+			.append(", ")
+			.append("uvid=").append(uvid)
+			.append(", ")
+			.append("os=").append(os)
+			.append(", ")
+			.append("version=").append(version)
+			.append(", ")
+			.append("timestamp=").append(timestamp)
+			.append(", ")
+			.append("pageNo=").append(pageNo)
+			.append(", ")
+			.append("tagNo=").append(tagNo)
+			.append(", ")
+			.append("params=").append(params)
+			.append("]")
+			.toString();
+	}
+	
+	public static class Builder {
+		String ip;
+		String deviceId;
+		String uvid;
+		String os;
+		Long version;
+		Timestamp timestamp;
+		Integer pageNo;
+		Integer tagNo;
+		Map<String, Object> params;
+		
+		public Builder ip(String ip) {
+			this.ip = ip;
+			return this;
+		}
+		
+		public Builder deviceId(String deviceId) {
+			this.deviceId = deviceId;
+			return this;
+		}
+		
+		public Builder uvid(String uvid) {
+			this.uvid = uvid;
+			return this;
+		}
+		
+		public Builder os(String os) {
+			this.os = os;
+			return this;
+		}
+		
+		public Builder version(Long version) {
+			this.version = version;
+			return this;
+		}
+		
+		public Builder version(String version) {
+			this.version = NumberUtils.toLong(version);
+			return this;
+		}
+		
+		public Builder timestamp(Timestamp timestamp) {
+			this.timestamp = timestamp;
+			return this;
+		}
+		
+		public Builder timestamp(Long timestamp) {
+			return timestamp(new Timestamp(timestamp));
+		}
+		
+		public Builder pageNo(Integer pageNo) {
+			this.pageNo = pageNo;
+			return this;
+		}
+		
+		public Builder tagNo(Integer tagNo) {
+			this.tagNo = tagNo;
+			return this;
+		}
+		
+		public Builder params(Map<String, Object> params) {
+			this.params = params;
+			return this;
+		}
+		
+		public OperationRecord build() {
+			return new OperationRecord(ip, deviceId, uvid, os, version, timestamp, pageNo, tagNo, 
+					MapUtils.isNotEmpty(params)? JSON.toJSONString(params): null);
+		}
+		
+	}
 }

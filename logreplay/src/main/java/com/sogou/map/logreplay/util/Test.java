@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.SystemUtils;
 
+import com.sogou.map.logreplay.bean.OperationRecord;
 import com.sogou.map.logreplay.logprocess.log.OperationLog;
 import com.sogou.map.logreplay.logprocess.processor.OperationLogProcessor;
 
@@ -31,7 +32,9 @@ public class Test {
 				if(operationLog == null) {
 					continue;
 				}
-				writer.write(operationLog.toString() + SystemUtils.LINE_SEPARATOR);
+				for(OperationRecord record: operationLog.toRecordList()) {
+					writer.write(record.toString() + SystemUtils.LINE_SEPARATOR);
+				}
 			} catch (Exception e) {
 				System.err.println(line);
 				e.printStackTrace();

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Table(name = "tag_param")
 public class TagParam extends AbstractBean {
@@ -16,6 +17,7 @@ public class TagParam extends AbstractBean {
 	@Column(name = "tag_info_id")
 	private Long tagInfoId;
 	
+	@Transient
 	private List<ParamInfo> paramInfoList;
 	
 	@Column
