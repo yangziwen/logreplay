@@ -10,7 +10,8 @@ CREATE TABLE `operation_record` (
   `timestamp` BIGINT(15),
   `page_no` INT(11),
   `tag_no` INT(11),
-  `params_json` VARCHAR(256)
+  `params_json` VARCHAR(256),
+  KEY `page_no_tag_no` (`page_no`,`tag_no`)
 ) ENGINE = INNODB DEFAULT CHARSET = GBK;
 
 -- “≥√Ê–≈œ¢

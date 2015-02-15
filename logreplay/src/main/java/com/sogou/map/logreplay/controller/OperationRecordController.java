@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -56,12 +55,16 @@ public class OperationRecordController extends BaseService {
 			@QueryParam("since") Long since,
 			@QueryParam("deviceId") String deviceId,
 			@QueryParam("uvid") String uvid,
+			@QueryParam("pageNo") Integer pageNo,
+			@QueryParam("tagNo") Integer tagNo,
 			@DefaultValue("30") @QueryParam("limit") int limit
 			) {
 		List<OperationRecord> list = operationRecordService.getOperationRecordListResult(0, limit, new QueryParamMap()
 			.addParam(StringUtils.isNotBlank(deviceId), "deviceId", deviceId)
 			.addParam(StringUtils.isNotBlank(uvid), "uvid", uvid)
-			.addParam("timestamp__ge", new Timestamp(since))
+			.addParam(pageNo != null, "pageNo", pageNo)
+			.addParam(tagNo != null, "tagNo", tagNo)
+			.addParam("timestamp__gt",since)
 			.orderByAsc("timestamp")
 		);
 		List<OperationRecordDto> dtoList = convertToDtoList(list);
