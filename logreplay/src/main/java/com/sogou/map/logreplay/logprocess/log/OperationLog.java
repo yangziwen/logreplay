@@ -2,7 +2,6 @@ package com.sogou.map.logreplay.logprocess.log;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -74,11 +73,6 @@ public class OperationLog {
 			Integer tagNo = MapUtils.getIntValue(operation, "tag");
 			Long timestamp = MapUtils.getLong(operation, "t");
 			
-			Map<String, Object> params = new HashMap<String, Object>(operation);
-			params.remove("p");
-			params.remove("tag");
-			params.remove("t");
-			
 			recordList.add(new OperationRecord.Builder()
 				.ip(ip)
 				.deviceId(deviceId)
@@ -88,7 +82,7 @@ public class OperationLog {
 				.timestamp(timestamp)
 				.pageNo(pageNo)
 				.tagNo(tagNo)
-				.params(params)
+				.params(operation)
 				.build()
 			);
 		}
