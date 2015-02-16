@@ -50,7 +50,8 @@
 							<div class="form-group" style="margin-bottom: 0px;">
 								<div class="col-sm-6 col-sm-offset-3" style="margin-top: 10px;">
 									<button id="J_replaySwitchBtn" type="button" class="btn btn-primary btn-lg-font">开始校验</button>
-									<button id="J_lockScrollBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">锁定滚动</button>
+									<%--<button id="J_lockScrollBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">锁定滚动</button>
+									 --%>
 									<button id="J_clearBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">清&nbsp;&nbsp;除</button>
 								</div>
 							</div>
@@ -58,20 +59,30 @@
 			     	</div>
 			     	<hr class="col-md-12">
 			     	<div style="margin-top: 20px;">
-				     	<pre id="J_replayArea" style="height: 500px;"></pre>
-				     	<script type="text/x-jquery-tmpl" id="J_replayTmpl">
-<div class="${'${'}$item.bgClass()}" style="padding: 10px 0px;">
-	<span><strong>设备id</strong> [${'${'}deviceId}] </span>
-	<span><strong>用户id</strong> [${'${'}uvid}] </span>
-	<span><strong>操作时间</strong> [${'${'}$item.formatTime(timestamp)}] </span>
-	<span><strong>IP</strong> [${'${'}ip}]</span>
-	<br/>
-	<span><strong>${'${'}pageName}</strong> [${'${'}pageNo}] </span>
-	<span><strong>${'${'}tagName}</strong> [${'${'}tagNo}] </span>
-	<span><strong>${'${'}$item.toActionName(actionId)}</strong> [${'${'}actionId}] </span>
-	<span><strong>${'${'}$item.toTargetName(targetId)}</strong> [${'${'}targetId}] </span>
-</div>
-						</script>
+				     	<table id="J_replayTbl" class="table table-bordered table-striped table-condensed table-hover" >
+				     		<thead>
+				     			<tr>
+				     				<th style="width: 125px;">平台</th>
+				     				<th style="width: 100px;">日志编号</th>
+				     				<th>日志描述</th>
+				     				<th style="width: 250px;">日志内容</th>
+				     				<th style="width: 125px;">操作</th>
+				     			</tr>
+				     		</thead>
+				     		<tbody id="J_replayTbody" style="max-height: 500px;" >
+				     		</tbody>
+				     		<script type="text/x-jquery-tmpl" id="J_replayTmpl">
+								<tr class="${'${'}$item.bgClass()}">
+				     				<td>${'${'}os}</td>
+				     				<td style="text-align: left">&nbsp;p[${'${'}pageNo}] t[${'${'}tagNo}]</td>
+				     				<td>${'${'}$item.describe($data)}</td>
+				     				<td title="${'${'}params}" style="max-width: 250px; overflow-x: hidden; text-align: left;">
+										${'${'}params}
+									</td>
+				     				<td></td>
+				     			</tr>
+							</script>
+				     	</table>
 			     	</div>
 			    </div>
 			</div><!--/row2-->

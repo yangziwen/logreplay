@@ -18,6 +18,7 @@ public class OperationRecordDto {
 	private String tagName;
 	private Long actionId;
 	private Long targetId;
+	private String params;
 	
 	public OperationRecordDto() {}
 	
@@ -124,6 +125,14 @@ public class OperationRecordDto {
 	public void setTargetId(Long targetId) {
 		this.targetId = targetId;
 	}
+	
+	public String getParams() {
+		return params;
+	}
+
+	public void setParams(String params) {
+		this.params = params;
+	}
 
 	public static OperationRecordDto from(OperationRecord record, TagInfo tagInfo) {
 		if(record == null) {
@@ -144,6 +153,7 @@ public class OperationRecordDto {
 		dto.timestamp = record.getTimestamp();
 		dto.pageNo = record.getPageNo();
 		dto.tagNo = record.getTagNo();
+		dto.params = record.getParams();
 		if(tagInfo != null) {
 			dto.pageName = tagInfo.getPageInfo().getName();
 			dto.tagName = tagInfo.getName();

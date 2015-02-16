@@ -43,7 +43,7 @@ public class OperationRecord extends AbstractBean {
 	@Column(name = "tag_no")
 	private Integer tagNo;
 	
-	@Column(name = "params_json")
+	@Column(name = "params")
 	private String params;
 	
 	@Transient
