@@ -24,7 +24,7 @@
 <div class="container" style="margin-bottom: 50px;">
 	<div class="row"><!-- row1 -->
 		<%@ include file="../include/includeLeftMenu.jsp" %>
-		<div class="col-lg-10 col-sm-10">
+		<div class="col-sm-10">
 			<div>
 			    <ul class="breadcrumb">
 			        <li>

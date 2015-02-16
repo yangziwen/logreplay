@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<div class="col-sm-2 col-lg-2">
+<div class="col-sm-2">
 	<div class="sidebar-nav row">
 			<ul class="nav nav-pills nav-stacked">
 				<li class="active">
