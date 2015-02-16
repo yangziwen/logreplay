@@ -35,10 +35,37 @@
 			</div>
 			<div class="row"><!-- row2 -->
 			    <div class="col-md-12">
-			     	<div id="J_queryArea" style="height: 100px; border: 1px solid #ccc; text-align: center;">
-			     		<h2 style="line-height: 50px;">查询区占位</h2>
+			     	<div id="J_queryArea" style="text-align: center;">
+			     		<form class="form-horizontal col-md-offset-2 col-md-8" role="form">
+							<div class="form-group">
+								<label for="J_pageNo" class="col-sm-2 control-label">页面编号：</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="J_pageNo" name="pageNo" placeholder="请输入页面编号" />
+								</div>
+								<label for="J_uvid" class="col-sm-2 control-label">操作编号：</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="J_tagNo" name="tagNo" placeholder="请输入操作编号" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="J_pageName" class="col-sm-2 control-label">页面名称：</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="J_pageName" name="pageName" placeholder="请输入页面名称" />
+								</div>
+								<label for="J_tagName" class="col-sm-2 control-label">操作名称：</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="J_tagName" name="tagName" placeholder="请输入操作名称" />
+								</div>
+							</div>
+							<div class="form-group" style="margin-bottom: 0px;">
+								<div class="col-sm-6 col-sm-offset-3" style="margin-top: 10px;">
+									<button id="J_queryBtn" type="button" class="btn btn-primary btn-lg-font" style="width: 90px;">查&nbsp;&nbsp;询</button>
+									<button id="J_clearBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">清除条件</button>
+								</div>
+							</div>
+						</form>
 			     	</div>
-			     	<hr>
+			     	<hr class="col-md-12">
 			     	<div class="row">
 			     		<div id="J_pagebar" class="col-sm-12"></div>
 			     	</div>

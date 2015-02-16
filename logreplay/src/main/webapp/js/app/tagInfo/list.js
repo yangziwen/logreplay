@@ -39,7 +39,9 @@ define(function(require, exports, module) {
 	}
 	
 	function loadTagInfoResult(callback) {
-		var params = {start: start, limit: limit};
+		var params = $.extend({
+			start: start, limit: limit
+		}, common.collectParams('#J_queryArea input[type!=button][type!=submit][type!=reset]'));
 		var url = CTX_PATH + '/tagInfo/list';
 		$.get(url, params, function(data) {
 			if(!data || !data.response || !data.response.list) {
@@ -249,6 +251,27 @@ define(function(require, exports, module) {
 	}
 	/** 更新tagParam结束 **/
 	
+	function initQueryBtn() {
+		var $queryBtn = $('#J_queryBtn');
+		$('#J_queryArea').on('keyup', 'input[type!=button][type!=submit][type!=reset]', function(ev) {
+			if(ev.which == 13) {
+				$queryBtn.trigger('click');
+			}
+		});
+		$queryBtn.on('click', function() {
+			start = 0;
+			refreshTagInfoTbl();
+		});
+	}
+	
+	function initClearBtn() {
+		$('#J_clearBtn').on('click', function() {
+			start = 0;
+			common.clearForm($('#J_queryArea form'));
+			refreshTagInfoTbl();
+		});
+	}
+	
 	function init() {
 		$.when(refreshTagActionOptions(), refreshTagTargetOptions())
 		.done(function() {
@@ -259,6 +282,8 @@ define(function(require, exports, module) {
 		initUpdateTagInfoBtn();
 		initAddNewTagParamBtn();
 		initUpdateTagParamBtn();
+		initQueryBtn();
+		initClearBtn();
 	}
 	
 	module.exports = {init: init};

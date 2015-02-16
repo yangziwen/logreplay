@@ -40,15 +40,15 @@
 							<div class="form-group">
 								<label for="J_pageNo" class="col-sm-2 control-label">Ò³Ãæ±àºÅ£º</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_pageNo" name="deviceId" placeholder="ÇëÊäÈëÒ³Ãæ±àºÅ" />
+									<input type="text" class="form-control" id="J_pageNo" name="pageNo" placeholder="ÇëÊäÈëÒ³Ãæ±àºÅ" />
 								</div>
-								<label for="J_uvid" class="col-sm-2 control-label">²Ù×÷±àºÅ£º</label>
+								<label for="J_tagNo" class="col-sm-2 control-label">²Ù×÷±àºÅ£º</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_tagNo" name="uvid" placeholder="ÇëÊäÈë²Ù×÷±àºÅ" />
+									<input type="text" class="form-control" id="J_tagNo" name="tagNo" placeholder="ÇëÊäÈë²Ù×÷±àºÅ" />
 								</div>
 							</div>
-							<div class="form-group">
-								<div class="col-sm-6 col-sm-offset-3" style="margin-top: 20px;">
+							<div class="form-group" style="margin-bottom: 0px;">
+								<div class="col-sm-6 col-sm-offset-3" style="margin-top: 10px;">
 									<button id="J_replaySwitchBtn" type="button" class="btn btn-primary btn-lg-font">¿ªÊ¼Ð£Ñé</button>
 									<button id="J_lockScrollBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">Ëø¶¨¹ö¶¯</button>
 									<button id="J_clearBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">Çå&nbsp;&nbsp;³ý</button>
@@ -56,7 +56,7 @@
 							</div>
 						</form>
 			     	</div>
-			     	<hr>
+			     	<hr class="col-md-12">
 			     	<div style="margin-top: 20px;">
 				     	<pre id="J_replayArea" style="height: 500px;"></pre>
 				     	<script type="text/x-jquery-tmpl" id="J_replayTmpl">

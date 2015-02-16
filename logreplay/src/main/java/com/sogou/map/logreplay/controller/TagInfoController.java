@@ -1,5 +1,8 @@
 package com.sogou.map.logreplay.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -9,6 +12,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -40,14 +44,23 @@ public class TagInfoController extends BaseService {
 			@DefaultValue(Page.DEFAULT_LIMIT) @QueryParam("limit") int limit,
 			@QueryParam("pageNo") Integer pageNo,
 			@QueryParam("tagNo") Integer tagNo,
-			@QueryParam("name") String name,
+			@QueryParam("pageName") String pageName,
+			@QueryParam("tagName") String tagName,
 			@QueryParam("updateBeginTime") String updateBeginTime,
 			@QueryParam("updateEndTime") String updateEndTime
 			) {
+		List<Long> pageInfoIdList = new ArrayList<Long>();
+		if(StringUtils.isNotBlank(pageName)) {
+			List<PageInfo> pageInfoList = pageInfoService.getPageInfoListResult(new QueryParamMap().addParam("name__contain", pageName));
+			for(PageInfo pageInfo: pageInfoList) {
+				pageInfoIdList.add(pageInfo.getId());
+			}
+		}
 		Page<TagInfo> page = tagInfoService.getTagInfoPageResult(start, limit, new QueryParamMap()
 			.addParam(pageNo != null, "pageNo", pageNo)
 			.addParam(tagNo != null, "tagNo", tagNo)
-			.addParam(StringUtils.isNotBlank(name), "name__contain", name)
+			.addParam(CollectionUtils.isNotEmpty(pageInfoIdList), "pageInfoId__in", pageInfoIdList)
+			.addParam(StringUtils.isNotBlank(tagName), "name__contain", tagName)
 			.addParam(StringUtils.isNotBlank(updateBeginTime), "updateTime__ge", updateBeginTime)
 			.addParam(StringUtils.isNotBlank(updateEndTime), "updateTime__le", updateEndTime)
 			.orderByAsc("page_info.page_no").orderByAsc("tagNo")

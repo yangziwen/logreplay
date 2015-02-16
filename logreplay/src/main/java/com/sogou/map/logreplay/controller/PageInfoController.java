@@ -35,7 +35,7 @@ public class PageInfoController extends BaseService {
 			@DefaultValue(Page.DEFAULT_START) @QueryParam("start") int start,
 			@DefaultValue(Page.DEFAULT_LIMIT) @QueryParam("limit") int limit,
 			@QueryParam("pageNo") Integer pageNo,
-			@QueryParam("name") String name,
+			@QueryParam("pageName") String name,
 			@QueryParam("updateBeginTime") String updateBeginTime,
 			@QueryParam("updateEndTime") String updateEndTime
 			) {
