@@ -217,7 +217,7 @@ define(function(require, exports, module) {
 					name: $tr.find('.param-info-name').val(),
 					value: $tr.find('.param-info-value').val(),
 					description: $tr.find('.param-info-description').val()
-				}
+				};
 			}).toArray();
 			var params = {
 				tagInfoId: tagInfoId,

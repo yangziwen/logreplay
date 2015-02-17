@@ -9,7 +9,7 @@ define(function(require, exports, module) {
 	var $ = require('jquery'),
 		common = require('app/common');
 
-	var replaying = false, lockScroll = false, logNum = 0;
+	var replaying = false, lockScroll = false;
 	
 	var tagActionDict = {}, tagTargetDict = {};
 	
@@ -113,7 +113,6 @@ define(function(require, exports, module) {
 	function initClearBtn() {
 		$('#J_clearBtn').on('click', function() {
 			$replayTbody.empty();
-			logNum = 0;
 		});
 	}
 	
@@ -122,9 +121,9 @@ define(function(require, exports, module) {
 			lockScroll = !lockScroll;
 			var $this = $(this);
 			if(lockScroll) {
-				$this.html('解锁滚动')
+				$this.html('解锁滚动');
 			} else {
-				$this.html('锁定滚动')
+				$this.html('锁定滚动');
 			}
 		});
 	}
@@ -171,7 +170,7 @@ define(function(require, exports, module) {
 			},
 			success: function(data,ev) {common.alertMsg('上传成功');},
 			error: function(status, ev) {common.alertMsg('上传失败');},
-			unsupport: function() {common.alertMsg('不支持当前浏览器')}
+			unsupport: function() {common.alertMsg('不支持当前浏览器');}
 		});
 	}
 	

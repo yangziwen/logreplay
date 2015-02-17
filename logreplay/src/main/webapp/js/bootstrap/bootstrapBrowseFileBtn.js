@@ -45,28 +45,27 @@ define(function(require){
 				
 				function buildFileInput($wrapper, opts) {
 					$wrapper.children('[type=file]').remove();
+					var fileInputId = opts.fileInputId || 'J_fileInput' + $.now();
 					var $fileInput = $('<input type="file"/>');
+					var $fileLabel = $('<label for="' + fileInputId + '">');
 					$fileInput.css({
-						'width': opts.btnWidth,
-						'height': opts.btnHeight,
-						'position': 'absolute',
-						'opacity': 0,
+						'display': 'none'
 					}).attr({
 						id: opts.fileInputId,
 						name: opts.fileInputName
 					});
-					if(isWebkit) {
-						$fileInput.css({left: -10, top: -8});
-					} else {
-						$fileInput.css({
-							top: 0,
-							left: 0,
-							width: opts.btnWidth,
-							height: opts.btnHeight,
-							'z-index': -1
-						});
-					}
-					$wrapper.append($fileInput);
+					$fileLabel.css({
+						'width': opts.btnWidth,
+						'height': opts.btnHeight,
+						'position': 'absolute',
+						'opacity': 0,
+						'left': 0,
+						'top': 0,
+						'margin-bottom': 0,
+						'margin-top': -8,
+						'cursor': 'pointer'
+					});
+					$wrapper.append($fileLabel).append($fileInput);
 					$fileInput.on('change', function(){
 						$this.attr('data-path', this.value);
 						$pathTxt.val(this.value);
