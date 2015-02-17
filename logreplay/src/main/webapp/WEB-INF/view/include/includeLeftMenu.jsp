@@ -28,7 +28,7 @@
 					<c:set var="showReplaySubmenu" value="${fn:contains(requestURI, '/replay')}"></c:set>
 					<ul id="J_logReplaySubmenu" class="nav submenu ${showReplaySubmenu eq true? 'in': ''}" ${showReplaySubmenu eq false? 'style="height: 0px;"': ''}>
 						<li><a href="${ctx_path}/replay/realtime.htm"><i class="glyphicon glyphicon-chevron-right"></i> 即时校验</a></li>
-						<li><a href="###"><i class="glyphicon glyphicon-chevron-right"></i> 序列校验</a></li>
+						<li><a href="${ctx_path}/replay/sequence.htm"><i class="glyphicon glyphicon-chevron-right"></i> 序列校验</a></li>
 					</ul>
 				</li>
 				<li class="active">

@@ -58,7 +58,7 @@
 								</div>
 							</div>
 							<div class="form-group" style="margin-bottom: 0px;">
-								<div class="col-sm-6 col-sm-offset-3" style="margin-top: 10px;">
+								<div class="col-sm-12" style="margin-top: 10px;">
 									<button id="J_queryBtn" type="button" class="btn btn-primary btn-lg-font" style="width: 90px;">查&nbsp;&nbsp;询</button>
 									<button id="J_clearBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">清除条件</button>
 								</div>

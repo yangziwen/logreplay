@@ -3,6 +3,7 @@ package com.sogou.map.logreplay.controller;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,17 +13,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.ModelMap;
 
 import com.sogou.map.logreplay.bean.OperationRecord;
 import com.sogou.map.logreplay.bean.TagInfo;
@@ -35,10 +42,14 @@ import com.sogou.map.logreplay.service.PageInfoService;
 import com.sogou.map.logreplay.service.TagInfoService;
 import com.sogou.map.logreplay.util.JsonUtil;
 import com.sogou.map.mengine.common.service.BaseService;
+import com.sun.jersey.multipart.FormDataBodyPart;
+import com.sun.jersey.multipart.FormDataMultiPart;
 
 @Component
 @Path("/operationRecord")
 public class OperationRecordController extends BaseService {
+	
+	private static final Logger logger = LoggerFactory.getLogger(OperationRecordController.class);
 
 	@Autowired
 	private OperationRecordService operationRecordService;
@@ -128,7 +139,7 @@ public class OperationRecordController extends BaseService {
 				recordList.addAll(processor.process(line).toRecordList());
 				if(recordList.size() > 1000) {
 					count += operationRecordService.batchSaveOrUpdateOperationRecord(recordList);
-					recordList = new ArrayList<OperationRecord>();
+					recordList = new ArrayList<OperationRecord>(500);
 				}
 			}
 			if(recordList.size() > 0) {
@@ -136,11 +147,54 @@ public class OperationRecordController extends BaseService {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw LogReplayException.operationFailedException("Failed while importing log data!");
+			throw LogReplayException.operationFailedException("Operation failed while importing log data!");
 		} finally {
 			IOUtils.closeQuietly(reader);
 		}
 		return successResultToJson(String.format("Successfully import [%d] records!", count), true);
+	}
+	
+	@POST
+	@Path("/upload/nginx")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public Response uploadNginxLog(
+			FormDataMultiPart multiPartData
+			) {
+		FormDataBodyPart filePart = multiPartData.getField("file");
+		InputStream in = filePart.getValueAs(InputStream.class);
+		BufferedReader reader = null;
+		String line = "";
+		int count = 0;
+		try {
+			reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+			List<OperationRecord> recordList = new ArrayList<OperationRecord>(500);
+			OperationLogProcessor processor = new OperationLogProcessor();
+			while(true) {
+				try {
+					line = reader.readLine();
+				} catch (Exception e) {
+					logger.warn(e.getMessage());
+					line = null;
+				}
+				if(line == null) {
+					break;
+				}
+				recordList.addAll(processor.process(line).toRecordList());
+				if(recordList.size() > 1000) {
+					count += operationRecordService.batchSaveOrUpdateOperationRecord(recordList);
+					recordList = new ArrayList<OperationRecord>(500);
+				}
+			}
+			if(recordList.size() > 0) {
+				count += operationRecordService.batchSaveOrUpdateOperationRecord(recordList);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw LogReplayException.operationFailedException("Operation Failed while importing log data!");
+		} finally {
+			IOUtils.closeQuietly(reader);
+		}
+		return successResultToJson(new ModelMap("count", count), true);
 	}
 	
 }

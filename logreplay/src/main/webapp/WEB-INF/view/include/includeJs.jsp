@@ -13,7 +13,9 @@ seajs.config({
 		'jquery': 'jquery/jquery.js',
 		'jquery.tmpl': 'jquery/jquery.tmpl.js',
 		'bootstrap': 'bootstrap/bootstrap.min.js',
-		'bootstrap.pagebar': 'bootstrap/bootstrapPageBar.js'
+		'bootstrap.pagebar': 'bootstrap/bootstrapPageBar.js',
+		'bootstrap.uploadfilebtn': 'bootstrap/bootstrapUploadFileBtn.js',
+		'bootstrap.browsefilebtn': 'bootstrap/bootstrapBrowseFileBtn.js'
 	}
 });
 </script>

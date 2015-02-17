@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>
-    <title>即时校验</title>
+    <title>序列校验</title>
 	<%@ include file="../include/includeCss.jsp" %>
 	<style>
 		#J_replayArea {
@@ -23,7 +23,7 @@
 			    <ul class="breadcrumb">
 			        <li>
 						当前位置: <a data-toggle="collapse" href="#J_logReplaySubmenu">日志项校验</a>
-						 &gt; <a href="${ctx_path}/replay/realtime.htm">即时校验</a>
+						 &gt; <a href="${ctx_path}/replay/sequence.htm">序列校验</a>
 			        </li> 
 			    </ul>
 			</div>
@@ -52,8 +52,19 @@
 									<input type="text" class="form-control" id="J_tagNo" name="tagNo" placeholder="请输入操作编号" />
 								</div>
 							</div>
-							<div class="form-group" style="margin-bottom: 0px;">
+							<div class="form-group">
+								<label for="J_replayTimeSince" class="col-sm-2 control-label">开始时间：</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="J_replayTimeSince" name="replayTimeSince"/>
+								</div>
+								<label for="J_replayTimeUntil" class="col-sm-2 control-label">结束时间：</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="J_replayTimeUntil" name="replayTimeUntil"/>
+								</div>
+							</div>
+							<div class="form-group" style="_margin-bottom: 0px;">
 								<div class="col-sm-12" style="margin-top: 10px;">
+									<button id="J_openUploadLogModalBtn" type="button" class="btn btn-primary btn-lg-font">上传日志</button>
 									<button id="J_replaySwitchBtn" type="button" class="btn btn-primary btn-lg-font">开始校验</button>
 									<button id="J_lockScrollBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">锁定滚动</button>
 									<button id="J_clearBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">清&nbsp;&nbsp;除</button>
@@ -62,8 +73,8 @@
 						</form>
 					</div>
 				</div>
-				<div class="col-sm-12" style="overflow-x: hidden">
-					<hr>
+				<div class="col-sm-12" style="overflow-x: hidden;">
+					<hr style="margin-top: 0px;">
 				</div>
 				<div class="col-sm-12">
 			     	<div id="J_replayArea">
@@ -97,10 +108,39 @@
 		</div>
 	</div><!-- /row1 -->
 </div>
+<!-- 上传日志的弹出层 -->
+<div class="modal" id="J_uploadLogModal" tabindex="-1">
+    <div class="modal-dialog">
+    	<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title"><strong>上传nginx日志</strong></h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">日志文件：</label>
+						<div class="col-sm-9">
+							<input id="J_uploadLogFilePath" type="text" class="form-control" disabled="disabled"/>
+						</div>
+						<div class="col-sm-9 col-sm-offset-3 hide">
+							<div id="J_uploadProgressBar" class="progress progress-striped" style="width: 100%; margin-top: 20px; margin-bottom: 0px;"></div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" id="J_browseLogFileBtn" >浏览</button>
+				<button type="button" class="btn btn-primary" id="J_uploadLogFileBtn" style="margin-left:5px;">上传</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <%@ include file="../include/includeJs.jsp" %>
 <script>
-seajs.use('app/replay/realtime', function(realtime) {
-	realtime.init();
+seajs.use('app/replay/sequence', function(sequence) {
+	sequence.init();
 });
 </script>
 </body>
