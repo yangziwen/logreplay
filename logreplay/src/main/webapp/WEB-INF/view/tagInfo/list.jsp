@@ -65,7 +65,9 @@
 							</div>
 						</form>
 			     	</div>
-			     	<hr class="col-md-12">
+			     </div>
+			     <div class="col-sm-12"><hr /></div>
+			     <div class="col-sm-12">
 			     	<div class="row">
 			     		<div id="J_pagebar" class="col-sm-12"></div>
 			     	</div>

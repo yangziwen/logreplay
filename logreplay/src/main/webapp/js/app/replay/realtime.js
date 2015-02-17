@@ -38,6 +38,7 @@ define(function(require, exports, module) {
 	var $replaySwitchBtn = $('#J_replaySwitchBtn'),
 		$clearBtn = $('#J_clearBtn'),
 		$replayTmpl = $('#J_replayTmpl'),
+		$replayArea = $('#J_replayArea'),
 		$replayTbody = $('#J_replayTbody');
 	
 	function initReplaySwitchBtn() {
@@ -99,7 +100,7 @@ define(function(require, exports, module) {
 					}
 				}));
 				if(!lockScroll) {
-					//$replayArea.scrollTop($replayArea[0].scrollHeight - $replayArea.height());
+					$replayArea.scrollTop($replayArea[0].scrollHeight - $replayArea.height());
 				}
 			}
 		});
@@ -129,7 +130,7 @@ define(function(require, exports, module) {
 		refreshTagTargetDict();
 		initReplaySwitchBtn();
 		initClearBtn();
-		//initLockScrollBtn();
+		initLockScrollBtn();
 	}
 	
 	module.exports = {init: init};

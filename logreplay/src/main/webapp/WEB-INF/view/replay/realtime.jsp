@@ -5,6 +5,11 @@
 <head>
     <title>页面信息管理</title>
 	<%@ include file="../include/includeCss.jsp" %>
+	<style>
+		#J_replayArea {
+			margin-top: 10px; height: 500px; overflow-y: auto; border-top: 1px solid #eee; padding: 0px;
+		}
+	</style>
 </head>
 <body>
 
@@ -23,7 +28,7 @@
 			    </ul>
 			</div>
 			<div class="row"><!-- row2 -->
-			    <div class="col-md-12">
+			    <div class="col-sm-12">
 			     	<div id="J_queryArea" class="row" style="text-align: center;">
 			     		<input type="hidden" name="limit" value="3"/>
 			     		<form class="form-horizontal col-md-offset-2 col-md-8" role="form">
@@ -50,15 +55,18 @@
 							<div class="form-group" style="margin-bottom: 0px;">
 								<div class="col-sm-6 col-sm-offset-3" style="margin-top: 10px;">
 									<button id="J_replaySwitchBtn" type="button" class="btn btn-primary btn-lg-font">开始校验</button>
-									<%--<button id="J_lockScrollBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">锁定滚动</button>
-									 --%>
+									<button id="J_lockScrollBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">锁定滚动</button>
 									<button id="J_clearBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">清&nbsp;&nbsp;除</button>
 								</div>
 							</div>
 						</form>
-			     	</div>
-			     	<hr class="col-md-12">
-			     	<div style="margin-top: 20px;">
+					</div>
+				</div>
+				<div class="col-sm-12" style="overflow-x: hidden">
+					<hr>
+				</div>
+				<div class="col-sm-12">
+			     	<div id="J_replayArea">
 				     	<table id="J_replayTbl" class="table table-bordered table-striped table-condensed table-hover" >
 				     		<thead>
 				     			<tr>

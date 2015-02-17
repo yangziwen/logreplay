@@ -23,7 +23,7 @@
 			    </ul>
 			</div>
 			<div class="row"><!-- row2 -->
-			    <div class="col-md-12">
+			    <div class="col-sm-12">
 			     	<div id="J_queryArea" style="text-align: center;">
 			     		<form class="form-horizontal col-md-offset-2 col-md-8" role="form">
 							<div class="form-group">
@@ -44,7 +44,9 @@
 							</div>
 						</form>
 			     	</div>
-			     	<hr class="col-md-12">
+			     </div>
+			     <div class="col-sm-12"><hr/></div>
+			     <div class="col-sm-12">
 			     	<div class="row">
 			     		<div class="col-sm-2">
 			     			<button class="btn btn-primary btn-lg-font" id="J_openCreateModalBtn">ÐÂÔö</button>
