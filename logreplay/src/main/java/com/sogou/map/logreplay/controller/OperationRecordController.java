@@ -64,6 +64,7 @@ public class OperationRecordController extends BaseService {
 	@Path("/query")
 	public Response query(
 			@QueryParam("since") Long since,
+			@QueryParam("until") Long until,
 			@QueryParam("deviceId") String deviceId,
 			@QueryParam("uvid") String uvid,
 			@QueryParam("pageNo") Integer pageNo,
@@ -75,7 +76,8 @@ public class OperationRecordController extends BaseService {
 			.addParam(StringUtils.isNotBlank(uvid), "uvid", uvid)
 			.addParam(pageNo != null, "pageNo", pageNo)
 			.addParam(tagNo != null, "tagNo", tagNo)
-			.addParam("timestamp__gt",since)
+			.addParam(since != null, "timestamp__gt",since)
+			.addParam(until != null, "timestamp__lt", until)
 			.orderByAsc("timestamp")
 		);
 		List<OperationRecordDto> dtoList = convertToDtoList(list);

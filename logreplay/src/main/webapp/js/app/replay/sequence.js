@@ -5,6 +5,7 @@ define(function(require, exports, module) {
 	require('jquery.tmpl');
 	require('bootstrap.browsefilebtn');
 	require('bootstrap.uploadfilebtn');
+	require('bootstrap.datetimepicker');
 	var $ = require('jquery'),
 		common = require('app/common');
 
@@ -55,7 +56,8 @@ define(function(require, exports, module) {
 			$replaySwitchBtn.html('停止校验');
 			$clearBtn.attr({disabled: true});
 			var params = common.collectParams('#J_queryArea input[type!=button][type!=submit][type!=reset]');
-			params.since = $.now();
+			params.since = params.replayTimeSince && Date.parse(params.replayTimeSince);
+			params.until= params.replayTimeUntil && Date.parse(params.replayTimeUntil);
 			doReplay(params, 1000);
 		} else {
 			$replaySwitchBtn.html('开始校验');
@@ -173,6 +175,20 @@ define(function(require, exports, module) {
 		});
 	}
 	
+	function initDateTimePicker() {
+		 $('.form_datetime').datetimepicker({
+//			language: 'zh-CN',
+			weekStart : 1,
+			todayBtn : 1,
+			autoclose : 1,
+			todayHighlight : 1,
+			startView : 2,
+			forceParse : 0,
+			showMeridian : 1,
+			pickerPosition: "bottom-left"
+		});
+	}
+	
 	function init() {
 		refreshTagActionDict();
 		refreshTagTargetDict();
@@ -182,6 +198,7 @@ define(function(require, exports, module) {
 		initBrowseLogFileBtn();
 		initUploadLogFileBtn();
 		initOpenUploadLogModalBtn();
+		initDateTimePicker();
 	}
 	
 	module.exports = {init: init};

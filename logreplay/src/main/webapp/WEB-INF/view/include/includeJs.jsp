@@ -15,7 +15,8 @@ seajs.config({
 		'bootstrap': 'bootstrap/bootstrap.min.js',
 		'bootstrap.pagebar': 'bootstrap/bootstrapPageBar.js',
 		'bootstrap.uploadfilebtn': 'bootstrap/bootstrapUploadFileBtn.js',
-		'bootstrap.browsefilebtn': 'bootstrap/bootstrapBrowseFileBtn.js'
+		'bootstrap.browsefilebtn': 'bootstrap/bootstrapBrowseFileBtn.js',
+		'bootstrap.datetimepicker': 'bootstrap/bootstrap-datetimepicker.js'
 	}
 });
 </script>

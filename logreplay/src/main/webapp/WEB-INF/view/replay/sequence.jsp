@@ -5,6 +5,7 @@
 <head>
     <title>序列校验</title>
 	<%@ include file="../include/includeCss.jsp" %>
+	<link rel="stylesheet" href="${static_path}/css/bootstrap-datetimepicker.min.css"/>
 	<style>
 		#J_replayArea {
 			margin-top: 10px; height: 500px; overflow-y: auto; border-top: 1px solid #eee; padding: 0px;
@@ -30,8 +31,8 @@
 			<div class="row"><!-- row2 -->
 			    <div class="col-sm-12">
 			     	<div id="J_queryArea" class="row" style="text-align: center;">
-			     		<input type="hidden" name="limit" value="3"/>
-			     		<form class="form-horizontal col-md-offset-2 col-md-8" role="form">
+			     		<input type="hidden" name="limit" value="50"/>
+			     		<form class="form-horizontal col-md-offset-1 col-md-10" role="form">
 							<div class="form-group">
 								<label for="J_deviceId" class="col-sm-2 control-label">设备id：</label>
 								<div class="col-sm-4">
@@ -55,11 +56,21 @@
 							<div class="form-group">
 								<label for="J_replayTimeSince" class="col-sm-2 control-label">开始时间：</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_replayTimeSince" name="replayTimeSince"/>
+									<div class="input-group date form_datetime" data-date-format="yyyy-MM-dd" data-link-field="J_replayTimeSince">
+										<input id="J_replayTimeSince" name="replayTimeSince" class="form-control" type="text" value="" readonly />
+										<span class="input-group-addon">
+											<span class="glyphicon glyphicon-th"></span>
+										</span>
+									</div>
 								</div>
 								<label for="J_replayTimeUntil" class="col-sm-2 control-label">结束时间：</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_replayTimeUntil" name="replayTimeUntil"/>
+									<div class="input-group date form_datetime" data-date-format="yyyy-MM-dd" data-link-field="J_replayTimeUntil">
+										<input id="J_replayTimeUntil" name="replayTimeUntil" class="form-control" type="text" value="" readonly />
+										<span class="input-group-addon">
+											<span class="glyphicon glyphicon-th"></span>
+										</span>
+									</div>
 								</div>
 							</div>
 							<div class="form-group" style="_margin-bottom: 0px;">
