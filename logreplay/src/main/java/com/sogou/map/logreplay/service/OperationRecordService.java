@@ -19,6 +19,10 @@ public class OperationRecordService {
 		return operationRecordDao.list(start, limit, param);
 	}
 	
+	public void saveOrUpdateOperationRecord(OperationRecord record) {
+		operationRecordDao.saveOrUpdate(record);
+	}
+	
 	public int batchSaveOrUpdateOperationRecord(List<OperationRecord> recordList) {
 		return operationRecordDao.batchSaveByDirectSql(recordList.toArray(new OperationRecord[]{}), 500);
 	}

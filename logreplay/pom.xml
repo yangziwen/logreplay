@@ -48,6 +48,26 @@
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-ehcache</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>pinyin4j</groupId>
+					<artifactId>pinyin4j</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.go2map</groupId>
+					<artifactId>coordinate</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.go2map</groupId>
+					<artifactId>dpgeom</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.go2map</groupId>
+					<artifactId>district</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.go2map</groupId>
+					<artifactId>g2lib</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		

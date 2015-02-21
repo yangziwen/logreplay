@@ -13,16 +13,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -31,17 +34,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.sogou.map.logreplay.bean.OperationRecord;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.dto.OperationRecordDto;
 import com.sogou.map.logreplay.exception.LogReplayException;
+import com.sogou.map.logreplay.logprocess.log.MobLog;
+import com.sogou.map.logreplay.logprocess.processor.MobLogProcessor;
 import com.sogou.map.logreplay.logprocess.processor.OperationLogProcessor;
 import com.sogou.map.logreplay.service.OperationRecordService;
 import com.sogou.map.logreplay.service.PageInfoService;
 import com.sogou.map.logreplay.service.TagInfoService;
 import com.sogou.map.logreplay.util.JsonUtil;
 import com.sogou.map.mengine.common.service.BaseService;
+import com.sogou.map.mengine.http.filter.AccessLoggerFilter;
 import com.sun.jersey.multipart.FormDataBodyPart;
 import com.sun.jersey.multipart.FormDataMultiPart;
 
@@ -76,7 +84,7 @@ public class OperationRecordController extends BaseService {
 			.addParam(StringUtils.isNotBlank(uvid), "uvid", uvid)
 			.addParam(pageNo != null, "pageNo", pageNo)
 			.addParam(tagNo != null, "tagNo", tagNo)
-			.addParam(since != null, "timestamp__gt",since)
+			.addParam(since != null, "timestamp__gt", since)
 			.addParam(until != null, "timestamp__lt", until)
 			.orderByAsc("timestamp")
 		);
@@ -122,9 +130,52 @@ public class OperationRecordController extends BaseService {
 		return tagInfoIdSet;
 	}
 	
+	/**
+	 * 接收操作数据的接口
+	 * 请求串格式如下
+	 * http://127.0.0.1:8075/logreplay//operationRecord/receive?moblog=sid:,os:Android4%252e1%252e2,d:A00000408A5798,op:460%252d03,density:240,loginid:,net:wifi,vn:6%252e2%252e0,pd:1,v:60200000,u:1420989208035172,md:SCH%252dI829,bsns:807,openid:,mf:samsung,apn:&info={"key":"菜市场","tag":1,"p":4,"t":1421656262063}
+	 */
 	@GET
-	@Path("/import")
-	public Response importData(
+	@Path("/receive")
+	public Response receiveData(
+			@QueryParam("moblog") String moblogStr,
+			@QueryParam("info") String infoStr,
+			@Context HttpServletRequest request) {
+		MobLog moblog = new MobLogProcessor().process(moblogStr);
+		if(StringUtils.isEmpty(moblog.getDeviceId()) || StringUtils.isEmpty(moblog.getVersion())) {
+			LogReplayException.invalidParameterException("Invalid parameter of moblog!");
+		}
+		JSONObject info = JSON.parseObject(infoStr);
+		if(MapUtils.isEmpty(info)) {
+			LogReplayException.invalidParameterException("Invalid parameter of info!");
+		}
+		OperationRecord record = null;
+		try {
+			record = new OperationRecord.Builder()
+				.ip(AccessLoggerFilter.getIpAddr(request))
+				.deviceId(moblog.getDeviceId())
+				.uvid(moblog.getUvid())
+				.os(moblog.getOs())
+				.version(moblog.getVersion())
+				.timestamp(info.getLong("t"))
+				.pageNo(info.getInteger("p"))
+				.tagNo(info.getInteger("tag"))
+				.params(info)
+				.build();
+			operationRecordService.saveOrUpdateOperationRecord(record);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw LogReplayException.operationFailedException(String.format("Failed to save %s", record));
+		}
+		return successResultToJson("success", true);
+	}
+	
+	/**
+	 * 基本上就是个测试的接口
+	 */
+	@GET
+	@Path("/import/nginx")
+	public Response importNginxLog(
 			@QueryParam("source") String sourcePath) {
 		File source = null;
 		if(StringUtils.isBlank(sourcePath) || !(source =  new File(sourcePath)).exists()) {
@@ -192,7 +243,7 @@ public class OperationRecordController extends BaseService {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw LogReplayException.operationFailedException("Operation Failed while importing log data!");
+			throw LogReplayException.operationFailedException("Operation Failed while uploading log data!");
 		} finally {
 			IOUtils.closeQuietly(reader);
 		}

@@ -55,6 +55,7 @@
 				/fonts/** = anon
 				/register** = anon
 				/register/** = anon
+				/operationRecord/receive = anon
 				/login.htm = authc
 				/logout.htm = logout
 				/admin/** = authc, roles[super_admin]
