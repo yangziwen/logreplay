@@ -1,5 +1,6 @@
 package com.sogou.map.logreplay.util;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -30,12 +31,22 @@ public class AuthUtil {
 		return !isUser();
 	}
 	
-	public static String getCurrentUsername() {
+	public static String getUsername() {
 		return (String) getCurrentSubject().getPrincipal();
 	}
 	
 	public static User getCurrentUser() {
 		return getCurrentSubject().getPrincipals().oneByType(User.class);
+	}
+	
+	public static String getScreenName() {
+		User user = getCurrentUser();
+		if(user == null) {
+			return "";
+		}
+		return StringUtils.isNotBlank(user.getScreenName())
+				? user.getScreenName()
+				: user.getUsername();
 	}
 	
 	public static void login(String username, String password) {

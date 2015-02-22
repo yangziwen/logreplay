@@ -1,3 +1,4 @@
+<%@page import="com.sogou.map.logreplay.util.AuthUtil"%>
 <%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
 <%@ include file="./include/include.jsp" %>
 <!DOCTYPE html>
@@ -26,7 +27,7 @@
 			<div class="row">
 			    <div class="box col-md-12">
 			    	<div style="font-family: 'Microsoft Yahei'; text-align: center;">
-				    	<h2><strong>欢迎你，<shiro:principal />！</strong></h2>
+				    	<h2><strong>欢迎你，<%=AuthUtil.getScreenName()%>！</strong></h2>
 				    	<h2><strong>又将是美好的一天！</strong></h2>
 			    	</div>
 			    	<%--

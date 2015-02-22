@@ -194,7 +194,8 @@ define(function(require, exports, module) {
 			$modal.find('input[name=pageNo]').val(pageNo).attr({disabled: true});
 			$modal.find('input[name=pageName]').val(pageName).attr({disabled: true});
 			$modal.find('.modal-dialog').css({
-				width: 400
+				width: 400,
+				'margin-top': 100
 			});
 			$modal.find('button.create-tag-info').show();
 			$modal.find('button.update-tag-info').hide();

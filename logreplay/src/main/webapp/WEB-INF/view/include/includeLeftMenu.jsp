@@ -32,7 +32,15 @@
 					</ul>
 				</li>
 				<li class="active">
-					<a href="###"><i class="glyphicon glyphicon-plus"></i><span> 系统管理</span></a>
+					<a data-toggle="collapse" href="#J_systemManageSubmenu">
+						<i class="glyphicon glyphicon-plus"></i>
+						<span> 系统管理</span>
+						<span class="pull-right glyphicon glyphicon-chevron-down"></span>
+					</a>
+					<c:set var="showSystemManageSubmenu" value="${fn:contains(requestURI, '/admin')}"></c:set>
+					<ul id="J_systemManageSubmenu" class="nav submenu ${showSystemManageSubmenu eq true? 'in': ''}" ${showSystemManageSubmenu eq false? 'style="height: 0px;"': ''}>
+						<li><a href="${ctx_path}/admin/user/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> 用户管理</a></li>
+					</ul>
 				</li>
 			</ul>
 	</div>

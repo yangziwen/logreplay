@@ -80,5 +80,21 @@ CREATE TABLE `user` (
   `username` VARCHAR(45) UNIQUE,
   `password` VARCHAR(45),
   `create_time` DATETIME,
-  `update_time` DATETIME
+  `update_time` DATETIME,
+  `enabled` TINYINT(1)
+) ENGINE=INNODB DEFAULT CHARSET=GBK;
+
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE `role` (
+  `id` BIGINT(20) PRIMARY KEY AUTO_INCREMENT,
+  `name` varchar(45) UNIQUE,
+  `comment` varchar(100)
+) ENGINE=INNODB DEFAULT CHARSET=GBK;
+
+DROP TABLE IF EXISTS `user_rel_role`;
+CREATE TABLE `user_rel_role` (
+  `id` BIGINT(20) PRIMARY KEY AUTO_INCREMENT,
+  `user_id` BIGINT(20) NOT NULL,
+  `role_id` BIGINT(20) NOT NULL,
+  UNIQUE KEY `user_rel_role` (`user_id`, `role_id`)
 ) ENGINE=INNODB DEFAULT CHARSET=GBK;

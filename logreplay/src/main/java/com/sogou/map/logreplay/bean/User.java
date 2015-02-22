@@ -16,6 +16,9 @@ public class User extends AbstractBean {
 	@Column
 	private String username;
 	
+	@Column(name = "screen_name")
+	private String screenName;
+	
 	@Column
 	private String password;
 	
@@ -25,11 +28,20 @@ public class User extends AbstractBean {
 	@Column(name = "update_time")
 	private Timestamp updateTime;
 	
+	@Column
+	private Boolean enabled = true;
+	
 	public User() {}
 	
 	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
+	}
+	
+	public User(String username, String screenName, String password, Boolean enabled) {
+		this(username, password);
+		this.screenName = screenName;
+		this.enabled = enabled;
 	}
 	
 	public Long getId() {
@@ -50,6 +62,12 @@ public class User extends AbstractBean {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public String getScreenName() {
+		return screenName;
+	}
+	public void setScreenName(String screenName) {
+		this.screenName = screenName;
+	}
 	public Timestamp getCreateTime() {
 		return createTime;
 	}
@@ -61,6 +79,12 @@ public class User extends AbstractBean {
 	}
 	public void setUpdateTime(Timestamp updateTime) {
 		this.updateTime = updateTime;
+	}
+	public Boolean getEnabled() {
+		return enabled;
+	}
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 	
 }

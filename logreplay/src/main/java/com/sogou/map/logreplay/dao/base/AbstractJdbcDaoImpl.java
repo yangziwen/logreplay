@@ -521,9 +521,9 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean> {
 		}
 		String key = keyWithOper.substring(0, index);
 		String operName = keyWithOper.substring(index + 2);
-		if(!fieldColumnMapping.containsKey(key)) {
-			return null;
-		}
+//		if(!fieldColumnMapping.containsKey(key)) {
+//			return null;
+//		}
 		return QueryOperator.valueOf(operName).buildResult(getColumnByField(key), keyWithOper);
 	}
 	

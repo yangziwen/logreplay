@@ -76,7 +76,7 @@
 				     				<td>${'${'}updateTime? new Date(updateTime).format('yyyy-MM-dd hh:mm:ss'): '--'}</td>
 				     				<td>
 				     					<button class="btn btn-primary btn-xs open-update-modal">修改</button>
-				     						<button class="btn btn-primary btn-xs open-create-tag-modal">操作项</button>
+				     					<button class="btn btn-primary btn-xs open-create-tag-modal">操作项</button>
 				     				</td>
 				     			</tr>
 							</script>
