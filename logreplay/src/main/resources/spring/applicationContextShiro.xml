@@ -58,7 +58,7 @@
 				/operationRecord/receive = anon
 				/login.htm = authc
 				/logout.htm = logout
-				/admin1/** = authc, roles[super_admin]
+				/admin/** = authc, roles[admin]
 				/** = user
 			</value>
 		</property>

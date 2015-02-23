@@ -7,10 +7,10 @@
     <title>主页</title>
 	<%@ include file="./include/includeCss.jsp" %>
 </head>
-<body style="height: 3000px;">
+<body>
 <%@ include file="./include/includeTopBar.jsp" %>
 
-<div class="container" style="_width: 1200px;">
+<div class="container">
 	<div class="row">
 	
 		<%@ include file="./include/includeLeftMenu.jsp" %>
@@ -26,7 +26,7 @@
 			
 			<div class="row">
 			    <div class="box col-md-12">
-			    	<div style="font-family: 'Microsoft Yahei'; text-align: center;">
+			    	<div style="font-family: 'Microsoft Yahei'; text-align: center; margin-top: 50px;">
 				    	<h2><strong>欢迎你，<%=AuthUtil.getScreenName()%>！</strong></h2>
 				    	<h2><strong>又将是美好的一天！</strong></h2>
 			    	</div>

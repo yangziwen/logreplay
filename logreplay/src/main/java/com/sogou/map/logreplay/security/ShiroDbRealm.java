@@ -6,11 +6,14 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 
+import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.User;
+import com.sogou.map.logreplay.bean.UserWithRoles;
 import com.sogou.map.logreplay.service.UserService;
 
 public class ShiroDbRealm extends AuthorizingRealm {
@@ -42,7 +45,15 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		return null;
+		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+		User user = principals.oneByType(User.class);
+		if(user != null) {
+			UserWithRoles userWithRoles = userService.getUserWithRolesById(user.getId());
+			for(Role role: userWithRoles.getRoles()) {
+				info.addRole(role.getName());
+			}
+		}
+		return info;
 	}
 
 }

@@ -236,6 +236,62 @@ define(function(require, exports, module){
 		});
 	}
 	
+	/**
+	 * 页头更新昵称
+	 */
+	(function() {
+		function initOpenProfileModalBtn() {
+			$('#J_openProfileModalBtn').on('click', function() {
+				var url = CTX_PATH + '/user/detail';
+				$.get(url, function(data) {
+					if(!data || !data.response) {
+						alertMsg('用户信息加载失败!');
+						return;
+					}
+					var profile = data.response;
+					$('#TB_screenName').val(profile.screenName);
+					var $modal = $('#J_profileModal');
+					$modal.find('.modal-dialog').css({
+						width: 400,
+						'margin-top': function() {
+							return ( $(window).height() - $(this).height() ) / 3;
+						}
+					});
+					$modal.modal({
+						backdrop: 'static'
+					});
+				});
+			});
+		}
+		function initUpdateProfileBtn() {
+			$('#TB_updateProfileBtn').on('click', function() {
+				$.ajax({
+					url: CTX_PATH + '/user/profile/update',
+					type: 'POST',
+					dataType: 'json',
+					data: {
+						screenName: $('#TB_screenName').val()
+					},
+					success: function(data) {
+						if(data.code !== 0) {
+							alertMsg('更新失败!');
+							return;
+						} else {
+							alertMsg('更新成功!').done(function() {
+								$('#J_profileModal').modal('hide');
+							});
+						}
+					},
+					error: function() {
+						alertMsg('请求失败!');
+					}
+				});
+			});
+		}
+		initOpenProfileModalBtn();
+		initUpdateProfileBtn();
+	})();
+	
 	module.exports = {
 		alertMsg: alertMsg,
 		confirmMsg: confirmMsg,
