@@ -1,6 +1,7 @@
-<%@page import="com.sogou.map.logreplay.util.AuthUtil"%>
+<%@page import="org.springframework.http.HttpStatus"%>
 <%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
 <%@ include file="./include/include.jsp" %>
+<% response.setStatus(HttpStatus.NOT_FOUND.value()); %>
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>

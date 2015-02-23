@@ -1,4 +1,3 @@
-<%@page import="com.sogou.map.logreplay.util.AuthUtil"%>
 <%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
 <%@ include file="./include/include.jsp" %>
 <!DOCTYPE html>
