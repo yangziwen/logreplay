@@ -13,7 +13,7 @@
 
 <div class="container">
 	<div style="text-align: center; font-family: 'Microsoft Yahei'; margin-top: 200px;">
-		<h2><strong>对不起，当前页面不存在! <a href="javascript: history.back();">请返回</a></strong></h2>
+		<h2><strong>对不起，当前页面不存在! <a href="javascript: history.go(-1);">请返回</a></strong></h2>
 	</div>
 </div>
 </body>
