@@ -9,6 +9,7 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sogou.map.logreplay.bean.ParamInfo;
 import com.sogou.map.logreplay.bean.TagParam;
@@ -29,6 +30,7 @@ public class TagParamService {
 	 * paramInfo是否应该直接用json保存？
 	 * 有些纠结
 	 */
+	@Transactional
 	public void renewTagParamAndParamInfo(TagParam tagParam, List<ParamInfo> paramInfoList) {
 		tagParamDao.saveOrUpdate(tagParam);
 		for(ParamInfo paramInfo: paramInfoList) {

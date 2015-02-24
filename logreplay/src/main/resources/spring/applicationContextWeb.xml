@@ -3,17 +3,24 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
-		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd"
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
 	default-lazy-init="false" default-autowire="byName">
 
-    <!-- 通用设置，使用annotation 自动注册bean -->
     <context:component-scan base-package="com.sogou.map"/>
     
-	<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/dataSource"/>
+	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/dataSource"/>
 	
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	 
+	<tx:annotation-driven transaction-manager="txManager"/>
+		
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
 		<constructor-arg name="dataSource" ref="dataSource"></constructor-arg>
 	</bean>

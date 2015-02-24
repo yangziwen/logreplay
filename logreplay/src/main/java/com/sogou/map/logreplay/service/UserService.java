@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.User;
@@ -53,6 +54,7 @@ public class UserService {
 		return userWithRolesDao.paginate(start, limit, param);
 	}
 	
+	@Transactional
 	public void createUser(User user, List<Role> roleList) {
 		user.setCreateTime(new Timestamp(System.currentTimeMillis()));
 		if(user.getEnabled() == null) {
@@ -74,6 +76,7 @@ public class UserService {
 		userDao.update(user);
 	}
 	
+	@Transactional
 	public void updateUser(User user, List<Role> roleList) {
 		user.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 		userDao.update(user);

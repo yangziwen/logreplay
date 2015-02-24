@@ -172,9 +172,9 @@ define(function(require, exports, module) {
 				var tagParam = data.response,
 					paramInfoList = tagParam? tagParam.paramInfoList: [];
 				$modal.find('textarea[name=comment]').val(tagParam? tagParam.comment: '');
-				if($.isEmptyObject(paramInfoList)) {
+				/* if($.isEmptyObject(paramInfoList)) {
 					paramInfoList = [{}];
-				}
+				} */
 				$('#TP_paramInfoTbody').empty().append($('#TP_paramInfoTmpl').tmpl(paramInfoList, {
 					renderParamNameOptions: function(selectedName) {
 						return $.map(paramNameList, function(name, i) {

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sogou.map.logreplay.bean.PageInfo;
 import com.sogou.map.logreplay.dao.PageInfoDao;
@@ -38,6 +39,7 @@ public class PageInfoService {
 		return pageInfoDao.first(new QueryParamMap().addParam("pageNo", pageNo));
 	}
 	
+	@Transactional
 	public void updatePageInfo(PageInfo info) {
 		info.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 		pageInfoDao.update(info);
