@@ -9,6 +9,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.web.util.SavedRequest;
+import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Component;
 
 import com.sogou.map.logreplay.util.AuthUtil;
@@ -23,7 +26,16 @@ import com.sun.jersey.api.view.Viewable;
 public class LoginController {
 
 	@GET
-	public Viewable toLogin() {
+	public Viewable toLogin(@Context HttpServletRequest request) {
+		SavedRequest savedRequest = WebUtils.getSavedRequest(request);
+		if(savedRequest != null) {
+			String savedUri = savedRequest.getRequestURI();
+			if(StringUtils.isBlank(savedUri) 
+					|| !savedUri.endsWith(".htm") 
+					|| savedUri.endsWith("404.htm")) {
+				WebUtils.getAndClearSavedRequest(request);
+			}
+		}
 		return new Viewable("/login.jsp");
 	}
 	

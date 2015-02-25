@@ -29,7 +29,7 @@ define(function(require, exports, module) {
 			if(!data || !data.response) {
 				return;
 			}
-			$.map(data.response, function(i, target) {
+			$.each(data.response, function(i, target) {
 				tagTargetDict[target.id] = target.name;
 			});
 		});

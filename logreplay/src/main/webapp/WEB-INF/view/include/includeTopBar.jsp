@@ -12,7 +12,7 @@
 			<shiro:user>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="${ctx_path}/home.htm">Ö÷Ò³</a></li>
-					<li><a id="J_openProfileModalBtn" href="###"><shiro:principal/></a></li>
+					<li><a id="J_openProfileModalBtn" href="javascript:void(0);"><shiro:principal/></a></li>
 					<li><a href="${ctx_path}/logout.htm">ÍË³ö</a></li>
 					<li style="width: 10px;"></li>
 				</ul>

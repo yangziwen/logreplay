@@ -10,7 +10,7 @@ CREATE TABLE `operation_record` (
   `timestamp` BIGINT(15),
   `page_no` INT(11),
   `tag_no` INT(11),
-  `params_json` VARCHAR(256),
+  `params` TEXT,
   KEY `page_no_tag_no` (`page_no`,`tag_no`)
 ) ENGINE = INNODB DEFAULT CHARSET = GBK;
 
@@ -77,7 +77,8 @@ CREATE TABLE `param_info` (
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` BIGINT(20) PRIMARY KEY AUTO_INCREMENT,
-  `username` VARCHAR(45) UNIQUE,
+  `username` VARCHAR(45) NOT NULL UNIQUE,
+  `screen_name` varchar(45),
   `password` VARCHAR(45),
   `create_time` DATETIME,
   `update_time` DATETIME,

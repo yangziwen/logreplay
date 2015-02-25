@@ -52,7 +52,7 @@ public class UserAdminController extends BaseService {
 			.addParam(StringUtils.isNotBlank(screenName), "screenName__contain", screenName)
 			.addParam(StringUtils.isNotBlank(roleNames), "role.name__in", roleNames.split(","))
 			.addParam(StringUtils.isNotBlank(enabled), "user.enabled", BooleanUtils.toBoolean(enabled))
-			.orderByAsc("user.id")
+			.orderByAsc("user.username")
 		);
 		return successResultToJson(page, JsonUtil.configInstance(), true);
 	}
