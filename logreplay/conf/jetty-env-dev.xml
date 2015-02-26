@@ -4,9 +4,9 @@
         <Arg>jdbc/dataSource</Arg>  
         <Arg>  
             <New class="com.jolbox.bonecp.BoneCPDataSource">
-                <Set name="jdbcUrl">jdbc:mysql://localhost:3306/logreplay?characterEncoding=GBK</Set>
-                <Set name="username">mobile</Set>
-                <Set name="password">mobile</Set>
+                <Set name="jdbcUrl">jdbc:mysql://10.134.54.230:3306/logreplay?useUnicode=true&amp;characterEncoding=GBK</Set>
+                <Set name="username">yyqd</Set>
+                <Set name="password">yyqd</Set>
                 <Set name="idleConnectionTestPeriod">60</Set>
                 <Set name="idleMaxAge">240</Set>
                 <Set name="maxConnectionsPerPartition">3</Set>

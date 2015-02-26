@@ -30,7 +30,7 @@
 		<dependency>
 			<groupId>com.sogou.map.mengine</groupId>
 			<artifactId>mengine-core</artifactId>
-			<version>1.1.8-SNAPSHOT</version>
+			<version>1.1.9-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.hibernate</groupId>

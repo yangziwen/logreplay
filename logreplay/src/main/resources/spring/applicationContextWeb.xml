@@ -13,6 +13,7 @@
 
     <context:component-scan base-package="com.sogou.map"/>
     
+    <!-- <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/dataSource"/> -->
 	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/dataSource"/>
 	
 	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

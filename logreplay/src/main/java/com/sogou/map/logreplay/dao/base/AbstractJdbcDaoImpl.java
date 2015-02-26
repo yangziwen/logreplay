@@ -11,6 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -36,6 +37,8 @@ import com.sogou.map.logreplay.bean.AbstractBean;
 import com.sogou.map.logreplay.util.ClassUtil;
 
 public class AbstractJdbcDaoImpl<E extends AbstractBean> {
+	
+	private static final Pattern GROUP_BY_PATTERN = Pattern.compile("group by", Pattern.CASE_INSENSITIVE);
 	
 	protected NamedParameterJdbcTemplate jdbcTemplate;
 	
@@ -204,7 +207,11 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean> {
 		if(endPos == -1) {
 			endPos = sql.length();
 		}
-		sql = "select count(*) " + sql.substring(beginPos, endPos);
+		if(GROUP_BY_PATTERN.matcher(sql).find()) {
+			sql = "select count(*) from ( select 1 " + sql.substring(beginPos, endPos) + ") as result";
+		} else {
+			sql = "select count(*) " + sql.substring(beginPos, endPos);
+		}
 		return jdbcTemplate.queryForObject(sql, param, Integer.class);
 	}
 
@@ -433,10 +440,10 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean> {
 			return "";
 		}
 		if(groupBy instanceof String) {
-			generateGroupBy((String) groupBy);
+			return generateGroupBy((String) groupBy);
 		}
 		if(groupBy instanceof Collection) {
-			generateGroupBy((Collection<?>) groupBy);
+			return generateGroupBy((Collection<?>) groupBy);
 		}
 		return " group by " + groupBy.toString();
 	}
