@@ -21,8 +21,11 @@ import javax.sql.DataSource;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -38,7 +41,11 @@ import com.sogou.map.logreplay.util.ClassUtil;
 
 public class AbstractJdbcDaoImpl<E extends AbstractBean> {
 	
+	protected static final boolean DEBUG_SQL = BooleanUtils.toBoolean(System.getProperty("jdbc.sql.debug"));
+	
 	private static final Pattern GROUP_BY_PATTERN = Pattern.compile("group by", Pattern.CASE_INSENSITIVE);
+	
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	protected NamedParameterJdbcTemplate jdbcTemplate;
 	
@@ -189,8 +196,13 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean> {
 		return list(0, 0, param);
 	}
 	
-	protected List<E> doList(String sql, Map<String, Object> param) {
-		return jdbcTemplate.query(sql, param, ROW_MAPPER);
+	protected List<E> doList(String sql, Map<String, Object> params) {
+		return doList(sql, params, ROW_MAPPER);
+	}
+	
+	protected List<E> doList(String sql, Map<String, Object> params, RowMapper<E> rowMapper) {
+		if(DEBUG_SQL) logger.info(sql);
+		return jdbcTemplate.query(sql, params, rowMapper);
 	}
 
 	public int count(Map<String, Object> param) {
@@ -212,6 +224,7 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean> {
 		} else {
 			sql = "select count(*) " + sql.substring(beginPos, endPos);
 		}
+		if(DEBUG_SQL) logger.info(sql);
 		return jdbcTemplate.queryForObject(sql, param, Integer.class);
 	}
 

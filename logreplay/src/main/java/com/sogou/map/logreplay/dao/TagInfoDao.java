@@ -48,8 +48,8 @@ public class TagInfoDao extends AbstractJdbcDaoImpl<TagInfo> {
 	}
 	
 	@Override
-	public List<TagInfo> doList(String sql, Map<String, Object> param) {
-		return jdbcTemplate.query(sql, param, new RowMapper<TagInfo>() {
+	protected List<TagInfo> doList(String sql, Map<String, Object> param) {
+		return doList(sql, param, new RowMapper<TagInfo>() {
 			@Override
 			public TagInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
 				TagInfo tagInfo = ROW_MAPPER.mapRow(rs, rowNum);

@@ -41,8 +41,8 @@ public class OperationRecordDao extends AbstractJdbcDaoImpl<OperationRecord> {
 	}
 	
 	@Override
-	public List<OperationRecord> doList(String sql, Map<String, Object> param) {
-		return jdbcTemplate.query(sql, param, new RowMapper<OperationRecord>() {
+	protected List<OperationRecord> doList(String sql, Map<String, Object> param) {
+		return doList(sql, param, new RowMapper<OperationRecord>() {
 			@Override
 			public OperationRecord mapRow(ResultSet rs, int rowNum) throws SQLException {
 				OperationRecord record = ROW_MAPPER.mapRow(rs, rowNum);
