@@ -68,7 +68,7 @@ public class UserService {
 			rel.setRoleId(role.getId());
 			userRelRoleList.add(rel);
 		}
-		userRelRoleDao.batchSave(userRelRoleList.toArray(new UserRelRole[]{}), 20);
+		userRelRoleDao.batchSave(userRelRoleList, 20);
 	}
 	
 	public void updateUser(User user) {
@@ -88,7 +88,7 @@ public class UserService {
 			rel.setRoleId(role.getId());
 			userRelRoleList.add(rel);
 		}
-		userRelRoleDao.batchSave(userRelRoleList.toArray(new UserRelRole[]{}), 20);
+		userRelRoleDao.batchSave(userRelRoleList, 20);
 	}
 	
 }

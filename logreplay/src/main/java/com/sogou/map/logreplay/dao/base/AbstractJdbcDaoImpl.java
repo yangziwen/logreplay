@@ -250,6 +250,13 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean> {
 	/**
 	 * 注意，数组中的对象在batchUpdate之后，是无法获取id的
 	 */
+	public int batchSave(List<E> entityList, int batchSize) {
+		if(CollectionUtils.isEmpty(entityList)) {
+			return 0;
+		}
+		return batchSave(entityList.toArray(emptyArray), batchSize);
+	}
+	
 	public int batchSave(E[] entities, int batchSize) {
 		if(ArrayUtils.isEmpty(entities)) {
 			return 0;
@@ -276,6 +283,13 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean> {
 		return insertRows;
 	}
 	
+	public int batchUpdate(List<E> entityList, int batchSize) {
+		if(CollectionUtils.isEmpty(entityList)) {
+			return 0;
+		}
+		return batchUpdate(entityList.toArray(emptyArray), batchSize);
+	}
+	
 	public int batchUpdate(E[] entities, int batchSize) {
 		if(ArrayUtils.isEmpty(entities)) {
 			return 0;
@@ -300,6 +314,13 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean> {
 			}
 		}
 		return updateRows;
+	}
+	
+	public int batchSaveOrUpdate(List<E> entityList, int batchSize) {
+		if(CollectionUtils.isEmpty(entityList)) {
+			return 0;
+		}
+		return batchSaveOrUpdate(entityList.toArray(emptyArray), batchSize);
 	}
 	
 	public int batchSaveOrUpdate(E[] entities, int batchSize) {

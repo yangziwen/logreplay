@@ -175,6 +175,7 @@ public class OperationRecordController extends BaseService {
 	 */
 	@GET
 	@Path("/import/nginx")
+	@Deprecated
 	public Response importNginxLog(
 			@QueryParam("source") String sourcePath) {
 		File source = null;

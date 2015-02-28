@@ -39,8 +39,8 @@ public class TagParamService {
 		List<ParamInfo> toSaveParamInfoList = extractToSaveParamInfoList(paramInfoList);
 		List<ParamInfo> toUpdateParamInfoList = extractToUpdateParamInfoList(tagParam, paramInfoList);
 		List<ParamInfo> toDeleteParamInfoList = extractToDeleteParamInfoList(tagParam, paramInfoList);
-		paramInfoDao.batchSave(toSaveParamInfoList.toArray(new ParamInfo[]{}), 100);
-		paramInfoDao.batchUpdate(toUpdateParamInfoList.toArray(new ParamInfo[]{}), 100);
+		paramInfoDao.batchSave(toSaveParamInfoList, 100);
+		paramInfoDao.batchUpdate(toUpdateParamInfoList, 100);
 		paramInfoDao.batchDeleteByIds(collectParamInfoId(toDeleteParamInfoList));
 	}
 	
