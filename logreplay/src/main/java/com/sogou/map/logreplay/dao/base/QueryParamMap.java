@@ -30,8 +30,15 @@ public class QueryParamMap extends HashMap<String, Object> {
 		return addParam(true, key, value);
 	}
 	
+	public QueryParamMap addParam(boolean isValid, String key) {
+		if(isValid) {
+			put(key, null);
+		}
+		return this;
+	}
+	
 	public QueryParamMap addParam(String key) {
-		return addParam(key, null);
+		return addParam(true, key);
 	}
 	
 	public QueryParamMap or(String orMapKey, Map<String, Object> orMap) {

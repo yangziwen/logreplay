@@ -47,7 +47,8 @@ public class TagInfoController extends BaseService {
 			@QueryParam("pageName") String pageName,
 			@QueryParam("tagName") String tagName,
 			@QueryParam("updateBeginTime") String updateBeginTime,
-			@QueryParam("updateEndTime") String updateEndTime
+			@QueryParam("updateEndTime") String updateEndTime,
+			@QueryParam("isCommonTag") Boolean isCommonTag
 			) {
 		List<Long> pageInfoIdList = new ArrayList<Long>();
 		if(StringUtils.isNotBlank(pageName)) {
@@ -63,6 +64,8 @@ public class TagInfoController extends BaseService {
 			.addParam(StringUtils.isNotBlank(tagName), "name__contain", tagName)
 			.addParam(StringUtils.isNotBlank(updateBeginTime), "updateTime__ge", updateBeginTime)
 			.addParam(StringUtils.isNotBlank(updateEndTime), "updateTime__le", updateEndTime)
+			.addParam(Boolean.FALSE.equals(isCommonTag), "page_info.id__is_not_null")
+			.addParam(Boolean.TRUE.equals(isCommonTag), "page_info.id__is_null")
 			.orderByAsc("page_info.page_no").orderByAsc("tagNo")
 		);
 		return successResultToJson(page, JsonUtil.configInstance(), true);
@@ -86,15 +89,16 @@ public class TagInfoController extends BaseService {
 			@FormParam("targetId") Long targetId,
 			@FormParam("comment") String comment
 			) {
+		boolean needPageInfo = tagNo < TagInfo.COMMON_TAG_NO_MIN_VALUE;
 		if(StringUtils.isBlank(name)
 				|| tagNo == null
-				|| pageInfoId == null
+				|| (pageInfoId == null && needPageInfo)
 				|| actionId == null
 				|| targetId == null) {
 			throw LogReplayException.invalidParameterException("Parameters are invalid!");
 		}
-		PageInfo pageInfo = pageInfoService.getPageInfoById(pageInfoId);
-		if(pageInfo == null) {
+		PageInfo pageInfo = needPageInfo ? pageInfoService.getPageInfoById(pageInfoId) : null;
+		if(pageInfo == null && needPageInfo) {
 			throw LogReplayException.invalidParameterException(String.format("PageInfo[%d] does not exist!", pageInfoId));
 		}
 		TagInfo tagInfo = tagInfoService.getTagInfoById(id);
@@ -105,7 +109,7 @@ public class TagInfoController extends BaseService {
 			tagInfo.setTagNo(tagNo);
 			tagInfo.setName(name);
 			tagInfo.setPageInfoId(pageInfoId);
-			tagInfo.setPageNo(pageInfo.getPageNo());
+			tagInfo.setPageNo(pageInfo != null? pageInfo.getPageNo(): null);
 			tagInfo.setActionId(actionId);
 			tagInfo.setTargetId(targetId);
 			tagInfo.setComment(comment);
@@ -127,15 +131,16 @@ public class TagInfoController extends BaseService {
 			@FormParam("targetId") Long targetId,
 			@FormParam("comment") String comment
 			) {
+		boolean needPageInfo = tagNo < TagInfo.COMMON_TAG_NO_MIN_VALUE;
 		if(StringUtils.isBlank(name)
 				|| tagNo == null
-				|| pageInfoId == null
+				|| (pageInfoId == null && needPageInfo)
 				|| actionId == null
 				|| targetId == null) {
 			throw LogReplayException.invalidParameterException("Parameters are invalid!");
 		}
-		PageInfo pageInfo = pageInfoService.getPageInfoById(pageInfoId);
-		if(pageInfo == null) {
+		PageInfo pageInfo = needPageInfo ? pageInfoService.getPageInfoById(pageInfoId) : null;
+		if(pageInfo == null && needPageInfo) {
 			throw LogReplayException.invalidParameterException(String.format("PageInfo[%d] does not exist!", pageInfoId));
 		}
 		try {
@@ -143,7 +148,7 @@ public class TagInfoController extends BaseService {
 			tagInfo.setTagNo(tagNo);
 			tagInfo.setName(name);
 			tagInfo.setPageInfoId(pageInfoId);
-			tagInfo.setPageNo(pageInfo.getPageNo());
+			tagInfo.setPageNo(pageInfo != null? pageInfo.getPageNo(): null);
 			tagInfo.setActionId(actionId);
 			tagInfo.setTargetId(targetId);
 			tagInfo.setComment(comment);

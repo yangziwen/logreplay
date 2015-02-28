@@ -36,7 +36,10 @@ import org.springframework.ui.ModelMap;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Function;
+import com.google.common.collect.Maps;
 import com.sogou.map.logreplay.bean.OperationRecord;
+import com.sogou.map.logreplay.bean.PageInfo;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.dto.OperationRecordDto;
@@ -89,7 +92,58 @@ public class OperationRecordController extends BaseService {
 			.orderByAsc("timestamp")
 		);
 		List<OperationRecordDto> dtoList = convertToDtoList(list);
+		findAndFillCommonTagInfo(dtoList);
 		return successResultToJson(dtoList, JsonUtil.configInstance(), true);
+	}
+	
+	/**
+	 * 填充tagNo在10000以上的tagInfo信息
+	 * 这种tag不关联pageInfo
+	 * operationRecord中的pageNo是多少，就填充对应的pageInfo
+	 */
+	private void findAndFillCommonTagInfo(List<OperationRecordDto> dtoList) {
+		List<OperationRecordDto> dtoListWithCommonTag = new ArrayList<OperationRecordDto>();
+		Set<Integer> tagNoSet = new HashSet<Integer>();
+		Set<Integer> pageNoSet = new HashSet<Integer>();
+		for(OperationRecordDto dto: dtoList) {
+			if(dto.getTagNo() > TagInfo.COMMON_TAG_NO_MIN_VALUE) {
+				dtoListWithCommonTag.add(dto);
+				tagNoSet.add(dto.getTagNo());
+				pageNoSet.add(dto.getPageNo());
+			}
+		}
+		if(CollectionUtils.isEmpty(dtoListWithCommonTag)) {
+			return;
+		}
+		Map<Integer, PageInfo> pageInfoMap = Maps.uniqueIndex(pageInfoService.getPageInfoListResult(new QueryParamMap()
+			.addParam("pageNo__in", new ArrayList<Integer>(pageNoSet))
+		), new Function<PageInfo, Integer>() {
+			@Override
+			public Integer apply(PageInfo pageInfo) {
+				return pageInfo.getPageNo();
+			}
+		});
+		Map<Integer, TagInfo> tagInfoMap = Maps.uniqueIndex(tagInfoService.getTagInfoListResult(new QueryParamMap()
+			.addParam("tagNo__in", new ArrayList<Integer>(tagNoSet))
+		), new Function<TagInfo, Integer>() {
+			@Override
+			public Integer apply(TagInfo tagInfo) {
+				return tagInfo.getTagNo();
+			}
+		});
+		for(OperationRecordDto dto: dtoListWithCommonTag) {
+			PageInfo pageInfo = pageInfoMap.get(dto.getPageNo());
+			if(pageInfo != null) {
+				dto.setPageName(pageInfo.getName());
+			}
+			TagInfo tagInfo = tagInfoMap.get(dto.getTagNo());
+			if(tagInfo != null) {
+				dto.setTagName(tagInfo.getName());
+				dto.setActionId(tagInfo.getActionId());
+				dto.setTargetId(tagInfo.getTargetId());
+			}
+		}
+		
 	}
 	
 	private List<OperationRecordDto> convertToDtoList(List<OperationRecord> list) {

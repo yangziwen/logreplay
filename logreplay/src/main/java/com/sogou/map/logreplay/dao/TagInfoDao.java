@@ -37,13 +37,15 @@ public class TagInfoDao extends AbstractJdbcDaoImpl<TagInfo> {
 	
 	@Override
 	protected String generateSqlByParam(int start, int limit, String selectClause, Map<String, Object> param) {
-		return generateSqlByParam(start, limit, selectClause, " from " + tableName + " inner join page_info on page_info.id = page_info_id ", param);
+		return generateSqlByParam(start, limit, selectClause, " from " + tableName + " left join page_info on page_info.id = page_info_id ", param);
 	}
 	
 	@Override
 	protected OperationParsedResult parseOperation(String keyWithOper) {
 		OperationParsedResult parsedResult = super.parseOperation(keyWithOper);
-		parsedResult.setKey(tableName + "." + parsedResult.getKey());
+		if(parsedResult.getKey().indexOf(".") == -1) {
+			parsedResult.setKey(tableName + "." + parsedResult.getKey());
+		}
 		return parsedResult;
 	}
 	

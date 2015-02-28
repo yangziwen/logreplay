@@ -40,7 +40,7 @@ define(function(require, exports, module) {
 	
 	function loadTagInfoResult(callback) {
 		var params = $.extend({
-			start: start, limit: limit
+			start: start, limit: limit, isCommonTag: false
 		}, common.collectParams('#J_queryArea input[type!=button][type!=submit][type!=reset]'));
 		var url = CTX_PATH + '/tagInfo/list';
 		$.get(url, params, function(data) {

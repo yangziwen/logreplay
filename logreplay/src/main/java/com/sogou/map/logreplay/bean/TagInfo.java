@@ -9,6 +9,8 @@ import javax.persistence.Transient;
 
 @Table(name = "tag_info")
 public class TagInfo extends AbstractBean {
+	
+	public static final Integer COMMON_TAG_NO_MIN_VALUE = 10000;
 
 	@Id
 	@Column
