@@ -132,6 +132,60 @@ public class SetupController extends BaseService {
 	}
 	
 	@GET
+	@Path("/commonTagInfo/import")
+	public Response importCommonTagInfo(
+			@QueryParam("filePath") String filePath) {
+		File file = null;
+		if(StringUtils.isBlank(filePath) || !(file = new File(filePath)).exists()) {
+			throw LogReplayException.invalidParameterException("FilePath is not valid!");
+		}
+		final Map<String, TagAction> actionMap = Maps.uniqueIndex(tagActionDao.list(QueryParamMap.EMPTY_MAP),
+				new Function<TagAction, String>() {
+			@Override
+			public String apply(TagAction tagAction) {
+				return tagAction.getName();
+			}
+		});
+		final Map<String, TagTarget> targetMap = Maps.uniqueIndex(tagTargetDao.list(QueryParamMap.EMPTY_MAP), 
+				new Function<TagTarget, String>() {
+			@Override
+			public String apply(TagTarget tagTarget) {
+				return tagTarget.getName();
+			}
+		});
+		final Timestamp ts = new Timestamp(System.currentTimeMillis());
+		BeanParser<TagInfo> parser = new BeanParser<TagInfo>() {
+			@Override
+			public TagInfo parse(String str) {
+				if(StringUtils.isBlank(str)) {
+					return null;
+				}
+				String[] arr = str.split("\\s");
+				if(arr == null || arr.length < 4) {
+					return null;
+				}
+				TagInfo tagInfo = new TagInfo();
+				tagInfo.setTagNo(NumberUtils.toInt(arr[0]));
+				tagInfo.setName(arr[1]);
+				TagAction action = actionMap.get(arr[2].trim());
+				if(action != null) {
+					tagInfo.setActionId(action.getId());
+				}
+				TagTarget target = targetMap.get(arr[3].trim());
+				if(target != null) {
+					tagInfo.setTargetId(target.getId());
+				}
+				tagInfo.setCreateTime(ts);
+				tagInfo.setUpdateTime(ts);
+				return tagInfo;
+			}
+		};
+		List<TagInfo> tagInfoList = parseBeanList(file, parser);
+		tagInfoDao.batchSave(tagInfoList, 100);
+		return successResultToJson("success", true);
+	}
+	
+	@GET
 	@Path("/tagInfo/import")
 	public Response importTagInfo(
 			@QueryParam("filePath") String filePath) {
@@ -182,11 +236,11 @@ public class SetupController extends BaseService {
 				if(pageInfo != null) {
 					tagInfo.setPageInfoId(pageInfo.getId());
 				}
-				TagAction action = actionMap.get(arr[4]);
+				TagAction action = actionMap.get(arr[4].trim());
 				if(action != null) {
 					tagInfo.setActionId(action.getId());
 				}
-				TagTarget target = targetMap.get(arr[5]);
+				TagTarget target = targetMap.get(arr[5].trim());
 				if(target != null) {
 					tagInfo.setTargetId(target.getId());
 				}

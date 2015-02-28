@@ -31,10 +31,7 @@ public class QueryParamMap extends HashMap<String, Object> {
 	}
 	
 	public QueryParamMap addParam(boolean isValid, String key) {
-		if(isValid) {
-			put(key, null);
-		}
-		return this;
+		return addParam(isValid, key, null);
 	}
 	
 	public QueryParamMap addParam(String key) {

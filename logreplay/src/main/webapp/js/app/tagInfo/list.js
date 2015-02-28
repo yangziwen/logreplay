@@ -74,7 +74,7 @@ define(function(require, exports, module) {
 		});
 	}
 	
-	/** 新增tagInfo开始 **/
+	/** 更新tagInfo开始 **/
 	function initOpenUpdateTagModalBtn() {
 		$("#J_tagInfoTbody").on('click', '.open-update-tag-modal', function() {
 			var $tr = $(this).parents('tr').eq(0);
@@ -143,7 +143,7 @@ define(function(require, exports, module) {
 			}
 		});
 	}
-	/** 新增tagInfo结束 **/
+	/** 更新tagInfo结束 **/
 	
 	/** 更新tagParam开始 **/
 	var paramNameList = ['num', 'idx', 'type', 'color', 'cont', 'mode', 'sum', 'choose'];
