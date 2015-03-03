@@ -28,7 +28,7 @@
 			    <div class="box col-md-12">
 			    	<div style="font-family: 'Microsoft Yahei'; text-align: center; margin-top: 50px;">
 				    	<h2><strong>欢迎你，<%=AuthUtil.getScreenName()%>！</strong></h2>
-				    	<h2><strong>又将是美好的一天！</strong></h2>
+				    	<%-- <h2><strong>又将是美好的一天！</strong></h2> --%>
 			    	</div>
 			    	<%--
 			        <div class="box-inner"> 

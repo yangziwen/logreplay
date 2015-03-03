@@ -80,6 +80,7 @@ define(function(require, exports, module) {
 			var $modal = $('#J_tagInfoModal');
 			common.clearForm($modal.find('form'));
 			$modal.find('.modal-title > strong').html('新增公共操作项');
+			$modal.find('select option:first-child').prop({selected: true});
 			$modal.find('.modal-dialog').css({
 				width: 400,
 				'margin-top': 100
