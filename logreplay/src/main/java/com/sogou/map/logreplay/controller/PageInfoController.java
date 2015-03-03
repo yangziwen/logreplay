@@ -96,4 +96,24 @@ public class PageInfoController extends BaseService {
 		}
 	}
 	
+	@GET
+	@Path("/checkDuplication")
+	public Response checkDuplication(
+			@QueryParam("id") Long id,
+			@QueryParam("pageNo") Integer pageNo) {
+		if(pageNo == null || pageNo <= 0) {
+			return Response.ok().entity("false").build();
+		}
+		if(id == null && pageInfoService.getPageInfoListResult(0, 1, new QueryParamMap()
+				.addParam("pageNo", pageNo)).size() > 0) {
+			return Response.ok().entity("false").build();
+		}
+		if(pageInfoService.getPageInfoListResult(0, 1, new QueryParamMap()
+				.addParam("pageNo", pageNo)
+				.addParam("id__ne", id)).size() > 0) {
+			return Response.ok().entity("false").build();
+		}
+		return Response.ok().entity("true").build();
+	}
+	
 }

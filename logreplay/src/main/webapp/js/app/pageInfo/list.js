@@ -6,6 +6,10 @@ define(function(require, exports, module) {
 	require('bootstrap.pagebar');
 	var $ = require('jquery'),
 		common = require('app/common');
+	var pageInfoValidator = require('app/pageInfo/validator').validate($('#J_pageInfoModal form'));
+	$('#J_pageInfoModal').on('hide.bs.modal', function() {
+		$('#J_pageInfoModal form').cleanValidateStyle();
+	});
 	
 	var start = 0, limit = 30;	// 翻页信息
 	
@@ -84,6 +88,9 @@ define(function(require, exports, module) {
 	
 	function initCreatePageInfoBtn() {
 		$('#J_createPageInfoBtn').on('click', function() {
+			if(!pageInfoValidator.form()) {
+				return;
+			}
 			var params = {
 				pageNo: $('#P_pageNo').val(),
 				name: $('#P_name').val()

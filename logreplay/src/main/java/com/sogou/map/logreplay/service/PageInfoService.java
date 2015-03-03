@@ -27,6 +27,10 @@ public class PageInfoService {
 		return pageInfoDao.paginate(start, limit, param);
 	}
 	
+	public List<PageInfo> getPageInfoListResult(int start, int limit, Map<String, Object> param) {
+		return pageInfoDao.list(start, limit, param);
+	}
+	
 	public List<PageInfo> getPageInfoListResult(Map<String, Object> param) {
 		return pageInfoDao.list(param);
 	}

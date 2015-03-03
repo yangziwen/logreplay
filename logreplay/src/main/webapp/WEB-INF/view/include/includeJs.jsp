@@ -12,6 +12,7 @@ seajs.config({
 	alias: {
 		'jquery': 'jquery/jquery.js',
 		'jquery.tmpl': 'jquery/jquery.tmpl.js',
+		'jquery.validate': 'jquery/jquery.validate.js',
 		'bootstrap': 'bootstrap/bootstrap.min.js',
 		'bootstrap.pagebar': 'bootstrap/bootstrapPageBar.js',
 		'bootstrap.uploadfilebtn': 'bootstrap/bootstrapUploadFileBtn.js',
