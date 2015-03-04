@@ -122,5 +122,16 @@ public class UserAdminController extends BaseService {
 			throw LogReplayException.operationFailedException(String.format("Failed to update user[%d]!", id));
 		}
 	}
+	
+	@GET
+	@Path("/checkDuplication")
+	public Response checkDuplication(
+			@QueryParam("id") Long id,
+			@QueryParam("username") String username) {
+		if(id == null && userService.getUserByUsername(username) != null) {
+			return Response.ok().entity("false").build();
+		}
+		return Response.ok().entity("true").build();
+	}
 
 }

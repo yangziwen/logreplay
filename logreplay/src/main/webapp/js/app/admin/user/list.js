@@ -6,6 +6,11 @@ define(function(require, exports, module) {
 	require('bootstrap.pagebar');
 	var $ = require('jquery'),
 		common = require('app/common');
+	var userValidator = require('app/admin/user/validator').validate($('#J_userModal form'));
+	
+	$('#J_userModal').on('hide.bs.modal', function() {
+		$('#J_userModal form').cleanValidateStyle();
+	});
 	
 	var start = 0, limit = 30;	// 翻页信息
 	
@@ -70,6 +75,7 @@ define(function(require, exports, module) {
 			var $modal = $('#J_userModal');
 			common.clearForm($modal.find('form'));
 			$modal.find('.modal-title > strong').html('新增用户');
+			$modal.find('select[name=roleNames]').children(':first-child').prop('selected', true);
 			$modal.find('input[name=username]').attr({disabled: false});
 			$modal.find('select[name=enabled]').val('true');
 			$modal.find('.modal-dialog').css({
@@ -88,6 +94,10 @@ define(function(require, exports, module) {
 	
 	function initCreateUserBtn() {
 		$('#J_createUserBtn').on('click', function() {
+			if(!userValidator.form()) {
+				common.alertMsg('参数有误，请检查!');
+				return;
+			}
 			var params = {
 				username: $('#U_username').val(),
 				screenName: $('#U_screenName').val(),
@@ -155,6 +165,10 @@ define(function(require, exports, module) {
 	
 	function initUpdateUserBtn() {
 		$('#J_updateUserBtn').on('click', function() {
+			if(!userValidator.form()) {
+				common.alertMsg('参数有误，请检查!');
+				return;
+			}
 			var params = {
 				id: $('#U_id').val(),
 				username: $('#U_username').val(),
