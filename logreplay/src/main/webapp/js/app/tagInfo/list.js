@@ -5,7 +5,12 @@ define(function(require, exports, module) {
 	require('jquery.tmpl');
 	require('bootstrap.pagebar');
 	var $ = require('jquery'),
-		common = require('app/common');
+		common = require('app/common'),
+		tagInfoValidator = require('app/tagInfo/validator').validate('#J_tagInfoModal form');
+	
+	$('#J_tagInfoModal').on('hide.bs.modal', function() {
+		$('#J_tagInfoModal form').cleanValidateStyle();
+	});
 	
 	var start = 0, limit = 30;	// 翻页信息
 	
@@ -108,6 +113,10 @@ define(function(require, exports, module) {
 	}
 	function initUpdateTagInfoBtn() {
 		$('#J_updateTagInfoBtn').on('click', function() {
+			if(!tagInfoValidator.form()) {
+				common.alertMsg('参数有误，请检查!');
+				return;
+			}
 			var params = {
 				id: $('#T_id').val(),
 				pageInfoId: $('#T_pageInfoId').val(),

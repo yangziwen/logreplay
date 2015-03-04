@@ -26,6 +26,10 @@ public class TagInfoService {
 	@Autowired
 	private PageInfoDao pageInfoDao;
 	
+	public List<TagInfo> getTagInfoListResult(int start, int limit, Map<String, Object> param) {
+		return tagInfoDao.list(start, limit, param);
+	}
+	
 	public List<TagInfo> getTagInfoListResult(Map<String, Object> param) {
 		return tagInfoDao.list(param);
 	}

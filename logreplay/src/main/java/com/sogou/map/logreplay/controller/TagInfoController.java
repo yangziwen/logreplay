@@ -160,4 +160,27 @@ public class TagInfoController extends BaseService {
 		
 	}
 	
+	@GET
+	@Path("/checkDuplication")
+	public Response checkDuplication(
+			@QueryParam("id") Long id,
+			@QueryParam("tagNo") Integer tagNo,
+			@QueryParam("pageInfoId") Long pageInfoId) {
+		if(tagNo == null || tagNo <= 0 || pageInfoId == null || pageInfoId <= 0) {
+			return Response.ok().entity("false").build();
+		}
+		if(id == null && tagInfoService.getTagInfoListResult(0, 1, new QueryParamMap()
+				.addParam("pageInfoId", pageInfoId)
+				.addParam("tagNo", tagNo)).size() > 0) {
+			return Response.ok().entity("false").build();
+		}
+		if(tagInfoService.getTagInfoListResult(0, 1, new QueryParamMap()
+				.addParam("pageInfoId", pageInfoId)
+				.addParam("tagNo", tagNo)
+				.addParam("id__ne", id)).size() > 0) {
+			return Response.ok().entity("false").build();
+		}
+		return Response.ok().entity("true").build();
+	}
+	
 }

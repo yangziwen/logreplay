@@ -6,9 +6,14 @@ define(function(require, exports, module) {
 	require('bootstrap.pagebar');
 	var $ = require('jquery'),
 		common = require('app/common');
-	var pageInfoValidator = require('app/pageInfo/validator').validate($('#J_pageInfoModal form'));
+	var pageInfoValidator = require('app/pageInfo/validator').validate($('#J_pageInfoModal form')),
+		tagInfoValidator = require('app/tagInfo/validator').validate('#J_tagInfoModal form');
+	
 	$('#J_pageInfoModal').on('hide.bs.modal', function() {
 		$('#J_pageInfoModal form').cleanValidateStyle();
+	});
+	$('#J_tagInfoModal').on('hide.bs.modal', function() {
+		$('#J_tagInfoModal form').cleanValidateStyle();
 	});
 	
 	var start = 0, limit = 30;	// 翻页信息
@@ -72,6 +77,7 @@ define(function(require, exports, module) {
 			var $modal = $('#J_pageInfoModal');
 			common.clearForm($modal.find('form'));
 			$modal.find('.modal-title > strong').html('新增页面信息');
+			$modal.find('input[name=id]').val('');
 			$modal.find('.modal-dialog').css({
 				width: 400,
 				'margin-top': function() {
@@ -89,6 +95,7 @@ define(function(require, exports, module) {
 	function initCreatePageInfoBtn() {
 		$('#J_createPageInfoBtn').on('click', function() {
 			if(!pageInfoValidator.form()) {
+				common.alertMsg('参数有误，请检查!');
 				return;
 			}
 			var params = {
@@ -153,6 +160,10 @@ define(function(require, exports, module) {
 	
 	function initUpdatePageInfoBtn() {
 		$('#J_updatePageInfoBtn').on('click', function() {
+			if(!pageInfoValidator.form()) {
+				common.alertMsg('参数有误，请检查!');
+				return;
+			}
 			var params = {
 				id: $('#P_id').val(),
 				pageNo: $('#P_pageNo').val(),
@@ -196,6 +207,8 @@ define(function(require, exports, module) {
 				pageName = $tds.eq(1).html();
 			var $modal = $('#J_tagInfoModal');
 			common.clearForm($modal.find('form'));
+			$('#T_actionId').children(':first-child').prop('selected', true);
+			$('#T_targetId').children(':first-child').prop('selected', true);
 			$modal.find('.modal-title > strong').html('新增操作项');
 			$modal.find('input[name=pageInfoId]').val(pageInfoId);
 			$modal.find('input[name=pageNo]').val(pageNo).attr({disabled: true});
@@ -213,6 +226,10 @@ define(function(require, exports, module) {
 	}
 	function initCreateTagInfoBtn() {
 		$('#J_createTagInfoBtn').on('click', function() {
+			if(!tagInfoValidator.form()) {
+				common.alertMsg('参数有误，请检查!');
+				return;
+			}
 			var params = {
 				pageNo: $('#T_pageNo').val(),
 				pageInfoId: $('#T_pageInfoId').val(),
