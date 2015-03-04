@@ -123,6 +123,28 @@ public class UserAdminController extends BaseService {
 		}
 	}
 	
+	@POST
+	@Path("/update/password/{id}")
+	public Response updatePassword(
+			@PathParam("id") Long id,
+			@FormParam("password") String password
+			) {
+		User user = null;
+		if(StringUtils.isBlank(password) || password.trim().length() < 6) {
+			throw LogReplayException.invalidParameterException(String.format("Invalid password[%s]!", password));
+		}
+		if(id == null || (user = userService.getUserById(id)) == null) {
+			throw LogReplayException.invalidParameterException(String.format("Invalid userId[%s]!", id));
+		}
+		try {
+			user.setPassword(password);
+			userService.updateUser(user);
+			return successResultToJson(String.format("Password of user[%d] is updated successfully!", user.getId()), true);
+		} catch (Exception e) {
+			throw LogReplayException.operationFailedException(String.format("Failed to update password of user[%d]!", id));
+		}
+	}
+	
 	@GET
 	@Path("/checkDuplication")
 	public Response checkDuplication(

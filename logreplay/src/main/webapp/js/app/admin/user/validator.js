@@ -35,6 +35,22 @@ define(function(require, exports, module) {
 	module.exports = {
 		validate: function(form) {
 			return coreValidator.validate(form, options);
+		},
+		validatePassword: function(form) {
+			return coreValidator.validate(form, {
+				rules: {
+					password: {
+						required: true,
+						minlength: 6
+					}
+				}, 
+				messages: {
+					password: {
+						required: '密码不能为空!',
+						minlength: '密码长度不能小于{0}'
+					}
+				}
+			});
 		}
 	};
 	

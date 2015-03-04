@@ -74,7 +74,7 @@
 				     				<th style="width: 100px;">日志编号</th>
 				     				<th>日志描述</th>
 				     				<th style="width: 250px;">日志内容</th>
-				     				<th style="width: 125px;">操作</th>
+				     				<th style="width: 125px;">管理</th>
 				     			</tr>
 				     		</thead>
 				     		<tbody id="J_replayTbody" style="max-height: 500px;" >

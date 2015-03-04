@@ -91,6 +91,7 @@
 									<td>${'${'}enabled === true? '正常': '禁用'}</td>
 				     				<td>
 				     					<button class="btn btn-primary btn-xs open-update-modal">修改</button>
+				     					<button class="btn btn-primary btn-xs open-update-password-modal">重置密码</button>
 				     				</td>
 				     			</tr>
 							</script>
@@ -146,6 +147,33 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary create-user-info" id="J_createUserBtn" >创建</button>
 				<button type="button" class="btn btn-primary update-user-info" id="J_updateUserBtn" >更新</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 重置用户密码的弹出层 -->
+<div class="modal" id="J_passwordModal" tabindex="-1">
+    <div class="modal-dialog">
+    	<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title"><strong>标题</strong></h4>
+			</div>
+			<div class="modal-body">
+					<form class="form-horizontal" role="form">
+						<input type="hidden" id="PW_id" name="id" />
+						<div class="form-group">
+							<label for="PW_password" class="col-sm-4 control-label">密码：</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" id="PW_password" name="password" placeholder="请输入密码" />
+							</div>
+						</div>
+					</form>
+				</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary update-user-password" id="J_updatePasswordBtn" >重置</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 			</div>
 		</div><!-- /.modal-content -->

@@ -100,7 +100,8 @@ define(function(require, exports, module) {
 						return ''; //'danger';
 					},
 					describe: function(record) {
-						return [record.pageName, record.tagName, tagTargetDict[record.targetId], tagActionDict[record.actionId]].join(' => ');
+//						return [record.pageName, record.tagName, tagTargetDict[record.targetId], tagActionDict[record.actionId]].join(' => ');
+						return [record.pageName, record.tagName].join(' => ');
 					}
 				}));
 				if(!lockScroll) {
