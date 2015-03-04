@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <div class="col-sm-2">
 	<div class="sidebar-nav row">
 			<ul class="nav nav-pills nav-stacked">
@@ -38,9 +39,12 @@
 						<span> 系统管理</span>
 						<span class="pull-right glyphicon glyphicon-chevron-down"></span>
 					</a>
-					<c:set var="showSystemManageSubmenu" value="${fn:contains(requestURI, '/admin')}"></c:set>
+					<c:set var="showSystemManageSubmenu" value="${fn:contains(requestURI, '/admin') or fn:contains(requestURI, '/user/detail.htm')}"></c:set>
 					<ul id="J_systemManageSubmenu" class="nav submenu ${showSystemManageSubmenu eq true? 'in': ''}" ${showSystemManageSubmenu eq false? 'style="height: 0px;"': ''}>
-						<li><a href="${ctx_path}/admin/user/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> 用户管理</a></li>
+						<shiro:hasRole name="admin">
+							<li><a href="${ctx_path}/admin/user/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> 用户管理</a></li>
+						</shiro:hasRole>
+						<li><a href="${ctx_path}/user/detail.htm"><i class="glyphicon glyphicon-chevron-right"></i> 帐户管理</a></li>
 					</ul>
 				</li>
 			</ul>

@@ -1,11 +1,18 @@
 package com.sogou.map.logreplay.util;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 
 import com.sogou.map.logreplay.bean.User;
+import com.sogou.map.logreplay.security.ShiroDbRealm;
 
 public class AuthUtil {
 	
@@ -47,6 +54,25 @@ public class AuthUtil {
 		return StringUtils.isNotBlank(user.getScreenName())
 				? user.getScreenName()
 				: user.getUsername();
+	}
+	
+	/**
+	 * 需要查数据库
+	 */
+	public static List<String> getRoleList() {
+		PrincipalCollection principals = getCurrentSubject().getPrincipals();
+		AuthorizationInfo info = SpringUtil.getBean(ShiroDbRealm.class).doGetAuthorizationInfo(principals);
+		if(info != null) {
+			return new ArrayList<String>(info.getRoles());
+		}
+		return Collections.emptyList();
+	}
+	
+	/**
+	 * 需要查数据库
+	 */
+	public static String getRoles() {
+		return StringUtils.join(getRoleList(), ",");
 	}
 	
 	public static void login(String username, String password) {
