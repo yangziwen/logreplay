@@ -61,11 +61,11 @@ public class UserController extends BaseService {
 		}
 		String username = AuthUtil.getUsername();
 		User user = userService.getUserByUsername(username);
-		if(!oldPassword.equals(user.getPassword())) {
+		if(!AuthUtil.hashPassword(username, oldPassword).equals(user.getPassword())) {
 			throw LogReplayException.invalidParameterException("Parameter oldPassword is wrong!");
 		}
 		try {
-			user.setPassword(newPassword);
+			user.setPassword(AuthUtil.hashPassword(username, newPassword));
 			userService.updateUser(user);
 			return successResultToJson(String.format("The password of User[%s] is successfully updated", username), true);
 		} catch (Exception e) {
@@ -81,7 +81,7 @@ public class UserController extends BaseService {
 			return Response.ok().entity("false").build();
 		}
 		User user = userService.getUserByUsername(AuthUtil.getUsername());
-		if(!password.equals(user.getPassword())) {	// TODO
+		if(!AuthUtil.hashPassword(user.getUsername(), password).equals(user.getPassword())) { 
 			return Response.ok().entity("false").build();
 		}
 		return Response.ok().entity("true").build();

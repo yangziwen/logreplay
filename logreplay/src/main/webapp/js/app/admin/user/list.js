@@ -247,7 +247,7 @@ define(function(require, exports, module) {
 	
 	function doUpdatePassword(params) {
 		$.ajax({
-			url: CTX_PATH + '/admin/user/update/password/' + params['id'],
+			url: CTX_PATH + '/admin/user/password/update/' + params['id'],
 			type: 'POST',
 			dataType: 'json',
 			data: params,

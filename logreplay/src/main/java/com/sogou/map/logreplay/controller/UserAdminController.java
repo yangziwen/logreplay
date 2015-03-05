@@ -25,6 +25,7 @@ import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.exception.LogReplayException;
 import com.sogou.map.logreplay.service.RoleService;
 import com.sogou.map.logreplay.service.UserService;
+import com.sogou.map.logreplay.util.AuthUtil;
 import com.sogou.map.logreplay.util.JsonUtil;
 import com.sogou.map.mengine.common.service.BaseService;
 
@@ -124,20 +125,20 @@ public class UserAdminController extends BaseService {
 	}
 	
 	@POST
-	@Path("/update/password/{id}")
+	@Path("/password/update/{id}")
 	public Response updatePassword(
 			@PathParam("id") Long id,
 			@FormParam("password") String password
 			) {
 		User user = null;
-		if(StringUtils.isBlank(password) || password.trim().length() < 6) {
+		if(StringUtils.isBlank(password) || password.trim().length() < 4) {
 			throw LogReplayException.invalidParameterException(String.format("Invalid password[%s]!", password));
 		}
 		if(id == null || (user = userService.getUserById(id)) == null) {
 			throw LogReplayException.invalidParameterException(String.format("Invalid userId[%s]!", id));
 		}
 		try {
-			user.setPassword(password);
+			user.setPassword(AuthUtil.hashPassword(user.getUsername(), password));
 			userService.updateUser(user);
 			return successResultToJson(String.format("Password of user[%d] is updated successfully!", user.getId()), true);
 		} catch (Exception e) {

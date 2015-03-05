@@ -10,7 +10,6 @@
 
 	<description>Shiro安全配置</description>
 	
-	<!-- shiroDbRealm为项目自定义的realm，通过注解声明 -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realms">
 			<list>
@@ -26,15 +25,21 @@
 		<property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('2itfW92XazYRi5ltW0M2yA==')}"/>
 	</bean>
 	
-	<!-- 仅仅是一个cookie模版，用单例即可 -->
 	<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
 		<property name="name" value="rememberMe" />
 		<property name="httpOnly" value="true" />
-		<property name="maxAge" value="604800" /><!-- 默认一年太长了，此处设为1周 -->
+		<property name="maxAge" value="604800" />
+	</bean>
+	
+	<bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+		<property name="hashAlgorithmName" value="MD5" />
+		<property name="hashSalted" value="true" />
+		<property name="hashIterations" value="3" />
 	</bean>
 	
 	<bean id="shiroDbRealm" class="com.sogou.map.logreplay.security.ShiroDbRealm" >
 		<property name="userService" ref="userService" />
+		<property name="credentialsMatcher" ref="credentialsMatcher" />
 	</bean>
 
 	<bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">

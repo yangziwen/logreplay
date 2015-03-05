@@ -41,7 +41,7 @@ define(function(require, exports, module) {
 				rules: {
 					password: {
 						required: true,
-						minlength: 6
+						minlength: 4
 					}
 				}, 
 				messages: {

@@ -5,11 +5,13 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.apache.shiro.util.SimpleByteSource;
 
 import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.User;
@@ -24,6 +26,11 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		this.userService = userService;
 	}
 	
+	@Override
+	public void  setCredentialsMatcher(CredentialsMatcher credentialsMatcher) {
+		super.setCredentialsMatcher(credentialsMatcher);
+	}
+	
 	/**
 	 * 认证回调函数,登录时调用.
 	 */
@@ -35,6 +42,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			return null;
 		}
 		SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user.getUsername(), user.getPassword(), getName());
+		info.setCredentialsSalt(new SimpleByteSource(user.getUsername()));
 		SimplePrincipalCollection principals = (SimplePrincipalCollection) info.getPrincipals();
 		principals.add(user, getName());
 		return info;

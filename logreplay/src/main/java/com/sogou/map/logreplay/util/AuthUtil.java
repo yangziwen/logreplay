@@ -8,8 +8,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.crypto.hash.DefaultHashService;
+import org.apache.shiro.crypto.hash.HashRequest;
+import org.apache.shiro.crypto.hash.HashService;
+import org.apache.shiro.crypto.hash.SimpleHashRequest;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.util.SimpleByteSource;
 
 import com.sogou.map.logreplay.bean.User;
 import com.sogou.map.logreplay.security.ShiroDbRealm;
@@ -87,6 +92,15 @@ public class AuthUtil {
 	
 	public static void logout() {
 		getCurrentSubject().logout();
+	}
+	
+	public static String hashPassword(String username, String password) {
+		if(StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
+			throw new IllegalArgumentException("Neither username nor password should be null!");
+		}
+		HashService hashService = new DefaultHashService();
+		HashRequest hashRequest = new SimpleHashRequest("MD5", new SimpleByteSource(password), new SimpleByteSource(username), 3);
+		return hashService.computeHash(hashRequest).toHex();
 	}
 
 }

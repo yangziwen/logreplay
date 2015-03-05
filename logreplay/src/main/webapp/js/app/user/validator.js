@@ -24,7 +24,7 @@ define(function(require, exports, module) {
 					},
 					newPassword: {
 						required: true,
-						minlength: 6
+						minlength: 4
 					},
 					newPasswordAgain: {
 						required: true,
