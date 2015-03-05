@@ -257,7 +257,7 @@ define(function(require, exports, module) {
 					return;
 				} else {
 					common.alertMsg('更新成功!').done(function() {
-						$('#J_userModal').modal('hide');
+						$('#J_passwordModal').modal('hide');
 					});
 				}
 			},
