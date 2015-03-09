@@ -80,7 +80,7 @@
 				     		<tbody id="J_replayTbody" style="max-height: 500px;" >
 				     		</tbody>
 				     		<script type="text/x-jquery-tmpl" id="J_replayTmpl">
-								<tr class="${'${'}$item.bgClass()}">
+								<tr class="${'${'}$item.bgClass($data)}">
 				     				<td>${'${'}os}</td>
 				     				<td style="text-align: left">&nbsp;p[${'${'}pageNo}] t[${'${'}tagNo}]</td>
 				     				<td>${'${'}$item.describe($data)}</td>

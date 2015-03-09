@@ -96,8 +96,8 @@ define(function(require, exports, module) {
 						var ts = t + '';
 						return new Date(t).format('yyyy-MM-dd hh:mm:ss') + '.' + ts.substring(ts.length - 3, ts.length);
 					}, 
-					bgClass: function() {
-						return ''; //'danger';
+					bgClass: function(record) {
+						return  !record.pageNo || !record.tagNo? 'danger': '';
 					},
 					describe: function(record) {
 //						return [record.pageName, record.tagName, tagTargetDict[record.targetId], tagActionDict[record.actionId]].join(' => ');
