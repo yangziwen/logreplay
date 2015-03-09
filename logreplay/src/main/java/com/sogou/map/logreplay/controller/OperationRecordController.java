@@ -74,6 +74,7 @@ public class OperationRecordController extends BaseService {
 	@GET
 	@Path("/query")
 	public Response query(
+			@QueryParam("idSince") Long idSince,
 			@QueryParam("since") Long since,
 			@QueryParam("until") Long until,
 			@QueryParam("deviceId") String deviceId,
@@ -87,7 +88,8 @@ public class OperationRecordController extends BaseService {
 			.addParam(StringUtils.isNotBlank(uvid), "uvid", uvid)
 			.addParam(pageNo != null, "pageNo", pageNo)
 			.addParam(tagNo != null, "tagNo", tagNo)
-			.addParam(since != null, "timestamp__gt", since)
+			.addParam(idSince != null, "id__gt", idSince)
+			.addParam(idSince == null && since != null, "timestamp__gt", since)
 			.addParam(until != null, "timestamp__lt", until)
 			.orderByAsc("timestamp")
 		);
@@ -106,7 +108,7 @@ public class OperationRecordController extends BaseService {
 		Set<Integer> tagNoSet = new HashSet<Integer>();
 		Set<Integer> pageNoSet = new HashSet<Integer>();
 		for(OperationRecordDto dto: dtoList) {
-			if(dto.getTagNo() > TagInfo.COMMON_TAG_NO_MIN_VALUE) {
+			if(dto.getTagNo() != null && dto.getTagNo() > TagInfo.COMMON_TAG_NO_MIN_VALUE) {
 				dtoListWithCommonTag.add(dto);
 				tagNoSet.add(dto.getTagNo());
 				pageNoSet.add(dto.getPageNo());

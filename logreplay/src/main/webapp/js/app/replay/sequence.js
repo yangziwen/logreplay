@@ -54,14 +54,14 @@ define(function(require, exports, module) {
 	function switchButtonStatus(replaying) {
 		if(replaying) {
 			$replaySwitchBtn.html('停止校验');
-			$clearBtn.attr({disabled: true});
+//			$clearBtn.attr({disabled: true});
 			var params = common.collectParams('#J_queryArea input[type!=button][type!=submit][type!=reset]');
 			params.since = params.replayTimeSince && Date.parse(params.replayTimeSince);
 			params.until= params.replayTimeUntil && Date.parse(params.replayTimeUntil);
 			doReplay(params, 1000);
 		} else {
 			$replaySwitchBtn.html('开始校验');
-			$clearBtn.attr({disabled: false});
+//			$clearBtn.attr({disabled: false});
 		}
 	}
 	
@@ -70,7 +70,7 @@ define(function(require, exports, module) {
 			var recordList = data.response;
 			if(recordList && recordList.length > 0) {
 				var record = recordList[recordList.length - 1];
-				record && (params.since = record.timestamp);
+				record && (params.idSince = record.id) || (params.since = record.timestamp);
 			}
 			setTimeout(function() {
 				if(replaying) {
