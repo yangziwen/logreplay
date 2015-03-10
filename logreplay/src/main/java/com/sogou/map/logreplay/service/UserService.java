@@ -2,13 +2,17 @@ package com.sogou.map.logreplay.service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.User;
 import com.sogou.map.logreplay.bean.UserRelRole;
@@ -52,6 +56,27 @@ public class UserService {
 	
 	public Page<UserWithRoles> getUserWithRolesPaginateResult(int start, int limit, Map<String, Object> param) {
 		return userWithRolesDao.paginate(start, limit, param);
+	}
+	
+	public List<User> getUserListResultByName(String name) {
+		return userDao.list(new QueryParamMap()
+			.or("name__or", new QueryParamMap()
+				.addParam("username__contain", name)
+				.addParam("screenName__contain", name)
+			)
+		);
+	}
+	
+	public List<Long> getUserIdListResultByName(String name) {
+		if(StringUtils.isBlank(name)) {
+			return Collections.emptyList();
+		}
+		return Lists.transform(getUserListResultByName(name), new Function<User, Long>() {
+			@Override
+			public Long apply(User user) {
+				return user.getId();
+			}
+		});
 	}
 	
 	@Transactional

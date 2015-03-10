@@ -74,6 +74,20 @@ CREATE TABLE `param_info` (
   `description` VARCHAR (100)
 ) ENGINE = INNODB DEFAULT CHARSET = GBK ;
 
+-- 日志项校验结果
+CREATE TABLE inspection_record (
+  `id` BIGINT (20) PRIMARY KEY AUTO_INCREMENT,
+  `page_info_id` BIGINT (20),
+  `tag_info_id` BIGINT (20),
+  `valid` TINYINT (1),
+  `solved` TINYINT (1),
+  `submitter_id` BIGINT (20),
+  `solver_id` BIGINT (20),
+  `comment` VARCHAR (200),
+  `create_time` DATETIME,
+  `update_time` DATETIME
+) ENGINE = INNODB DEFAULT CHARSET = GBK ;
+
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` BIGINT(20) PRIMARY KEY AUTO_INCREMENT,

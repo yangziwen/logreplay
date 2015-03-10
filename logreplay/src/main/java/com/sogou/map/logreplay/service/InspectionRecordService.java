@@ -1,0 +1,119 @@
+package com.sogou.map.logreplay.service;
+
+import java.sql.Timestamp;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.sogou.map.logreplay.bean.InspectionRecord;
+import com.sogou.map.logreplay.bean.PageInfo;
+import com.sogou.map.logreplay.bean.TagInfo;
+import com.sogou.map.logreplay.bean.User;
+import com.sogou.map.logreplay.dao.InspectionRecordDao;
+import com.sogou.map.logreplay.dao.PageInfoDao;
+import com.sogou.map.logreplay.dao.TagInfoDao;
+import com.sogou.map.logreplay.dao.UserDao;
+import com.sogou.map.logreplay.dao.base.Page;
+import com.sogou.map.logreplay.dao.base.QueryParamMap;
+
+@Service
+public class InspectionRecordService {
+
+	@Autowired
+	private InspectionRecordDao inspectionRecordDao;
+	
+	@Autowired
+	private UserDao userDao;
+	
+	@Autowired
+	private PageInfoDao pageInfoDao;
+	
+	@Autowired
+	private TagInfoDao tagInfoDao;
+	
+	public void createInspectionRecord(InspectionRecord record) {
+		record.setCreateTime(new Timestamp(System.currentTimeMillis()));
+		inspectionRecordDao.save(record);
+	}
+	
+	public void updateInspectionRecord(InspectionRecord record) {
+		record.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+		inspectionRecordDao.update(record);
+	}
+	
+	public InspectionRecord getInspectionRecordById(Long id) {
+		return inspectionRecordDao.getById(id);
+	}
+	
+	public Page<InspectionRecord> getInspectionRecordPaginateResult(int start, int limit, Map<String, Object> params) {
+		return inspectionRecordDao.paginate(start, limit, params);
+	}
+	
+	public Page<InspectionRecord> getInspectionRecordPaginateResultWithTransientFields(int start, int limit, Map<String, Object> params) {
+		Page<InspectionRecord> page = getInspectionRecordPaginateResult(start, limit, params);
+		List<Long> userIdList = Lists.newArrayList();
+		List<Long> pageInfoIdList = Lists.newArrayList();
+		List<Long> tagInfoIdList = Lists.newArrayList();
+		for(InspectionRecord record: page.getList()) {
+			if(record.getSubmitterId() != null) userIdList.add(record.getSubmitterId());
+			if(record.getSolverId() != null) userIdList.add(record.getSolverId());
+			if(record.getPageInfoId() != null) pageInfoIdList.add(record.getPageInfoId());
+			if(record.getTagInfoId() != null) tagInfoIdList.add(record.getTagInfoId());
+		}
+		Map<Long, User> userMap = getUserMapByIdList(userIdList);
+		Map<Long, PageInfo> pageInfoMap = getPageInfoMapByIdList(pageInfoIdList);
+		Map<Long, TagInfo> tagInfoMap = getTagInfoMapByIdList(tagInfoIdList);
+		for(InspectionRecord record: page.getList()) {
+			record.setSubmitter(userMap.get(record.getSubmitterId()));
+			record.setSolver(userMap.get(record.getSolverId()));
+			record.setPageInfo(pageInfoMap.get(record.getPageInfoId()));
+			record.setTagInfo(tagInfoMap.get(record.getTagInfoId()));
+		}
+		return page;
+	}
+	
+	private Map<Long, User> getUserMapByIdList(List<Long> userIdList) {
+		List<User> userList = CollectionUtils.isNotEmpty(userIdList)
+				? userDao.list(new QueryParamMap().addParam("id__in", userIdList))
+				: Collections.<User>emptyList();
+				
+		return Maps.uniqueIndex(userList, new Function<User, Long>() {
+			@Override
+			public Long apply(User user) {
+				return user.getId();
+			}
+		});
+	}
+	
+	private Map<Long, PageInfo> getPageInfoMapByIdList(List<Long> pageInfoIdList) {
+		List<PageInfo> pageInfoList = CollectionUtils.isNotEmpty(pageInfoIdList)
+				? pageInfoDao.list(new QueryParamMap().addParam("id__in", pageInfoIdList))
+				: Collections.<PageInfo>emptyList();
+		return Maps.uniqueIndex(pageInfoList, new Function<PageInfo, Long>() {
+			@Override
+			public Long apply(PageInfo pageInfo) {
+				return pageInfo.getId();
+			}
+		});
+	}
+	
+	private Map<Long, TagInfo> getTagInfoMapByIdList(List<Long> tagInfoIdList) {
+		List<TagInfo> tagInfoList = CollectionUtils.isNotEmpty(tagInfoIdList)
+				? tagInfoDao.list(new QueryParamMap().addParam("id__in", tagInfoIdList))
+				: Collections.<TagInfo>emptyList();
+		return Maps.uniqueIndex(tagInfoList, new Function<TagInfo, Long>() {
+			@Override
+			public Long apply(TagInfo tagInfo) {
+				return tagInfo.getId();
+			}
+		});
+	}
+	
+}
