@@ -69,25 +69,17 @@ public class TagInfoService {
 	}
 	
 	public TagInfo getTagInfoById(Long id) {
-		TagInfo tagInfo = tagInfoDao.getById(id);
-		if(tagInfo == null) {
-			return null;
-		}
-		return tagInfo;
+		return tagInfoDao.getById(id);
 	}
 	
 	/**
 	 * 如果是"公共操作项"，则直接忽略pageNo
 	 */
 	public TagInfo getTagInfoByPageNoAndTagNo(Integer pageNo, Integer tagNo) {
-		TagInfo tagInfo = tagInfoDao.first(new QueryParamMap()
+		return tagInfoDao.first(new QueryParamMap()
 			.addParam("tagNo", tagNo)
 			.addParam(tagNo < TagInfo.COMMON_TAG_NO_MIN_VALUE && pageNo != null && pageNo > 0, "pageNo", pageNo)
 		);
-		if(tagInfo == null) {
-			return null;
-		}
-		return tagInfo;
 	}
 	
 	public void updateTagInfo(TagInfo info) {

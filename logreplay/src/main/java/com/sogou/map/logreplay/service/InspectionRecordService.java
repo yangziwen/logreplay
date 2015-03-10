@@ -1,6 +1,7 @@
 package com.sogou.map.logreplay.service;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +50,15 @@ public class InspectionRecordService {
 	}
 	
 	public InspectionRecord getInspectionRecordById(Long id) {
-		return inspectionRecordDao.getById(id);
+		InspectionRecord record = inspectionRecordDao.getById(id);
+		Map<Long, User> userMap = getUserMapByIdList(Arrays.asList(record.getSubmitterId(), record.getSolverId())); 
+		PageInfo pageInfo = record.getPageInfoId() != null? pageInfoDao.getById(record.getPageInfoId()): null;
+		TagInfo tagInfo = record.getTagInfoId() != null? tagInfoDao.getById(record.getTagInfoId()): null;
+		record.setPageInfo(pageInfo);
+		record.setTagInfo(tagInfo);
+		record.setSubmitter(userMap.get(record.getSubmitterId()));
+		record.setSolver(userMap.get(record.getSolverId()));
+		return record;
 	}
 	
 	public Page<InspectionRecord> getInspectionRecordPaginateResult(int start, int limit, Map<String, Object> params) {

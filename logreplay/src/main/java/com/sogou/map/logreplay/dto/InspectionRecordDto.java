@@ -201,6 +201,7 @@ public class InspectionRecordDto {
 		}
 		this.setCreateTime(record.getCreateTime());
 		this.setUpdateTime(record.getUpdateTime());
+		this.setComment(record.getComment());
 		return this;
 	}
 	

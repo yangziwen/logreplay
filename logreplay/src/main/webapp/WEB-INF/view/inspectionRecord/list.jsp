@@ -6,6 +6,11 @@
     <title>校验结果</title>
 	<%@ include file="../include/includeCss.jsp" %>
 	<link rel="stylesheet" href="${static_path}/css/bootstrap-datetimepicker.min.css"/>
+	<style>
+		#J_detailModal .modal-dialog {
+			width: 700px;
+		}
+	</style>
 </head>
 <body>
 
@@ -127,7 +132,67 @@
 	</div><!-- /row1 -->
 </div>
 
-
+<!-- inspectionRecord详情的弹出层 -->
+<div class="modal" id="J_detailModal" tabindex="-1">
+    <div class="modal-dialog">
+    	<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title"><strong>校验结果详情</strong></h4>
+			</div>
+			<div class="modal-body">
+				<div class="panel panel-default">
+					<table class="table table-bordered">
+						<tbody>
+						</tbody>
+						<script type="text/x-jquery-tmpl" id="J_inspectionRecordDetailTmpl">
+						<tr>
+							<td style="width: 150px;"><strong>页面编号</strong></td>
+							<td style="width: 250px;">${'${'}pageNo}</td>
+							<td style="width: 150px;"><strong>页面名称</strong></td>
+							<td style="width: 250px;">${'${'}pageName}</td>
+						</tr>
+						<tr>
+							<td><strong>操作编号</strong></td>
+							<td>${'${'}tagNo}</td>
+							<td><strong>操作名称</strong></td>
+							<td>${'${'}tagName}</td>
+						</tr>
+						<tr>
+							<td><strong>校验结果</strong></td>
+							<td>{{html $item.displayValidStatus($data) }}</td>
+							<td><strong>处理状态</strong></td>
+							<td>{{html $item.displaySolvedStatus($data) }}</td>
+						</tr>
+						<tr>
+							<td><strong>提交者</strong></td>
+							<td>${'${'}$item.displaySubmitterName($data)}</td>
+							<td><strong>提交时间</strong></td>
+							<td>${'${'}createTime? new Date(createTime).format('yyyy-MM-dd hh:mm:ss'): '--'}</td>
+						</tr>
+						<tr>
+							<td><strong>处理者</strong></td>
+							<td>${'${'}$item.displaySolverName($data)}</td>
+							<td><strong>处理时间</strong></td>
+							<td>${'${'}updateTime? new Date(updateTime).format('yyyy-MM-dd hh:mm:ss'): '--'}</td>
+						</tr>
+						<tr>
+							<td><strong>备注</strong></td>
+							<td colspan="3">
+							${'${'}comment || '--'}
+							</td>
+						</tr>
+						</script>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary resolve-inspection-record" id="J_resolveBtn">已处理</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <%@ include file="../include/includeJs.jsp" %>
 <script>
