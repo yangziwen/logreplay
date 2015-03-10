@@ -10,6 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -53,11 +54,13 @@ public class InspectionRecordController extends BaseService {
 			@DefaultValue(Page.DEFAULT_LIMIT) @QueryParam("limit") int limit,
 			@QueryParam("submitterName") String submitterName,
 			@QueryParam("solverName") String solverName,
-			@QueryParam("valid") Boolean valid,
-			@QueryParam("solved") Boolean solved,
+			@QueryParam("valid") String validStr,
+			@QueryParam("solved") String solvedStr,
 			@QueryParam("submitTimeSince") String submitTimeSince,
 			@QueryParam("submitTimeUntil") String submitTimeUntil
 			) {
+		Boolean valid = BooleanUtils.toBooleanObject(validStr);
+		Boolean solved = BooleanUtils.toBooleanObject(solvedStr);
 		List<Long> submitterIdList = userService.getUserIdListResultByName(submitterName);
 		List<Long> solverIdList = userService.getUserIdListResultByName(solverName);
 		QueryParamMap params = new QueryParamMap()
@@ -65,8 +68,8 @@ public class InspectionRecordController extends BaseService {
 			.addParam(StringUtils.isNotBlank(solverName), "solverId__in", solverIdList)
 			.addParam(valid != null, "valid", valid)
 			.addParam(solved != null, "solved", solved)
-			.addParam(StringUtils.isNotBlank("submitTimeSince"), "createTime__ge", submitTimeSince)
-			.addParam(StringUtils.isNotBlank("submitTimeUntil"), "createTime__le", submitTimeUntil)
+			.addParam(StringUtils.isNotBlank(submitTimeSince), "createTime__ge", submitTimeSince)
+			.addParam(StringUtils.isNotBlank(submitTimeUntil), "createTime__le", submitTimeUntil)
 			.orderByDesc("createTime")
 		;
 		Page<InspectionRecordDto> page = InspectionRecordDto.from(inspectionRecordService.getInspectionRecordPaginateResultWithTransientFields(start, limit, params));

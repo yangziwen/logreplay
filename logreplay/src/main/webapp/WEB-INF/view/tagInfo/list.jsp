@@ -36,7 +36,7 @@
 			<div class="row"><!-- row2 -->
 			    <div class="col-md-12">
 			     	<div id="J_queryArea" style="text-align: center;">
-			     		<form class="form-horizontal col-md-offset-2 col-md-8" role="form">
+			     		<form class="form-horizontal col-md-offset-1 col-md-10" role="form">
 							<div class="form-group">
 								<label for="J_pageNo" class="col-sm-2 control-label">Ò³Ãæ±àºÅ£º</label>
 								<div class="col-sm-4">

@@ -15,6 +15,8 @@ public class InspectionRecordDto {
 	private Long tagInfoId;
 	private Integer pageNo;
 	private Integer tagNo;
+	private String pageName;
+	private String tagName;
 	private Boolean valid;
 	private Boolean solved;
 	private Long submitterId;
@@ -67,6 +69,22 @@ public class InspectionRecordDto {
 
 	public void setTagNo(Integer tagNo) {
 		this.tagNo = tagNo;
+	}
+
+	public String getPageName() {
+		return pageName;
+	}
+
+	public void setPageName(String pageName) {
+		this.pageName = pageName;
+	}
+
+	public String getTagName() {
+		return tagName;
+	}
+
+	public void setTagName(String tagName) {
+		this.tagName = tagName;
 	}
 
 	public Boolean getValid() {
@@ -162,10 +180,12 @@ public class InspectionRecordDto {
 		this.setPageInfoId(record.getPageInfoId());
 		if(record.getPageInfo() != null) {
 			this.setPageNo(record.getPageInfo().getPageNo());
+			this.setPageName(record.getPageInfo().getName());
 		}
 		this.setTagInfoId(record.getTagInfoId());
 		if(record.getTagInfo() != null) {
 			this.setTagNo(record.getTagInfo().getTagNo());
+			this.setTagName(record.getTagInfo().getName());
 		}
 		this.setValid(record.getValid());
 		this.setSolved(record.getSolved());

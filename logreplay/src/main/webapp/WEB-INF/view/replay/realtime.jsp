@@ -31,7 +31,7 @@
 			    <div class="col-sm-12">
 			     	<div id="J_queryArea" class="row" style="text-align: center;">
 			     		<input type="hidden" name="limit" value="3"/>
-			     		<form class="form-horizontal col-md-offset-2 col-md-8" role="form">
+			     		<form class="form-horizontal col-md-offset-1 col-md-10" role="form">
 							<div class="form-group">
 								<label for="J_deviceId" class="col-sm-2 control-label">…Ë±∏id£∫</label>
 								<div class="col-sm-4">
