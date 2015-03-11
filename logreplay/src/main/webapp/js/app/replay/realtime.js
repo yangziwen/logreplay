@@ -53,7 +53,8 @@ define(function(require, exports, module) {
 			$replaySwitchBtn.html('停止校验');
 //			$clearBtn.attr({disabled: true});
 			var params = common.collectParams('#J_queryArea input[type!=button]');
-			params.since = $.now();
+			//params.since = $.now();
+			params.since = 1426047917529; 	// todo
 			doReplay(params, 1000);
 		} else {
 			$replaySwitchBtn.html('开始校验');
@@ -93,7 +94,7 @@ define(function(require, exports, module) {
 						return new Date(t).format('yyyy-MM-dd hh:mm:ss') + '.' + ts.substring(ts.length - 3, ts.length);
 					}, 
 					bgClass: function(record) {
-						return (!record.pageNo || !record.tagNo )? 'danger': '';
+						return (!record.pageName || !record.tagName )? 'danger': '';
 					},
 					describe: function(record) {
 //						return [record.pageName, record.tagName, tagTargetDict[record.targetId], tagActionDict[record.actionId]].join(' => ');
@@ -106,6 +107,44 @@ define(function(require, exports, module) {
 			}
 		});
 	}
+	
+	/** 提交校验正确结果 开始 **/
+	function initSubmitSuccessResultBtn() {
+		$('#J_replayTbody').on('click', 'button.submit-success-btn', function() {
+			var $btn = $(this);
+			common.confirmMsg('请确认将此条记录的校验结果标记为<strong>“正确”<strong>?')
+			.then(function(result) {
+				if(result !== true) {
+					return;
+				}
+				var $tr = $btn.parents('tr').eq(0);
+				var pageNo = $tr.data('pageNo'),
+					tagNo = $tr.data('tagNo');
+				if(!pageNo) {
+					common.alertMsg('页面编号有误!');
+					return;
+				}
+				if(!tagNo) {
+					common.alertMsg('操作编号有误!');
+					return;
+				}
+				$.post(CTX_PATH + '/inspectionRecord/submit', {
+					pageNo: pageNo,
+					tagNo: tagNo,
+					valid: true
+				}).then(function(data) {
+					if(data && data.code === 0) {
+						common.alertMsg('提交成功!');
+						$tr.removeClass('danger').addClass('success');
+						$btn.parent().empty();
+					} else {
+						common.alertMsg('提交失败!');
+					}
+				});
+			});
+		});
+	}
+	/** 提交校验正确结果 结束 **/
 	
 	function initClearBtn() {
 		$('#J_clearBtn').on('click', function() {
@@ -131,6 +170,7 @@ define(function(require, exports, module) {
 		initReplaySwitchBtn();
 		initClearBtn();
 		initLockScrollBtn();
+		initSubmitSuccessResultBtn();
 	}
 	
 	module.exports = {init: init};

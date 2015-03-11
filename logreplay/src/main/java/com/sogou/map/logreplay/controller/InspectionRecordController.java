@@ -3,6 +3,7 @@ package com.sogou.map.logreplay.controller;
 import java.util.List;
 
 import javax.ws.rs.DefaultValue;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -90,10 +91,10 @@ public class InspectionRecordController extends BaseService {
 	@POST
 	@Path("/submit")
 	public Response submit(
-			@QueryParam("pageNo") Integer pageNo,
-			@QueryParam("tagNo") Integer tagNo,
-			@QueryParam("valid") Boolean valid,
-			@QueryParam("comment") String comment
+			@FormParam("pageNo") Integer pageNo,
+			@FormParam("tagNo") Integer tagNo,
+			@FormParam("valid") Boolean valid,
+			@FormParam("comment") String comment
 			) {
 		if(pageNo == null || tagNo == null || valid == null) {
 			throw LogReplayException.invalidParameterException("Parameters invalid!");

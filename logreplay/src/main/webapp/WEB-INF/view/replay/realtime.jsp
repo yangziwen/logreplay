@@ -30,7 +30,7 @@
 			<div class="row"><!-- row2 -->
 			    <div class="col-sm-12">
 			     	<div id="J_queryArea" class="row" style="text-align: center;">
-			     		<input type="hidden" name="limit" value="3"/>
+			     		<input type="hidden" name="limit" value="10"/>
 			     		<form class="form-horizontal col-md-offset-1 col-md-10" role="form">
 							<div class="form-group">
 								<label for="J_deviceId" class="col-sm-2 control-label">…Ë±∏id£∫</label>
@@ -80,14 +80,18 @@
 				     		<tbody id="J_replayTbody" style="max-height: 500px;" >
 				     		</tbody>
 				     		<script type="text/x-jquery-tmpl" id="J_replayTmpl">
-								<tr class="${'${'}$item.bgClass($data)}">
+								<tr class="${'${'}$item.bgClass($data)}" data-id="${'${'}id}" data-page-no="${'${'}pageNo}" data-tag-no="${'${'}tagNo}">
 				     				<td>${'${'}os}</td>
 				     				<td style="text-align: left">&nbsp;p[${'${'}pageNo}] t[${'${'}tagNo}]</td>
 				     				<td>${'${'}$item.describe($data)}</td>
 				     				<td title="${'${'}params}" style="max-width: 250px; overflow-x: hidden; text-align: left;">
 										${'${'}params}
 									</td>
-				     				<td></td>
+				     				<td>
+										<button class="btn btn-success btn-xs submit-success-btn"><span class="glyphicon glyphicon-ok"></span></button>
+										&nbsp;
+										<button class="btn btn-danger btn-xs submit-error-btn"><span class="glyphicon glyphicon-remove"></span></button>
+									</td>
 				     			</tr>
 							</script>
 				     	</table>
