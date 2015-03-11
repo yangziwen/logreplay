@@ -62,11 +62,11 @@ define(function(require, exports, module) {
 	/** 打开详情弹出框 开始 **/
 	function initOpenDetailModalBtn() {
 		var $resolveBtn = $('#J_resolveBtn');
+		var $modal = $('#J_detailModal');
 		$("#J_inspectionRecordTbody").on('click', 'button.open-detail-modal', function() {
 			var $this = $(this);
 			var $tr = $this.parents('tr').eq(0),
 				id = $tr.data('id');
-			var $modal = $('#J_detailModal');
 			var url = CTX_PATH + '/inspectionRecord/detail/' + id;
 			$.get(url).then(function(data, result) {
 				if(result !== 'success' || !data || !data.response) {

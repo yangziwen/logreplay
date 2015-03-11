@@ -5,6 +5,11 @@ define(function(require, exports, module) {
 	require('jquery.tmpl');
 	var $ = require('jquery'),
 		common = require('app/common');
+	var submitErrorValidator = require('app/replay/submitErrorValidator').validate('#J_submitErrorModal form');
+	
+	$('#J_submitErrorModal').on('hide.bs.modal', function() {
+		$('#J_submitErrorModal form').cleanValidateStyle();
+	});
 
 	var replaying = false, lockScroll = false;
 	
@@ -53,8 +58,8 @@ define(function(require, exports, module) {
 			$replaySwitchBtn.html('停止校验');
 //			$clearBtn.attr({disabled: true});
 			var params = common.collectParams('#J_queryArea input[type!=button]');
-			//params.since = $.now();
-			params.since = 1426047917529; 	// todo
+			params.since = $.now();
+//			params.since = 1426047917529; 	// to annotate
 			doReplay(params, 1000);
 		} else {
 			$replaySwitchBtn.html('开始校验');
@@ -146,6 +151,97 @@ define(function(require, exports, module) {
 	}
 	/** 提交校验正确结果 结束 **/
 	
+	/** 提交校验错误结果 开始 **/
+	var $curEditTr = null;
+	
+	function initOpenSubmitErrorModal() {
+		var $modal = $('#J_submitErrorModal'),
+			$pageNo = $('#S_pageNo'),
+			$pageName = $('#S_pageName'),
+			$tagNo = $('#S_tagNo'),
+			$tagName = $('#S_tagName');
+		$('#J_replayTbody').on('click', 'button.submit-error-btn', function() {
+			var $this = $(this);
+			var $tr = $curEditTr = $this.parents('tr').eq(0),
+				pageNo = $tr.data('page-no'),
+				tagNo = $tr.data('tag-no'),
+				pageName = $tr.data('page-name'),
+				tagName = $tr.data('tag-name');
+			$pageNo.val(pageNo);
+			$tagNo.val(tagNo);
+			$pageName.html(pageName);
+			$tagName.html(tagName);
+			$modal.find('.modal-dialog').css({
+				width: 700,
+				'margin-top': function() {
+					return ( $(window).height() - $(this).height() ) / 4;
+				}
+			});
+			$modal.modal({
+				backdrop: 'static'
+			});
+		});
+		$pageNo.on('change', function() {
+			$pageName.empty();
+			var pageNo = $pageNo.val();
+			if(!pageNo) {
+				return;
+			}
+			$.get(CTX_PATH + '/pageInfo/detailByPageNo/' + pageNo)
+			.then(function(data) {
+				if(!data || data.code !== 0 || !data.response) {
+					return;
+				}
+				var pageInfo = data.response;
+				$pageName.html(pageInfo.name);
+				$tagNo.trigger('change');
+			});
+		});
+		$tagNo.on('change', function() {
+			$tagName.empty();
+			var pageNo = $pageNo.val(),
+				tagNo = $tagNo.val();
+			if(!tagNo || (tagNo < 10000 && !pageNo)) {
+				return;
+			}
+			$.get(CTX_PATH + '/tagInfo/detailByPageNoAndTagNo/' + (pageNo || 0) + '/' + tagNo)
+			.then(function(data) {
+				if(!data || data.code !== 0 || !data.response) {
+					return;
+				}
+				var tagInfo = data.response;
+				$tagName.html(tagInfo.name);
+			});
+		});
+	}
+	
+	function initSubmitErrorBtn() {
+		var $modal = $('#J_submitErrorModal');
+		$('#J_submitErrorBtn').on('click', function() {
+			if(!submitErrorValidator.form()) {
+				common.alertMsg('参数有误，请检查!');
+				return;
+			}
+			$.post(CTX_PATH + '/inspectionRecord/submit', {
+				pageNo: $('#S_pageNo').val(),
+				tagNo: $('#S_tagNo').val(),
+				valid: false,
+				comment: $('#S_comment').val()
+			})
+			.then(function(data) {
+				if(!data || data.code !== 0) {
+					common.alertMsg('提交失败!');
+				} else {
+					common.alertMsg('提交成功!');
+					$curEditTr && $curEditTr.addClass('danger').children('td:last-child').empty();
+					$modal.modal('hide');
+				}
+				$curEditTr = null;
+			});
+		});
+	}
+	/** 提交校验错误结果 结束 **/
+	
 	function initClearBtn() {
 		$('#J_clearBtn').on('click', function() {
 			$replayTbody.empty();
@@ -171,6 +267,8 @@ define(function(require, exports, module) {
 		initClearBtn();
 		initLockScrollBtn();
 		initSubmitSuccessResultBtn();
+		initOpenSubmitErrorModal();
+		initSubmitErrorBtn();
 	}
 	
 	module.exports = {init: init};

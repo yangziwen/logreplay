@@ -78,6 +78,15 @@ public class TagInfoController extends BaseService {
 		return successResultToJson(tagInfo, JsonUtil.configInstance(), true);
 	}
 	
+	@GET
+	@Path("/detailByPageNoAndTagNo/{pageNo}/{tagNo}")
+	public Response detailByPageNoAndTagNo(
+			@PathParam("pageNo") Integer pageNo,
+			@PathParam("tagNo") Integer tagNo) {
+		TagInfo tagInfo = tagInfoService.getTagInfoByPageNoAndTagNo(pageNo, tagNo);
+		return successResultToJson(tagInfo, JsonUtil.configInstance(), true);
+	}
+	
 	@POST
 	@Path("/update")
 	public Response update(
@@ -178,6 +187,20 @@ public class TagInfoController extends BaseService {
 				.addParam("pageInfoId", pageInfoId)
 				.addParam("tagNo", tagNo)
 				.addParam("id__ne", id)).size() > 0) {
+			return Response.ok().entity("false").build();
+		}
+		return Response.ok().entity("true").build();
+	}
+	
+	@GET
+	@Path("/checkExist")
+	public Response checkExist(
+			@QueryParam("pageNo") Integer pageNo,
+			@QueryParam("tagNo") Integer tagNo) {
+		if(tagNo == null || (tagNo < TagInfo.COMMON_TAG_NO_MIN_VALUE && pageNo == null)) {
+			return Response.ok().entity("false").build();
+		}
+		if(tagInfoService.getTagInfoByPageNoAndTagNo(pageNo, tagNo) == null) {
 			return Response.ok().entity("false").build();
 		}
 		return Response.ok().entity("true").build();

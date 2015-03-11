@@ -56,6 +56,13 @@ public class PageInfoController extends BaseService {
 		return successResultToJson(info, JsonUtil.configInstance(), true);
 	}
 	
+	@GET
+	@Path("/detailByPageNo/{pageNo}")
+	public Response detailByPageNo(@PathParam("pageNo") Integer pageNo) {
+		PageInfo info = pageInfoService.getPageInfoByPageNo(pageNo);
+		return successResultToJson(info, JsonUtil.configInstance(), true);
+	}
+	
 	@POST
 	@Path("/update/{id}")
 	public Response update(@PathParam("id") Long id,
@@ -111,6 +118,18 @@ public class PageInfoController extends BaseService {
 		if(pageInfoService.getPageInfoListResult(0, 1, new QueryParamMap()
 				.addParam("pageNo", pageNo)
 				.addParam("id__ne", id)).size() > 0) {
+			return Response.ok().entity("false").build();
+		}
+		return Response.ok().entity("true").build();
+	}
+	
+	@GET
+	@Path("/checkExist")
+	public Response checkExist(@QueryParam("pageNo") Integer pageNo) {
+		if(pageNo == null || pageNo <= 0) {
+			return Response.ok().entity("false").build();
+		}
+		if(pageInfoService.getPageInfoByPageNo(pageNo) == null) {
 			return Response.ok().entity("false").build();
 		}
 		return Response.ok().entity("true").build();
