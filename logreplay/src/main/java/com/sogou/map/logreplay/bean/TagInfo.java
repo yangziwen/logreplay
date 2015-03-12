@@ -37,8 +37,14 @@ public class TagInfo extends AbstractBean {
 	@Column(name = "target_id")
 	private Long targetId;
 	
-	@Column(name = "comment")
+	@Column
 	private String comment;
+	
+	@Column(name = "origin_version")
+	private Integer originVersion;
+	
+	@Column(name = "inspect_status")
+	private Integer inspectStatus;
 	
 	@Column(name = "create_time")
 	private Timestamp createTime;
@@ -120,6 +126,22 @@ public class TagInfo extends AbstractBean {
 		this.comment = comment;
 	}
 
+	public Integer getOriginVersion() {
+		return originVersion;
+	}
+
+	public void setOriginVersion(Integer originVersion) {
+		this.originVersion = originVersion;
+	}
+
+	public Integer getInspectStatus() {
+		return inspectStatus;
+	}
+
+	public void setInspectStatus(Integer inspectStatus) {
+		this.inspectStatus = inspectStatus;
+	}
+
 	public Timestamp getCreateTime() {
 		return createTime;
 	}
@@ -134,6 +156,33 @@ public class TagInfo extends AbstractBean {
 
 	public void setUpdateTime(Timestamp updateTime) {
 		this.updateTime = updateTime;
+	}
+	
+	public enum InspectStatus {
+		
+		SUCCESS(1), ERROR(2), UNCHECKED(0), UNKNOWN(-1);
+		
+		private int intValue;
+		
+		private InspectStatus(int value) {
+			this.intValue = value;
+		}
+		
+		public int getIntValue() {
+			return intValue;
+		}
+		
+		public InspectStatus from(Integer intValue) {
+			if(intValue == null) {
+				return UNKNOWN;
+			}
+			for(InspectStatus status: values()) {
+				if(intValue.equals(status.intValue)) {
+					return status;
+				}
+			}
+			return UNKNOWN;
+		}
 	}
 	
 }

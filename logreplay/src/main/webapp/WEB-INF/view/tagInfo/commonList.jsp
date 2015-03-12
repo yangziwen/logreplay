@@ -72,6 +72,7 @@
 				     				<th>操作名称</th>
 				     				<th style="width: 100px;">操作动作</th>
 				     				<th style="width: 100px;">操作目标</th>
+				     				<th style="width: 100px;">初始版本</th>
 				     				<th style="width: 100px;">管理</th>
 				     			</tr>
 				     		</thead>
@@ -83,6 +84,7 @@
 				     				<td>${'${'}name}</td>
 				     				<td>${'${'}$item.getActionName(actionId)}</td>
 				     				<td>${'${'}$item.getTargetName(targetId)}</td>
+									<td>${'${'}$item.displayOriginVersion(originVersion)}</td>
 				     				<td>
 				     					<button class="btn btn-primary btn-xs open-update-tag-modal">修改</button>
 				     				</td>
@@ -131,6 +133,12 @@
 							<div class="col-sm-8">
 								<select id="T_targetId" name="targetId" class="form-control">
 								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="T_originVersion" class="col-sm-4 control-label">初始版本：</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" id="T_originVersion" name="originVersion" placeholder="请输入初始版本" />
 							</div>
 						</div>
 						<div class="form-group">

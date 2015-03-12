@@ -173,6 +173,12 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label for="T_originVersion" class="col-sm-4 control-label">初始版本：</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" id="T_originVersion" name="originVersion" placeholder="请输入初始版本" />
+							</div>
+						</div>
+						<div class="form-group">
 							<label for="T_comment" class="col-sm-4 control-label">备注：</label>
 							<div class="col-sm-8">
 								<textarea id="T_comment" name="comment" class="form-control" rows="5" placeholder="请输入备注，100字以内"></textarea>

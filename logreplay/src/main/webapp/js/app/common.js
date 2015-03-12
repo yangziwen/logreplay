@@ -236,6 +236,49 @@ define(function(require, exports, module){
 		});
 	}
 	
+	var majorUnit = 10000000,
+		minorUnit = 100000,
+		revisionUnit = 1000;
+	
+	function parseAppVersion(version) {
+		if(!version) {
+			return 0;
+		}
+		if($.isNumeric(version) && parseInt(version) > majorUnit) {
+			return parseInt(version);
+		}
+		var arr = version.split('.');
+		for(var i = 0, l = arr.length; i < l; i++) {
+			if(!$.isNumeric(arr[i])) {
+				return 0;
+			}
+		}
+		var major = parseInt(arr[0]),
+			minor = parseInt(arr[1]),
+			revision = parseInt(arr[2]);
+		isNaN(revision) && (revision = 0);
+		var result = major * majorUnit + minor * minorUnit + revision * revisionUnit;
+		return isNaN(result)? 0: result;
+	}
+	
+	function formatAppVersion(version) {
+		if(!$.isNumeric(version)) {
+			return '';
+		}
+		version = parseInt(version);
+		if(version < majorUnit) {
+			return '';
+		}
+		var major = Math.floor(version / majorUnit),
+			minor = Math.floor((version % majorUnit) / minorUnit),
+			revision = Math.floor((version % minorUnit) / revisionUnit);
+		var arr = [major, minor];
+		if(revision > 0) {
+			arr.push(revision);
+		}
+		return arr.join('.');
+	}
+	
 	/**
 	 * 页头更新昵称
 	 */
@@ -301,6 +344,8 @@ define(function(require, exports, module){
 		submitForm: submitForm,
 		clearForm: clearForm,
 		buildPageBar: buildPageBar,
-		openWin: openWin
+		openWin: openWin,
+		parseAppVersion: parseAppVersion,
+		formatAppVersion: formatAppVersion
 	};
 });

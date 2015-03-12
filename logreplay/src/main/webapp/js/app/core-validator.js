@@ -2,8 +2,9 @@ define(function(require, exports, module) {
 	
 	"use strict";
 	
-	var $ = require('jquery');
 	require('jquery.validate');
+	var $ = require('jquery'),
+		common = require('app/common');
 	
 	$.fn.cleanValidateStyle = function() {
 		var validator = $.data(this[0], "validator");
@@ -15,6 +16,11 @@ define(function(require, exports, module) {
 			.find('.form-control-feedback')
 			.remove();
 	}
+	
+	$.validator.addMethod('appVersion', function(value, element, param) {
+		var appVersion = common.parseAppVersion(value);
+		return this.optional(element) || appVersion > 10000000;
+	}, '应用版本号有误!');
 	
 	var coreOptions = {
 		onkeyup: false,

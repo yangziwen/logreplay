@@ -16,6 +16,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -193,10 +194,23 @@ public class OperationRecordController extends BaseService {
 	 */
 	@GET
 	@Path("/receive")
-	public Response receiveData(
+	public Response receiveDataViaGet(
 			@QueryParam("moblog") String moblogStr,
 			@QueryParam("info") String infoStr,
 			@Context HttpServletRequest request) {
+		return doReceiveData(moblogStr, infoStr, request);
+	}
+	
+	@POST
+	@Path("/receive")
+	public Response receiveDataViaPost (
+			@QueryParam("moblog") String moblogStr,
+			@FormParam("info") String infoStr,
+			@Context HttpServletRequest request) {
+		return doReceiveData(moblogStr, infoStr, request);
+	}
+	
+	private Response doReceiveData(String moblogStr, String infoStr, HttpServletRequest request) {
 		MobLog moblog = new MobLogProcessor().process(moblogStr);
 		if(StringUtils.isEmpty(moblog.getDeviceId()) || StringUtils.isEmpty(moblog.getVersion())) {
 			LogReplayException.invalidParameterException("Invalid parameter of moblog!");

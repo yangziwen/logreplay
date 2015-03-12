@@ -64,6 +64,9 @@ define(function(require, exports, module) {
 			},
 			getTargetName: function(targetId) {
 				return tagTargetDict[targetId] || '--';
+			},
+			displayOriginVersion: function(originVersion) {
+				return common.formatAppVersion(originVersion) || '--';
 			}
 		}));
 	}
@@ -98,6 +101,7 @@ define(function(require, exports, module) {
 				$modal.find('input[name=name]').val(tagInfo.name);
 				$modal.find('select[name=actionId]').val(tagInfo.actionId);
 				$modal.find('select[name=targetId]').val(tagInfo.targetId);
+				$modal.find('input[name=originVersion]').val(tagInfo.originVersion);
 				$modal.find('textarea[name=comment]').val(tagInfo.comment);
 				$modal.find('.modal-dialog').css({
 					width: 400,
@@ -114,7 +118,7 @@ define(function(require, exports, module) {
 	function initUpdateTagInfoBtn() {
 		$('#J_updateTagInfoBtn').on('click', function() {
 			if(!tagInfoValidator.form()) {
-				common.alertMsg('参数有误，请检查!');
+				//common.alertMsg('参数有误，请检查!');
 				return;
 			}
 			var params = {
@@ -124,6 +128,7 @@ define(function(require, exports, module) {
 				name: $('#T_name').val(),
 				actionId: $('#T_actionId').val(),
 				targetId: $('#T_targetId').val(),
+				originVersion: common.parseAppVersion($('#T_originVersion').val()),
 				comment: $('#T_comment').val()
 			};
 			doUpdateTagInfo(params);

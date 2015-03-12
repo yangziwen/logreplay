@@ -31,6 +31,10 @@ define(function(require, exports, module) {
 			name: {
 				required: true,
 			},
+			originVersion: {
+				required: true,
+				appVersion: true
+			},
 			comment: {
 				maxlength: 100
 			}
@@ -45,8 +49,12 @@ define(function(require, exports, module) {
 			name: {
 				required: '操作项名称不能为空!',
 			},
+			originVersion: {
+				required: '初始版本号不能为空!',
+				appVersion: '版本号格式有误!'
+			},
 			comment: {
-				maxlength: '备注字数不能多于{0}'
+				maxlength: '备注字数不能多于{0}!'
 			}
 		}
 	};

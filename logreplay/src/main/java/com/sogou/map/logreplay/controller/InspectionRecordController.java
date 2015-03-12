@@ -110,6 +110,7 @@ public class InspectionRecordController extends BaseService {
 		try {
 			User curUser = AuthUtil.getCurrentUser();
 			InspectionRecord record = new InspectionRecord(pageInfo.getId(), tagInfo.getId(), curUser.getId(), valid, comment);
+			record.setTagInfo(tagInfo);
 			inspectionRecordService.createInspectionRecord(record);
 			return successResultToJson("InspectionRecord is created successfully!", true);
 		} catch (Exception e) {

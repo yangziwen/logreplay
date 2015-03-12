@@ -48,7 +48,10 @@ public class TagInfoController extends BaseService {
 			@QueryParam("tagName") String tagName,
 			@QueryParam("updateBeginTime") String updateBeginTime,
 			@QueryParam("updateEndTime") String updateEndTime,
-			@QueryParam("isCommonTag") Boolean isCommonTag
+			@QueryParam("isCommonTag") Boolean isCommonTag,
+			@QueryParam("versionSince") String versionSinceStr,
+			@QueryParam("versionUntil") String versionUntilStr,
+			@QueryParam("inspectStatus") String inspectStatusStr
 			) {
 		List<Long> pageInfoIdList = new ArrayList<Long>();
 		if(StringUtils.isNotBlank(pageName)) {
@@ -96,6 +99,7 @@ public class TagInfoController extends BaseService {
 			@FormParam("pageInfoId") Long pageInfoId,
 			@FormParam("actionId") Long actionId,
 			@FormParam("targetId") Long targetId,
+			@FormParam("originVersion") Integer originVersion,
 			@FormParam("comment") String comment
 			) {
 		boolean needPageInfo = tagNo < TagInfo.COMMON_TAG_NO_MIN_VALUE;
@@ -103,7 +107,8 @@ public class TagInfoController extends BaseService {
 				|| tagNo == null
 				|| (pageInfoId == null && needPageInfo)
 				|| actionId == null
-				|| targetId == null) {
+				|| targetId == null
+				|| originVersion == null || originVersion <= 0) {
 			throw LogReplayException.invalidParameterException("Parameters are invalid!");
 		}
 		PageInfo pageInfo = needPageInfo ? pageInfoService.getPageInfoById(pageInfoId) : null;
@@ -121,6 +126,7 @@ public class TagInfoController extends BaseService {
 			tagInfo.setPageNo(pageInfo != null? pageInfo.getPageNo(): null);
 			tagInfo.setActionId(actionId);
 			tagInfo.setTargetId(targetId);
+			tagInfo.setOriginVersion(originVersion);
 			tagInfo.setComment(comment);
 			tagInfoService.updateTagInfo(tagInfo);
 			return successResultToJson(String.format("TagInfo[%d] is updated successfully!", id), true);
@@ -138,6 +144,7 @@ public class TagInfoController extends BaseService {
 			@FormParam("pageInfoId") Long pageInfoId,
 			@FormParam("actionId") Long actionId,
 			@FormParam("targetId") Long targetId,
+			@FormParam("originVersion") Integer originVersion,
 			@FormParam("comment") String comment
 			) {
 		boolean needPageInfo = tagNo < TagInfo.COMMON_TAG_NO_MIN_VALUE;
@@ -145,7 +152,8 @@ public class TagInfoController extends BaseService {
 				|| tagNo == null
 				|| (pageInfoId == null && needPageInfo)
 				|| actionId == null
-				|| targetId == null) {
+				|| targetId == null
+				|| originVersion == null || originVersion <= 0) {
 			throw LogReplayException.invalidParameterException("Parameters are invalid!");
 		}
 		PageInfo pageInfo = needPageInfo ? pageInfoService.getPageInfoById(pageInfoId) : null;
@@ -160,6 +168,7 @@ public class TagInfoController extends BaseService {
 			tagInfo.setPageNo(pageInfo != null? pageInfo.getPageNo(): null);
 			tagInfo.setActionId(actionId);
 			tagInfo.setTargetId(targetId);
+			tagInfo.setOriginVersion(originVersion);
 			tagInfo.setComment(comment);
 			tagInfoService.createTagInfo(tagInfo);
 			return successResultToJson(String.format("TagInfo[%d] is created successfully!", tagInfo.getId()), true);

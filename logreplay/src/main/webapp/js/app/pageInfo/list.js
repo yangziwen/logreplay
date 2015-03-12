@@ -95,7 +95,7 @@ define(function(require, exports, module) {
 	function initCreatePageInfoBtn() {
 		$('#J_createPageInfoBtn').on('click', function() {
 			if(!pageInfoValidator.form()) {
-				common.alertMsg('参数有误，请检查!');
+				//common.alertMsg('参数有误，请检查!');
 				return;
 			}
 			var params = {
@@ -161,7 +161,7 @@ define(function(require, exports, module) {
 	function initUpdatePageInfoBtn() {
 		$('#J_updatePageInfoBtn').on('click', function() {
 			if(!pageInfoValidator.form()) {
-				common.alertMsg('参数有误，请检查!');
+				//common.alertMsg('参数有误，请检查!');
 				return;
 			}
 			var params = {
@@ -227,7 +227,7 @@ define(function(require, exports, module) {
 	function initCreateTagInfoBtn() {
 		$('#J_createTagInfoBtn').on('click', function() {
 			if(!tagInfoValidator.form()) {
-				common.alertMsg('参数有误，请检查!');
+				//common.alertMsg('参数有误，请检查!');
 				return;
 			}
 			var params = {
@@ -237,6 +237,7 @@ define(function(require, exports, module) {
 				name: $('#T_name').val(),
 				actionId: $('#T_actionId').val(),
 				targetId: $('#T_targetId').val(),
+				originVersion: common.parseAppVersion($('#T_originVersion').val()),
 				comment: $('#T_comment').val()
 			};
 			doCreateTagInfo(params);

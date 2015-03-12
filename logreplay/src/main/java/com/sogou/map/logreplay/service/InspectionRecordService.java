@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
@@ -17,6 +18,7 @@ import com.sogou.map.logreplay.bean.InspectionRecord;
 import com.sogou.map.logreplay.bean.PageInfo;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.bean.User;
+import com.sogou.map.logreplay.bean.TagInfo.InspectStatus;
 import com.sogou.map.logreplay.dao.InspectionRecordDao;
 import com.sogou.map.logreplay.dao.PageInfoDao;
 import com.sogou.map.logreplay.dao.TagInfoDao;
@@ -39,14 +41,34 @@ public class InspectionRecordService {
 	@Autowired
 	private TagInfoDao tagInfoDao;
 	
+	@Transactional
 	public void createInspectionRecord(InspectionRecord record) {
-		record.setCreateTime(new Timestamp(System.currentTimeMillis()));
+		Timestamp ts = new Timestamp(System.currentTimeMillis());
+		TagInfo tagInfo = record.getTagInfo();
+		if(tagInfo != null) {
+			updateInspectStatusOfTagInfo(tagInfo, record.getValid());
+		}
+		record.setCreateTime(ts);
 		inspectionRecordDao.save(record);
 	}
 	
+	@Transactional
 	public void updateInspectionRecord(InspectionRecord record) {
-		record.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+		Timestamp ts = new Timestamp(System.currentTimeMillis());
+		TagInfo tagInfo = record.getTagInfo();
+		if(tagInfo != null) {
+			updateInspectStatusOfTagInfo(tagInfo, record.getValid());
+		}
+		record.setUpdateTime(ts);
 		inspectionRecordDao.update(record);
+	}
+	
+	private void updateInspectStatusOfTagInfo(TagInfo tagInfo, Boolean valid) {
+		int status = Boolean.TRUE.equals(valid)
+				? InspectStatus.SUCCESS.getIntValue()
+				: InspectStatus.ERROR.getIntValue();
+		tagInfo.setInspectStatus(status);
+		tagInfoDao.update(tagInfo);
 	}
 	
 	public InspectionRecord getInspectionRecordById(Long id) {
