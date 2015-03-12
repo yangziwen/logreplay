@@ -57,14 +57,14 @@ public class InspectionRecordService {
 		Timestamp ts = new Timestamp(System.currentTimeMillis());
 		TagInfo tagInfo = record.getTagInfo();
 		if(tagInfo != null) {
-			updateInspectStatusOfTagInfo(tagInfo, record.getValid());
+			updateInspectStatusOfTagInfo(tagInfo, record.getSolved());
 		}
 		record.setUpdateTime(ts);
 		inspectionRecordDao.update(record);
 	}
 	
-	private void updateInspectStatusOfTagInfo(TagInfo tagInfo, Boolean valid) {
-		int status = Boolean.TRUE.equals(valid)
+	private void updateInspectStatusOfTagInfo(TagInfo tagInfo, Boolean correct) {
+		int status = Boolean.TRUE.equals(correct)
 				? InspectStatus.SUCCESS.getIntValue()
 				: InspectStatus.ERROR.getIntValue();
 		tagInfo.setInspectStatus(status);

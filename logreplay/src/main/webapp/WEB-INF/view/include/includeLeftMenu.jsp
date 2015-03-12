@@ -32,6 +32,7 @@
 						<li><a href="${ctx_path}/replay/realtime.htm"><i class="glyphicon glyphicon-chevron-right"></i> 即时校验</a></li>
 						<li><a href="${ctx_path}/replay/sequence.htm"><i class="glyphicon glyphicon-chevron-right"></i> 序列校验</a></li>
 						<li><a href="${ctx_path}/inspectionRecord/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> 校验结果</a></li>
+						<li><a href="${ctx_path}/inspectionRecord/inspectStatusList.htm"><i class="glyphicon glyphicon-chevron-right"></i> 校验状态查询</a></li>
 					</ul>
 				</li>
 				<li class="active">

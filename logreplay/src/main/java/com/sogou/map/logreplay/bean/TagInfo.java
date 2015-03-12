@@ -172,7 +172,7 @@ public class TagInfo extends AbstractBean {
 			return intValue;
 		}
 		
-		public InspectStatus from(Integer intValue) {
+		public static InspectStatus from(Integer intValue) {
 			if(intValue == null) {
 				return UNKNOWN;
 			}

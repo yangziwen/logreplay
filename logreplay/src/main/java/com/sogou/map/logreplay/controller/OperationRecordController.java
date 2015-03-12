@@ -119,7 +119,7 @@ public class OperationRecordController extends BaseService {
 			return;
 		}
 		Map<Integer, PageInfo> pageInfoMap = Maps.uniqueIndex(pageInfoService.getPageInfoListResult(new QueryParamMap()
-			.addParam("pageNo__in", new ArrayList<Integer>(pageNoSet))
+			.addParam("pageNo__in", pageNoSet)
 		), new Function<PageInfo, Integer>() {
 			@Override
 			public Integer apply(PageInfo pageInfo) {
@@ -127,7 +127,7 @@ public class OperationRecordController extends BaseService {
 			}
 		});
 		Map<Integer, TagInfo> tagInfoMap = Maps.uniqueIndex(tagInfoService.getTagInfoListResult(new QueryParamMap()
-			.addParam("tagNo__in", new ArrayList<Integer>(tagNoSet))
+			.addParam("tagNo__in", tagNoSet)
 		), new Function<TagInfo, Integer>() {
 			@Override
 			public Integer apply(TagInfo tagInfo) {

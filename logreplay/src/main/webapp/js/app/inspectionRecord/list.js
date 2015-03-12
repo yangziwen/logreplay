@@ -28,11 +28,11 @@ define(function(require, exports, module) {
 		$('#J_inspectionRecordTbody').empty().append($('#J_inspectionRecordTmpl').tmpl(list, {
 			displayValidStatus: function(record) {
 				if(record.valid === true) {
-					return '<span class="label label-success">正确</span>'
+					return '<span class="label label-success">正确</span>';
 				} else if (!record.valid && record.solved === true) {
 					return '<span class="label label-default">错误</span>';
 				} else {
-					return '<span class="label label-danger">错误</span>'
+					return '<span class="label label-danger">错误</span>';
 				}
 			},
 			displaySolvedStatus: function(record) {

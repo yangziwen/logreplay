@@ -14,11 +14,13 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sogou.map.logreplay.bean.PageInfo;
 import com.sogou.map.logreplay.bean.TagInfo;
+import com.sogou.map.logreplay.bean.TagInfo.InspectStatus;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.exception.LogReplayException;
@@ -49,10 +51,11 @@ public class TagInfoController extends BaseService {
 			@QueryParam("updateBeginTime") String updateBeginTime,
 			@QueryParam("updateEndTime") String updateEndTime,
 			@QueryParam("isCommonTag") Boolean isCommonTag,
-			@QueryParam("versionSince") String versionSinceStr,
-			@QueryParam("versionUntil") String versionUntilStr,
+			@QueryParam("originVersionSince") Integer originVersionSince,
+			@QueryParam("originVersionUntil") Integer originVersionUntil,
 			@QueryParam("inspectStatus") String inspectStatusStr
 			) {
+		InspectStatus inspectStatus = InspectStatus.from(NumberUtils.toInt(inspectStatusStr, -1));
 		List<Long> pageInfoIdList = new ArrayList<Long>();
 		if(StringUtils.isNotBlank(pageName)) {
 			List<PageInfo> pageInfoList = pageInfoService.getPageInfoListResult(new QueryParamMap().addParam("name__contain", pageName));
@@ -65,10 +68,14 @@ public class TagInfoController extends BaseService {
 			.addParam(tagNo != null, "tagNo", tagNo)
 			.addParam(CollectionUtils.isNotEmpty(pageInfoIdList), "pageInfoId__in", pageInfoIdList)
 			.addParam(StringUtils.isNotBlank(tagName), "name__contain", tagName)
+			.addParam(StringUtils.isNotBlank(pageName), "page_info.name__contain", pageName)
 			.addParam(StringUtils.isNotBlank(updateBeginTime), "updateTime__ge", updateBeginTime)
 			.addParam(StringUtils.isNotBlank(updateEndTime), "updateTime__le", updateEndTime)
 			.addParam(Boolean.FALSE.equals(isCommonTag), "page_info.id__is_not_null")
 			.addParam(Boolean.TRUE.equals(isCommonTag), "page_info.id__is_null")
+			.addParam(originVersionSince != null && originVersionSince > 0, "originVersion__ge", originVersionSince)
+			.addParam(originVersionUntil != null && originVersionUntil > 0 , "originVersion__le", originVersionUntil)
+			.addParam(inspectStatus != InspectStatus.UNKNOWN, "inspectStatus", inspectStatus.getIntValue())
 			.orderByAsc("page_info.page_no").orderByAsc("tagNo")
 		);
 		return successResultToJson(page, JsonUtil.configInstance(), true);
