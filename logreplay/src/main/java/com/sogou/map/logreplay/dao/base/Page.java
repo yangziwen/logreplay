@@ -47,4 +47,8 @@ public class Page<E> {
 		this.list = list;
 	}
 	
+	public static <T> Page<T> emptyPage() {
+		return new Page<T>(0, 0, 0, Collections.<T>emptyList());
+	}
+	
 }

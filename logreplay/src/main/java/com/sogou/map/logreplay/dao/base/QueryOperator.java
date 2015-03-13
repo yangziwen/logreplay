@@ -107,6 +107,30 @@ public enum QueryOperator {
 		public OperationParsedResult buildResult(String fieldName, String originKey) {
 			return new OperationParsedResult(fieldName, " is not null ", "", originKey);
 		}
+	},
+	exists {
+		@Override
+		public OperationParsedResult buildResult(String fieldName, String originKey) {
+			int index = originKey.lastIndexOf("__");
+			String existsClause = originKey.substring(0, index);
+			return new OperationParsedResult("", " exists (" + existsClause + ") ", "", originKey);
+		}
+	},
+	not_exists {
+		@Override
+		public OperationParsedResult buildResult(String fieldName, String originKey) {
+			int index = originKey.lastIndexOf("__");
+			String existsClause = originKey.substring(0, index);
+			return new OperationParsedResult("", " not exists (" + existsClause + ")", "", originKey);
+		}
+	},
+	sub_query {
+		@Override
+		public OperationParsedResult buildResult(String fieldName, String originKey) {
+			int index = originKey.lastIndexOf("__");
+			String subQuery = originKey.substring(0, index);
+			return new OperationParsedResult("", "(" + subQuery + ")", "", originKey);
+		}
 	}
 	;
 	

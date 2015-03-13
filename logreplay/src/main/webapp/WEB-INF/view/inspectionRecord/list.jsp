@@ -43,6 +43,16 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label for="J_pageNo" class="col-sm-2 control-label">Ò³Ãæ±àºÅ£º</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="J_pageNo" name="pageNo" placeholder="ÇëÊäÈëÒ³Ãæ±àºÅ" />
+								</div>
+								<label for="J_tagNo" class="col-sm-2 control-label">²Ù×÷±àºÅ£º</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="J_tagNo" name="tagNo" placeholder="ÇëÊäÈë²Ù×÷±àºÅ" />
+								</div>
+							</div>
+							<div class="form-group">
 								<label for="J_valid" class="col-sm-2 control-label">Ð£Ñé½á¹û£º</label>
 								<div class="col-sm-4">
 									<select id="J_valid" name="valid" class="form-control">

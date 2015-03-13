@@ -11,6 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,8 @@ public class InspectionRecordController extends BaseService {
 			@DefaultValue(Page.DEFAULT_LIMIT) @QueryParam("limit") int limit,
 			@QueryParam("submitterName") String submitterName,
 			@QueryParam("solverName") String solverName,
+			@QueryParam("pageNo") Integer pageNo,
+			@QueryParam("tagNo") Integer tagNo,
 			@QueryParam("valid") String validStr,
 			@QueryParam("solved") String solvedStr,
 			@QueryParam("submitTimeSince") String submitTimeSince,
@@ -62,11 +65,25 @@ public class InspectionRecordController extends BaseService {
 			) {
 		Boolean valid = BooleanUtils.toBooleanObject(validStr);
 		Boolean solved = BooleanUtils.toBooleanObject(solvedStr);
-		List<Long> submitterIdList = userService.getUserIdListResultByName(submitterName);
-		List<Long> solverIdList = userService.getUserIdListResultByName(solverName);
+		List<Long> submitterIdList = null;
+		if(StringUtils.isNotBlank(submitterName)) {
+			submitterIdList = userService.getUserIdListResultByName(submitterName);
+			if(CollectionUtils.isEmpty(submitterIdList)) {
+				return successResultToJson(Page.<InspectionRecordDto>emptyPage(), JsonUtil.configInstance(), true);
+			}
+		}
+		List<Long> solverIdList = null;
+		if(StringUtils.isNotBlank(solverName)) {
+			solverIdList = userService.getUserIdListResultByName(solverName);
+			if(CollectionUtils.isEmpty(solverIdList)) {
+				return successResultToJson(Page.<InspectionRecordDto>emptyPage(), JsonUtil.configInstance(), true);
+			}
+		}
 		QueryParamMap params = new QueryParamMap()
-			.addParam(StringUtils.isNotBlank(submitterName), "submitterId__in", submitterIdList)
-			.addParam(StringUtils.isNotBlank(solverName), "solverId__in", solverIdList)
+			.addParam(submitterIdList != null, "submitterId__in", submitterIdList)
+			.addParam(solverIdList != null, "solverId__in", solverIdList)
+			.addParam(pageNo != null && pageNo > 0, "pageNo", pageNo)
+			.addParam(tagNo != null && tagNo > 0, "tagNo", tagNo)
 			.addParam(valid != null, "valid", valid)
 			.addParam(solved != null, "solved", solved)
 			.addParam(StringUtils.isNotBlank(submitTimeSince), "createTime__ge", submitTimeSince)
