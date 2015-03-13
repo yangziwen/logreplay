@@ -85,7 +85,7 @@
 										data-page-name="${'${'}pageName}" data-tag-name="${'${'}tagName}">
 				     				<td>${'${'}os}</td>
 				     				<td style="text-align: left">&nbsp;p[${'${'}pageNo}] t[${'${'}tagNo}]</td>
-				     				<td>${'${'}$item.describe($data)}</td>
+				     				<td>{{html $item.describe($data) }}</td>
 				     				<td title="${'${'}params}" style="max-width: 250px; overflow-x: hidden; text-align: left;">
 										${'${'}params}
 									</td>

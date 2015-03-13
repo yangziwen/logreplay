@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,12 +39,15 @@ import org.springframework.ui.ModelMap;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sogou.map.logreplay.bean.OperationRecord;
 import com.sogou.map.logreplay.bean.PageInfo;
+import com.sogou.map.logreplay.bean.ParamInfo;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.dto.OperationRecordDto;
+import com.sogou.map.logreplay.dto.OperationRecordDto.TagParamParsedResult;
 import com.sogou.map.logreplay.exception.LogReplayException;
 import com.sogou.map.logreplay.logprocess.log.MobLog;
 import com.sogou.map.logreplay.logprocess.processor.MobLogProcessor;
@@ -51,7 +55,10 @@ import com.sogou.map.logreplay.logprocess.processor.OperationLogProcessor;
 import com.sogou.map.logreplay.service.OperationRecordService;
 import com.sogou.map.logreplay.service.PageInfoService;
 import com.sogou.map.logreplay.service.TagInfoService;
+import com.sogou.map.logreplay.service.TagParamService;
 import com.sogou.map.logreplay.util.JsonUtil;
+import com.sogou.map.logreplay.util.TagParamParser;
+import com.sogou.map.logreplay.util.TagParamParser.ParamInfoHolder;
 import com.sogou.map.mengine.common.service.BaseService;
 import com.sogou.map.mengine.http.filter.AccessLoggerFilter;
 import com.sun.jersey.multipart.FormDataBodyPart;
@@ -71,6 +78,9 @@ public class OperationRecordController extends BaseService {
 	
 	@Autowired
 	private TagInfoService tagInfoService;
+	
+	@Autowired
+	private TagParamService tagParamService;
 	
 	@GET
 	@Path("/query")
@@ -96,6 +106,7 @@ public class OperationRecordController extends BaseService {
 		);
 		List<OperationRecordDto> dtoList = convertToDtoList(list);
 		findAndFillCommonTagInfo(dtoList);
+		fillTagParamParsedResult(dtoList);
 		return successResultToJson(dtoList, JsonUtil.configInstance(), true);
 	}
 	
@@ -141,6 +152,7 @@ public class OperationRecordController extends BaseService {
 			}
 			TagInfo tagInfo = tagInfoMap.get(dto.getTagNo());
 			if(tagInfo != null) {
+				dto.setTagInfoId(tagInfo.getId());
 				dto.setTagName(tagInfo.getName());
 				dto.setActionId(tagInfo.getActionId());
 				dto.setTargetId(tagInfo.getTargetId());
@@ -185,6 +197,55 @@ public class OperationRecordController extends BaseService {
 			tagInfoIdSet.add(record.getTagInfoId());
 		}
 		return tagInfoIdSet;
+	}
+	
+	public void fillTagParamParsedResult(List<OperationRecordDto> dtoList) {
+		if(CollectionUtils.isEmpty(dtoList)) {
+			return;
+		}
+		List<Long> tagInfoIdList = Lists.transform(dtoList, new Function<OperationRecordDto, Long>() {
+			@Override
+			public Long apply(OperationRecordDto dto) {
+				return dto.getTagInfoId();
+			}
+		});
+		TagParamParser parser = tagParamService.getTagParamParserByTagInfoIdList(tagInfoIdList);
+		for(OperationRecordDto dto: dtoList) {
+			String params = dto.getParams();
+			if(StringUtils.isBlank(params)) {
+				params = "{}";
+			}
+			JSONObject json = JSON.parseObject(params);
+			List<String> requiredParamNameList = parser.getRequiredParamNameList(dto.getTagInfoId());
+			for(String requiredParamName: requiredParamNameList) {
+				if(!json.containsKey(requiredParamName)) {
+					TagParamParsedResult lackOfParamResult = new TagParamParsedResult()
+						.paramName(requiredParamName)
+						.description("缺少参数!")
+						.required(true)
+						.valid(false);
+					dto.addParamParsedResult(lackOfParamResult);
+				}
+			}
+			for(Entry<String, Object> entry: json.entrySet()) {
+				String key = entry.getKey();
+				if("t".equals(key) || "p".equals(key) || "tag".equals(key)) {
+					continue;
+				}
+				Object value = entry.getValue();
+				if(value == null) {
+					value = "";
+				}
+				ParamInfo paramInfo = parser.parse(dto.getTagInfoId(), key, value.toString());
+				String description = paramInfo != null? paramInfo.getDescription(): "";
+				TagParamParsedResult parsedResult = new TagParamParsedResult()
+					.paramName(key).paramValue(value.toString())
+					.description(description)
+					.required(paramInfo != null)
+					.valid(!ParamInfoHolder.PARAM_VALUE_NOT_EXIST_DESCRIPTION.equals(description));	// 这里写的太滥了，已经没有力气了
+				dto.addParamParsedResult(parsedResult);
+			}
+		}
 	}
 	
 	/**

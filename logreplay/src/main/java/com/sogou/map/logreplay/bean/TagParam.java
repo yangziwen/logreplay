@@ -1,5 +1,6 @@
 package com.sogou.map.logreplay.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -18,7 +19,7 @@ public class TagParam extends AbstractBean {
 	private Long tagInfoId;
 	
 	@Transient
-	private List<ParamInfo> paramInfoList;
+	private List<ParamInfo> paramInfoList = new ArrayList<ParamInfo>();
 	
 	@Column
 	private String comment;
@@ -60,6 +61,10 @@ public class TagParam extends AbstractBean {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+	
+	public void addParamInfo(ParamInfo info) {
+		paramInfoList.add(info);
 	}
 	
 }

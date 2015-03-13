@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -15,7 +16,9 @@ import com.sogou.map.logreplay.bean.ParamInfo;
 import com.sogou.map.logreplay.bean.TagParam;
 import com.sogou.map.logreplay.dao.ParamInfoDao;
 import com.sogou.map.logreplay.dao.TagParamDao;
+import com.sogou.map.logreplay.dao.TagParamWithInfosDao;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
+import com.sogou.map.logreplay.util.TagParamParser;
 
 @Service
 public class TagParamService {
@@ -25,6 +28,29 @@ public class TagParamService {
 	
 	@Autowired
 	private ParamInfoDao paramInfoDao;
+	
+	@Autowired
+	private TagParamWithInfosDao tagParamWithInfosDao;
+	
+	public List<TagParam> getTagParamListResultWithInfos(Map<String, Object> param) {
+		return tagParamWithInfosDao.list(param);
+	}
+	
+	public TagParamParser getTagParamParserByTagInfoIdList(List<Long> tagInfoIdList) {
+		TagParamParser parser = new TagParamParser();
+		if(CollectionUtils.isEmpty(tagInfoIdList)) {
+			return parser;
+		}
+		List<TagParam> tagParamList = getTagParamListResultWithInfos(new QueryParamMap()
+			.addParam("tagInfoId__in", tagInfoIdList)
+		);
+		for(TagParam tagParam: tagParamList) {
+			for(ParamInfo paramInfo: tagParam.getParamInfoList()) {
+				parser.addParamInfo(tagParam.getTagInfoId(), paramInfo);
+			}
+		}
+		return parser;
+	}
 	
 	/**
 	 * paramInfo是否应该直接用json保存？

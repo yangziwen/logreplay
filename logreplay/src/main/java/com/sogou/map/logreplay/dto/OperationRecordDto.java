@@ -1,5 +1,8 @@
 package com.sogou.map.logreplay.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.sogou.map.logreplay.bean.OperationRecord;
 import com.sogou.map.logreplay.bean.TagInfo;
 
@@ -13,12 +16,15 @@ public class OperationRecordDto {
 	private Long version;
 	private Long timestamp;
 	private Integer pageNo;
+	private Long tagInfoId;
 	private String pageName;
 	private Integer tagNo;
 	private String tagName;
 	private Long actionId;
 	private Long targetId;
 	private String params;
+	
+	private List<TagParamParsedResult> paramParsedResultList = new ArrayList<TagParamParsedResult>();
 	
 	public OperationRecordDto() {}
 	
@@ -78,6 +84,14 @@ public class OperationRecordDto {
 		this.timestamp = timestamp;
 	}
 
+	public Long getTagInfoId() {
+		return tagInfoId;
+	}
+
+	public void setTagInfoId(Long tagInfoId) {
+		this.tagInfoId = tagInfoId;
+	}
+
 	public Integer getPageNo() {
 		return pageNo;
 	}
@@ -134,6 +148,20 @@ public class OperationRecordDto {
 		this.params = params;
 	}
 
+	public List<TagParamParsedResult> getParamParsedResultList() {
+		return paramParsedResultList;
+	}
+
+	public void setParamParsedResultList(List<TagParamParsedResult> paramsParsedResultList) {
+		this.paramParsedResultList = paramsParsedResultList;
+	}
+	
+	public void addParamParsedResult(TagParamParsedResult result) {
+		if(result != null) {
+			paramParsedResultList.add(result);
+		}
+	}
+
 	public static OperationRecordDto from(OperationRecord record, TagInfo tagInfo) {
 		if(record == null) {
 			throw new IllegalArgumentException("OperationRecord should not be null!");
@@ -155,11 +183,91 @@ public class OperationRecordDto {
 		dto.tagNo = record.getTagNo();
 		dto.params = record.getParams();
 		if(tagInfo != null) {
+			dto.tagInfoId = tagInfo.getId();
 			dto.pageName = tagInfo.getPageInfo().getName();
 			dto.tagName = tagInfo.getName();
 			dto.actionId = tagInfo.getActionId();
 			dto.targetId = tagInfo.getTargetId();
 		}
 		return dto;
+	}
+	
+	public static class TagParamParsedResult {
+		
+		private boolean valid;
+		
+		private boolean required;
+		
+		private String paramName;
+		
+		private String paramValue;
+		
+		private String description;
+
+		public boolean isValid() {
+			return valid;
+		}
+
+		public void setValid(boolean valid) {
+			this.valid = valid;
+		}
+
+		public boolean isRequired() {
+			return required;
+		}
+
+		public void setRequired(boolean required) {
+			this.required = required;
+		}
+
+		public String getParamName() {
+			return paramName;
+		}
+
+		public void setParamName(String paramName) {
+			this.paramName = paramName;
+		}
+
+		public String getParamValue() {
+			return paramValue;
+		}
+
+		public void setParamValue(String paramValue) {
+			this.paramValue = paramValue;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+
+		public void setDescription(String description) {
+			this.description = description;
+		}
+		
+		public TagParamParsedResult valid(boolean valid) {
+			this.valid = valid;
+			return this;
+		}
+		
+		public TagParamParsedResult required(boolean required) {
+			this.required = required;
+			return this;
+		}
+		
+		public TagParamParsedResult paramName(String paramName) {
+			this.paramName = paramName;
+			return this;
+		}
+		
+		public TagParamParsedResult paramValue(String paramValue) {
+			this.paramValue = paramValue;
+			return this;
+		}
+		
+		public TagParamParsedResult description(String description) {
+			this.description = description;
+			return this;
+		}
+		
 	}
 }

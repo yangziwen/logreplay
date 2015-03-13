@@ -24,6 +24,12 @@ public class ParamInfo extends AbstractBean {
 	private String description;
 	
 	public ParamInfo() {}
+	
+	public ParamInfo(String name, String value, String description) {
+		this.name = name;
+		this.value = value;
+		this.description = description;
+	}
 
 	public Long getId() {
 		return id;
