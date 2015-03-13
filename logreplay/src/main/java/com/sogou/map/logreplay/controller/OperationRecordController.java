@@ -288,7 +288,7 @@ public class OperationRecordController extends BaseService {
 				.uvid(moblog.getUvid())
 				.os(moblog.getOs())
 				.version(moblog.getVersion())
-				.timestamp(info.getLong("t"))
+				.timestamp(System.currentTimeMillis())
 				.pageNo(info.getInteger("p"))
 				.tagNo(info.getInteger("tag"))
 				.params(info)

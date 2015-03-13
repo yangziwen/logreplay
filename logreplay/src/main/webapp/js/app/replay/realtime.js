@@ -58,9 +58,15 @@ define(function(require, exports, module) {
 			$replaySwitchBtn.html('停止校验');
 //			$clearBtn.attr({disabled: true});
 			var params = common.collectParams('#J_queryArea input[type!=button]');
-			params.since = $.now();
-//			params.since = 1426047917529; 	// to annotate
-			doReplay(params, 1000);
+//			params.since = $.now();		// don't rely on client's clock!
+			$.get(CTX_PATH + "/common/serverTimestamp").done(function(data) {
+				if(!data || !data.response || !data.response.timestamp) {
+					common.alertMsg('与服务端校对时间失败!');
+					return;
+				}
+				params.since = data.response.timestamp;
+				doReplay(params, 1000);
+			})
 		} else {
 			$replaySwitchBtn.html('开始校验');
 //			$clearBtn.attr({disabled: false});

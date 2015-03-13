@@ -9,6 +9,10 @@
 		#J_replayArea {
 			margin-top: 10px; height: 500px; overflow-y: auto; border-top: 1px solid #eee; padding: 0px;
 		}
+		#J_replayTbl td {
+			white-space: normal;
+			word-break: break-all;
+		}
 	</style>
 </head>
 <body>
