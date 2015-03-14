@@ -18,6 +18,7 @@ import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.exception.LogReplayException;
 import com.sogou.map.logreplay.service.PageInfoService;
+import com.sogou.map.logreplay.util.AuthUtil;
 import com.sogou.map.logreplay.util.JsonUtil;
 import com.sogou.map.mengine.common.bo.ApiException;
 import com.sogou.map.mengine.common.service.BaseService;
@@ -68,6 +69,9 @@ public class PageInfoController extends BaseService {
 	public Response update(@PathParam("id") Long id,
 			@FormParam("pageNo") Integer pageNo,
 			@FormParam("name") String name) throws ApiException {
+		if(!AuthUtil.hasRole("admin")) {
+			throw LogReplayException.unauthorizedException("Role[admin] is required!");
+		}
 		if(pageNo == null || StringUtils.isBlank(name)) {
 			throw LogReplayException.invalidParameterException("Parameters are invalid!");
 		}
@@ -91,6 +95,9 @@ public class PageInfoController extends BaseService {
 			@FormParam("pageNo") Integer pageNo,
 			@FormParam("name") String name
 			) throws ApiException {
+		if(!AuthUtil.hasRole("admin")) {
+			throw LogReplayException.unauthorizedException("Role[admin] is required!");
+		}
 		if(pageNo == null || StringUtils.isBlank(name)) {
 			throw LogReplayException.invalidParameterException("Parameters are invalid!");
 		}

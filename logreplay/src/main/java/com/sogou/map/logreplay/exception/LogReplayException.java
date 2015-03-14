@@ -21,6 +21,10 @@ public class LogReplayException extends UncheckedApiException {
 		return new InvalidParameterException(errorMsg);
 	}
 	
+	public static UnauthorizedException unauthorizedException(String errorMsg) {
+		return new UnauthorizedException(errorMsg);
+	}
+	
 	// ----------------------------------- //
 	
 	public static class NotExistException extends LogReplayException {
@@ -38,6 +42,12 @@ public class LogReplayException extends UncheckedApiException {
 	public static class InvalidParameterException extends LogReplayException {
 		protected InvalidParameterException(String errorMsg) {
 			super(10003, errorMsg);
+		}
+	}
+	
+	public static class UnauthorizedException extends LogReplayException {
+		protected UnauthorizedException(String errorMsg) {
+			super(10004, errorMsg);
 		}
 	}
 

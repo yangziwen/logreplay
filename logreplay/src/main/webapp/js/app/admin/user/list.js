@@ -100,7 +100,7 @@ define(function(require, exports, module) {
 	function initCreateUserBtn() {
 		$('#J_createUserBtn').on('click', function() {
 			if(!userValidator.form()) {
-				common.alertMsg('参数有误，请检查!');
+				// common.alertMsg('参数有误，请检查!');
 				return;
 			}
 			var params = {
@@ -171,7 +171,7 @@ define(function(require, exports, module) {
 	function initUpdateUserBtn() {
 		$('#J_updateUserBtn').on('click', function() {
 			if(!userValidator.form()) {
-				common.alertMsg('参数有误，请检查!');
+				// common.alertMsg('参数有误，请检查!');
 				return;
 			}
 			var params = {

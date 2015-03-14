@@ -30,7 +30,7 @@ define(function(require, exports, module) {
 				remote: '用户名重复!'
 			}
 		}
-	}
+	};
 	
 	module.exports = {
 		validate: function(form) {

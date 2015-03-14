@@ -9,7 +9,7 @@ define(function(require, exports, module) {
 		rules: {
 			pageNo: {
 				required: true,
-				minlength: 1,
+				min: 1,
 				number: true,
 				remote: {
 					url: CTX_PATH + '/pageInfo/checkExist',
@@ -24,7 +24,7 @@ define(function(require, exports, module) {
 			},
 			tagNo: {
 				required: true,
-				minlength: 1,
+				min: 1,
 				number: true,
 				remote: {
 					url: CTX_PATH + '/tagInfo/checkExist',
@@ -32,10 +32,10 @@ define(function(require, exports, module) {
 					dataType: 'json',
 					data: {
 						pageNo: function() {
-							return $('#S_pageNo').val()
+							return $('#S_pageNo').val();
 						},
 						tagNo: function() {
-							return $('#S_tagNo').val()
+							return $('#S_tagNo').val();
 						}
 					}
 				}
@@ -55,7 +55,7 @@ define(function(require, exports, module) {
 				remote: '操作信息不存在!'
 			}
 		}
-	}
+	};
 	
 	module.exports = {
 		validate: function(form) {

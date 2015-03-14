@@ -14,7 +14,7 @@ import com.sogou.map.mengine.common.service.BaseService;
 public class CommonController extends BaseService {
 
 	/**
-	 * 第一次发起实时校验请求时，需要客户端跟服务端校对时间
+	 * 第一次发起实时校验请求时，从服务端校取时间作为初始查询条件
 	 */
 	@GET
 	@Path("/serverTimestamp")

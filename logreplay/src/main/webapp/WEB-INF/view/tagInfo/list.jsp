@@ -82,7 +82,9 @@
 				     				<th style="width: 100px;">操作动作</th>
 				     				<th style="width: 100px;">操作目标</th>
 				     				<th style="width: 100px;">初始版本</th>
+				     				<shiro:hasRole name="admin">
 				     				<th style="width: 100px;">管理</th>
+				     				</shiro:hasRole>
 				     			</tr>
 				     		</thead>
 				     		<tbody id="J_tagInfoTbody">
@@ -96,10 +98,12 @@
 				     				<td>${'${'}$item.getActionName(actionId)}</td>
 				     				<td>${'${'}$item.getTargetName(targetId)}</td>
 									<td>${'${'}$item.displayOriginVersion(originVersion)}</td>
+									<shiro:hasRole name="admin">
 				     				<td>
 				     					<button class="btn btn-primary btn-xs open-update-tag-modal">修改</button>
 				     					<button class="btn btn-primary btn-xs open-update-tag-param-modal">参数</button>
 				     				</td>
+									</shiro:hasRole>
 				     			</tr>
 							</script>
 				     	</table>

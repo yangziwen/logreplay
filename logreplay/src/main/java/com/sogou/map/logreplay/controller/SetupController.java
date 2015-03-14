@@ -31,6 +31,7 @@ import com.sogou.map.logreplay.dao.TagInfoDao;
 import com.sogou.map.logreplay.dao.TagTargetDao;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.exception.LogReplayException;
+import com.sogou.map.logreplay.util.AuthUtil;
 import com.sogou.map.mengine.common.service.BaseService;
 
 @Component
@@ -53,6 +54,9 @@ public class SetupController extends BaseService {
 	@Path("/tagAction/import")
 	public Response importTagAction(
 			@QueryParam("filePath") String filePath) {
+		if(!AuthUtil.hasRole("admin")) {
+			throw LogReplayException.unauthorizedException("Role[admin] is required!");
+		}
 		File file = null;
 		if(StringUtils.isBlank(filePath) || !(file = new File(filePath)).exists()) {
 			throw LogReplayException.invalidParameterException("FilePath is not valid!");
@@ -78,6 +82,9 @@ public class SetupController extends BaseService {
 	@Path("/tagTarget/import")
 	public Response importTagTarget(
 			@QueryParam("filePath") String filePath) {
+		if(!AuthUtil.hasRole("admin")) {
+			throw LogReplayException.unauthorizedException("Role[admin] is required!");
+		}
 		File file = null;
 		if(StringUtils.isBlank(filePath) || !(file = new File(filePath)).exists()) {
 			throw LogReplayException.invalidParameterException("FilePath is not valid!");
@@ -103,6 +110,9 @@ public class SetupController extends BaseService {
 	@Path("/pageInfo/import")
 	public Response importPageInfo(
 			@QueryParam("filePath") String filePath) {
+		if(!AuthUtil.hasRole("admin")) {
+			throw LogReplayException.unauthorizedException("Role[admin] is required!");
+		}
 		File file = null;
 		if(StringUtils.isBlank(filePath) || !(file = new File(filePath)).exists()) {
 			throw LogReplayException.invalidParameterException("FilePath is not valid!");
@@ -135,6 +145,9 @@ public class SetupController extends BaseService {
 	@Path("/commonTagInfo/import")
 	public Response importCommonTagInfo(
 			@QueryParam("filePath") String filePath) {
+		if(!AuthUtil.hasRole("admin")) {
+			throw LogReplayException.unauthorizedException("Role[admin] is required!");
+		}
 		File file = null;
 		if(StringUtils.isBlank(filePath) || !(file = new File(filePath)).exists()) {
 			throw LogReplayException.invalidParameterException("FilePath is not valid!");
@@ -189,6 +202,9 @@ public class SetupController extends BaseService {
 	@Path("/tagInfo/import")
 	public Response importTagInfo(
 			@QueryParam("filePath") String filePath) {
+		if(!AuthUtil.hasRole("admin")) {
+			throw LogReplayException.unauthorizedException("Role[admin] is required!");
+		}
 		File file = null;
 		if(StringUtils.isBlank(filePath) || !(file = new File(filePath)).exists()) {
 			throw LogReplayException.invalidParameterException("FilePath is not valid!");

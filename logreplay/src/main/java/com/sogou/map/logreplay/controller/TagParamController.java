@@ -18,6 +18,7 @@ import com.sogou.map.logreplay.bean.TagParam;
 import com.sogou.map.logreplay.exception.LogReplayException;
 import com.sogou.map.logreplay.service.TagInfoService;
 import com.sogou.map.logreplay.service.TagParamService;
+import com.sogou.map.logreplay.util.AuthUtil;
 import com.sogou.map.mengine.common.service.BaseService;
 
 @Component
@@ -43,6 +44,9 @@ public class TagParamController extends BaseService {
 			@FormParam("tagInfoId") Long tagInfoId,
 			@FormParam("comment") String comment,
 			@FormParam("paramInfoList") String paramInfoListJson) {
+		if(!AuthUtil.hasRole("admin")) {
+			throw LogReplayException.unauthorizedException("Role[admin] is required!");
+		}
 		if(tagInfoId == null || tagInfoService.getTagInfoById(tagInfoId) == null) {
 			throw LogReplayException.invalidParameterException(String.format("TagInfo[%d] does not exist!", tagInfoId));
 		}

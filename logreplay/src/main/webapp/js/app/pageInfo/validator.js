@@ -40,7 +40,7 @@ define(function(require, exports, module) {
 				required: '页面名称不能为空!',
 			}
 		}
-	}
+	};
 	
 	module.exports = {
 		validate: function(form) {

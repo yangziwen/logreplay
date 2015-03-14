@@ -80,6 +80,20 @@ public class AuthUtil {
 		return StringUtils.join(getRoleList(), ",");
 	}
 	
+	public static boolean hasRole(String role) {
+		return getCurrentSubject().hasRole(role);
+	}
+	
+	public static boolean hasAnyRoles(String... roles) {
+		Subject subject = getCurrentSubject();
+		for(String role: roles) {
+			if(subject.hasRole(role)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public static void login(String username, String password) {
 		login(username, password, true);
 	}

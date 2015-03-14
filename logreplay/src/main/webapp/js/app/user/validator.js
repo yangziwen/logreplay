@@ -38,7 +38,7 @@ define(function(require, exports, module) {
 					},
 					newPassword: {
 						required: '新密码不能为空!',
-						minlength: '密码长度不能少于{0}'
+						minlength: '密码长度不能少于{0}!'
 					},
 					newPasswordAgain: {
 						required: '新密码不能为空!',

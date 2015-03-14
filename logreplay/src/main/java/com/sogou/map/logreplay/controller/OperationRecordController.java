@@ -56,6 +56,7 @@ import com.sogou.map.logreplay.service.OperationRecordService;
 import com.sogou.map.logreplay.service.PageInfoService;
 import com.sogou.map.logreplay.service.TagInfoService;
 import com.sogou.map.logreplay.service.TagParamService;
+import com.sogou.map.logreplay.util.AuthUtil;
 import com.sogou.map.logreplay.util.JsonUtil;
 import com.sogou.map.logreplay.util.TagParamParser;
 import com.sogou.map.logreplay.util.TagParamParser.ParamInfoHolder;
@@ -345,6 +346,9 @@ public class OperationRecordController extends BaseService {
 	public Response uploadNginxLog(
 			FormDataMultiPart multiPartData
 			) {
+		if(!AuthUtil.hasRole("admin")) {
+			throw LogReplayException.unauthorizedException("Role[admin] is required!");
+		}
 		FormDataBodyPart filePart = multiPartData.getField("file");
 		InputStream in = filePart.getValueAs(InputStream.class);
 		BufferedReader reader = null;

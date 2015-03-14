@@ -63,7 +63,9 @@
 				     				<th>页面名称</th>
 				     				<th style="width: 150px;">创建时间</th>
 				     				<th style="width: 150px;">修改时间</th>
+				     				<shiro:hasRole name="admin">
 				     				<th style="width: 200px;">管理</th>
+				     				</shiro:hasRole>
 				     			</tr>
 				     		</thead>
 				     		<tbody id="J_pageInfoTbody">
@@ -74,10 +76,12 @@
 				     				<td>${'${'}name}</td>
 				     				<td>${'${'}createTime? new Date(createTime).format('yyyy-MM-dd hh:mm:ss'): '--'}</td>
 				     				<td>${'${'}updateTime? new Date(updateTime).format('yyyy-MM-dd hh:mm:ss'): '--'}</td>
+									<shiro:hasRole name="admin">
 				     				<td>
 				     					<button class="btn btn-primary btn-xs open-update-modal">修改</button>
 				     					<button class="btn btn-primary btn-xs open-create-tag-modal">操作项</button>
 				     				</td>
+									</shiro:hasRole>
 				     			</tr>
 							</script>
 				     	</table>

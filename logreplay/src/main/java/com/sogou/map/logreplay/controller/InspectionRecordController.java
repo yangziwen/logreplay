@@ -113,6 +113,9 @@ public class InspectionRecordController extends BaseService {
 			@FormParam("valid") Boolean valid,
 			@FormParam("comment") String comment
 			) {
+		if(!AuthUtil.hasAnyRoles("admin", "test")) {
+			throw LogReplayException.unauthorizedException("Role of 'admin' or 'test' is required!");
+		}
 		if(pageNo == null || tagNo == null || valid == null) {
 			throw LogReplayException.invalidParameterException("Parameters invalid!");
 		}
@@ -141,6 +144,9 @@ public class InspectionRecordController extends BaseService {
 	public Response resolve(
 			@PathParam("id") Long id
 			) {
+		if(!AuthUtil.hasAnyRoles("admin", "test")) {
+			throw LogReplayException.unauthorizedException("Role of 'admin' or 'test' is required!");
+		}
 		InspectionRecord record = null;
 		if(id == null || (record = inspectionRecordService.getInspectionRecordById(id)) == null) {
 			throw LogReplayException.invalidParameterException(String.format("Id[%d] of InspectionRecord is invalid!", id));

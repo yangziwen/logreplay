@@ -26,6 +26,7 @@ import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.exception.LogReplayException;
 import com.sogou.map.logreplay.service.PageInfoService;
 import com.sogou.map.logreplay.service.TagInfoService;
+import com.sogou.map.logreplay.util.AuthUtil;
 import com.sogou.map.logreplay.util.JsonUtil;
 import com.sogou.map.mengine.common.service.BaseService;
 
@@ -109,6 +110,9 @@ public class TagInfoController extends BaseService {
 			@FormParam("originVersion") Integer originVersion,
 			@FormParam("comment") String comment
 			) {
+		if(!AuthUtil.hasRole("admin")) {
+			throw LogReplayException.unauthorizedException("Role[admin] is required!");
+		}
 		boolean needPageInfo = tagNo < TagInfo.COMMON_TAG_NO_MIN_VALUE;
 		if(StringUtils.isBlank(name)
 				|| tagNo == null
@@ -154,6 +158,9 @@ public class TagInfoController extends BaseService {
 			@FormParam("originVersion") Integer originVersion,
 			@FormParam("comment") String comment
 			) {
+		if(!AuthUtil.hasRole("admin")) {
+			throw LogReplayException.unauthorizedException("Role[admin] is required!");
+		}
 		boolean needPageInfo = tagNo < TagInfo.COMMON_TAG_NO_MIN_VALUE;
 		if(StringUtils.isBlank(name)
 				|| tagNo == null

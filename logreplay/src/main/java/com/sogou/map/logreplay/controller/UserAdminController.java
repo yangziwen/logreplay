@@ -83,7 +83,8 @@ public class UserAdminController extends BaseService {
 			throw LogReplayException.invalidParameterException("Duplicated username!");
 		}
 		try {
-			User user = new User(username, screenName, "1234", enabled);	// TODO 
+			// ≥ı º√‹¬Î∂º «1234
+			User user = new User(username, screenName, AuthUtil.hashPassword(username, "1234"), enabled); 
 			userService.createUser(user, roleList);
 			return successResultToJson(String.format("User[%d] is created successfully!", user.getId()), true);
 		} catch (Exception e) {
