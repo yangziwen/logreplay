@@ -79,7 +79,7 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean> {
 			
 	private static String getTableNameFromAnnotation(Class<?> clazz) {
 		Table table = clazz.getAnnotation(Table.class);
-		if(table != null) {
+		if(table != null && StringUtils.isNotBlank(table.name())) {
 			return table.name();
 		}
 		return convertCamelToUnderscore(clazz.getSimpleName());

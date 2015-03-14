@@ -15,7 +15,7 @@ define(function(require, exports, module) {
 			.removeClass('has-error')
 			.find('.form-control-feedback')
 			.remove();
-	}
+	};
 	
 	$.validator.addMethod('appVersion', function(value, element, param) {
 		var appVersion = common.parseAppVersion(value);

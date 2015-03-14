@@ -60,7 +60,10 @@ define(function(require, exports, module) {
 	};
 	
 	module.exports = {
-		validate: function(form) {
+		validate: function(form, modifyFn) {
+			if($.isFunction(modifyFn)) {
+				modifyFn(options);
+			}
 			return coreValidator.validate(form, options);
 		}
 	};

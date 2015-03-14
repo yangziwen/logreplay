@@ -30,7 +30,7 @@ CREATE TABLE `tag_info` (
   `id` BIGINT (20) PRIMARY KEY AUTO_INCREMENT,
   `tag_no` INT (11) NOT NULL,
   `name` VARCHAR (50),
-  `page_info_id` BIGINT (20) NOT NULL,
+  `page_info_id` BIGINT (20),
   `page_no` int(11),
   `action_id` BIGINT (20),
   `target_id` BIGINT (20),
