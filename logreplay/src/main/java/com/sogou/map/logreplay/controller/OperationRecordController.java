@@ -157,6 +157,7 @@ public class OperationRecordController extends BaseService {
 				dto.setTagName(tagInfo.getName());
 				dto.setActionId(tagInfo.getActionId());
 				dto.setTargetId(tagInfo.getTargetId());
+				dto.setInspectStatus(tagInfo.getInspectStatus());
 			}
 		}
 		

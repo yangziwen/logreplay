@@ -132,6 +132,14 @@ define(function(require, exports, module) {
 							}
 						}
 						return contents.join('<br/>');
+					},
+					displayInspectStatus: function(inspectStatus) {
+						switch(inspectStatus) {
+							case 0: return '<span class="label label-default">未校验</span>';
+							case 1: return '<span class="label label-success">校验正确</span>';
+							case 2: return '<span class="label label-danger">校验错误</span>';
+							default: return '--';
+						}
 					}
 				}));
 				if(!lockScroll) {

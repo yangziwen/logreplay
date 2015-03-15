@@ -74,11 +74,12 @@
 				     	<table id="J_replayTbl" class="table table-bordered table-striped table-condensed table-hover" >
 				     		<thead>
 				     			<tr>
-				     				<th style="width: 125px;">平台</th>
+				     				<th style="width: 100px;">平台</th>
 				     				<th style="width: 100px;">日志编号</th>
 				     				<th>日志描述</th>
-				     				<th style="width: 250px;">日志内容</th>
-				     				<th style="width: 125px;">管理</th>
+				     				<th style="width: 220px;">日志内容</th>
+				     				<th style="width:100px">历史记录</th>
+				     				<th style="width: 100px;">管理</th>
 				     			</tr>
 				     		</thead>
 				     		<tbody id="J_replayTbody" style="max-height: 500px;" >
@@ -93,6 +94,7 @@
 				     				<td title="${'${'}params}" style="max-width: 250px; overflow-x: hidden; text-align: left;">
 										${'${'}params}
 									</td>
+									<td>{{html $item.displayInspectStatus(inspectStatus)}}</td>
 				     				<td>
 										<button class="btn btn-success btn-xs submit-success-btn"><span class="glyphicon glyphicon-ok"></span></button>
 										&nbsp;

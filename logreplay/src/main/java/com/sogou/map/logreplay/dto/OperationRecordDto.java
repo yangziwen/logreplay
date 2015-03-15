@@ -23,6 +23,7 @@ public class OperationRecordDto {
 	private Long actionId;
 	private Long targetId;
 	private String params;
+	private Integer inspectStatus;
 	
 	private List<TagParamParsedResult> paramParsedResultList = new ArrayList<TagParamParsedResult>();
 	
@@ -148,6 +149,14 @@ public class OperationRecordDto {
 		this.params = params;
 	}
 
+	public Integer getInspectStatus() {
+		return inspectStatus;
+	}
+
+	public void setInspectStatus(Integer inspectStatus) {
+		this.inspectStatus = inspectStatus;
+	}
+
 	public List<TagParamParsedResult> getParamParsedResultList() {
 		return paramParsedResultList;
 	}
@@ -188,6 +197,7 @@ public class OperationRecordDto {
 			dto.tagName = tagInfo.getName();
 			dto.actionId = tagInfo.getActionId();
 			dto.targetId = tagInfo.getTargetId();
+			dto.inspectStatus = tagInfo.getInspectStatus();
 		}
 		return dto;
 	}
