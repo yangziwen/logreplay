@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,11 +54,17 @@ public class TagParamService {
 	}
 	
 	/**
-	 * paramInfo是否应该直接用json保存？
-	 * 有些纠结
+	 * tagParam和paramInfo的增删改
 	 */
 	@Transactional
 	public void renewTagParamAndParamInfo(TagParam tagParam, List<ParamInfo> paramInfoList) {
+		if(CollectionUtils.isEmpty(paramInfoList) && StringUtils.isBlank(tagParam.getComment())) {
+			paramInfoDao.batchDeleteByIds(collectParamInfoId(tagParam.getParamInfoList()));
+			if(tagParam.getId() != null) {
+				tagParamDao.delete(tagParam);
+			}
+			return;
+		}
 		tagParamDao.saveOrUpdate(tagParam);
 		for(ParamInfo paramInfo: paramInfoList) {
 			paramInfo.setTagParamId(tagParam.getId());
@@ -141,6 +148,10 @@ public class TagParamService {
 			tagParam.setParamInfoList(getParamInfoListResultByTagParamId(tagParam.getId()));
 		}
 		return tagParam;
+	}
+	
+	public List<TagParam> getTagParamListResult(Map<String, Object> param) {
+		return tagParamDao.list(param);
 	}
 	
 	public List<ParamInfo> getParamInfoListResultByTagParamId(Long tagParamId) {

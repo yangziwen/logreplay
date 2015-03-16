@@ -67,6 +67,9 @@ define(function(require, exports, module) {
 			},
 			displayOriginVersion: function(originVersion) {
 				return common.formatAppVersion(originVersion) || '--';
+			},
+			getParamBtnClass: function(hasParams) {
+				return hasParams === true? ' btn-success ': ' btn-primary ';
 			}
 		}));
 	}
@@ -160,7 +163,7 @@ define(function(require, exports, module) {
 	/** 更新tagInfo结束 **/
 	
 	/** 更新tagParam开始 **/
-	var paramNameList = ['num', 'idx', 'type', 'color', 'cont', 'mode', 'sum', 'choose'];
+	var paramNameList = ['num', 'idx', 'type', 'color', 'cont', 'mode', 'sum', 'choose', 'subway', 'info', 'value'];
 	
 	function initOpenUpdateTagParamModalBtn() {
 		

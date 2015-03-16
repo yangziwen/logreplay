@@ -101,7 +101,7 @@
 									<shiro:hasRole name="admin">
 				     				<td>
 				     					<button class="btn btn-primary btn-xs open-update-tag-modal">修改</button>
-				     					<button class="btn btn-primary btn-xs open-update-tag-param-modal">参数</button>
+				     					<button class="btn btn-xs open-update-tag-param-modal ${'${'}$item.getParamBtnClass(hasParams)}">参数</button>
 				     				</td>
 									</shiro:hasRole>
 				     			</tr>

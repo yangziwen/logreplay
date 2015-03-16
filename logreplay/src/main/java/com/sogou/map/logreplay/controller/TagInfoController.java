@@ -1,7 +1,9 @@
 package com.sogou.map.logreplay.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
@@ -18,14 +20,18 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Maps;
 import com.sogou.map.logreplay.bean.PageInfo;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.bean.TagInfo.InspectStatus;
+import com.sogou.map.logreplay.bean.TagParam;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.exception.LogReplayException;
 import com.sogou.map.logreplay.service.PageInfoService;
 import com.sogou.map.logreplay.service.TagInfoService;
+import com.sogou.map.logreplay.service.TagParamService;
 import com.sogou.map.logreplay.util.AuthUtil;
 import com.sogou.map.logreplay.util.JsonUtil;
 import com.sogou.map.mengine.common.service.BaseService;
@@ -39,6 +45,9 @@ public class TagInfoController extends BaseService {
 	
 	@Autowired
 	private PageInfoService pageInfoService;
+	
+	@Autowired
+	private TagParamService tagParamService;
 	
 	@GET
 	@Path("/list")
@@ -79,7 +88,34 @@ public class TagInfoController extends BaseService {
 			.addParam(inspectStatus != InspectStatus.UNKNOWN, "inspectStatus", inspectStatus.getIntValue())
 			.orderByAsc("page_info.page_no").orderByAsc("tagNo")
 		);
+		fillHasParamsFlag(page.getList());
 		return successResultToJson(page, JsonUtil.configInstance(), true);
+	}
+	
+	/**
+	 * 为tagInfo添加是否有参数(tagParam)的标识
+	 */
+	private void fillHasParamsFlag(List<TagInfo> tagInfoList) {
+		if(CollectionUtils.isEmpty(tagInfoList)) {
+			return;
+		}
+		Set<Long> tagInfoIdSet = new HashSet<Long>();
+		for(TagInfo tagInfo: tagInfoList) {
+			tagInfoIdSet.add(tagInfo.getId());
+		}
+		List<TagParam> tagParamList = tagParamService.getTagParamListResult(new QueryParamMap()
+			.addParam("tagInfoId__in", tagInfoIdSet)
+		);
+		Set<Long> tagInfoIdsWithParam = Maps.uniqueIndex(tagParamList, new Function<TagParam, Long>() {
+			@Override
+			public Long apply(TagParam tagParam) {
+				return tagParam.getTagInfoId();
+			}
+		}).keySet();
+		for(TagInfo tagInfo: tagInfoList) {
+			tagInfo.setHasParams(tagInfoIdsWithParam.contains(tagInfo.getId()));
+		}
+		
 	}
 	
 	@GET

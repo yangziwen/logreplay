@@ -52,6 +52,9 @@ public class TagInfo extends AbstractBean {
 	@Column(name = "update_time")
 	private Timestamp updateTime;
 	
+	@Transient
+	private Boolean hasParams;
+	
 	public TagInfo() {}
 	
 	public Long getId() {
@@ -158,6 +161,14 @@ public class TagInfo extends AbstractBean {
 		this.updateTime = updateTime;
 	}
 	
+	public Boolean getHasParams() {
+		return hasParams;
+	}
+
+	public void setHasParams(Boolean hasParams) {
+		this.hasParams = hasParams;
+	}
+
 	public enum InspectStatus {
 		
 		SUCCESS(1), ERROR(2), UNCHECKED(0), UNKNOWN(-1);
