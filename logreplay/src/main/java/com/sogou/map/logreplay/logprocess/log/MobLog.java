@@ -3,6 +3,8 @@ package com.sogou.map.logreplay.logprocess.log;
 import java.util.Collections;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
 public class MobLog {
 
 	private Map<String, String> infoMap;
@@ -19,8 +21,15 @@ public class MobLog {
 		return infoMap.get("u");
 	}
 	
+	/**
+	 * ios使用kd作为设备编号
+	 */
 	public String getDeviceId() {
-		return infoMap.get("d");
+		String deviceId = infoMap.get("d");
+		if(StringUtils.isBlank(deviceId)) {
+			deviceId = infoMap.get("kd");
+		}
+		return deviceId;
 	}
 	
 	public String getLoginId() {

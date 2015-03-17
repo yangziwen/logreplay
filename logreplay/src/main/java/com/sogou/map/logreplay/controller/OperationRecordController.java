@@ -276,11 +276,11 @@ public class OperationRecordController extends BaseService {
 	private Response doReceiveData(String moblogStr, String infoStr, HttpServletRequest request) {
 		MobLog moblog = new MobLogProcessor().process(moblogStr);
 		if(StringUtils.isEmpty(moblog.getDeviceId()) || StringUtils.isEmpty(moblog.getVersion())) {
-			LogReplayException.invalidParameterException("Invalid parameter of moblog!");
+			throw LogReplayException.invalidParameterException("Invalid parameter of moblog!");
 		}
 		JSONObject info = JSON.parseObject(infoStr);
 		if(MapUtils.isEmpty(info)) {
-			LogReplayException.invalidParameterException("Invalid parameter of info!");
+			throw LogReplayException.invalidParameterException("Invalid parameter of info!");
 		}
 		OperationRecord record = null;
 		try {

@@ -27,21 +27,8 @@
 			<div class="row">
 			    <div class="box col-md-12">
 			    	<div style="font-family: 'Microsoft Yahei'; text-align: center; margin-top: 50px;">
-				    	<h2><strong>欢迎你，<%=AuthUtil.getScreenName()%>！</strong></h2>
-				    	<%-- <h2><strong>又将是美好的一天！</strong></h2> --%>
+				    	<h2><strong>你好，<%=AuthUtil.getScreenName()%>！</strong></h2>
 			    	</div>
-			    	<%--
-			        <div class="box-inner"> 
-			            <div class="box-content" style="height: 500px;">
-			                <!-- put your content here -->
-			                <p>Welcome <shiro:principal />!</p>
-			                <button id="J_alertTest" class="btn btn-default">alert</button>
-							<button id="J_confirmTest" class="btn btn-default">confirm</button>
-							<div id="J_pagebar"></div>
-							<h2>${fn:endsWith(pageContext.request.requestURI, '/home.jsp')}</h2>
-			            </div>
-			        </div>
-			         --%>
 			    </div>
 			</div><!--/row-->
 			

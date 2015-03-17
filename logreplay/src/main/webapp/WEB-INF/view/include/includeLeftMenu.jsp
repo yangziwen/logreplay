@@ -15,7 +15,8 @@
 						<span class="pull-right glyphicon glyphicon-chevron-down"></span>
 					</a>
 					<c:set var="showConfigSubmenu" value="${fn:contains(requestURI, '/pageInfo') or fn:contains(requestURI, '/tagInfo')}"></c:set>
-					<ul id="J_logConfigSubmenu" class="nav submenu ${showConfigSubmenu eq true? 'in': ''}" ${showConfigSubmenu eq false? 'style="height: 0px;"': ''}>
+					<%-- <ul id="J_logConfigSubmenu" class="nav submenu ${showConfigSubmenu eq true? 'in': ''}" ${showConfigSubmenu eq false? 'style="height: 0px;"': ''}>  --%>
+					<ul id="J_logConfigSubmenu" class="nav submenu in" >
 						<li><a href="${ctx_path}/pageInfo/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> 页面信息管理</a></li>
 						<li><a href="${ctx_path}/tagInfo/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> 操作项管理</a></li>
 						<li><a href="${ctx_path}/tagInfo/commonList.htm"><i class="glyphicon glyphicon-chevron-right"></i> 公共操作项管理</a></li>
@@ -28,7 +29,8 @@
 						<span class="pull-right glyphicon glyphicon-chevron-down"></span>
 					</a>
 					<c:set var="showReplaySubmenu" value="${fn:contains(requestURI, '/replay') or fn:contains(requestURI, '/inspectionRecord')}"></c:set>
-					<ul id="J_logReplaySubmenu" class="nav submenu ${showReplaySubmenu eq true? 'in': ''}" ${showReplaySubmenu eq false? 'style="height: 0px;"': ''}>
+					<%-- <ul id="J_logReplaySubmenu" class="nav submenu ${showReplaySubmenu eq true? 'in': ''}" ${showReplaySubmenu eq false? 'style="height: 0px;"': ''}> --%>
+					<ul id="J_logReplaySubmenu" class="nav submenu in">
 						<li><a href="${ctx_path}/replay/realtime.htm"><i class="glyphicon glyphicon-chevron-right"></i> 即时校验</a></li>
 						<li><a href="${ctx_path}/replay/sequence.htm"><i class="glyphicon glyphicon-chevron-right"></i> 序列校验</a></li>
 						<li><a href="${ctx_path}/inspectionRecord/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> 校验结果</a></li>
@@ -42,7 +44,8 @@
 						<span class="pull-right glyphicon glyphicon-chevron-down"></span>
 					</a>
 					<c:set var="showSystemManageSubmenu" value="${fn:contains(requestURI, '/admin') or fn:contains(requestURI, '/user/detail.htm')}"></c:set>
-					<ul id="J_systemManageSubmenu" class="nav submenu ${showSystemManageSubmenu eq true? 'in': ''}" ${showSystemManageSubmenu eq false? 'style="height: 0px;"': ''}>
+					<%-- <ul id="J_systemManageSubmenu" class="nav submenu ${showSystemManageSubmenu eq true? 'in': ''}" ${showSystemManageSubmenu eq false? 'style="height: 0px;"': ''}> --%>
+					<ul id="J_systemManageSubmenu" class="nav submenu in" >
 						<shiro:hasRole name="admin">
 							<li><a href="${ctx_path}/admin/user/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> 用户管理</a></li>
 						</shiro:hasRole>
