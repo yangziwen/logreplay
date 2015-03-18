@@ -9,7 +9,7 @@
 					<a href="${ctx_path}/home.htm"><i class="glyphicon glyphicon-home"></i><span> 主页</span></a>
 				</li>
 				<li class="active">
-					<a data-toggle="collapse" href="#J_logConfigSubmenu">
+					<a class="has-submenu" data-toggle="collapse" href="#J_logConfigSubmenu">
 						<i class="glyphicon glyphicon-plus"></i>
 						<span> 日志项管理</span>
 						<span class="pull-right glyphicon glyphicon-chevron-down"></span>
@@ -23,7 +23,7 @@
 					</ul>
 				</li>
 				<li class="active">
-					<a data-toggle="collapse" href="#J_logReplaySubmenu">
+					<a class="has-submenu" data-toggle="collapse" href="#J_logReplaySubmenu">
 						<i class="glyphicon glyphicon-plus"></i>
 						<span> 日志项校验</span>
 						<span class="pull-right glyphicon glyphicon-chevron-down"></span>
@@ -38,7 +38,7 @@
 					</ul>
 				</li>
 				<li class="active">
-					<a data-toggle="collapse" href="#J_systemManageSubmenu">
+					<a class="has-submenu" data-toggle="collapse" href="#J_systemManageSubmenu">
 						<i class="glyphicon glyphicon-plus"></i>
 						<span> 系统管理</span>
 						<span class="pull-right glyphicon glyphicon-chevron-down"></span>

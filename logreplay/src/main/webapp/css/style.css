@@ -24,6 +24,10 @@ ul.nav.submenu li:last-child  a {
 	border-bottom-right-radius: 5px;
 	border-color: #ddd;
 }
+.nav-pills > li > a.has-submenu {
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+}
 table.table {
 	text-align: center;
 }

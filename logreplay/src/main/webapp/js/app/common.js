@@ -335,6 +335,26 @@ define(function(require, exports, module){
 		initUpdateProfileBtn();
 	})();
 	
+	/**
+	 * 二级菜单收起后，一级菜单下端显示圆角
+	 */
+	(function() {
+		$('a.has-submenu').on('click', function() {
+			var $this = $(this),
+				$ul = $this.next('ul');
+			var collapsed = $ul.height() == 0,
+				radius = collapsed? 0: 5;
+			setBottomBorderRadius($this, radius);
+		});
+		
+		function setBottomBorderRadius(ele, radius) {
+			$(ele).css({
+				'border-bottom-left-radius': radius,
+				'border-bottom-right-radius': radius
+			});
+		}
+	})();
+	
 	module.exports = {
 		alertMsg: alertMsg,
 		confirmMsg: confirmMsg,
