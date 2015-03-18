@@ -110,8 +110,8 @@
 				     		</tbody>
 							<script type="text/x-jquery-tmpl" id="J_tagInfoTmpl">
 								<tr data-id="${'${'}id}" title="${'${'}comment}">
-				     				<td>${'${'}pageInfo.pageNo}</td>
-				     				<td>${'${'}pageInfo.name}</td>
+				     				<td>${'${'}pageInfo.pageNo || '--'}</td>
+				     				<td>${'${'}pageInfo.name || '--'}</td>
 				     				<td>${'${'}tagNo}</td>
 				     				<td>${'${'}name}</td>
 				     				<td>${'${'}$item.getActionName(actionId)}</td>

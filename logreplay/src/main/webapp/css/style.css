@@ -14,10 +14,15 @@ body {
 .top-bar {
 	font-size: 16px;
 }
-ul.nav.submenu li {
-	border-left: 1px solid #eee;
-	border-right: 1px solid #eee;
-	border-bottom: 1px solid #eee;
+ul.nav.submenu li a {
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+ul.nav.submenu li:last-child  a {
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-color: #ddd;
 }
 table.table {
 	text-align: center;
