@@ -113,7 +113,10 @@ public class TagParamParser {
 		}
 		
 		public ParamInfo parse(String paramValue) {
-			if(!paramInfoMap.containsKey(paramValue) && !merelyRequired()) {
+			if(merelyRequired()) {
+				return paramInfoMap.get("");
+			}
+			if(!paramInfoMap.containsKey(paramValue)) {
 				return new ParamInfo(paramName, paramValue, PARAM_VALUE_NOT_EXIST_DESCRIPTION);
 			}
 			return paramInfoMap.get(paramValue);

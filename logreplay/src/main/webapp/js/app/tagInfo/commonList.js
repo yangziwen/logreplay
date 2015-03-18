@@ -220,7 +220,7 @@ define(function(require, exports, module) {
 	/** 修改tagInfo结束 **/
 	
 	/** 更新tagParam开始 **/
-	var paramNameList = ['num', 'idx', 'type', 'color', 'cont', 'mode', 'sum', 'choose', 'subway', 'info', 'value'];
+	var paramNameList = ['num', 'idx', 'type', 'key', 'color', 'cont', 'mode', 'sum', 'choose', 'subway', 'info', 'value'];
 	
 	function initOpenUpdateTagParamModalBtn() {
 		
