@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
 import com.sogou.map.logreplay.bean.ParamInfo;
+import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.TagParam;
 import com.sogou.map.logreplay.exception.LogReplayException;
 import com.sogou.map.logreplay.service.TagInfoService;
@@ -44,7 +45,7 @@ public class TagParamController extends BaseService {
 			@FormParam("tagInfoId") Long tagInfoId,
 			@FormParam("comment") String comment,
 			@FormParam("paramInfoList") String paramInfoListJson) {
-		if(!AuthUtil.hasRole("admin")) {
+		if(!AuthUtil.hasRole(Role.ADMIN)) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
 		if(tagInfoId == null || tagInfoService.getTagInfoById(tagInfoId) == null) {

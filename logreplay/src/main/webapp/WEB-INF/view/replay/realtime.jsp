@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>
-    <title>即时校验</title>
+    <title>实时校验</title>
 	<%@ include file="../include/includeCss.jsp" %>
 	<style>
 		#J_replayArea {
@@ -27,7 +27,7 @@
 			    <ul class="breadcrumb">
 			        <li>
 						当前位置: <a data-toggle="collapse" href="#J_logReplaySubmenu">日志项校验</a>
-						 &gt; <a href="${ctx_path}/replay/realtime.htm">即时校验</a>
+						 &gt; <a href="${ctx_path}/replay/realtime.htm">实时校验</a>
 			        </li> 
 			    </ul>
 			</div>

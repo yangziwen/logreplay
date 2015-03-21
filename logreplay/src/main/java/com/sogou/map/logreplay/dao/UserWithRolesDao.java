@@ -56,7 +56,9 @@ public class UserWithRolesDao extends AbstractJdbcDaoImpl<UserWithRoles> {
 	
 	@Override
 	protected List<UserWithRoles> doList(String sql, Map<String, Object> param) {
-		if(DEBUG_SQL) logger.info(sql);
+		if(DEBUG_SQL) {
+			logger.info(sql);
+		}
 		return jdbcTemplate.query(sql, param, RSE);
 	}
 	

@@ -1,8 +1,6 @@
 package com.sogou.map.logreplay.controller;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -44,6 +42,7 @@ import com.google.common.collect.Maps;
 import com.sogou.map.logreplay.bean.OperationRecord;
 import com.sogou.map.logreplay.bean.PageInfo;
 import com.sogou.map.logreplay.bean.ParamInfo;
+import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.dto.OperationRecordDto;
@@ -303,51 +302,13 @@ public class OperationRecordController extends BaseService {
 		return successResultToJson("success", true);
 	}
 	
-	/**
-	 * 基本上就是个测试的接口
-	 */
-	@GET
-	@Path("/import/nginx")
-	@Deprecated
-	public Response importNginxLog(
-			@QueryParam("source") String sourcePath) {
-		File source = null;
-		if(StringUtils.isBlank(sourcePath) || !(source =  new File(sourcePath)).exists()) {
-			throw LogReplayException.notExistException(String.format("File under the path [%s] does not exist!", sourcePath));
-		}
-		BufferedReader reader = null;
-		String line = "";
-		int count = 0;
-		try {
-			reader = new BufferedReader(new InputStreamReader(new FileInputStream(source), "UTF-8"));
-			List<OperationRecord> recordList = new ArrayList<OperationRecord>(500);
-			OperationLogProcessor processor = new OperationLogProcessor();
-			while((line = reader.readLine()) != null) {
-				recordList.addAll(processor.process(line).toRecordList());
-				if(recordList.size() > 1000) {
-					count += operationRecordService.batchSaveOrUpdateOperationRecord(recordList);
-					recordList = new ArrayList<OperationRecord>(500);
-				}
-			}
-			if(recordList.size() > 0) {
-				count += operationRecordService.batchSaveOrUpdateOperationRecord(recordList);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw LogReplayException.operationFailedException("Operation failed while importing log data!");
-		} finally {
-			IOUtils.closeQuietly(reader);
-		}
-		return successResultToJson(String.format("Successfully import [%d] records!", count), true);
-	}
-	
 	@POST
 	@Path("/upload/nginx")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response uploadNginxLog(
 			FormDataMultiPart multiPartData
 			) {
-		if(!AuthUtil.hasRole("admin")) {
+		if(!AuthUtil.hasRole(Role.ADMIN)) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
 		FormDataBodyPart filePart = multiPartData.getField("file");

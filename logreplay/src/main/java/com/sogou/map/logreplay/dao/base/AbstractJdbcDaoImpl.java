@@ -201,7 +201,9 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean> {
 	}
 	
 	protected List<E> doList(String sql, Map<String, Object> params, RowMapper<E> rowMapper) {
-		if(DEBUG_SQL) logger.info(sql);
+		if(DEBUG_SQL) {
+			logger.info(sql);
+		}
 		return jdbcTemplate.query(sql, params, rowMapper);
 	}
 

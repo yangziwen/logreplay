@@ -55,7 +55,9 @@ public class TagParamWithInfosDao extends AbstractJdbcDaoImpl<TagParam> {
 	
 	@Override
 	protected List<TagParam> doList(String sql, Map<String, Object> param) {
-		if(DEBUG_SQL) logger.info(sql);
+		if(DEBUG_SQL) {
+			logger.info(sql);
+		}
 		return jdbcTemplate.query(sql, param, RSE);
 	}
 	

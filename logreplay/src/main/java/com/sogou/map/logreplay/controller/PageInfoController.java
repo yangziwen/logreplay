@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sogou.map.logreplay.bean.PageInfo;
+import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.exception.LogReplayException;
@@ -69,7 +70,7 @@ public class PageInfoController extends BaseService {
 	public Response update(@PathParam("id") Long id,
 			@FormParam("pageNo") Integer pageNo,
 			@FormParam("name") String name) throws ApiException {
-		if(!AuthUtil.hasRole("admin")) {
+		if(!AuthUtil.hasRole(Role.ADMIN)) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
 		if(pageNo == null || StringUtils.isBlank(name)) {
@@ -95,7 +96,7 @@ public class PageInfoController extends BaseService {
 			@FormParam("pageNo") Integer pageNo,
 			@FormParam("name") String name
 			) throws ApiException {
-		if(!AuthUtil.hasRole("admin")) {
+		if(!AuthUtil.hasRole(Role.ADMIN)) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
 		if(pageNo == null || StringUtils.isBlank(name)) {

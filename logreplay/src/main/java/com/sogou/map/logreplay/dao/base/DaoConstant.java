@@ -13,8 +13,4 @@ public class DaoConstant {
 	public static final String START = "__query_start";
 	public static final String LIMIT = "__query_limit";
 	
-	public static final String LEFT_JOIN_FETCH = "__left_join_fetch";
-	
-	public static final String OWNER_FLAG = "->";
-	
 }

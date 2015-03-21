@@ -8,6 +8,9 @@ import java.util.Map;
 
 import com.sogou.map.logreplay.bean.ParamInfo;
 
+/**
+ * 根据tagInfoId,参数名和参数值来获取参数信息的帮助类
+ */
 public class TagParamParser {
 	
 	/** <tagInfoId, tagParams> **/
@@ -62,6 +65,7 @@ public class TagParamParser {
 			return tagInfoId;
 		}
 		
+		/** <paramName, ParamInfoHolder **/
 		Map<String, ParamInfoHolder> holderMap = new HashMap<String, ParamInfoHolder>();
 		
 		public void addParamInfo(ParamInfo paramInfo) {
@@ -104,6 +108,10 @@ public class TagParamParser {
 		/** <paramValue, ParamInfo> **/
 		Map<String, ParamInfo> paramInfoMap = new HashMap<String, ParamInfo>();
 		
+		/**
+		 * 当某个paramName只对应一个paramValue且paramValue为""时
+		 * 表明这个参数必须存在，但可以为任意值
+		 */
 		public boolean merelyRequired() {
 			return paramInfoMap.size() == 1 && paramInfoMap.containsKey("");
 		}

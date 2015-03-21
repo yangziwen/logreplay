@@ -6,6 +6,10 @@ import javax.persistence.Table;
 
 @Table(name = "role")
 public class Role extends AbstractBean {
+	
+	public static final String ADMIN = "admin";
+	public static final String TEST = "test";
+	public static final String DEV = "dev";
 
 	@Id
 	@Column

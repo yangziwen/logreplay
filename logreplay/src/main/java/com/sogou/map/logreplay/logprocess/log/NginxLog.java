@@ -1,7 +1,5 @@
 package com.sogou.map.logreplay.logprocess.log;
 
-
-
 public class NginxLog {
 	
 	private String ip;

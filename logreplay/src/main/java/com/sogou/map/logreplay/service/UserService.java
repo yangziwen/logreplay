@@ -58,6 +58,9 @@ public class UserService {
 		return userWithRolesDao.paginate(start, limit, param);
 	}
 	
+	/**
+	 * 根据username或screenName来查找用户
+	 */
 	public List<User> getUserListResultByName(String name) {
 		return userDao.list(new QueryParamMap()
 			.or("name__or", new QueryParamMap()

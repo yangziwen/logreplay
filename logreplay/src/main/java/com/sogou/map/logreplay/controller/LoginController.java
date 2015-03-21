@@ -39,6 +39,10 @@ public class LoginController {
 		return new Viewable("/login.jsp");
 	}
 	
+	/**
+	 * 此接口用于处理登录错误的情形
+	 * 用户名或者密码错误时，请求才会击穿shiro的过滤器链，抵达此方法
+	 */
 	@POST
 	public Viewable afterLoginSubmission(
 			@Context HttpServletRequest request,

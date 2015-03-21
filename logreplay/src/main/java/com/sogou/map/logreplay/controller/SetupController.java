@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.sogou.map.logreplay.bean.PageInfo;
+import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.TagAction;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.bean.TagTarget;
@@ -54,7 +55,7 @@ public class SetupController extends BaseService {
 	@Path("/tagAction/import")
 	public Response importTagAction(
 			@QueryParam("filePath") String filePath) {
-		if(!AuthUtil.hasRole("admin")) {
+		if(!AuthUtil.hasRole(Role.ADMIN)) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
 		File file = null;
@@ -82,7 +83,7 @@ public class SetupController extends BaseService {
 	@Path("/tagTarget/import")
 	public Response importTagTarget(
 			@QueryParam("filePath") String filePath) {
-		if(!AuthUtil.hasRole("admin")) {
+		if(!AuthUtil.hasRole(Role.ADMIN)) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
 		File file = null;
@@ -110,7 +111,7 @@ public class SetupController extends BaseService {
 	@Path("/pageInfo/import")
 	public Response importPageInfo(
 			@QueryParam("filePath") String filePath) {
-		if(!AuthUtil.hasRole("admin")) {
+		if(!AuthUtil.hasRole(Role.ADMIN)) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
 		File file = null;
@@ -145,7 +146,7 @@ public class SetupController extends BaseService {
 	@Path("/commonTagInfo/import")
 	public Response importCommonTagInfo(
 			@QueryParam("filePath") String filePath) {
-		if(!AuthUtil.hasRole("admin")) {
+		if(!AuthUtil.hasRole(Role.ADMIN)) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
 		File file = null;
@@ -202,7 +203,7 @@ public class SetupController extends BaseService {
 	@Path("/tagInfo/import")
 	public Response importTagInfo(
 			@QueryParam("filePath") String filePath) {
-		if(!AuthUtil.hasRole("admin")) {
+		if(!AuthUtil.hasRole(Role.ADMIN)) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
 		File file = null;

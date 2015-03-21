@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.sogou.map.logreplay.bean.PageInfo;
+import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.bean.TagInfo.InspectStatus;
 import com.sogou.map.logreplay.bean.TagParam;
@@ -146,7 +147,7 @@ public class TagInfoController extends BaseService {
 			@FormParam("originVersion") Integer originVersion,
 			@FormParam("comment") String comment
 			) {
-		if(!AuthUtil.hasRole("admin")) {
+		if(!AuthUtil.hasRole(Role.ADMIN)) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
 		boolean needPageInfo = tagNo < TagInfo.COMMON_TAG_NO_MIN_VALUE;
@@ -194,7 +195,7 @@ public class TagInfoController extends BaseService {
 			@FormParam("originVersion") Integer originVersion,
 			@FormParam("comment") String comment
 			) {
-		if(!AuthUtil.hasRole("admin")) {
+		if(!AuthUtil.hasRole(Role.ADMIN)) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
 		boolean needPageInfo = tagNo < TagInfo.COMMON_TAG_NO_MIN_VALUE;

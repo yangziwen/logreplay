@@ -5,7 +5,6 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -26,10 +25,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		this.userService = userService;
 	}
 	
-	@Override
-	public void  setCredentialsMatcher(CredentialsMatcher credentialsMatcher) {
-		super.setCredentialsMatcher(credentialsMatcher);
-	}
+	/* spring可通过父类的setCredentialsMatcher注入credentialsMatcher对象 */
 	
 	/**
 	 * 认证回调函数,登录时调用.
@@ -62,6 +58,16 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			}
 		}
 		return info;
+	}
+	
+	/**
+	 * 将此方法的可见性提升为public
+	 * 此方法在大多数情况下可以通过shiro的缓存来获取角色信息
+	 * 从而减少对数据库的请求
+	 */
+	@Override
+	public AuthorizationInfo getAuthorizationInfo(PrincipalCollection principals) {
+		return super.getAuthorizationInfo(principals);
 	}
 
 }

@@ -61,21 +61,15 @@ public class AuthUtil {
 				: user.getUsername();
 	}
 	
-	/**
-	 * 需要查数据库
-	 */
 	public static List<String> getRoleList() {
 		PrincipalCollection principals = getCurrentSubject().getPrincipals();
-		AuthorizationInfo info = SpringUtil.getBean(ShiroDbRealm.class).doGetAuthorizationInfo(principals);
+		AuthorizationInfo info = SpringUtil.getBean(ShiroDbRealm.class).getAuthorizationInfo(principals);
 		if(info != null) {
 			return new ArrayList<String>(info.getRoles());
 		}
 		return Collections.emptyList();
 	}
 	
-	/**
-	 * 需要查数据库
-	 */
 	public static String getRoles() {
 		return StringUtils.join(getRoleList(), ",");
 	}
