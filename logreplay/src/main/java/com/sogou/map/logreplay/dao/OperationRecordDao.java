@@ -27,7 +27,7 @@ public class OperationRecordDao extends AbstractJdbcDaoImpl<OperationRecord> {
 	
 	@Override
 	protected String generateSqlByParam(int start, int limit, String selectClause, Map<String, Object> param) {
-		String fromClause = " from " + tableName 
+		String fromClause = " from " + getTableName() 
 				+ " left join tag_info on tag_info.tag_no = operation_record.tag_no "
 				+ " and tag_info.page_no = operation_record.page_no ";
 		return generateSqlByParam(start, limit, selectClause, fromClause, param);
@@ -36,7 +36,7 @@ public class OperationRecordDao extends AbstractJdbcDaoImpl<OperationRecord> {
 	@Override
 	protected OperationParsedResult parseOperation(String keyWithOper) {
 		OperationParsedResult parsedResult = super.parseOperation(keyWithOper);
-		parsedResult.setKey(tableName + "." + parsedResult.getKey());
+		parsedResult.setKey(getTableName() + "." + parsedResult.getKey());
 		return parsedResult;
 	}
 	
