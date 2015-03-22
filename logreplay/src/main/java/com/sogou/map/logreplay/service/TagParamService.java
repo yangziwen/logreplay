@@ -33,8 +33,8 @@ public class TagParamService {
 	@Autowired
 	private TagParamWithInfosDao tagParamWithInfosDao;
 	
-	public List<TagParam> getTagParamListResultWithInfos(Map<String, Object> param) {
-		return tagParamWithInfosDao.list(param);
+	public List<TagParam> getTagParamListResultWithInfos(Map<String, Object> params) {
+		return tagParamWithInfosDao.list(params);
 	}
 	
 	public TagParamParser getTagParamParserByTagInfoIdList(List<Long> tagInfoIdList) {
@@ -150,8 +150,8 @@ public class TagParamService {
 		return tagParam;
 	}
 	
-	public List<TagParam> getTagParamListResult(Map<String, Object> param) {
-		return tagParamDao.list(param);
+	public List<TagParam> getTagParamListResult(Map<String, Object> params) {
+		return tagParamDao.list(params);
 	}
 	
 	public List<ParamInfo> getParamInfoListResultByTagParamId(Long tagParamId) {

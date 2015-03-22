@@ -15,7 +15,7 @@ public class TagActionService {
 	@Autowired
 	private TagActionDao tagActionDao;
 
-	public List<TagAction> getTagActionListResult(Map<String, Object> param) {
-		return tagActionDao.list(param) ;
+	public List<TagAction> getTagActionListResult(Map<String, Object> params) {
+		return tagActionDao.list(params) ;
 	}
 }

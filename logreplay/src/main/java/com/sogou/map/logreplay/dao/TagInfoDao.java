@@ -19,12 +19,12 @@ public class TagInfoDao extends AbstractJdbcDaoImpl<TagInfo> {
 	
 	public void updatePageNoByPageInfoId(Long pageInfoId, Integer pageNo) {
 		String sql = "update tag_info set page_no = :pageNo where page_info_id = :pageInfoId";
-		Map<String, Object> param = new QueryParamMap().addParam("pageInfoId", pageInfoId).addParam("pageNo", pageNo);
-		jdbcTemplate.update(sql, param);
+		Map<String, Object> params = new QueryParamMap().addParam("pageInfoId", pageInfoId).addParam("pageNo", pageNo);
+		jdbcTemplate.update(sql, params);
 	}
 	
 	@Override
-	protected String generateSqlByParam(int start, int limit, Map<String, Object> param) {
+	protected String generateSqlByParam(int start, int limit, Map<String, Object> params) {
 		String selectClause = new StringBuilder()
 			.append(" select tag_info.*, ")
 			.append(" page_info.name as page_name,")
@@ -32,12 +32,12 @@ public class TagInfoDao extends AbstractJdbcDaoImpl<TagInfo> {
 			.append(" page_info.create_time as page_create_time,")
 			.append(" page_info.update_time as page_update_time")
 			.toString();
-		return generateSqlByParam(start, limit, selectClause, param);
+		return generateSqlByParam(start, limit, selectClause, params);
 	}
 	
 	@Override
-	protected String generateSqlByParam(int start, int limit, String selectClause, Map<String, Object> param) {
-		return generateSqlByParam(start, limit, selectClause, " from " + getTableName() + " left join page_info on page_info.id = page_info_id ", param);
+	protected String generateSqlByParam(int start, int limit, String selectClause, Map<String, Object> params) {
+		return generateSqlByParam(start, limit, selectClause, " from " + getTableName() + " left join page_info on page_info.id = page_info_id ", params);
 	}
 	
 	@Override
@@ -50,8 +50,8 @@ public class TagInfoDao extends AbstractJdbcDaoImpl<TagInfo> {
 	}
 	
 	@Override
-	protected List<TagInfo> doList(String sql, Map<String, Object> param) {
-		return doList(sql, param, new RowMapper<TagInfo>() {
+	protected List<TagInfo> doList(String sql, Map<String, Object> params) {
+		return doList(sql, params, new RowMapper<TagInfo>() {
 			@Override
 			public TagInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
 				TagInfo tagInfo = ROW_MAPPER.mapRow(rs, rowNum);

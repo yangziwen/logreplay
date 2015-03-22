@@ -21,7 +21,7 @@ public class TagParamWithInfosDao extends AbstractJdbcDaoImpl<TagParam> {
 	private static final ResultSetExtractor<List<TagParam>> RSE = new TagParamWithInfosExtractor();
 	
 	@Override
-	protected String generateSqlByParam(int start, int limit, Map<String, Object> param) {
+	protected String generateSqlByParam(int start, int limit, Map<String, Object> params) {
 		String selectClause = new StringBuilder()
 			.append(" select tag_param.id as 'tag_param.id', ")
 			.append(" tag_param.tag_info_id,")
@@ -32,16 +32,16 @@ public class TagParamWithInfosDao extends AbstractJdbcDaoImpl<TagParam> {
 			.append(" param_info.value, ")
 			.append(" param_info.description ")
 			.toString();
-		return generateSqlByParam(start, limit, selectClause, param);
+		return generateSqlByParam(start, limit, selectClause, params);
 	}
 	
 	@Override
-	protected String generateSqlByParam(int start, int limit, String selectClause, Map<String, Object> param) {
+	protected String generateSqlByParam(int start, int limit, String selectClause, Map<String, Object> params) {
 		String fromClause = new StringBuilder()
 			.append(" from tag_param ")
 			.append("	left join param_info on tag_param.id = param_info.tag_param_id ")
 			.toString();
-		return generateSqlByParam(start, limit, selectClause, fromClause, param);
+		return generateSqlByParam(start, limit, selectClause, fromClause, params);
 	}
 	
 	@Override
@@ -54,15 +54,12 @@ public class TagParamWithInfosDao extends AbstractJdbcDaoImpl<TagParam> {
 	}
 	
 	@Override
-	protected List<TagParam> doList(String sql, Map<String, Object> param) {
-		if(DEBUG_SQL) {
-			logger.info(sql);
-		}
-		return jdbcTemplate.query(sql, param, RSE);
+	protected List<TagParam> doList(String sql, Map<String, Object> params) {
+		return super.doList(sql, params, RSE);
 	}
 	
 	@Override
-	protected int doCount(String sql, Map<String, Object> param) {
+	protected int doCount(String sql, Map<String, Object> params) {
 		int endPos = sql.indexOf("order by");
 		if(endPos == -1) {
 			endPos = sql.indexOf(" limit ");
@@ -70,7 +67,7 @@ public class TagParamWithInfosDao extends AbstractJdbcDaoImpl<TagParam> {
 		if(endPos == -1) {
 			endPos = sql.length();
 		}
-		return super.doCount(sql.substring(0, endPos) + " group by tag_param.id", param);
+		return super.doCount(sql.substring(0, endPos) + " group by tag_param.id", params);
 	}
 	
 	private static class TagParamWithInfosExtractor extends OneToManyResultSetExtractor<TagParam, ParamInfo, Long> {

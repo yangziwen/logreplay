@@ -18,16 +18,16 @@ public class TagInfoService {
 	@Autowired
 	private TagInfoDao tagInfoDao;
 	
-	public List<TagInfo> getTagInfoListResult(int start, int limit, Map<String, Object> param) {
-		return tagInfoDao.list(start, limit, param);
+	public List<TagInfo> getTagInfoListResult(int start, int limit, Map<String, Object> params) {
+		return tagInfoDao.list(start, limit, params);
 	}
 	
-	public List<TagInfo> getTagInfoListResult(Map<String, Object> param) {
-		return tagInfoDao.list(param);
+	public List<TagInfo> getTagInfoListResult(Map<String, Object> params) {
+		return tagInfoDao.list(params);
 	}
 	
-	public Page<TagInfo> getTagInfoPageResult(int start, int limit, Map<String, Object> param) {
-		return tagInfoDao.paginate(start, limit, param);
+	public Page<TagInfo> getTagInfoPageResult(int start, int limit, Map<String, Object> params) {
+		return tagInfoDao.paginate(start, limit, params);
 	}
 	
 	public TagInfo getTagInfoById(Long id) {

@@ -22,8 +22,11 @@ import com.sogou.map.logreplay.bean.AbstractBean;
 
 public class AbstractJdbcDaoImpl<E extends AbstractBean>  extends AbstractReadOnlyJdbcDaoImpl<E> {
 	
+	protected final String updateSql = generateUpdateSql(getTableName(), idFieldName, fieldColumnMapping);
+	
 	protected SimpleJdbcInsert jdbcInsert;
 	
+	@Override
 	@Autowired
 	public void setDataSource(DataSource dataSource) {
 		super.setDataSource(dataSource);
@@ -31,8 +34,6 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean>  extends AbstractReadOn
 			.withTableName(getTableName())
 			.usingGeneratedKeyColumns(getColumnByField(idFieldName));
 	}
-	
-	protected final String updateSql = generateUpdateSql(getTableName(), idFieldName, fieldColumnMapping);
 	
 	private static String generateUpdateSql(String tableName, String idFieldName, Map<String, String> fieldColumnMapping) {
 		Map<String, String> mappingWithoutId = new LinkedHashMap<String, String>(fieldColumnMapping);
@@ -187,8 +188,8 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean>  extends AbstractReadOn
 		return jdbcTemplate.getJdbcOperations().update(sql);
 	}
 
-	public int executeSql(String sql, Map<String, Object> param) {
-		return jdbcTemplate.update(sql, param);
+	public int executeSql(String sql, Map<String, Object> params) {
+		return jdbcTemplate.update(sql, params);
 	}
 
 }

@@ -15,7 +15,7 @@ public class TagTargetService {
 	@Autowired
 	private TagTargetDao tagTargetDao;
 	
-	public List<TagTarget> getTagTargetListResult(Map<String, Object> param) {
-		return tagTargetDao.list(param);
+	public List<TagTarget> getTagTargetListResult(Map<String, Object> params) {
+		return tagTargetDao.list(params);
 	}
 }

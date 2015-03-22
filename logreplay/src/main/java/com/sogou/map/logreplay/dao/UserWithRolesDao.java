@@ -21,7 +21,7 @@ public class UserWithRolesDao extends AbstractJdbcDaoImpl<UserWithRoles> {
 	private static final ResultSetExtractor<List<UserWithRoles>> RSE = new UserWithRolesExtractor();
 
 	@Override
-	protected String generateSqlByParam(int start, int limit, Map<String, Object> param) {
+	protected String generateSqlByParam(int start, int limit, Map<String, Object> params) {
 		String selectClause = new StringBuilder()
 			.append(" select user.id as 'user.id', ")
 			.append(" user.username,")
@@ -32,17 +32,17 @@ public class UserWithRolesDao extends AbstractJdbcDaoImpl<UserWithRoles> {
 			.append(" role.id as 'role.id', ")
 			.append(" role.name ")
 			.toString();
-		return generateSqlByParam(start, limit, selectClause, param);
+		return generateSqlByParam(start, limit, selectClause, params);
 	}
 	
 	@Override
-	protected String generateSqlByParam(int start, int limit, String selectClause, Map<String, Object> param) {
+	protected String generateSqlByParam(int start, int limit, String selectClause, Map<String, Object> params) {
 		String fromClause = new StringBuilder()
 			.append(" from user ")
 			.append("	left join user_rel_role on user.id = user_rel_role.user_id ")
 			.append("	left join role on role.id = user_rel_role.role_id ")
 			.toString();
-		return generateSqlByParam(start, limit, selectClause, fromClause, param);
+		return generateSqlByParam(start, limit, selectClause, fromClause, params);
 	}
 	
 	@Override
@@ -55,15 +55,12 @@ public class UserWithRolesDao extends AbstractJdbcDaoImpl<UserWithRoles> {
 	}
 	
 	@Override
-	protected List<UserWithRoles> doList(String sql, Map<String, Object> param) {
-		if(DEBUG_SQL) {
-			logger.info(sql);
-		}
-		return jdbcTemplate.query(sql, param, RSE);
+	protected List<UserWithRoles> doList(String sql, Map<String, Object> params) {
+		return super.doList(sql, params, RSE);
 	}
 	
 	@Override
-	protected int doCount(String sql, Map<String, Object> param) {
+	protected int doCount(String sql, Map<String, Object> params) {
 		int endPos = sql.indexOf("order by");
 		if(endPos == -1) {
 			endPos = sql.indexOf(" limit ");
@@ -71,7 +68,7 @@ public class UserWithRolesDao extends AbstractJdbcDaoImpl<UserWithRoles> {
 		if(endPos == -1) {
 			endPos = sql.length();
 		}
-		return super.doCount(sql.substring(0, endPos) + " group by user.id", param);
+		return super.doCount(sql.substring(0, endPos) + " group by user.id", params);
 	}
 	
 	private static class UserWithRolesExtractor extends OneToManyResultSetExtractor<UserWithRoles, Role, Long> {

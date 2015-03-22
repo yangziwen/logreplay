@@ -50,12 +50,12 @@ public class UserService {
 		return userWithRolesDao.getById(id);
 	}
 	
-	public Page<User> getUserPaginateResult(int start, int limit, Map<String, Object> param) {
-		return userDao.paginate(start, limit, param);
+	public Page<User> getUserPaginateResult(int start, int limit, Map<String, Object> params) {
+		return userDao.paginate(start, limit, params);
 	}
 	
-	public Page<UserWithRoles> getUserWithRolesPaginateResult(int start, int limit, Map<String, Object> param) {
-		return userWithRolesDao.paginate(start, limit, param);
+	public Page<UserWithRoles> getUserWithRolesPaginateResult(int start, int limit, Map<String, Object> params) {
+		return userWithRolesDao.paginate(start, limit, params);
 	}
 	
 	/**

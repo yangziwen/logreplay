@@ -13,8 +13,8 @@ public class UserRelRoleDao extends AbstractJdbcDaoImpl<UserRelRole> {
 	
 	public void deleteUserRelRolesByUserId(Long userId) {
 		String sql = "delete from user_rel_role where user_id = :userId";
-		Map<String, Object> param = new QueryParamMap().addParam("userId", userId);
-		jdbcTemplate.update(sql, param);
+		Map<String, Object> params = new QueryParamMap().addParam("userId", userId);
+		jdbcTemplate.update(sql, params);
 	}
 
 }

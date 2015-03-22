@@ -15,8 +15,8 @@ public class RoleService {
 	@Autowired
 	private RoleDao roleDao;
 	
-	public List<Role> getRoleListResult(Map<String, Object> param) {
-		return roleDao.list(param);
+	public List<Role> getRoleListResult(Map<String, Object> params) {
+		return roleDao.list(params);
 	}
 	
 }

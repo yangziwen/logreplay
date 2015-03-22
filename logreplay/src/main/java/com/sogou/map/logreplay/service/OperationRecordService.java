@@ -15,8 +15,8 @@ public class OperationRecordService {
 	@Autowired
 	private OperationRecordDao operationRecordDao;
 	
-	public List<OperationRecord> getOperationRecordListResult(int start, int limit, Map<String, Object> param) {
-		return operationRecordDao.list(start, limit, param);
+	public List<OperationRecord> getOperationRecordListResult(int start, int limit, Map<String, Object> params) {
+		return operationRecordDao.list(start, limit, params);
 	}
 	
 	public void saveOrUpdateOperationRecord(OperationRecord record) {

@@ -218,40 +218,20 @@ public class OperationRecordDto {
 			return valid;
 		}
 
-		public void setValid(boolean valid) {
-			this.valid = valid;
-		}
-
 		public boolean isRequired() {
 			return required;
-		}
-
-		public void setRequired(boolean required) {
-			this.required = required;
 		}
 
 		public String getParamName() {
 			return paramName;
 		}
 
-		public void setParamName(String paramName) {
-			this.paramName = paramName;
-		}
-
 		public String getParamValue() {
 			return paramValue;
 		}
 
-		public void setParamValue(String paramValue) {
-			this.paramValue = paramValue;
-		}
-
 		public String getDescription() {
 			return description;
-		}
-
-		public void setDescription(String description) {
-			this.description = description;
 		}
 		
 		public TagParamParsedResult valid(boolean valid) {

@@ -17,20 +17,20 @@ import com.sogou.map.logreplay.dao.base.OperationParsedResult;
 public class OperationRecordDao extends AbstractJdbcDaoImpl<OperationRecord> {
 
 	@Override
-	protected String generateSqlByParam(int start, int limit, Map<String, Object> param) {
+	protected String generateSqlByParam(int start, int limit, Map<String, Object> params) {
 		String selectClause = new StringBuilder()
 			.append(" select operation_record.*, ")
 			.append(" tag_info.id as tag_info_id ")
 			.toString();
-		return generateSqlByParam(start, limit, selectClause, param);
+		return generateSqlByParam(start, limit, selectClause, params);
 	}
 	
 	@Override
-	protected String generateSqlByParam(int start, int limit, String selectClause, Map<String, Object> param) {
+	protected String generateSqlByParam(int start, int limit, String selectClause, Map<String, Object> params) {
 		String fromClause = " from " + getTableName() 
 				+ " left join tag_info on tag_info.tag_no = operation_record.tag_no "
 				+ " and tag_info.page_no = operation_record.page_no ";
-		return generateSqlByParam(start, limit, selectClause, fromClause, param);
+		return generateSqlByParam(start, limit, selectClause, fromClause, params);
 	}
 	
 	@Override
@@ -41,8 +41,8 @@ public class OperationRecordDao extends AbstractJdbcDaoImpl<OperationRecord> {
 	}
 	
 	@Override
-	protected List<OperationRecord> doList(String sql, Map<String, Object> param) {
-		return doList(sql, param, new RowMapper<OperationRecord>() {
+	protected List<OperationRecord> doList(String sql, Map<String, Object> params) {
+		return doList(sql, params, new RowMapper<OperationRecord>() {
 			@Override
 			public OperationRecord mapRow(ResultSet rs, int rowNum) throws SQLException {
 				OperationRecord record = ROW_MAPPER.mapRow(rs, rowNum);

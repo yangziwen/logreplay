@@ -4,8 +4,8 @@
 	<groupId>com.sogou.map</groupId>
 	<artifactId>logreplay</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>logreplay Maven Webapp</name>
+	<version>1.0</version>
+	<name>logreplay</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>

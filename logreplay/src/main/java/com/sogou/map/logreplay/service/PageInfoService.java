@@ -23,16 +23,16 @@ public class PageInfoService {
 	@Autowired
 	private TagInfoDao tagInfoDao;
 	
-	public Page<PageInfo> getPageInfoPageResult(int start, int limit, Map<String, Object> param) {
-		return pageInfoDao.paginate(start, limit, param);
+	public Page<PageInfo> getPageInfoPageResult(int start, int limit, Map<String, Object> params) {
+		return pageInfoDao.paginate(start, limit, params);
 	}
 	
-	public List<PageInfo> getPageInfoListResult(int start, int limit, Map<String, Object> param) {
-		return pageInfoDao.list(start, limit, param);
+	public List<PageInfo> getPageInfoListResult(int start, int limit, Map<String, Object> params) {
+		return pageInfoDao.list(start, limit, params);
 	}
 	
-	public List<PageInfo> getPageInfoListResult(Map<String, Object> param) {
-		return pageInfoDao.list(param);
+	public List<PageInfo> getPageInfoListResult(Map<String, Object> params) {
+		return pageInfoDao.list(params);
 	}
 	
 	public PageInfo getPageInfoById(Long id) {
