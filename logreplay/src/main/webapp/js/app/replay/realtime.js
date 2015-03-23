@@ -58,6 +58,8 @@ define(function(require, exports, module) {
 			$replaySwitchBtn.html('停止校验');
 //			$clearBtn.attr({disabled: true});
 			var params = common.collectParams('#J_queryArea input[type!=button]');
+			params['originVersionSince'] = common.parseAppVersion(params['originVersionSince']);
+			params['originVersionUntil'] = common.parseAppVersion(params['originVersionUntil']);
 //			params.since = $.now();		// don't rely on client's clock!
 			$.get(CTX_PATH + "/common/serverTimestamp").done(function(data) {
 				if(!data || !data.response || !data.response.timestamp) {
@@ -124,11 +126,15 @@ define(function(require, exports, module) {
 						if($.isArray(record.paramParsedResultList)) {
 							for(var i = 0, l = record.paramParsedResultList.length; i < l; i++) {
 								var parsedResult = record.paramParsedResultList[i];
-								contents.push([
+								var content = [
 								    parsedResult.paramName, 
 								    parsedResult.paramValue, 
 								    parsedResult.description,
-								    parsedResult.valid].join(' : '));
+								    parsedResult.valid? '正常': '异常'].join(' : ');
+								if(!parsedResult.valid) {
+									content = '<span style="color: #c9302c; font-weight: bold;">' + content + '</span>'
+								}
+								contents.push(content);
 							}
 						}
 						return contents.join('<br/>');
@@ -136,12 +142,13 @@ define(function(require, exports, module) {
 					displayInspectStatus: function(inspectStatus) {
 						switch(inspectStatus) {
 							case 0: return '<span class="label label-default">未校验</span>';
-							case 1: return '<span class="label label-success">校验正确</span>';
+							case 1: return ''; //'<span class="label label-success">校验正确</span>';
 							case 2: return '<span class="label label-danger">校验错误</span>';
 							default: return '--';
 						}
 					}
 				}));
+				$replayTbody.append('<tr class="info"><td colspan="6"></td></tr>'); // 分隔行
 				if(!lockScroll) {
 					$replayArea.scrollTop($replayArea[0].scrollHeight - $replayArea.height());
 				}

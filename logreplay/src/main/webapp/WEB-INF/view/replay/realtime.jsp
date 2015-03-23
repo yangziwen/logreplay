@@ -7,11 +7,23 @@
 	<%@ include file="../include/includeCss.jsp" %>
 	<style>
 		#J_replayArea {
-			margin-top: 10px; height: 500px; overflow-y: auto; border-top: 1px solid #eee; padding: 0px;
+			margin-top: 10px; height: 800px; overflow-y: auto; border-top: 1px solid #eee; padding: 0px;
 		}
 		#J_replayTbl td {
 			white-space: normal;
 			word-break: break-all;
+		}
+		.table > tbody > tr.danger > td {
+			background-color: #e2b3b3;
+		}
+		.table > tbody > tr.danger:hover > td {
+			background-color: #dca2a2;
+		}
+		.table > tbody > tr.warning > td {
+			background-color: #f8edb8;
+		}
+		.table > tbody > tr.warning:hover > td {
+			background-color: #f6e7a2;
 		}
 	</style>
 </head>
@@ -56,6 +68,16 @@
 									<input type="text" class="form-control" id="J_tagNo" name="tagNo" placeholder="请输入操作编号" />
 								</div>
 							</div>
+							<div class="form-group">
+								<label for="J_originVersionSince" class="col-sm-2 control-label">起始版本：</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="J_originVersionSince" name="originVersionSince" placeholder="请输入起始版本" />
+								</div>
+								<label for="J_originVersionUntil" class="col-sm-2 control-label">终止版本：</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="J_originVersionUntil" name="originVersionUntil" placeholder="请输入终止版本" />
+								</div>
+							</div>
 							<div class="form-group" style="margin-bottom: 0px;">
 								<div class="col-sm-12" style="margin-top: 10px;">
 									<button id="J_replaySwitchBtn" type="button" class="btn btn-primary btn-lg-font">开始校验</button>
@@ -82,7 +104,7 @@
 				     				<th style="width: 100px;">管理</th>
 				     			</tr>
 				     		</thead>
-				     		<tbody id="J_replayTbody" style="max-height: 500px;" >
+				     		<tbody id="J_replayTbody" style="max-height: 800px;" >
 				     		</tbody>
 				     		<script type="text/x-jquery-tmpl" id="J_replayTmpl">
 								<tr class="${'${'}$item.bgClass($data)}" data-id="${'${'}id}" 

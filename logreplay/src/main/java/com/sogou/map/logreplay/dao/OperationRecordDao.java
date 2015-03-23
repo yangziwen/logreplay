@@ -36,7 +36,9 @@ public class OperationRecordDao extends AbstractJdbcDaoImpl<OperationRecord> {
 	@Override
 	protected OperationParsedResult parseOperation(String keyWithOper) {
 		OperationParsedResult parsedResult = super.parseOperation(keyWithOper);
-		parsedResult.setKey(getTableName() + "." + parsedResult.getKey());
+		if(parsedResult.getKey().indexOf(".") == -1) {
+			parsedResult.setKey(getTableName() + "." + parsedResult.getKey());
+		}
 		return parsedResult;
 	}
 	

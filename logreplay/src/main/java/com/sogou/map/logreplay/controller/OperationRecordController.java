@@ -92,6 +92,8 @@ public class OperationRecordController extends BaseService {
 			@QueryParam("uvid") String uvid,
 			@QueryParam("pageNo") Integer pageNo,
 			@QueryParam("tagNo") Integer tagNo,
+			@QueryParam("originVersionSince") Integer originVersionSince,
+			@QueryParam("originVersionUntil") Integer originVersionUntil,
 			@DefaultValue("30") @QueryParam("limit") int limit
 			) {
 		List<OperationRecord> list = operationRecordService.getOperationRecordListResult(0, limit, new QueryParamMap()
@@ -102,6 +104,8 @@ public class OperationRecordController extends BaseService {
 			.addParam(idSince != null, "id__gt", idSince)
 			.addParam(idSince == null && since != null, "timestamp__gt", since)
 			.addParam(until != null, "timestamp__lt", until)
+			.addParam(originVersionSince != null && originVersionSince > 0, "tag_info.origin_version__ge", originVersionSince)
+			.addParam(originVersionUntil != null && originVersionUntil > 0 , "tag_info.origin_version__le", originVersionUntil)
 			.orderByAsc("timestamp")
 		);
 		List<OperationRecordDto> dtoList = convertToDtoList(list);
