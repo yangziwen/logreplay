@@ -115,9 +115,9 @@
 				     				<th style="width: 150px;">提交时间</th>
 				     				<th style="width: 90px;">校验结果</th>
 				     				<th style="width: 90px;">处理状态</th>
-				     				<shiro:hasRole name="admin">
+				     				<shiro:hasAnyRoles name="admin,test">
 				     				<th>管理</th>
-				     				</shiro:hasRole>
+				     				</shiro:hasAnyRoles>
 				     			</tr>
 				     		</thead>
 				     		<tbody id="J_inspectionRecordTbody">
@@ -131,11 +131,11 @@
 									<td>${'${'}createTime? new Date(createTime).format('yyyy-MM-dd hh:mm:ss'): '--'}</td>
 									<td>{{html $item.displayValidStatus($data) }}</td>
 									<td>{{html $item.displaySolvedStatus($data) }}</td>
-									<shiro:hasRole name="admin">
+									<shiro:hasAnyRoles name="admin,test">
 				     				<td>
 										<button class="btn btn-primary btn-xs open-detail-modal">详情</button>
 									</td>
-									</shiro:hasRole>
+									</shiro:hasAnyRoles>
 				     			</tr>
 							</script>
 				     	</table>
