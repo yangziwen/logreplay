@@ -13,6 +13,8 @@ import com.sogou.map.logreplay.bean.ParamInfo;
  */
 public class TagParamParser {
 	
+	private static final String[] EXCLUDED_PARAM_KEYS = {"p", "tag", "t", "reqid", "dataid", "ucNavigateId"};
+	
 	/** <tagInfoId, tagParams> **/
 	private Map<Long, TagParamHolder> holderMap = new HashMap<Long, TagParamHolder>();
 	
@@ -52,6 +54,19 @@ public class TagParamParser {
 			}
 		}
 		return list;
+	}
+	
+	/**
+	 * 判断info中的某个参数是否需要解析
+	 * 比如 p, tag, t, reqid之类的参数都是不需要被当做操作项的参数进行解析的
+	 */
+	public static boolean isParamKeyExcluded(String key) {
+		for(String excludedKey: EXCLUDED_PARAM_KEYS) {
+			if(excludedKey.equalsIgnoreCase(key)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**

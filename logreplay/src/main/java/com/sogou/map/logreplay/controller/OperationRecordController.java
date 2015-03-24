@@ -234,7 +234,7 @@ public class OperationRecordController extends BaseService {
 			}
 			for(Entry<String, Object> entry: json.entrySet()) {
 				String key = entry.getKey();
-				if("t".equals(key) || "p".equals(key) || "tag".equals(key)) {
+				if(TagParamParser.isParamKeyExcluded(key)) {
 					continue;
 				}
 				Object value = entry.getValue();
