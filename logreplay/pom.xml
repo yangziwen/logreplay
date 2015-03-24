@@ -61,11 +61,11 @@
 					<artifactId>dpgeom</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>com.go2map</groupId>
+					<groupId>com.sogou</groupId>
 					<artifactId>district</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>com.go2map</groupId>
+					<groupId>com.sogou.geom</groupId>
 					<artifactId>g2lib</artifactId>
 				</exclusion>
 			</exclusions>

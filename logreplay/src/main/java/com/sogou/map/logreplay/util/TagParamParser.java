@@ -129,6 +129,16 @@ public class TagParamParser {
 			}
 			return paramInfoMap.get(paramValue);
 		}
+		
+		/**
+		 * 根据tagParamParser#parse方法返回的paramInfo来判断请求中携带的参数是否正确有效
+		 * 基于操作项中的参数配置信息，请求中无效的参数包括
+		 * 1) 参数缺失
+		 * 2) 参数多余
+		 */
+		public static boolean isValid(ParamInfo paramInfo) {
+			return paramInfo != null && !PARAM_VALUE_NOT_EXIST_DESCRIPTION.equals(paramInfo.getDescription());
+		}
 	}
 	
 }

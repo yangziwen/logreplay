@@ -130,9 +130,11 @@ define(function(require, exports, module) {
 								    parsedResult.paramName, 
 								    parsedResult.paramValue, 
 								    parsedResult.description,
-								    parsedResult.valid? '正常': '异常'].join(' : ');
-								if(!parsedResult.valid) {
-									content = '<span style="color: #c9302c; font-weight: bold;">' + content + '</span>'
+								    !parsedResult.required? '多余': parsedResult.valid? '正常': '异常'].join(' : ');
+								if(!parsedResult.required) {
+									content = '<span style="color: #269abc; font-weight: bold;">' + content + '</span>';
+								} else if (!parsedResult.valid) {
+									content = '<span style="color: #c9302c; font-weight: bold;">' + content + '</span>';
 								}
 								contents.push(content);
 							}
@@ -148,7 +150,7 @@ define(function(require, exports, module) {
 						}
 					}
 				}));
-				$replayTbody.append('<tr class="info"><td colspan="6"></td></tr>'); // 分隔行
+				$replayTbody.append('<tr class="info"><td colspan="6"></td></tr><tr class="hide"><td colspan="6"></td></tr>'); // 分隔行
 				if(!lockScroll) {
 					$replayArea.scrollTop($replayArea[0].scrollHeight - $replayArea.height());
 				}

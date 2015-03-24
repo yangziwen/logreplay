@@ -242,12 +242,12 @@ public class OperationRecordController extends BaseService {
 					value = "";
 				}
 				ParamInfo paramInfo = parser.parse(dto.getTagInfoId(), key, value.toString());
-				String description = paramInfo != null? paramInfo.getDescription(): "";
+				String description = paramInfo != null? paramInfo.getDescription(): "多余的参数!";
 				TagParamParsedResult parsedResult = new TagParamParsedResult()
 					.paramName(key).paramValue(value.toString())
 					.description(description)
 					.required(paramInfo != null)
-					.valid(!ParamInfoHolder.PARAM_VALUE_NOT_EXIST_DESCRIPTION.equals(description));	// 这里写的太滥了，已经没有力气了
+					.valid(ParamInfoHolder.isValid(paramInfo));
 				dto.addParamParsedResult(parsedResult);
 			}
 		}
