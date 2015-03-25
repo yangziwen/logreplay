@@ -153,6 +153,8 @@ define(function(require, exports, module) {
 			forceParse : 0,
 			showMeridian : 1,
 			pickerPosition: "bottom-left"
+		}).find('input[type=text]').on('focus', function(ev) {
+			$(this).trigger('blur');
 		});
 	}
 	

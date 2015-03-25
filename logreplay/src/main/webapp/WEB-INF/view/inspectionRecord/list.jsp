@@ -74,7 +74,7 @@
 								<label for="J_submitTimeSince" class="col-sm-2 control-label">开始时间：</label>
 								<div class="col-sm-4">
 									<div class="input-group date form_datetime" data-date-format="yyyy-MM-dd" data-link-field="J_submitTimeSince">
-										<input id="J_submitTimeSince" name="submitTimeSince" class="form-control" type="text" value="" readonly />
+										<input id="J_submitTimeSince" name="submitTimeSince" class="form-control" type="text" value="" style="cursor: pointer;" />
 										<span class="input-group-addon">
 											<span class="glyphicon glyphicon-th"></span>
 										</span>
@@ -83,7 +83,7 @@
 								<label for="J_submitTimeUntil" class="col-sm-2 control-label">结束时间：</label>
 								<div class="col-sm-4">
 									<div class="input-group date form_datetime" data-date-format="yyyy-MM-dd" data-link-field="J_submitTimeUntil">
-										<input id="J_submitTimeUntil" name="submitTimeUntil" class="form-control" type="text" value="" readonly />
+										<input id="J_submitTimeUntil" name="submitTimeUntil" class="form-control" type="text" value="" style="cursor: pointer;"/>
 										<span class="input-group-addon">
 											<span class="glyphicon glyphicon-th"></span>
 										</span>
