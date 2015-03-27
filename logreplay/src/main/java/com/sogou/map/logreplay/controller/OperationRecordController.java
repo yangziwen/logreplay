@@ -83,6 +83,12 @@ public class OperationRecordController extends BaseService {
 	private TagParamService tagParamService;
 	
 	@GET
+	@Path("/latest")
+	public Response getLatestRecord() {
+		return successResultToJson(operationRecordService.getLatestOperationRecord(), true);
+	}
+	
+	@GET
 	@Path("/query")
 	public Response query(
 			@QueryParam("idSince") Long idSince,

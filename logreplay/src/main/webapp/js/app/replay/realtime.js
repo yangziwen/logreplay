@@ -56,22 +56,20 @@ define(function(require, exports, module) {
 	function switchButtonStatus(replaying) {
 		if(replaying) {
 			$replaySwitchBtn.html('停止校验');
-//			$clearBtn.attr({disabled: true});
 			var params = common.collectParams('#J_queryArea input[type!=button]');
 			params['originVersionSince'] = common.parseAppVersion(params['originVersionSince']);
 			params['originVersionUntil'] = common.parseAppVersion(params['originVersionUntil']);
-//			params.since = $.now();		// don't rely on client's clock!
-			$.get(CTX_PATH + "/common/serverTimestamp").done(function(data) {
-				if(!data || !data.response || !data.response.timestamp) {
-					common.alertMsg('与服务端校对时间失败!');
-					return;
+			$.get(CTX_PATH + "/operationRecord/latest").done(function(data) {
+				var latestRecordId = 0;
+				if(data && data.response) {
+					var latestRecord = data.response;
+					latestRecordId = latestRecord.id || 0;
 				}
-				params.since = data.response.timestamp;
+				params.idSince = latestRecordId;
 				doReplay(params, 1000);
 			})
 		} else {
 			$replaySwitchBtn.html('开始校验');
-//			$clearBtn.attr({disabled: false});
 		}
 	}
 	
