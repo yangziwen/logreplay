@@ -82,12 +82,20 @@ public class OperationRecordController extends BaseService {
 	@Autowired
 	private TagParamService tagParamService;
 	
+	/**
+	 * 获取数据库中最新的一条操作记录
+	 * 用于在实时校验(回放)开始时确定第一次轮询的idSince的值
+	 */
 	@GET
 	@Path("/latest")
 	public Response getLatestRecord() {
 		return successResultToJson(operationRecordService.getLatestOperationRecord(), true);
 	}
 	
+	/**
+	 * 获取操作记录
+	 * 用于实时校验(回放)
+	 */
 	@GET
 	@Path("/query")
 	public Response query(

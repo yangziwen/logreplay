@@ -4,6 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * 操作项关联的动作
+ */
 @Table(name = "tag_action")
 public class TagAction extends AbstractBean {
 

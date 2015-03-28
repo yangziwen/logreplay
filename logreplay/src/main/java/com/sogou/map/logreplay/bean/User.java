@@ -8,6 +8,8 @@ import javax.persistence.Table;
 
 @Table(name="user")
 public class User extends AbstractBean {
+	
+	public static final int PASSWORD_MIN_LENGTH = 4;
 
 	@Id
 	@Column

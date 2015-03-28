@@ -6,6 +6,9 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * 页面信息
+ */
 @Table(name = "page_info")
 public class PageInfo extends AbstractBean {
 
@@ -13,9 +16,11 @@ public class PageInfo extends AbstractBean {
 	@Column
 	private Long id;
 	
+	/** 页面编号 **/
 	@Column
 	private Integer pageNo;
 	
+	/** 页面名称 **/
 	@Column
 	private String name;
 	

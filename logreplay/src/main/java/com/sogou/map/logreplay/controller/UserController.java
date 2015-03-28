@@ -59,6 +59,9 @@ public class UserController extends BaseService {
 		if(StringUtils.isBlank(oldPassword) || StringUtils.isBlank(newPassword)) {
 			throw LogReplayException.invalidParameterException("Neither oldPassword nor newPassword should be null!");
 		}
+		if((newPassword = newPassword.trim()).length() < User.PASSWORD_MIN_LENGTH) {
+			throw LogReplayException.invalidParameterException("New password is too short!");
+		}
 		String username = AuthUtil.getUsername();
 		User user = userService.getUserByUsername(username);
 		if(!AuthUtil.hashPassword(username, oldPassword).equals(user.getPassword())) {

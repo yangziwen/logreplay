@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+/**
+ * 此filter用于将以".htm"结尾的请求forward到对应的jsp上
+ * 例如/admin/user/list.htm对应的jsp为/WEB-INF/view/admin/user/list.jsp
+ */
 public class ForwardToJSPFilter extends OncePerRequestFilter {
 
 	@Override
@@ -29,6 +33,12 @@ public class ForwardToJSPFilter extends OncePerRequestFilter {
 			filterChain.doFilter(request, response);
 			return;
 		}
+		doForwardToJsp(request, response);
+	}
+	
+	private void doForwardToJsp(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		String uri = request.getRequestURI();
 		String contextPath = request.getContextPath();
 		if(StringUtils.isNotBlank(contextPath) && !"/".equals(contextPath)) {
 			uri = uri.replaceFirst(contextPath, "");

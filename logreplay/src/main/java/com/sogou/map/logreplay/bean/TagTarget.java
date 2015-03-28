@@ -4,6 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * 操作项关联的目标
+ */
 @Table(name = "tag_target")
 public class TagTarget extends AbstractBean {
 

@@ -50,6 +50,9 @@ public class InspectionRecordController extends BaseService {
 	@Autowired
 	private InspectionRecordService inspectionRecordService;
 	
+	/**
+	 * 获取校验结果的列表
+	 */
 	@GET
 	@Path("/list")
 	public Response list(
@@ -104,7 +107,6 @@ public class InspectionRecordController extends BaseService {
 	
 	/**
 	 * 提交校验结果，相当于创建
-	 * @return
 	 */
 	@POST
 	@Path("/submit")
@@ -140,6 +142,9 @@ public class InspectionRecordController extends BaseService {
 		}
 	}
 	
+	/**
+	 * 将校验结果标记为“已处理”
+	 */
 	@POST
 	@Path("/resolve/{id}")
 	public Response resolve(

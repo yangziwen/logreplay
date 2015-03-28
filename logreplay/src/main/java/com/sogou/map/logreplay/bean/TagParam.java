@@ -8,6 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+/**
+ * 操作项与参数的关联
+ * 一个操作项(TagInfo)可关联多个参数信息(ParamInfo)
+ */
 @Table(name = "tag_param")
 public class TagParam extends AbstractBean {
 
@@ -15,12 +19,15 @@ public class TagParam extends AbstractBean {
 	@Column
 	private Long id;
 	
+	/** 操作项id **/
 	@Column(name = "tag_info_id")
 	private Long tagInfoId;
 	
+	/** 关联的操作信息列表 **/
 	@Transient
 	private List<ParamInfo> paramInfoList = new ArrayList<ParamInfo>();
 	
+	/** 相关的注释 **/
 	@Column
 	private String comment;
 	

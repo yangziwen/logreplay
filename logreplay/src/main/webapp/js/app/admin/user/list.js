@@ -105,6 +105,7 @@ define(function(require, exports, module) {
 			}
 			var params = {
 				username: $('#U_username').val(),
+				password: '1234',	// 初始密码为1234
 				screenName: $('#U_screenName').val(),
 				roleNames: $('#U_roleNames').val(),
 				enabled: $('#U_enabled').val()

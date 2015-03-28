@@ -7,42 +7,57 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+/**
+ * 操作项信息，分为“普通操作项”和“公共操作项”
+ * “公共操作项”不关联特定的页面信息(PageInfo)，操作编号>10000
+ */
 @Table(name = "tag_info")
 public class TagInfo extends AbstractBean {
 	
+	/** 公共操作项的操作编号必须大于此值 **/
 	public static final Integer COMMON_TAG_NO_MIN_VALUE = 10000;
 
 	@Id
 	@Column
 	private Long id;
 	
+	/**  操作项编号 **/
 	@Column(name = "tag_no")
 	private Integer tagNo;
 
+	/** 操作项名称 **/
 	@Column
 	private String name;
 	
+	/** 对应的页面信息的id **/
 	@Column(name = "page_info_id")
 	private Long pageInfoId;
 	
+	/** 对应的页面编号 **/
 	@Column(name = "page_no")	// 冗余，为了查询方便
 	private Integer pageNo;
 	
+	/** 页面信息对象 **/
 	@Transient
 	private PageInfo pageInfo;
 	
+	/** 操作动作id，请见类TagAction **/
 	@Column(name = "action_id")
 	private Long actionId;
 	
+	/** 操作目标id，请见类TagTarget **/
 	@Column(name = "target_id")
 	private Long targetId;
 	
+	/** 注释信息 **/
 	@Column
 	private String comment;
 	
+	/** 首次在app中引入此操作项时，app的版本号 **/
 	@Column(name = "origin_version")
 	private Integer originVersion;
 	
+	/** 校验状态，各种状态请见枚举类InspectStatus **/
 	@Column(name = "inspect_status")
 	private Integer inspectStatus;
 	
@@ -52,6 +67,7 @@ public class TagInfo extends AbstractBean {
 	@Column(name = "update_time")
 	private Timestamp updateTime;
 	
+	/** 此操作项是否有相关的参数信息(TagParam) **/
 	@Transient
 	private Boolean hasParams;
 	
@@ -169,6 +185,7 @@ public class TagInfo extends AbstractBean {
 		this.hasParams = hasParams;
 	}
 
+	/** 操作项校验结果类型 **/
 	public enum InspectStatus {
 		
 		SUCCESS(1), ERROR(2), UNCHECKED(0), UNKNOWN(-1);

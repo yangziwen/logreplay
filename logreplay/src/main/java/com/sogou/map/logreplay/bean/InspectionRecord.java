@@ -9,7 +9,6 @@ import javax.persistence.Transient;
 
 /**
  * 操作日志的校验记录
- * @author yangziwen
  */
 @Table(name = "inspection_record")
 public class InspectionRecord extends AbstractBean {
@@ -18,21 +17,27 @@ public class InspectionRecord extends AbstractBean {
 	@Column
 	private Long id;
 	
+	/** 页面信息的id **/
 	@Column(name = "page_info_id")
 	private Long pageInfoId;
 	
+	/** 操作项信息的id **/
 	@Column(name = "tag_info_id")
 	private Long tagInfoId;
 	
+	/** 校验结果是否正确 **/
 	@Column
 	private Boolean valid;
 	
+	/** 是否已解决 **/
 	@Column
 	private Boolean solved;
 	
+	/** 校验结果提交人id **/
 	@Column(name = "submitter_id")
 	private Long submitterId;
 	
+	/** 校验结果解决人id **/
 	@Column(name = "solver_id")
 	private Long solverId;
 	

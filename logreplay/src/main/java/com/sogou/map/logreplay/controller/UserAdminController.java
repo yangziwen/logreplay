@@ -69,11 +69,15 @@ public class UserAdminController extends BaseService {
 	@Path("/create")
 	public Response create (
 			@FormParam("username") String username,
+			@FormParam("password") String password,
 			@FormParam("screenName") String screenName,
 			@FormParam("roleNames") String roleNames,
 			@FormParam("enabled") Boolean enabled) {
 		if(StringUtils.isBlank(username) || StringUtils.isBlank(roleNames)) {
 			throw LogReplayException.invalidParameterException("Either Username or roleNames should not be null!");
+		}
+		if(StringUtils.isBlank(password) || (password = password.trim()).length() < User.PASSWORD_MIN_LENGTH) {
+			throw LogReplayException.invalidParameterException("Password is not valid!");
 		}
 		List<Role> roleList = roleService.getRoleListResult(new QueryParamMap().addParam("name__in", roleNames.split(",")));
 		if(CollectionUtils.isEmpty(roleList)) {
@@ -83,8 +87,7 @@ public class UserAdminController extends BaseService {
 			throw LogReplayException.invalidParameterException("Duplicated username!");
 		}
 		try {
-			// 初始密码都是1234
-			User user = new User(username, screenName, AuthUtil.hashPassword(username, "1234"), enabled); 
+			User user = new User(username, screenName, AuthUtil.hashPassword(username, password), enabled); 
 			userService.createUser(user, roleList);
 			return successResultToJson(String.format("User[%d] is created successfully!", user.getId()), true);
 		} catch (Exception e) {
@@ -125,6 +128,9 @@ public class UserAdminController extends BaseService {
 		}
 	}
 	
+	/**
+	 * 管理员重置密码
+	 */
 	@POST
 	@Path("/password/update/{id}")
 	public Response updatePassword(
@@ -132,7 +138,7 @@ public class UserAdminController extends BaseService {
 			@FormParam("password") String password
 			) {
 		User user = null;
-		if(StringUtils.isBlank(password) || password.trim().length() < 4) {
+		if(StringUtils.isBlank(password) || (password = password.trim()).length() < User.PASSWORD_MIN_LENGTH) {
 			throw LogReplayException.invalidParameterException(String.format("Invalid password[%s]!", password));
 		}
 		if(id == null || (user = userService.getUserById(id)) == null) {

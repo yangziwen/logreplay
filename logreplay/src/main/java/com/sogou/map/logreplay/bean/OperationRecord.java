@@ -12,6 +12,10 @@ import org.apache.commons.lang.math.NumberUtils;
 
 import com.alibaba.fastjson.JSON;
 
+/**
+ * 操作记录
+ * 即日志回放过程中的每一个操作动作
+ */
 @Table(name = "operation_record")
 public class OperationRecord extends AbstractBean {
 	
@@ -22,30 +26,44 @@ public class OperationRecord extends AbstractBean {
 	@Column
 	private String ip;
 	
+	/**
+	 * 设备编号
+	 * android为deviceId
+	 * ios为kd
+	 */
 	@Column(name = "device_id")
 	private String deviceId;
 
+	/** 用户编号 **/
 	@Column
 	private String uvid;
 	
+	/** 设备机型 **/
 	@Column
 	private String os;
 	
+	/** 当前操作的app的版本 **/
 	@Column
 	private Long version;
 	
 	@Column
 	private Long timestamp;
 	
+	/** 页面编号
+	 * 如果是公共操作项，则此编号为空
+	 */
 	@Column(name = "page_no")
 	private Integer pageNo;
 	
+	/** 操作项编号 **/
 	@Column(name = "tag_no")
 	private Integer tagNo;
 	
+	/** json格式的参数信息 **/
 	@Column(name = "params")
 	private String params;
 	
+	/** 操作项信息的id **/
 	@Transient
 	private Long tagInfoId;
 	

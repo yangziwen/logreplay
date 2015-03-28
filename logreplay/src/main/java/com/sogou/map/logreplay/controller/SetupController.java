@@ -35,6 +35,9 @@ import com.sogou.map.logreplay.exception.LogReplayException;
 import com.sogou.map.logreplay.util.AuthUtil;
 import com.sogou.map.mengine.common.service.BaseService;
 
+/**
+ * 通过文本信息导入“页面信息”，“操作项信息”等内容
+ */
 @Component
 @Path("/setup")
 public class SetupController extends BaseService {
