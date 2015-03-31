@@ -36,7 +36,7 @@ import com.sogou.map.logreplay.util.ClassUtil;
 
 public class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 
-protected static final boolean DEBUG_SQL = BooleanUtils.toBoolean(System.getProperty("jdbc.sql.debug"));
+	protected static final boolean DEBUG_SQL = BooleanUtils.toBoolean(System.getProperty("jdbc.sql.debug"));
 	
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -122,7 +122,7 @@ protected static final boolean DEBUG_SQL = BooleanUtils.toBoolean(System.getProp
 	}
 	
 	protected static String convertCamelToUnderscore(String str) {
-		return StringUtils.isBlank(str)? "": str.replaceAll("([^A-Z])([A-Z])", "$1_$2").toLowerCase();
+		return StringUtils.isBlank(str)? "": str.replaceAll("([^\\sA-Z])([A-Z])", "$1_$2").toLowerCase();
 	}
 	
 	protected String getTableName() {
