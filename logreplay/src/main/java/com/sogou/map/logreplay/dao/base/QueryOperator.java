@@ -8,10 +8,22 @@ public enum QueryOperator {
 	eq {
 		@Override
 		public OperationParsedResult buildResult(String fieldName, String originKey) {
+			return equal_to.buildResult(fieldName, originKey);
+		}
+	},
+	equal_to {
+		@Override
+		public OperationParsedResult buildResult(String fieldName, String originKey) {
 			return new OperationParsedResult(fieldName, " = ", ":" + originKey, originKey);
 		}
 	},
 	ne {
+		@Override
+		public OperationParsedResult buildResult(String fieldName, String originKey) {
+			return not_equal_to.buildResult(fieldName, originKey);
+		}
+	},
+	not_equal_to {
 		@Override
 		public OperationParsedResult buildResult(String fieldName, String originKey) {
 			return new OperationParsedResult(fieldName, " != ", ":" + originKey, originKey);
@@ -20,10 +32,22 @@ public enum QueryOperator {
 	gt {
 		@Override
 		public OperationParsedResult buildResult(String fieldName, String originKey) {
+			return greater_than.buildResult(fieldName, originKey);
+		}
+	},
+	greater_than {
+		@Override
+		public OperationParsedResult buildResult(String fieldName, String originKey) {
 			return new OperationParsedResult(fieldName, " > ", ":" + originKey, originKey);
 		}
 	},
 	ge {
+		@Override
+		public OperationParsedResult buildResult(String fieldName, String originKey) {
+			return greater_than_or_equal_to.buildResult(fieldName, originKey);
+		}
+	},
+	greater_than_or_equal_to {
 		@Override
 		public OperationParsedResult buildResult(String fieldName, String originKey) {
 			return new OperationParsedResult(fieldName, " >= ", ":" + originKey, originKey);
@@ -32,10 +56,22 @@ public enum QueryOperator {
 	lt {
 		@Override
 		public OperationParsedResult buildResult(String fieldName, String originKey) {
+			return less_than.buildResult(fieldName, originKey);
+		}
+	},
+	less_than {
+		@Override
+		public OperationParsedResult buildResult(String fieldName, String originKey) {
 			return new OperationParsedResult(fieldName, " < ", ":" + originKey, originKey);
 		}
 	},
 	le {
+		@Override
+		public OperationParsedResult buildResult(String fieldName, String originKey) {
+			return less_than_or_equal_to.buildResult(fieldName, originKey);
+		}
+	},
+	less_than_or_equal_to {
 		@Override
 		public OperationParsedResult buildResult(String fieldName, String originKey) {
 			return new OperationParsedResult(fieldName, " <= ", ":" + originKey, originKey);
@@ -111,7 +147,7 @@ public enum QueryOperator {
 	exists {
 		@Override
 		public OperationParsedResult buildResult(String fieldName, String originKey) {
-			int index = originKey.lastIndexOf("__");
+			int index = originKey.lastIndexOf( __ );
 			String existsClause = originKey.substring(0, index);
 			return new OperationParsedResult("", " exists (" + existsClause + ") ", "", originKey);
 		}
@@ -119,7 +155,7 @@ public enum QueryOperator {
 	not_exists {
 		@Override
 		public OperationParsedResult buildResult(String fieldName, String originKey) {
-			int index = originKey.lastIndexOf("__");
+			int index = originKey.lastIndexOf( __ );
 			String existsClause = originKey.substring(0, index);
 			return new OperationParsedResult("", " not exists (" + existsClause + ")", "", originKey);
 		}
@@ -127,12 +163,14 @@ public enum QueryOperator {
 	sub_query {
 		@Override
 		public OperationParsedResult buildResult(String fieldName, String originKey) {
-			int index = originKey.lastIndexOf("__");
+			int index = originKey.lastIndexOf( __ );
 			String subQuery = originKey.substring(0, index);
 			return new OperationParsedResult("", "(" + subQuery + ")", "", originKey);
 		}
 	}
 	;
+	
+	static final String __ = "__";
 	
 	private static VarArgsSQLFunction concatFunction = new VarArgsSQLFunction("concat(",",", ")");
 	

@@ -403,7 +403,7 @@ public class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 		if (StringUtils.isBlank(keyWithOper)) {
 			return null;
 		}
-		int index = keyWithOper.lastIndexOf("__");
+		int index = keyWithOper.lastIndexOf(QueryOperator.__);
 		if (index == -1) {
 			String key = keyWithOper;
 			return QueryOperator.eq.buildResult(getColumnByField(key), keyWithOper);
