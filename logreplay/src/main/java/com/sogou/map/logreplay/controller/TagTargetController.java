@@ -24,7 +24,7 @@ public class TagTargetController extends BaseService {
 	@GET
 	@Path("/list")
 	public Response list() {
-		List<TagTarget> list = tagTargetService.getTagTargetListResult(QueryParamMap.EMPTY_MAP);
+		List<TagTarget> list = tagTargetService.getTagTargetListResult(QueryParamMap.emptyMap());
 		return successResultToJson(list, true);
 	}
 }

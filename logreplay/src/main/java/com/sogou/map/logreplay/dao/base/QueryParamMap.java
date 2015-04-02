@@ -9,7 +9,25 @@ import java.util.Map;
 @SuppressWarnings("serial")
 public class QueryParamMap extends HashMap<String, Object> {
 	
-	public static final QueryParamMap EMPTY_MAP = new QueryParamMap(0);
+	/** an unmodifiable empty QueryParamMap instance  **/
+	public static final QueryParamMap EMPTY_MAP = new QueryParamMap(0) {
+		@Override
+		public Object put(String key, Object value) {
+			throw new UnsupportedOperationException();
+		}
+		@Override
+		public Object remove(Object key) {
+			throw new UnsupportedOperationException();
+		}
+		@Override
+		public void putAll(Map<? extends String, ? extends Object> m) {
+			throw new UnsupportedOperationException();
+		}
+		@Override
+		public void clear() {
+			throw new UnsupportedOperationException();
+		}
+	};
 	
 	public QueryParamMap() {
 		super();
@@ -97,6 +115,10 @@ public class QueryParamMap extends HashMap<String, Object> {
 			put(DaoConstant.GROUP_BY, groupByList);
 		}
 		return groupByList;
+	}
+	
+	public static QueryParamMap emptyMap() {
+		return EMPTY_MAP;
 	}
 	
 }

@@ -156,7 +156,7 @@ public class SetupController extends BaseService {
 		if(StringUtils.isBlank(filePath) || !(file = new File(filePath)).exists()) {
 			throw LogReplayException.invalidParameterException("FilePath is not valid!");
 		}
-		final Map<String, TagAction> actionMap = Maps.uniqueIndex(tagActionDao.list(QueryParamMap.EMPTY_MAP),
+		final Map<String, TagAction> actionMap = Maps.uniqueIndex(tagActionDao.list(QueryParamMap.emptyMap()),
 				new Function<TagAction, String>() {
 			@Override
 			public String apply(TagAction tagAction) {
@@ -213,7 +213,7 @@ public class SetupController extends BaseService {
 		if(StringUtils.isBlank(filePath) || !(file = new File(filePath)).exists()) {
 			throw LogReplayException.invalidParameterException("FilePath is not valid!");
 		}
-		final Map<String, TagAction> actionMap = Maps.uniqueIndex(tagActionDao.list(QueryParamMap.EMPTY_MAP),
+		final Map<String, TagAction> actionMap = Maps.uniqueIndex(tagActionDao.list(QueryParamMap.emptyMap()),
 				new Function<TagAction, String>() {
 			@Override
 			public String apply(TagAction tagAction) {
