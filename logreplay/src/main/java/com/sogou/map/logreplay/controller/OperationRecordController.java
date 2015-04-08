@@ -317,7 +317,7 @@ public class OperationRecordController extends BaseService {
 			e.printStackTrace();
 			throw LogReplayException.operationFailedException(String.format("Failed to save %s", record));
 		}
-		return successResultToJson("success", true);
+		return successResultToJson(new ModelMap("success", true), true);
 	}
 	
 	@POST
