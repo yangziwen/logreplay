@@ -33,6 +33,7 @@ import com.sogou.map.logreplay.dao.TagTargetDao;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.exception.LogReplayException;
 import com.sogou.map.logreplay.util.AuthUtil;
+import com.sogou.map.logreplay.util.ProductUtil;
 import com.sogou.map.mengine.common.service.BaseService;
 
 /**
@@ -122,6 +123,7 @@ public class SetupController extends BaseService {
 			throw LogReplayException.invalidParameterException("FilePath is not valid!");
 		}
 		final Timestamp ts = new Timestamp(System.currentTimeMillis());
+		final Long productId = ProductUtil.getProductId();
 		BeanParser<PageInfo> parser = new BeanParser<PageInfo> () {
 			@Override
 			public PageInfo parse(String str) {
@@ -137,6 +139,7 @@ public class SetupController extends BaseService {
 				pageInfo.setName(arr[1]);
 				pageInfo.setCreateTime(ts);
 				pageInfo.setUpdateTime(ts);
+				pageInfo.setProductId(productId);
 				return pageInfo;
 			}
 		};
@@ -171,6 +174,7 @@ public class SetupController extends BaseService {
 			}
 		});
 		final Timestamp ts = new Timestamp(System.currentTimeMillis());
+		final Long productId = ProductUtil.getProductId();
 		BeanParser<TagInfo> parser = new BeanParser<TagInfo>() {
 			@Override
 			public TagInfo parse(String str) {
@@ -194,6 +198,7 @@ public class SetupController extends BaseService {
 				}
 				tagInfo.setCreateTime(ts);
 				tagInfo.setUpdateTime(ts);
+				tagInfo.setProductId(productId);
 				return tagInfo;
 			}
 		};
@@ -235,6 +240,7 @@ public class SetupController extends BaseService {
 			}
 		});
 		final Timestamp ts = new Timestamp(System.currentTimeMillis());
+		final Long productId = ProductUtil.getProductId();
 		BeanParser<TagInfo> parser = new BeanParser<TagInfo>() {
 			@Override
 			public TagInfo parse(String str) {
@@ -266,6 +272,7 @@ public class SetupController extends BaseService {
 				}
 				tagInfo.setCreateTime(ts);
 				tagInfo.setUpdateTime(ts);
+				tagInfo.setProductId(productId);
 				return tagInfo;
 			}
 		};

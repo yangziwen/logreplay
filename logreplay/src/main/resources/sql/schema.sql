@@ -1,7 +1,15 @@
+-- 产品信息
+DROP TABLE IF EXISTS `product`;
+CREATE TABLE `product` (
+  `id` BIGINT (20) PRIMARY KEY AUTO_INCREMENT,
+  `name` VARCHAR (30) NOT NULL
+) ENGINE = INNODB DEFAULT CHARSET = GBK ;
+
 -- 操作记录
 DROP TABLE IF EXISTS `operation_record`;
 CREATE TABLE `operation_record` (
   `id` BIGINT (20) PRIMARY KEY AUTO_INCREMENT,
+  `product_id` BIGINT(20),
   `ip` VARCHAR (25),
   `device_id` VARCHAR (100),
   `uvid` VARCHAR (100),
@@ -18,16 +26,19 @@ CREATE TABLE `operation_record` (
 DROP TABLE IF EXISTS `page_info`;
 CREATE TABLE `page_info` (
   `id` BIGINT(20) PRIMARY KEY AUTO_INCREMENT,
-  `page_no` INT(11) NOT NULL UNIQUE,
+  `product_id` BIGINT(20) NOT NULL,
+  `page_no` INT(11) NOT NULL,
   `name` VARCHAR(50),
   `create_time` DATETIME,
-  `update_time` DATETIME
+  `update_time` DATETIME,
+  UNIQUE KEY `page_no_product_id` (`page_no`, `product_id`)
 ) ENGINE=INNODB DEFAULT CHARSET=GBK;
 
 -- tag的信息
 DROP TABLE IF EXISTS `tag_info`;
 CREATE TABLE `tag_info` (
   `id` BIGINT (20) PRIMARY KEY AUTO_INCREMENT,
+  `product_id` BIGINT(20) NOT NULL,
   `tag_no` INT (11) NOT NULL,
   `name` VARCHAR (50),
   `page_info_id` BIGINT (20),
@@ -39,8 +50,8 @@ CREATE TABLE `tag_info` (
   `inspect_status` int(2) DEFAULT 0,
   `create_time` DATETIME,
   `update_time` DATETIME,
-  UNIQUE KEY `page_info_id_tag_no` (`page_info_id`,`tag_no`),
-  UNIQUE KEY `page_no_tag_no` (`page_no`, `tag_no`)
+  UNIQUE KEY `page_info_id_tag_no_product_id` (`page_info_id`,`tag_no`, `product_id`),
+  UNIQUE KEY `page_no_tag_no_product_id` (`page_no`, `tag_no`, `product_id`)
 ) ENGINE = INNODB DEFAULT CHARSET = GBK ;
 
 -- tag的操作
@@ -77,8 +88,10 @@ CREATE TABLE `param_info` (
 ) ENGINE = INNODB DEFAULT CHARSET = GBK ;
 
 -- 日志项校验结果
+DROP TABLE IF EXISTS `inspection_record`;
 CREATE TABLE inspection_record (
   `id` BIGINT (20) PRIMARY KEY AUTO_INCREMENT,
+  `product_id` BIGINT(20),
   `page_info_id` BIGINT (20),
   `tag_info_id` BIGINT (20),
   `valid` TINYINT (1),

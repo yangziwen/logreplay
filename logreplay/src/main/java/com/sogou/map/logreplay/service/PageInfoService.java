@@ -13,6 +13,7 @@ import com.sogou.map.logreplay.dao.PageInfoDao;
 import com.sogou.map.logreplay.dao.TagInfoDao;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
+import com.sogou.map.logreplay.util.ProductUtil;
 
 @Service
 public class PageInfoService {
@@ -39,8 +40,11 @@ public class PageInfoService {
 		return pageInfoDao.getById(id);
 	}
 	
-	public PageInfo getPageInfoByPageNo(int pageNo) {
-		return pageInfoDao.first(new QueryParamMap().addParam("pageNo", pageNo));
+	public PageInfo getPageInfoByPageNoAndProductId(int pageNo, long productId) {
+		return pageInfoDao.first(new QueryParamMap()
+			.addParam("pageNo", pageNo)
+			.addParam("productId", productId)
+		);
 	}
 	
 	@Transactional
@@ -51,6 +55,7 @@ public class PageInfoService {
 	}
 	
 	public void createPageInfo(PageInfo info) {
+		info.setProductId(ProductUtil.getProductId());
 		info.setCreateTime(new Timestamp(System.currentTimeMillis()));
 		pageInfoDao.save(info);
 	}

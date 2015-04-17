@@ -21,6 +21,7 @@ import com.sogou.map.logreplay.exception.LogReplayException;
 import com.sogou.map.logreplay.service.PageInfoService;
 import com.sogou.map.logreplay.util.AuthUtil;
 import com.sogou.map.logreplay.util.JsonUtil;
+import com.sogou.map.logreplay.util.ProductUtil;
 import com.sogou.map.mengine.common.bo.ApiException;
 import com.sogou.map.mengine.common.service.BaseService;
 
@@ -46,6 +47,7 @@ public class PageInfoController extends BaseService {
 			.addParam(StringUtils.isNotBlank(name), "name__contain", name)
 			.addParam(StringUtils.isNotBlank(updateBeginTime), "updateTime__ge", updateBeginTime)
 			.addParam(StringUtils.isNotBlank(updateEndTime), "updateTime__le", updateEndTime)
+			.addParam("productId", ProductUtil.getProductId())
 			.orderByAsc("pageNo")
 		);
 		return successResultToJson(page, JsonUtil.configInstance(), true);
@@ -61,7 +63,7 @@ public class PageInfoController extends BaseService {
 	@GET
 	@Path("/detailByPageNo/{pageNo}")
 	public Response detailByPageNo(@PathParam("pageNo") Integer pageNo) {
-		PageInfo info = pageInfoService.getPageInfoByPageNo(pageNo);
+		PageInfo info = pageInfoService.getPageInfoByPageNoAndProductId(pageNo, ProductUtil.getProductId());
 		return successResultToJson(info, JsonUtil.configInstance(), true);
 	}
 	
@@ -120,11 +122,13 @@ public class PageInfoController extends BaseService {
 			return Response.ok().entity("false").build();
 		}
 		if(id == null && pageInfoService.getPageInfoListResult(0, 1, new QueryParamMap()
-				.addParam("pageNo", pageNo)).size() > 0) {
+				.addParam("pageNo", pageNo)
+				.addParam("productId", ProductUtil.getProductId())).size() > 0) {
 			return Response.ok().entity("false").build();
 		}
 		if(pageInfoService.getPageInfoListResult(0, 1, new QueryParamMap()
 				.addParam("pageNo", pageNo)
+				.addParam("productId", ProductUtil.getProductId())
 				.addParam("id__ne", id)).size() > 0) {
 			return Response.ok().entity("false").build();
 		}
@@ -137,7 +141,7 @@ public class PageInfoController extends BaseService {
 		if(pageNo == null || pageNo <= 0) {
 			return Response.ok().entity("false").build();
 		}
-		if(pageInfoService.getPageInfoByPageNo(pageNo) == null) {
+		if(pageInfoService.getPageInfoByPageNoAndProductId(pageNo, ProductUtil.getProductId()) == null) {
 			return Response.ok().entity("false").build();
 		}
 		return Response.ok().entity("true").build();

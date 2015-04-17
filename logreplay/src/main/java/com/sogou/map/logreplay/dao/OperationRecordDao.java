@@ -75,7 +75,7 @@ public class OperationRecordDao extends AbstractJdbcDaoImpl<OperationRecord> {
 	
 	protected static String generateBatchSaveSql(OperationRecord[] records, int startIndexInclusive, int endIndexExclusive) {
 		StringBuilder sqlBuff = new StringBuilder()
-			.append(" insert into operation_record (ip, device_id, uvid, os, version, timestamp, page_no, tag_no, params) values ");
+			.append(" insert into operation_record (ip, product_id, device_id, uvid, os, version, timestamp, page_no, tag_no, params) values ");
 		OperationRecord record = null;
 		for(int i = startIndexInclusive; i < endIndexExclusive; i++) {
 			if(i > startIndexInclusive) {
@@ -84,6 +84,8 @@ public class OperationRecordDao extends AbstractJdbcDaoImpl<OperationRecord> {
 			record = records[i];
 			sqlBuff.append("(")
 				.append(escapeSqlStringValue(record.getIp()))
+				.append(", ")
+				.append(record.getProductId())
 				.append(", ")
 				.append(escapeSqlStringValue(record.getDeviceId()))
 				.append(", ")

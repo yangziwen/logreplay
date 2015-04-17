@@ -16,6 +16,9 @@ public class PageInfo extends AbstractBean {
 	@Column
 	private Long id;
 	
+	@Column(name = "product_id")
+	private Long productId;
+	
 	/** Ò³Ãæ±àºÅ **/
 	@Column
 	private Integer pageNo;
@@ -43,6 +46,14 @@ public class PageInfo extends AbstractBean {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Long productId) {
+		this.productId = productId;
 	}
 
 	public Integer getPageNo() {

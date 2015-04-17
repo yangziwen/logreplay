@@ -32,6 +32,7 @@ import com.sogou.map.logreplay.service.TagInfoService;
 import com.sogou.map.logreplay.service.UserService;
 import com.sogou.map.logreplay.util.AuthUtil;
 import com.sogou.map.logreplay.util.JsonUtil;
+import com.sogou.map.logreplay.util.ProductUtil;
 import com.sogou.map.mengine.common.service.BaseService;
 
 @Component
@@ -84,6 +85,7 @@ public class InspectionRecordController extends BaseService {
 			}
 		}
 		QueryParamMap params = new QueryParamMap()
+			.addParam("productId", ProductUtil.getProductId())
 			.addParam(submitterIdList != null, "submitterId__in", submitterIdList)
 			.addParam(solverIdList != null, "solverId__in", solverIdList)
 			.addParam(pageNo != null && pageNo > 0, "pageNo", pageNo)
@@ -122,11 +124,11 @@ public class InspectionRecordController extends BaseService {
 		if(pageNo == null || tagNo == null || valid == null) {
 			throw LogReplayException.invalidParameterException("Parameters invalid!");
 		}
-		PageInfo pageInfo = pageInfoService.getPageInfoByPageNo(pageNo);
+		PageInfo pageInfo = pageInfoService.getPageInfoByPageNoAndProductId(pageNo, ProductUtil.getProductId());
 		if(pageInfo == null) {
 			throw LogReplayException.invalidParameterException(String.format("PageInfo with pageNo[%d] does not exist!", pageNo));
 		}
-		TagInfo tagInfo = tagInfoService.getTagInfoByPageNoAndTagNo(pageNo, tagNo);
+		TagInfo tagInfo = tagInfoService.getTagInfoByPageNoTagNoAndProductId(pageNo, tagNo, ProductUtil.getProductId());
 		if(tagInfo == null) {
 			throw LogReplayException.invalidParameterException(String.format("TagInfo with pageNo[%d] and tagNo[%d] does not exist!", pageNo, tagNo));
 		}

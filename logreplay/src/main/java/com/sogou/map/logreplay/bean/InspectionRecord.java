@@ -17,6 +17,9 @@ public class InspectionRecord extends AbstractBean {
 	@Column
 	private Long id;
 	
+	@Column(name = "product_id")
+	private Long productId;
+	
 	/** 页面信息的id **/
 	@Column(name = "page_info_id")
 	private Long pageInfoId;
@@ -84,6 +87,14 @@ public class InspectionRecord extends AbstractBean {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Long productId) {
+		this.productId = productId;
 	}
 
 	public Long getPageInfoId() {

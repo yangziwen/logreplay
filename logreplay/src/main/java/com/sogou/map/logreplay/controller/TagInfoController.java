@@ -35,6 +35,7 @@ import com.sogou.map.logreplay.service.TagInfoService;
 import com.sogou.map.logreplay.service.TagParamService;
 import com.sogou.map.logreplay.util.AuthUtil;
 import com.sogou.map.logreplay.util.JsonUtil;
+import com.sogou.map.logreplay.util.ProductUtil;
 import com.sogou.map.mengine.common.service.BaseService;
 
 @Component
@@ -69,12 +70,16 @@ public class TagInfoController extends BaseService {
 		InspectStatus inspectStatus = InspectStatus.from(NumberUtils.toInt(inspectStatusStr, -1));
 		List<Long> pageInfoIdList = new ArrayList<Long>();
 		if(StringUtils.isNotBlank(pageName)) {
-			List<PageInfo> pageInfoList = pageInfoService.getPageInfoListResult(new QueryParamMap().addParam("name__contain", pageName));
+			List<PageInfo> pageInfoList = pageInfoService.getPageInfoListResult(new QueryParamMap()
+				.addParam("name__contain", pageName)
+				.addParam("productId", ProductUtil.getProductId())
+			);
 			for(PageInfo pageInfo: pageInfoList) {
 				pageInfoIdList.add(pageInfo.getId());
 			}
 		}
 		Page<TagInfo> page = tagInfoService.getTagInfoPageResult(start, limit, new QueryParamMap()
+			.addParam("productId", ProductUtil.getProductId())
 			.addParam(pageNo != null, "pageNo", pageNo)
 			.addParam(tagNo != null, "tagNo", tagNo)
 			.addParam(CollectionUtils.isNotEmpty(pageInfoIdList), "pageInfoId__in", pageInfoIdList)
@@ -131,7 +136,7 @@ public class TagInfoController extends BaseService {
 	public Response detailByPageNoAndTagNo(
 			@PathParam("pageNo") Integer pageNo,
 			@PathParam("tagNo") Integer tagNo) {
-		TagInfo tagInfo = tagInfoService.getTagInfoByPageNoAndTagNo(pageNo, tagNo);
+		TagInfo tagInfo = tagInfoService.getTagInfoByPageNoTagNoAndProductId(pageNo, tagNo, ProductUtil.getProductId());
 		return successResultToJson(tagInfo, JsonUtil.configInstance(), true);
 	}
 	
@@ -239,11 +244,13 @@ public class TagInfoController extends BaseService {
 			return Response.ok().entity("false").build();
 		}
 		if(id == null && tagInfoService.getTagInfoListResult(0, 1, new QueryParamMap()
+				.addParam("productId", ProductUtil.getProductId())
 				.addParam(pageInfoId != null, "pageInfoId", pageInfoId)
 				.addParam("tagNo", tagNo)).size() > 0) {
 			return Response.ok().entity("false").build();
 		}
 		if(tagInfoService.getTagInfoListResult(0, 1, new QueryParamMap()
+				.addParam("productId", ProductUtil.getProductId())
 				.addParam(pageInfoId != null, "pageInfoId", pageInfoId)
 				.addParam("tagNo", tagNo)
 				.addParam("id__ne", id)).size() > 0) {
@@ -260,7 +267,7 @@ public class TagInfoController extends BaseService {
 		if(tagNo == null || (tagNo < TagInfo.COMMON_TAG_NO_MIN_VALUE && pageNo == null)) {
 			return Response.ok().entity("false").build();
 		}
-		if(tagInfoService.getTagInfoByPageNoAndTagNo(pageNo, tagNo) == null) {
+		if(tagInfoService.getTagInfoByPageNoTagNoAndProductId(pageNo, tagNo, ProductUtil.getProductId()) == null) {
 			return Response.ok().entity("false").build();
 		}
 		return Response.ok().entity("true").build();

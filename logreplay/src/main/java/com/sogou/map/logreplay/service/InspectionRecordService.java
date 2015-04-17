@@ -25,6 +25,7 @@ import com.sogou.map.logreplay.dao.TagInfoDao;
 import com.sogou.map.logreplay.dao.UserDao;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
+import com.sogou.map.logreplay.util.ProductUtil;
 
 @Service
 public class InspectionRecordService {
@@ -48,6 +49,7 @@ public class InspectionRecordService {
 		if(tagInfo != null) {
 			updateInspectStatusOfTagInfo(tagInfo, record.getValid());
 		}
+		record.setProductId(ProductUtil.getProductId());
 		record.setCreateTime(ts);
 		inspectionRecordDao.save(record);
 	}

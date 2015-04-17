@@ -11,6 +11,7 @@ import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.dao.TagInfoDao;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
+import com.sogou.map.logreplay.util.ProductUtil;
 
 @Service
 public class TagInfoService {
@@ -37,8 +38,9 @@ public class TagInfoService {
 	/**
 	 * 如果是"公共操作项"，则直接忽略pageNo
 	 */
-	public TagInfo getTagInfoByPageNoAndTagNo(Integer pageNo, Integer tagNo) {
+	public TagInfo getTagInfoByPageNoTagNoAndProductId(Integer pageNo, Integer tagNo, Long productId) {
 		return tagInfoDao.first(new QueryParamMap()
+			.addParam("productId", productId)
 			.addParam("tagNo", tagNo)
 			.addParam(tagNo < TagInfo.COMMON_TAG_NO_MIN_VALUE && pageNo != null && pageNo > 0, "pageNo", pageNo)
 		);
@@ -50,6 +52,7 @@ public class TagInfoService {
 	}
 	
 	public void createTagInfo(TagInfo info) {
+		info.setProductId(ProductUtil.getProductId());
 		info.setCreateTime(new Timestamp(System.currentTimeMillis()));
 		tagInfoDao.save(info);
 	}

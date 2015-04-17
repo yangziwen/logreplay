@@ -21,6 +21,9 @@ public class TagInfo extends AbstractBean {
 	@Column
 	private Long id;
 	
+	@Column(name = "product_id")
+	private Long productId;
+	
 	/**  ²Ù×÷Ïî±àºÅ **/
 	@Column(name = "tag_no")
 	private Integer tagNo;
@@ -79,6 +82,14 @@ public class TagInfo extends AbstractBean {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Long productId) {
+		this.productId = productId;
 	}
 
 	public Integer getTagNo() {

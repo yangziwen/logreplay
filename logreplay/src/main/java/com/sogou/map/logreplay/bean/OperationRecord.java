@@ -23,6 +23,9 @@ public class OperationRecord extends AbstractBean {
 	@Column
 	private Long id;
 	
+	@Column(name = "product_id")
+	private Long productId;
+	
 	@Column
 	private String ip;
 	
@@ -71,6 +74,7 @@ public class OperationRecord extends AbstractBean {
 	
 	private OperationRecord(
 			String ip,
+			Long productId,
 			String deviceId,
 			String uvid,
 			String os,
@@ -81,6 +85,7 @@ public class OperationRecord extends AbstractBean {
 			String params) {
 		
 		this.ip = ip;
+		this.productId = productId;
 		this.deviceId = deviceId;
 		this.uvid = uvid;
 		this.os = os;
@@ -99,6 +104,14 @@ public class OperationRecord extends AbstractBean {
 	@Override
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Long productId) {
+		this.productId = productId;
 	}
 
 	public String getIp() {
@@ -209,6 +222,7 @@ public class OperationRecord extends AbstractBean {
 	
 	public static class Builder {
 		String ip;
+		Long productId;
 		String deviceId;
 		String uvid;
 		String os;
@@ -220,6 +234,11 @@ public class OperationRecord extends AbstractBean {
 		
 		public Builder ip(String ip) {
 			this.ip = ip;
+			return this;
+		}
+		
+		public Builder productId(Long productId) {
+			this.productId = productId;
 			return this;
 		}
 		
@@ -269,7 +288,8 @@ public class OperationRecord extends AbstractBean {
 		}
 		
 		public OperationRecord build() {
-			return new OperationRecord(ip, deviceId, uvid, os, version, timestamp, pageNo, tagNo, 
+			return new OperationRecord(ip, productId, deviceId, 
+					uvid, os, version, timestamp, pageNo, tagNo,
 					MapUtils.isNotEmpty(params)? JSON.toJSONString(params): null);
 		}
 		

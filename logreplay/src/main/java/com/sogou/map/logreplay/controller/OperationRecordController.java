@@ -57,6 +57,7 @@ import com.sogou.map.logreplay.service.TagInfoService;
 import com.sogou.map.logreplay.service.TagParamService;
 import com.sogou.map.logreplay.util.AuthUtil;
 import com.sogou.map.logreplay.util.JsonUtil;
+import com.sogou.map.logreplay.util.ProductUtil;
 import com.sogou.map.logreplay.util.TagParamParser;
 import com.sogou.map.logreplay.util.TagParamParser.ParamInfoHolder;
 import com.sogou.map.mengine.common.service.BaseService;
@@ -111,6 +112,7 @@ public class OperationRecordController extends BaseService {
 			@DefaultValue("30") @QueryParam("limit") int limit
 			) {
 		List<OperationRecord> list = operationRecordService.getOperationRecordListResult(0, limit, new QueryParamMap()
+			.addParam("productId", ProductUtil.getProductId())
 			.addParam(StringUtils.isNotBlank(deviceId), "deviceId", deviceId)
 			.addParam(StringUtils.isNotBlank(uvid), "uvid", uvid)
 			.addParam(pageNo != null, "pageNo", pageNo)
@@ -148,6 +150,7 @@ public class OperationRecordController extends BaseService {
 			return;
 		}
 		Map<Integer, PageInfo> pageInfoMap = Maps.uniqueIndex(pageInfoService.getPageInfoListResult(new QueryParamMap()
+			.addParam("productId", ProductUtil.getProductId())
 			.addParam("pageNo__in", pageNoSet)
 		), new Function<PageInfo, Integer>() {
 			@Override
@@ -156,6 +159,7 @@ public class OperationRecordController extends BaseService {
 			}
 		});
 		Map<Integer, TagInfo> tagInfoMap = Maps.uniqueIndex(tagInfoService.getTagInfoListResult(new QueryParamMap()
+			.addParam("productId", ProductUtil.getProductId())
 			.addParam("tagNo__in", tagNoSet)
 		), new Function<TagInfo, Integer>() {
 			@Override
@@ -277,8 +281,12 @@ public class OperationRecordController extends BaseService {
 	public Response receiveDataViaGet(
 			@QueryParam("moblog") String moblogStr,
 			@QueryParam("info") String infoStr,
+			@QueryParam("productId") Long productId,
 			@Context HttpServletRequest request) {
-		return doReceiveData(moblogStr, infoStr, request);
+		if(productId == null) {
+			productId = 1L;		// 权宜之计，待客户端更新代码
+		}
+		return doReceiveData(moblogStr, infoStr, productId, request);
 	}
 	
 	@POST
@@ -286,11 +294,15 @@ public class OperationRecordController extends BaseService {
 	public Response receiveDataViaPost (
 			@QueryParam("moblog") String moblogStr,
 			@FormParam("info") String infoStr,
+			@FormParam("productId") Long productId,
 			@Context HttpServletRequest request) {
-		return doReceiveData(moblogStr, infoStr, request);
+		if(productId == null) {
+			productId = 2L;		// 权宜之计，待客户端更新代码
+		}
+		return doReceiveData(moblogStr, infoStr, productId, request);
 	}
 	
-	private Response doReceiveData(String moblogStr, String infoStr, HttpServletRequest request) {
+	private Response doReceiveData(String moblogStr, String infoStr, Long productId, HttpServletRequest request) {
 		MobLog moblog = new MobLogProcessor().process(moblogStr);
 		if(StringUtils.isEmpty(moblog.getDeviceId()) || StringUtils.isEmpty(moblog.getVersion())) {
 			throw LogReplayException.invalidParameterException("Invalid parameter of moblog!");
@@ -303,6 +315,7 @@ public class OperationRecordController extends BaseService {
 		try {
 			record = new OperationRecord.Builder()
 				.ip(AccessLoggerFilter.getIpAddr(request))
+				.productId(productId)
 				.deviceId(moblog.getDeviceId())
 				.uvid(moblog.getUvid())
 				.os(moblog.getOs())
@@ -350,12 +363,12 @@ public class OperationRecordController extends BaseService {
 				}
 				recordList.addAll(processor.process(line).toRecordList());
 				if(recordList.size() > 1000) {
-					count += operationRecordService.batchSaveOrUpdateOperationRecord(recordList);
+					count += operationRecordService.batchSaveOperationRecord(recordList);
 					recordList = new ArrayList<OperationRecord>(500);
 				}
 			}
 			if(recordList.size() > 0) {
-				count += operationRecordService.batchSaveOrUpdateOperationRecord(recordList);
+				count += operationRecordService.batchSaveOperationRecord(recordList);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.sogou.map.logreplay.bean.OperationRecord;
 import com.sogou.map.logreplay.dao.OperationRecordDao;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
+import com.sogou.map.logreplay.util.ProductUtil;
 
 @Service
 public class OperationRecordService {
@@ -28,7 +29,11 @@ public class OperationRecordService {
 		operationRecordDao.saveOrUpdate(record);
 	}
 	
-	public int batchSaveOrUpdateOperationRecord(List<OperationRecord> recordList) {
+	public int batchSaveOperationRecord(List<OperationRecord> recordList) {
+		Long productId = ProductUtil.getProductId();
+		for(OperationRecord record: recordList) {
+			record.setProductId(productId);
+		}
 		return operationRecordDao.batchSaveByDirectSql(recordList.toArray(new OperationRecord[]{}), 500);
 	}
 }
