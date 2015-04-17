@@ -17,16 +17,14 @@ public class QueryParamMap extends HashMap<String, Object> {
 		}
 		@Override
 		public Object remove(Object key) {
-			throw new UnsupportedOperationException();
+			return null;
 		}
 		@Override
 		public void putAll(Map<? extends String, ? extends Object> m) {
 			throw new UnsupportedOperationException();
 		}
 		@Override
-		public void clear() {
-			throw new UnsupportedOperationException();
-		}
+		public void clear() {}
 	};
 	
 	public QueryParamMap() {
