@@ -10,6 +10,13 @@ import com.sogou.map.logreplay.bean.Product;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.service.ProductService;
 
+/**
+ * 请求的cookie中所携带的product_id会通过
+ * com.sogou.map.logreplay.filter.ProductFilter
+ * 绑定到当前线程的PRODUCT_ID_HOLDER上
+ * 程序中可通过此工具类的方法来获取productId
+ * 需要变更产品类型时，前端改变cookie中product_id的值即可
+ */
 public class ProductUtil {
 	
 	public static final String COOKIE_KEY = "product_id";
@@ -28,8 +35,15 @@ public class ProductUtil {
 		return PRODUCT_ID_HOLDER.get();
 	}
 	
-	public Product getProductById(Long id) {
-		return ensureProductMap().get(id);
+	public static Product getCurrentProduct() {
+		Long productId = getProductId();
+		return getProductById(productId);
+	}
+	
+	public static Product getProductById(Long id) {
+		Product product = ensureProductMap().get(id);
+		product = product != null? product.clone(): new Product();
+		return product;
 	}
 	
 	public static List<Product> getProductList() {

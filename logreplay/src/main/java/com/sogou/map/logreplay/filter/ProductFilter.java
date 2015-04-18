@@ -14,6 +14,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.sogou.map.logreplay.util.ProductUtil;
 
+/**
+ * 从请求的cookie中获取当前product_id的值
+ * 并与当前线程进行绑定
+ */
 public class ProductFilter extends OncePerRequestFilter {
 	
 	private static final Long DEFAULT_PRODUCT_ID = 1L;
@@ -22,7 +26,7 @@ public class ProductFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) 
 			throws ServletException, IOException {
 		String uri = request.getRequestURI();
-		if(uri.contains(".")) {
+		if(uri.contains(".") && !uri.endsWith(".htm")) {
 			filterChain.doFilter(request, response);
 			return;
 		}

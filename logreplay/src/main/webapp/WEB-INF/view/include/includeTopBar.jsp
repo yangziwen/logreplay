@@ -1,17 +1,33 @@
+<%@page import="com.sogou.map.logreplay.util.ProductUtil"%>
 <%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <nav class="navbar navbar-default navbar-fixed-top top-bar" role="navigation">
 	<div class="container-fluit">
 		<div class="collapse navbar-collapse">
-			<div class="col-sm-3"></div>
-			<div class="col-sm-6">
+			<div class="col-sm-4"></div>
+			<div class="col-sm-4">
 				<ul class="nav navbar-left text-center" style="margin-top:6px; width: 100%;">
 					<li class="title"><strong>Sogou客户端日志埋点校验系统</strong></li>
 				</ul>
 			</div>
 			<shiro:user>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="${ctx_path}/home.htm">主页</a></li>
+					<li class="dropdown">
+						<a id="J_productDropdown" href="###" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button">
+							<span><%=ProductUtil.getCurrentProduct().getName()%></span>
+							<span class="caret"></span>
+						</a>
+						<% request.setAttribute("navBarProductList", ProductUtil.getProductList()); %>
+						<ul id="J_productMenu" class="dropdown-menu" role="menu" aria-labelledby="J_productDropdown">
+							<c:forEach var="product" items="${navBarProductList}">
+								<li>
+									<a role="menuitem" tabindex="-1" data-product-id="${product.id}" href="javascript:void(0);">${product.name}</a>
+								</li>
+							</c:forEach>
+						</ul>
+					</li>
+					<%-- <li><a href="${ctx_path}/home.htm">主页</a></li> --%>
 					<li><a id="J_openProfileModalBtn" href="javascript:void(0);"><shiro:principal/></a></li>
 					<li><a href="${ctx_path}/logout.htm">退出</a></li>
 					<li style="width: 10px;"></li>

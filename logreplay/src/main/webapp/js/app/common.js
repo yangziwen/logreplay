@@ -3,6 +3,7 @@ define(function(require, exports, module){
 	"use strict";
 	
 	var $ = require('jquery');
+	require('jquery.cookie');
 	require('bootstrap');
 	
 	String.prototype.encodeUnicode = function() {
@@ -278,6 +279,21 @@ define(function(require, exports, module){
 		}
 		return arr.join('.');
 	}
+	
+	/**
+	 * 页头更新产品类型
+	 */
+	(function() {
+		$('#J_productMenu li>a').on('click', function() {
+			$.cookie('product_id', $(this).data('product-id'), {
+				path: CTX_PATH,
+				expires: new Date($.now() + 1000 * 3600 * 24 * 30)
+			});
+			setTimeout(function() {
+				location.reload(true);
+			}, 0);
+		});
+	})();
 	
 	/**
 	 * 页头更新昵称

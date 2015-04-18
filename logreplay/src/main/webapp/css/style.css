@@ -28,6 +28,9 @@ ul.nav.submenu li:last-child  a {
 	border-bottom-left-radius: 0px;
 	border-bottom-right-radius: 0px;
 }
+#J_productMenu {
+	min-width: 125px; left: 0px;
+}
 table.table {
 	text-align: center;
 }
