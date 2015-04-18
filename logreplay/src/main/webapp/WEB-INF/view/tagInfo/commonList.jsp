@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>
-    <title>公用操作项管理</title>
+    <title>公共操作项管理</title>
 	<%@ include file="../include/includeCss.jsp" %>
 	<style>
 		table.inner-table {
@@ -29,7 +29,7 @@
 			    <ul class="breadcrumb">
 			        <li>
 						当前位置: <a data-toggle="collapse" href="#J_logConfigSubmenu">日志项管理</a> 
-						&gt; <a href="${ctx_path}/tagInfo/list.htm">公用操作项管理</a>
+						&gt; <a href="${ctx_path}/tagInfo/list.htm">公共操作项管理</a>
 			        </li> 
 			    </ul>
 			</div>
