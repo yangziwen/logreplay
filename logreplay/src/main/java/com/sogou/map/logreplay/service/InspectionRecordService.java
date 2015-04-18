@@ -16,6 +16,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sogou.map.logreplay.bean.InspectionRecord;
 import com.sogou.map.logreplay.bean.PageInfo;
+import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.bean.TagInfo.InspectStatus;
 import com.sogou.map.logreplay.bean.User;
@@ -25,6 +26,7 @@ import com.sogou.map.logreplay.dao.TagInfoDao;
 import com.sogou.map.logreplay.dao.UserDao;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
+import com.sogou.map.logreplay.util.AuthUtil;
 import com.sogou.map.logreplay.util.ProductUtil;
 
 @Service
@@ -69,7 +71,13 @@ public class InspectionRecordService {
 		int status = Boolean.TRUE.equals(correct)
 				? InspectStatus.SUCCESS.getIntValue()
 				: InspectStatus.ERROR.getIntValue();
-		tagInfo.setInspectStatus(status);
+		
+		// 校验模式分为“开发模式”和“测试模式”
+		if(AuthUtil.hasRole(Role.DEV)) {
+			tagInfo.setDevInspectStatus(status);
+		} else {
+			tagInfo.setInspectStatus(status);
+		}
 		tagInfoDao.update(tagInfo);
 	}
 	

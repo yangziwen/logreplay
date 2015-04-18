@@ -1,3 +1,4 @@
+<%@page import="com.sogou.map.logreplay.util.AuthUtil"%>
 <%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
 <%@ include file="../include/include.jsp" %>
 <!DOCTYPE html>
@@ -20,6 +21,8 @@
 <body>
 
 <%@ include file="../include/includeTopBar.jsp" %>
+
+<input type="hidden" id="J_currentRole" value="<%=AuthUtil.getCurrentRoleObj().getName()%>" />
 
 <div class="container" style="margin-bottom: 50px;">
 	<div class="row"><!-- row1 -->
@@ -58,6 +61,13 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label for="J_inspectMode" class="col-sm-2 control-label">校验模式：</label>
+								<div class="col-sm-4">
+									<select id="J_inspectMode" name="inspectMode" class="form-control">
+										<option value="dev" <shiro:hasRole name="dev">selected</shiro:hasRole>>开发模式</option>
+										<option value="test" <shiro:lacksRole name="dev">selected</shiro:lacksRole>>测试模式</option>
+									</select>
+								</div>
 								<label for="J_inspectStatus" class="col-sm-2 control-label">校验状态：</label>
 								<div class="col-sm-4">
 									<select id="J_inspectStatus" name="inspectStatus" class="form-control">
@@ -117,7 +127,7 @@
 				     				<td>${'${'}$item.getActionName(actionId)}</td>
 				     				<td>${'${'}$item.getTargetName(targetId)}</td>
 									<td>${'${'}$item.displayOriginVersion(originVersion)}</td>
-				     				<td>{{html $item.displayInspectStatus(inspectStatus)}}</td>
+				     				<td>{{html $item.displayInspectStatus($data)}}</td>
 				     			</tr>
 							</script>
 				     	</table>

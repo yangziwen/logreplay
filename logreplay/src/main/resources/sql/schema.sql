@@ -48,6 +48,7 @@ CREATE TABLE `tag_info` (
   `comment` VARCHAR (100),
   `origin_version` INT(11),
   `inspect_status` int(2) DEFAULT 0,
+  `dev_inspect_status` int(2) DEFAULT 0,
   `create_time` DATETIME,
   `update_time` DATETIME,
   UNIQUE KEY `page_info_id_tag_no_product_id` (`page_info_id`,`tag_no`, `product_id`),

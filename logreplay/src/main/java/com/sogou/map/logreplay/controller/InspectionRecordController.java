@@ -19,7 +19,6 @@ import org.springframework.stereotype.Component;
 
 import com.sogou.map.logreplay.bean.InspectionRecord;
 import com.sogou.map.logreplay.bean.PageInfo;
-import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.bean.User;
 import com.sogou.map.logreplay.dao.base.Page;
@@ -122,9 +121,9 @@ public class InspectionRecordController extends BaseService {
 			@FormParam("valid") Boolean valid,
 			@FormParam("comment") String comment
 			) {
-		if(!AuthUtil.hasAnyRoles(Role.ADMIN, Role.TEST)) {
-			throw LogReplayException.unauthorizedException("Role of 'admin' or 'test' is required!");
-		}
+//		if(!AuthUtil.hasAnyRoles(Role.ADMIN, Role.TEST)) {
+//			throw LogReplayException.unauthorizedException("Role of 'admin' or 'test' is required!");
+//		}
 		if(pageNo == null || tagNo == null || valid == null) {
 			throw LogReplayException.invalidParameterException("Parameters invalid!");
 		}
@@ -157,9 +156,9 @@ public class InspectionRecordController extends BaseService {
 	public Response resolve(
 			@PathParam("id") Long id
 			) {
-		if(!AuthUtil.hasAnyRoles(Role.ADMIN, Role.TEST)) {
-			throw LogReplayException.unauthorizedException("Role of 'admin' or 'test' is required!");
-		}
+//		if(!AuthUtil.hasAnyRoles(Role.ADMIN, Role.TEST)) {
+//			throw LogReplayException.unauthorizedException("Role of 'admin' or 'test' is required!");
+//		}
 		InspectionRecord record = null;
 		if(id == null || (record = inspectionRecordService.getInspectionRecordById(id)) == null) {
 			throw LogReplayException.invalidParameterException(String.format("Id[%d] of InspectionRecord is invalid!", id));

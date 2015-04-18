@@ -64,6 +64,10 @@ public class TagInfo extends AbstractBean {
 	@Column(name = "inspect_status")
 	private Integer inspectStatus;
 	
+	/** 开发人员校验状态，机制同inspectStatus **/
+	@Column(name = "dev_inspect_status")
+	private Integer devInspectStatus;
+	
 	@Column(name = "create_time")
 	private Timestamp createTime;
 	
@@ -170,6 +174,14 @@ public class TagInfo extends AbstractBean {
 
 	public void setInspectStatus(Integer inspectStatus) {
 		this.inspectStatus = inspectStatus;
+	}
+
+	public Integer getDevInspectStatus() {
+		return devInspectStatus;
+	}
+
+	public void setDevInspectStatus(Integer devInspectStatus) {
+		this.devInspectStatus = devInspectStatus;
 	}
 
 	public Timestamp getCreateTime() {
