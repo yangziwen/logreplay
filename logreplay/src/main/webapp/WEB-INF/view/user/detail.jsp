@@ -48,7 +48,7 @@
 			     				</tr>
 			     				<tr>
 			     					<td><strong>½ÇÉ«</strong></td>
-			     					<td><%=AuthUtil.getRoles()%></td>
+			     					<td><%=AuthUtil.getCurrentRoleObj().getDisplayName()%></td>
 			     				</tr>
 			     				<tr>
 			     					<td colspan="2">

@@ -120,6 +120,7 @@ DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
   `id` BIGINT(20) PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(45) UNIQUE,
+  `display_name` varchar(45),
   `comment` varchar(100)
 ) ENGINE=INNODB DEFAULT CHARSET=GBK;
 

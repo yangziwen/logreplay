@@ -22,9 +22,11 @@ public class InspectionRecordDto {
 	private Long submitterId;
 	private String submitterUsername;
 	private String submitterScreenName;
+	private Long submitterRoleId;
 	private Long solverId;
 	private String solverUsername;
 	private String solverScreenName;
+	private Long solverRoleId;
 	private Timestamp createTime;
 	private Timestamp updateTime;
 	private String comment;
@@ -127,6 +129,14 @@ public class InspectionRecordDto {
 		this.submitterScreenName = submitterScreenName;
 	}
 
+	public Long getSubmitterRoleId() {
+		return submitterRoleId;
+	}
+
+	public void setSubmitterRoleId(Long submitterRoleId) {
+		this.submitterRoleId = submitterRoleId;
+	}
+
 	public Long getSolverId() {
 		return solverId;
 	}
@@ -149,6 +159,14 @@ public class InspectionRecordDto {
 
 	public void setSolverScreenName(String solverScreenName) {
 		this.solverScreenName = solverScreenName;
+	}
+
+	public Long getSolverRoleId() {
+		return solverRoleId;
+	}
+
+	public void setSolverRoleId(Long solverRoleId) {
+		this.solverRoleId = solverRoleId;
 	}
 
 	public Timestamp getCreateTime() {
@@ -194,11 +212,13 @@ public class InspectionRecordDto {
 			this.setSubmitterUsername(record.getSubmitter().getUsername());
 			this.setSubmitterScreenName(record.getSubmitter().getScreenName());
 		}
+		this.setSubmitterRoleId(record.getSubmitterRoleId());
 		this.setSolverId(record.getSolverId());
 		if(record.getSolver() != null) {
 			this.setSolverUsername(record.getSolver().getUsername());
 			this.setSolverScreenName(record.getSolver().getScreenName());
 		}
+		this.setSolverRoleId(record.getSolverRoleId());
 		this.setCreateTime(record.getCreateTime());
 		this.setUpdateTime(record.getUpdateTime());
 		this.setComment(record.getComment());

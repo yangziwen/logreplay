@@ -18,6 +18,9 @@ public class Role extends AbstractBean implements Cloneable {
 	@Column
 	private String name;
 	
+	@Column(name = "display_name")
+	private String displayName;
+	
 	@Column
 	private String comment;
 	
@@ -37,6 +40,14 @@ public class Role extends AbstractBean implements Cloneable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 
 	public String getComment() {

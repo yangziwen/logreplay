@@ -53,7 +53,7 @@
 									<select id="J_submitterRoleId" name="submitterRoleId" class="form-control">
 										<option value="">全部</option>
 										<c:forEach var="role" items="${roleList}">
-											<option value="${role.id}" <c:if test="${currentRoleId eq role.id}">selected</c:if>>${role.name}</option>
+											<option value="${role.id}" <c:if test="${currentRoleId eq role.id}">selected</c:if>>${role.displayName}</option>
 										</c:forEach>
 									</select>
 								</div>
@@ -62,7 +62,7 @@
 									<select id="J_solverRoleId" name="solverRoleId" class="form-control">
 										<option value="">全部</option>
 										<c:forEach var="role" items="${roleList}">
-											<option value="${role.id}">${role.name}</option>
+											<option value="${role.id}">${role.displayName}</option>
 										</c:forEach>
 									</select>
 								</div>

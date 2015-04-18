@@ -30,7 +30,8 @@ public class UserWithRolesDao extends AbstractJdbcDaoImpl<UserWithRoles> {
 			.append(" user.update_time,")
 			.append(" user.enabled, ")
 			.append(" role.id as 'role.id', ")
-			.append(" role.name ")
+			.append(" role.name, ")
+			.append(" role.display_name ")
 			.toString();
 		return generateSqlByParam(start, limit, selectClause, params);
 	}
@@ -124,6 +125,7 @@ public class UserWithRolesDao extends AbstractJdbcDaoImpl<UserWithRoles> {
 			Role role = new Role();
 			role.setId(rs.getLong("role.id"));
 			role.setName(rs.getString("role.name"));
+			role.setDisplayName(rs.getString("role.display_name"));
 			return role;
 		}
 		

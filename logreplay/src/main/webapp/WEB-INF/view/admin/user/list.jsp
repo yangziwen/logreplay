@@ -87,7 +87,7 @@
 								<tr data-id="${'${'}id}">
 				     				<td>${'${'}username}</td>
 				     				<td>${'${'}screenName || '--'}</td>
-									<td>${'${'}roles ? roles[0].name : '--'}</td>
+									<td>${'${'}roles ? roles[0].displayName : '--'}</td>
 									<td>${'${'}enabled === true? '正常': '禁用'}</td>
 				     				<td>
 				     					<button class="btn btn-primary btn-xs open-update-modal">修改</button>
