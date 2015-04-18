@@ -97,7 +97,9 @@ CREATE TABLE inspection_record (
   `valid` TINYINT (1),
   `solved` TINYINT (1),
   `submitter_id` BIGINT (20),
+  `submitter_role_id` BIGINT(20),
   `solver_id` BIGINT (20),
+  `solver_role_id` BIGINT(20),
   `comment` VARCHAR (200),
   `create_time` DATETIME,
   `update_time` DATETIME

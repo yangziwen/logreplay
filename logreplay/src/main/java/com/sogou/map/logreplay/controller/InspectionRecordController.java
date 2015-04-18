@@ -60,7 +60,9 @@ public class InspectionRecordController extends BaseService {
 			@DefaultValue(Page.DEFAULT_START) @QueryParam("start") int start,
 			@DefaultValue(Page.DEFAULT_LIMIT) @QueryParam("limit") int limit,
 			@QueryParam("submitterName") String submitterName,
+			@QueryParam("submitterRoleId") Long submitterRoleId,
 			@QueryParam("solverName") String solverName,
+			@QueryParam("solverRoleId") Long solverRoleId,
 			@QueryParam("pageNo") Integer pageNo,
 			@QueryParam("tagNo") Integer tagNo,
 			@QueryParam("valid") String validStr,
@@ -87,7 +89,9 @@ public class InspectionRecordController extends BaseService {
 		QueryParamMap params = new QueryParamMap()
 			.addParam("productId", ProductUtil.getProductId())
 			.addParam(submitterIdList != null, "submitterId__in", submitterIdList)
+			.addParam(submitterRoleId != null, "submitterRoleId", submitterRoleId)
 			.addParam(solverIdList != null, "solverId__in", solverIdList)
+			.addParam(solverRoleId != null, "solverRoleId", solverRoleId)
 			.addParam(pageNo != null && pageNo > 0, "pageNo", pageNo)
 			.addParam(tagNo != null && tagNo > 0, "tagNo", tagNo)
 			.addParam(valid != null, "valid", valid)
@@ -136,6 +140,7 @@ public class InspectionRecordController extends BaseService {
 			User curUser = AuthUtil.getCurrentUser();
 			InspectionRecord record = new InspectionRecord(pageInfo.getId(), tagInfo.getId(), curUser.getId(), valid, comment);
 			record.setTagInfo(tagInfo);
+			record.setSubmitterRoleId(AuthUtil.getCurrentRoleId());
 			inspectionRecordService.createInspectionRecord(record);
 			return successResultToJson("InspectionRecord is created successfully!", true);
 		} catch (Exception e) {
@@ -163,6 +168,7 @@ public class InspectionRecordController extends BaseService {
 			User curUser = AuthUtil.getCurrentUser();
 			record.setSolverId(curUser.getId());
 			record.setSolved(true);
+			record.setSolverRoleId(AuthUtil.getCurrentRoleId());
 			inspectionRecordService.updateInspectionRecord(record);
 			return successResultToJson("InspectionRecord is updated successfully!", true);
 		} catch (Exception e) {

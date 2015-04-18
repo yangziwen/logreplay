@@ -1,3 +1,4 @@
+<%@page import="com.sogou.map.logreplay.util.AuthUtil"%>
 <%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
 <%@ include file="../include/include.jsp" %>
 <!DOCTYPE html>
@@ -40,6 +41,30 @@
 								<label for="J_sovlerName" class="col-sm-2 control-label">处理者：</label>
 								<div class="col-sm-4">
 									<input type="text" class="form-control" id="J_sovlerName" name="solverName" placeholder="请输入处理者用户名或昵称" />
+								</div>
+							</div>
+							<div class="form-group">
+								<% 
+									request.setAttribute("roleList", AuthUtil.getAllRoleObjList());
+									request.setAttribute("currentRoleId", AuthUtil.getCurrentRoleId());
+								%>
+								<label for="J_submitterRoleId" class="col-sm-2 control-label">提交者角色：</label>
+								<div class="col-sm-4">
+									<select id="J_submitterRoleId" name="submitterRoleId" class="form-control">
+										<option value="">全部</option>
+										<c:forEach var="role" items="${roleList}">
+											<option value="${role.id}" <c:if test="${currentRoleId eq role.id}">selected</c:if>>${role.name}</option>
+										</c:forEach>
+									</select>
+								</div>
+								<label for="J_solverRoleId" class="col-sm-2 control-label">处理者角色：</label>
+								<div class="col-sm-4">
+									<select id="J_solverRoleId" name="solverRoleId" class="form-control">
+										<option value="">全部</option>
+										<c:forEach var="role" items="${roleList}">
+											<option value="${role.id}">${role.name}</option>
+										</c:forEach>
+									</select>
 								</div>
 							</div>
 							<div class="form-group">

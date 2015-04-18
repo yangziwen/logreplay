@@ -40,9 +40,15 @@ public class InspectionRecord extends AbstractBean {
 	@Column(name = "submitter_id")
 	private Long submitterId;
 	
+	/** 校验结果提交人角色id **/
+	private Long submitterRoleId;
+	
 	/** 校验结果解决人id **/
 	@Column(name = "solver_id")
 	private Long solverId;
+	
+	/** 校验结果解决人角色id **/
+	private Long solverRoleId;
 	
 	@Column(name = "create_time")
 	private Timestamp createTime;
@@ -137,12 +143,28 @@ public class InspectionRecord extends AbstractBean {
 		this.submitterId = submitterId;
 	}
 
+	public Long getSubmitterRoleId() {
+		return submitterRoleId;
+	}
+
+	public void setSubmitterRoleId(Long submitterRoleId) {
+		this.submitterRoleId = submitterRoleId;
+	}
+
 	public Long getSolverId() {
 		return solverId;
 	}
 
 	public void setSolverId(Long solverId) {
 		this.solverId = solverId;
+	}
+
+	public Long getSolverRoleId() {
+		return solverRoleId;
+	}
+
+	public void setSolverRoleId(Long solverRoleId) {
+		this.solverRoleId = solverRoleId;
 	}
 
 	public Timestamp getCreateTime() {

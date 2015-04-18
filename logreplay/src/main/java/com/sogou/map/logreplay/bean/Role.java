@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Table(name = "role")
-public class Role extends AbstractBean {
+public class Role extends AbstractBean implements Cloneable {
 	
 	public static final String ADMIN = "admin";
 	public static final String TEST = "test";
@@ -45,6 +45,16 @@ public class Role extends AbstractBean {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+	
+	@Override
+	public Role clone() {
+		try {
+			return (Role) super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 }

@@ -2,7 +2,9 @@ package com.sogou.map.logreplay.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -16,12 +18,52 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.SimpleByteSource;
 
+import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.User;
+import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.security.ShiroDbRealm;
+import com.sogou.map.logreplay.service.RoleService;
 
 public class AuthUtil {
 	
 	private AuthUtil() {}
+	
+	private static Map<String, Role> roleObjMap = null;
+	
+	public static Long getCurrentRoleId() {
+		Role role = getCurrentRoleObj();
+		return role != null? role.getId(): null;
+	}
+	
+	public static Role getCurrentRoleObj() {
+		return getRoleObjByName(getRoleList().get(0));
+	}
+	
+	public static Role getRoleObjByName(String role) {
+		Role roleObj = ensureRoleObjMap().get(role);
+		roleObj = roleObj != null? roleObj.clone(): new Role();
+		return roleObj;
+	}
+	
+	public static List<Role> getAllRoleObjList() {
+		List<Role> list = new ArrayList<Role>();
+		for(Role role: ensureRoleObjMap().values()) {
+			list.add(role.clone());
+		}
+		return list;
+	}
+	
+	private static Map<String, Role> ensureRoleObjMap() {
+		if(roleObjMap == null) {
+			List<Role> list = SpringUtil.getBean(RoleService.class).getRoleListResult(QueryParamMap.emptyMap());
+			Map<String, Role> map = new LinkedHashMap<String, Role>();
+			for(Role role: list) {
+				map.put(role.getName(), role);
+			}
+			roleObjMap = map;
+		}
+		return roleObjMap;
+	}
 	
 	public static Subject getCurrentSubject() {
 		return SecurityUtils.getSubject();
