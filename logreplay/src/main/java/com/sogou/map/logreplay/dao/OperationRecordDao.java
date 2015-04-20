@@ -29,7 +29,8 @@ public class OperationRecordDao extends AbstractJdbcDaoImpl<OperationRecord> {
 	protected String generateSqlByParam(int start, int limit, String selectClause, Map<String, Object> params) {
 		String fromClause = " from " + getTableName() 
 				+ " left join tag_info on tag_info.tag_no = operation_record.tag_no "
-				+ " and tag_info.page_no = operation_record.page_no ";
+				+ " and tag_info.page_no = operation_record.page_no "
+				+ " and tag_info.product_id = operation_record.product_id ";
 		return generateSqlByParam(start, limit, selectClause, fromClause, params);
 	}
 	
