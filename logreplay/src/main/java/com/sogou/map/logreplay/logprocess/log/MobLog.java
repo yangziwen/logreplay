@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 
 public class MobLog {
 
@@ -19,6 +20,10 @@ public class MobLog {
 	
 	public String getUvid() {
 		return infoMap.get("u");
+	}
+	
+	public Long getProductId() {
+		return NumberUtils.toLong(infoMap.get("pd"));
 	}
 	
 	/**

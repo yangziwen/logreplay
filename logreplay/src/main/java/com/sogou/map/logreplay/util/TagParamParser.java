@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import com.sogou.map.logreplay.bean.ParamInfo;
 
@@ -13,7 +14,10 @@ import com.sogou.map.logreplay.bean.ParamInfo;
  */
 public class TagParamParser {
 	
-	private static final String[] EXCLUDED_PARAM_KEYS = {"p", "tag", "t", "reqid", "dataid", "ucNavigateId"};
+	/** 
+	 * 排除对p, tag, t, reqid, dataid, ucNavigateId等参数的解析
+	 */
+	private static final Pattern EXCLUDED_PARAM_KEYS_PATTERN = Pattern.compile("p|tag|t|.*id$", Pattern.CASE_INSENSITIVE);
 	
 	/** <tagInfoId, tagParams> **/
 	private Map<Long, TagParamHolder> holderMap = new HashMap<Long, TagParamHolder>();
@@ -61,12 +65,7 @@ public class TagParamParser {
 	 * 比如 p, tag, t, reqid之类的参数都是不需要被当做操作项的参数进行解析的
 	 */
 	public static boolean isParamKeyExcluded(String key) {
-		for(String excludedKey: EXCLUDED_PARAM_KEYS) {
-			if(excludedKey.equalsIgnoreCase(key)) {
-				return true;
-			}
-		}
-		return false;
+		return EXCLUDED_PARAM_KEYS_PATTERN.matcher(key).matches();
 	}
 	
 	/**

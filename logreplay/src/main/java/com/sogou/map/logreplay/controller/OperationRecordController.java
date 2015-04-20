@@ -283,10 +283,7 @@ public class OperationRecordController extends BaseService {
 			@QueryParam("info") String infoStr,
 			@QueryParam("productId") Long productId,
 			@Context HttpServletRequest request) {
-		if(productId == null) {
-			productId = 1L;		// 权宜之计，待客户端更新代码
-		}
-		return doReceiveData(moblogStr, infoStr, productId, request);
+		return doReceiveData(moblogStr, infoStr, request);
 	}
 	
 	@POST
@@ -296,13 +293,10 @@ public class OperationRecordController extends BaseService {
 			@FormParam("info") String infoStr,
 			@FormParam("productId") Long productId,
 			@Context HttpServletRequest request) {
-		if(productId == null) {
-			productId = 2L;		// 权宜之计，待客户端更新代码
-		}
-		return doReceiveData(moblogStr, infoStr, productId, request);
+		return doReceiveData(moblogStr, infoStr, request);
 	}
 	
-	private Response doReceiveData(String moblogStr, String infoStr, Long productId, HttpServletRequest request) {
+	private Response doReceiveData(String moblogStr, String infoStr, HttpServletRequest request) {
 		MobLog moblog = new MobLogProcessor().process(moblogStr);
 		if(StringUtils.isEmpty(moblog.getDeviceId()) || StringUtils.isEmpty(moblog.getVersion())) {
 			throw LogReplayException.invalidParameterException("Invalid parameter of moblog!");
@@ -315,7 +309,7 @@ public class OperationRecordController extends BaseService {
 		try {
 			record = new OperationRecord.Builder()
 				.ip(AccessLoggerFilter.getIpAddr(request))
-				.productId(productId)
+				.productId(moblog.getProductId())
 				.deviceId(moblog.getDeviceId())
 				.uvid(moblog.getUvid())
 				.os(moblog.getOs())
