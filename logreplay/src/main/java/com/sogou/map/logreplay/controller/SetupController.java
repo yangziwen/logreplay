@@ -26,6 +26,7 @@ import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.TagAction;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.bean.TagTarget;
+import com.sogou.map.logreplay.bean.TagInfo.InspectStatus;
 import com.sogou.map.logreplay.dao.PageInfoDao;
 import com.sogou.map.logreplay.dao.TagActionDao;
 import com.sogou.map.logreplay.dao.TagInfoDao;
@@ -38,6 +39,7 @@ import com.sogou.map.mengine.common.service.BaseService;
 
 /**
  * 通过文本信息导入“页面信息”，“操作项信息”等内容
+ * 仅作初始化导入用，后续已没有实际用途
  */
 @Component
 @Path("/setup")
@@ -199,6 +201,8 @@ public class SetupController extends BaseService {
 				tagInfo.setCreateTime(ts);
 				tagInfo.setUpdateTime(ts);
 				tagInfo.setProductId(productId);
+				tagInfo.setInspectStatus(InspectStatus.UNCHECKED.getIntValue());
+				tagInfo.setDevInspectStatus(InspectStatus.UNCHECKED.getIntValue());
 				return tagInfo;
 			}
 		};
@@ -273,6 +277,8 @@ public class SetupController extends BaseService {
 				tagInfo.setCreateTime(ts);
 				tagInfo.setUpdateTime(ts);
 				tagInfo.setProductId(productId);
+				tagInfo.setInspectStatus(InspectStatus.UNCHECKED.getIntValue());
+				tagInfo.setDevInspectStatus(InspectStatus.UNCHECKED.getIntValue());
 				return tagInfo;
 			}
 		};

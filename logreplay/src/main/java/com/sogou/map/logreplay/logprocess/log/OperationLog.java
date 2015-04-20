@@ -13,6 +13,7 @@ import com.sogou.map.logreplay.bean.OperationRecord;
 public class OperationLog {
 	
 	private String ip;
+	private Long productId;
 	private String deviceId;
 	private String uvid;
 	private String os;
@@ -22,6 +23,7 @@ public class OperationLog {
 	
 	private OperationLog(
 			String ip, 
+			Long productId,
 			String deviceId, 
 			String uvid, 
 			String os, 
@@ -75,6 +77,7 @@ public class OperationLog {
 			
 			recordList.add(new OperationRecord.Builder()
 				.ip(ip)
+				.productId(productId)
 				.deviceId(deviceId)
 				.uvid(uvid)
 				.os(os)
@@ -111,6 +114,7 @@ public class OperationLog {
 	
 	public static class Builder {
 		String ip;
+		Long productId;
 		String deviceId;
 		String uvid;
 		String os;
@@ -120,6 +124,11 @@ public class OperationLog {
 		
 		public Builder ip(String ip) {
 			this.ip = ip;
+			return this;
+		}
+		
+		public Builder productId(Long productId) {
+			this.productId = productId;
 			return this;
 		}
 		
@@ -157,7 +166,7 @@ public class OperationLog {
 		}
 		
 		public OperationLog build() {
-			return new OperationLog(ip, deviceId, uvid, os, version, timestamp, operationList);
+			return new OperationLog(ip, productId, deviceId, uvid, os, version, timestamp, operationList);
 		}
 	}
 

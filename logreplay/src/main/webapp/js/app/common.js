@@ -287,7 +287,7 @@ define(function(require, exports, module){
 		$('#J_productMenu li>a').on('click', function() {
 			$.cookie('product_id', $(this).data('product-id'), {
 				path: CTX_PATH,
-				expires: new Date($.now() + 1000 * 3600 * 24 * 30)
+				expires: new Date($.now() + 1000 * 3600 * 24 * 365)
 			});
 			setTimeout(function() {
 				location.reload(true);

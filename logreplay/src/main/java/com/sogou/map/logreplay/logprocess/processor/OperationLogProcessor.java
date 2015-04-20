@@ -44,6 +44,7 @@ public class OperationLogProcessor {
 		
 		return new OperationLog.Builder()
 			.ip(nginxLog.getIp())
+			.productId(mobLog.getProductId())
 			.deviceId(mobLog.getDeviceId())
 			.uvid(mobLog.getUvid())
 			.os(mobLog.getOs())
