@@ -6,11 +6,15 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.beanutils.PropertyUtils;
+
+import com.sogou.map.logreplay.util.ExcelExportUtil.DataContainer;
+
 /**
  * “≥√Ê–≈œ¢
  */
 @Table(name = "page_info")
-public class PageInfo extends AbstractBean {
+public class PageInfo extends AbstractBean implements DataContainer {
 
 	@Id
 	@Column
@@ -86,6 +90,16 @@ public class PageInfo extends AbstractBean {
 
 	public void setUpdateTime(Timestamp updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	@Override
+	public Object getColumnValue(String columnKey) {
+		try {
+			return PropertyUtils.getProperty(this, columnKey);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }

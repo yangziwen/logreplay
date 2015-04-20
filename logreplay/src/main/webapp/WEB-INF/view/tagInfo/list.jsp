@@ -69,7 +69,10 @@
 			     <div class="col-sm-12"><hr /></div>
 			     <div class="col-sm-12">
 			     	<div class="row">
-			     		<div id="J_pagebar" class="col-sm-12"></div>
+			     		<div class="col-sm-2">
+			     			<button class="btn btn-primary btn-lg-font" id="J_exportTagInfoBtn" title="导出excel">导出</button>
+			     		</div>
+			     		<div id="J_pagebar" class="col-sm-10"></div>
 			     	</div>
 			     	<div style="margin-top: 20px;">
 				     	<table class="table table-bordered table-striped table-condensed table-hover ">
@@ -271,6 +274,11 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<div class="hide">
+	<iframe name="exportFrame"></iframe>
+</div>
+
 <%@ include file="../include/includeJs.jsp" %>
 <script>
 seajs.use('app/tagInfo/list', function(list) {

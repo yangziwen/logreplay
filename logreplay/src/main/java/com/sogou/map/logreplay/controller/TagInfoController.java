@@ -3,6 +3,7 @@ package com.sogou.map.logreplay.controller;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.ws.rs.DefaultValue;
@@ -17,6 +18,7 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,16 +26,24 @@ import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.sogou.map.logreplay.bean.PageInfo;
 import com.sogou.map.logreplay.bean.Role;
+import com.sogou.map.logreplay.bean.TagAction;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.bean.TagInfo.InspectStatus;
 import com.sogou.map.logreplay.bean.TagParam;
+import com.sogou.map.logreplay.bean.TagTarget;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
+import com.sogou.map.logreplay.dto.TagInfoDto;
 import com.sogou.map.logreplay.exception.LogReplayException;
 import com.sogou.map.logreplay.service.PageInfoService;
+import com.sogou.map.logreplay.service.TagActionService;
 import com.sogou.map.logreplay.service.TagInfoService;
 import com.sogou.map.logreplay.service.TagParamService;
+import com.sogou.map.logreplay.service.TagTargetService;
 import com.sogou.map.logreplay.util.AuthUtil;
+import com.sogou.map.logreplay.util.ExcelExportUtil;
+import com.sogou.map.logreplay.util.ExcelExportUtil.CellType;
+import com.sogou.map.logreplay.util.ExcelExportUtil.Column;
 import com.sogou.map.logreplay.util.JsonUtil;
 import com.sogou.map.logreplay.util.ProductUtil;
 import com.sogou.map.mengine.common.service.BaseService;
@@ -41,12 +51,22 @@ import com.sogou.map.mengine.common.service.BaseService;
 @Component
 @Path("/tagInfo")
 public class TagInfoController extends BaseService {
+	
+	private static List<Column> TAG_INFO_COLUMN_LIST = buildTagInfoColumnList(false);
+	
+	private static List<Column> COMMON_TAG_INFO_COLUMN_LIST = buildTagInfoColumnList(true);
+	
+	@Autowired
+	private PageInfoService pageInfoService;
 
 	@Autowired
 	private TagInfoService tagInfoService;
 	
 	@Autowired
-	private PageInfoService pageInfoService;
+	private TagActionService tagActionService;
+	
+	@Autowired
+	private TagTargetService tagTargetService;
 	
 	@Autowired
 	private TagParamService tagParamService;
@@ -228,6 +248,8 @@ public class TagInfoController extends BaseService {
 			tagInfo.setTargetId(targetId);
 			tagInfo.setOriginVersion(originVersion);
 			tagInfo.setComment(comment);
+			tagInfo.setInspectStatus(InspectStatus.UNCHECKED.getIntValue());
+			tagInfo.setDevInspectStatus(InspectStatus.UNCHECKED.getIntValue());
 			tagInfoService.createTagInfo(tagInfo);
 			return successResultToJson(String.format("TagInfo[%d] is created successfully!", tagInfo.getId()), true);
 		} catch (Exception e) {
@@ -273,6 +295,67 @@ public class TagInfoController extends BaseService {
 			return Response.ok().entity("false").build();
 		}
 		return Response.ok().entity("true").build();
+	}
+	
+	@GET
+	@Path("/export")
+	public Response export(
+			@QueryParam("isCommonTag") boolean isCommonTag
+			) {
+		List<TagInfo> list = tagInfoService.getTagInfoListResult(new QueryParamMap()
+			.addParam("productId", ProductUtil.getProductId())
+			.addParam(Boolean.FALSE.equals(isCommonTag), "page_info.id__is_not_null")
+			.addParam(Boolean.TRUE.equals(isCommonTag), "page_info.id__is_null")
+			.orderByAsc("page_info.page_no").orderByAsc("tagNo")
+		);
+		Map<Long, TagAction> actionMap = Maps.uniqueIndex(tagActionService.getTagActionListResult(), new Function<TagAction, Long>() {
+			@Override
+			public Long apply(TagAction action) {
+				return action.getId();
+			}
+		});
+		
+		Map<Long, TagTarget> targetMap = Maps.uniqueIndex(tagTargetService.getTagTargetListResult(), new Function<TagTarget, Long>() {
+			@Override
+			public Long apply(TagTarget target) {
+				return target.getId();
+			}
+		});
+		Map<Long, TagParam> tagParamMap = Maps.uniqueIndex(tagParamService.getTagParamListResultWithInfos(QueryParamMap.emptyMap()), new Function<TagParam, Long>() {
+			@Override
+			public Long apply(TagParam tagParam) {
+				return tagParam.getTagInfoId();
+			}
+		});
+		List<TagInfoDto> dtoList = TagInfoDto.from(list, actionMap, targetMap, tagParamMap);
+		List<Column> columnList = isCommonTag
+				? COMMON_TAG_INFO_COLUMN_LIST
+				: TAG_INFO_COLUMN_LIST;
+		HSSFWorkbook workbook = ExcelExportUtil.exportDataList(columnList, dtoList);
+		String filename = ProductUtil.getCurrentProduct().getName() 
+				+ (isCommonTag? "_公共操作详情.xls": "_操作详情.xls");
+		return ExcelExportUtil.generateExcelResponse(workbook, filename);
+	}
+	
+	private static List<Column> buildTagInfoColumnList(boolean isCommonTag) {
+		List<Column> columnList = new ArrayList<Column>();
+		if(!isCommonTag) {
+			columnList.add(ExcelExportUtil.column("页面编号", "pageNo", 3000, CellType.number));
+			columnList.add(ExcelExportUtil.column("页面名称", "pageName", 8000, CellType.text));
+		}
+		columnList.add(ExcelExportUtil.column("操作编号", "tagNo", 3000, CellType.number));
+		columnList.add(ExcelExportUtil.column("操作项名称", "tagName", 10000, CellType.text));
+		
+		columnList.add(ExcelExportUtil.column("操作动作", "actionName", 3000, CellType.text));
+		columnList.add(ExcelExportUtil.column("操作目标", "targetName", 3000, CellType.text));
+		
+		columnList.add(ExcelExportUtil.column("初始版本", "originVersionDisplay", 3000, CellType.text));
+		columnList.add(ExcelExportUtil.column("开发校验结果", "devInspectStatus", 4000, CellType.text));
+		columnList.add(ExcelExportUtil.column("测试校验结果", "inspectStatus", 4000, CellType.text));
+
+		columnList.add(ExcelExportUtil.column("操作参数", "tagParamDisplay", 10000, CellType.text));
+		
+		return columnList;
 	}
 	
 }

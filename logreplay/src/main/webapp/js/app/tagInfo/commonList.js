@@ -345,6 +345,14 @@ define(function(require, exports, module) {
 		});
 	}
 	
+	/** 导出excel **/
+	function initExportTagInfoBtn() {
+		$('#J_exportTagInfoBtn').on('click', function() {
+			var url = CTX_PATH + '/tagInfo/export?isCommonTag=true';
+			window.open(url, 'exportFrame');
+		});
+	}
+	
 	function init() {
 		$.when(refreshTagActionOptions(), refreshTagTargetOptions())
 		.done(function() {
@@ -359,6 +367,7 @@ define(function(require, exports, module) {
 		initUpdateTagParamBtn();
 		initQueryBtn();
 		initClearBtn();
+		initExportTagInfoBtn();
 	}
 	
 	module.exports = {init: init};

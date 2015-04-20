@@ -211,16 +211,22 @@ public class TagInfo extends AbstractBean {
 	/** 操作项校验结果类型 **/
 	public enum InspectStatus {
 		
-		SUCCESS(1), ERROR(2), UNCHECKED(0), UNKNOWN(-1);
+		SUCCESS(1, "校验正确"), ERROR(2, "校验错误"), UNCHECKED(0, "未校验"), UNKNOWN(-1, "未知状态");
 		
 		private int intValue;
+		private String description;
 		
-		private InspectStatus(int value) {
+		private InspectStatus(int value, String description) {
 			this.intValue = value;
+			this.description = description;
 		}
 		
 		public int getIntValue() {
 			return intValue;
+		}
+		
+		public String getDescription() {
+			return description;
 		}
 		
 		public static InspectStatus from(Integer intValue) {
@@ -233,6 +239,10 @@ public class TagInfo extends AbstractBean {
 				}
 			}
 			return UNKNOWN;
+		}
+		
+		public static String toDescription(Integer intValue) {
+			return from(intValue).getDescription();
 		}
 	}
 	

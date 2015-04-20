@@ -288,6 +288,14 @@ define(function(require, exports, module) {
 		});
 	}
 	
+	/** 导出excel **/
+	function initExportPageInfoBtn() {
+		$('#J_exportPageInfoBtn').on('click', function() {
+			var url = CTX_PATH + '/pageInfo/export';
+			window.open(url, 'exportFrame');
+		});
+	}
+	
 	function init() {
 		refreshTagActionOptions();
 		refreshTagTargetOptions();
@@ -300,6 +308,7 @@ define(function(require, exports, module) {
 		initCreateTagInfoBtn();
 		initQueryBtn();
 		initClearBtn();
+		initExportPageInfoBtn();
 	}
 	
 	module.exports = {init: init};

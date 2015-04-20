@@ -1,5 +1,9 @@
 package com.sogou.map.logreplay.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -7,12 +11,15 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.common.collect.Lists;
 import com.sogou.map.logreplay.bean.PageInfo;
 import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.dao.base.Page;
@@ -20,6 +27,8 @@ import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.exception.LogReplayException;
 import com.sogou.map.logreplay.service.PageInfoService;
 import com.sogou.map.logreplay.util.AuthUtil;
+import com.sogou.map.logreplay.util.ExcelExportUtil;
+import com.sogou.map.logreplay.util.ExcelExportUtil.Column;
 import com.sogou.map.logreplay.util.JsonUtil;
 import com.sogou.map.logreplay.util.ProductUtil;
 import com.sogou.map.mengine.common.bo.ApiException;
@@ -28,6 +37,8 @@ import com.sogou.map.mengine.common.service.BaseService;
 @Component
 @Path("/pageInfo")
 public class PageInfoController extends BaseService {
+	
+	private static final List<Column> PAGE_INFO_COLUMN_LIST = buildPageInfoColumnList();
 	
 	@Autowired
 	private PageInfoService pageInfoService;
@@ -51,6 +62,18 @@ public class PageInfoController extends BaseService {
 			.orderByAsc("pageNo")
 		);
 		return successResultToJson(page, JsonUtil.configInstance(), true);
+	}
+	
+	@GET
+	@Path("/export")
+	public Response export(@Context HttpServletRequest request) throws UnsupportedEncodingException {
+		List<PageInfo> list = pageInfoService.getPageInfoListResult(new QueryParamMap()
+			.addParam("productId", ProductUtil.getProductId())
+			.orderByAsc("pageNo")
+		);
+		HSSFWorkbook workbook = ExcelExportUtil.exportDataList(PAGE_INFO_COLUMN_LIST, list);
+		String filename = ProductUtil.getCurrentProduct().getName() + "_页面详情.xls";
+		return ExcelExportUtil.generateExcelResponse(workbook, filename);
 	}
 	
 	@GET
@@ -145,6 +168,14 @@ public class PageInfoController extends BaseService {
 			return Response.ok().entity("false").build();
 		}
 		return Response.ok().entity("true").build();
+	}
+	
+	private static List<Column> buildPageInfoColumnList() {
+		List<ExcelExportUtil.Column> columnList = Lists.newArrayList(
+				ExcelExportUtil.column("页面编号", "pageNo", 3000, ExcelExportUtil.CellType.number),
+				ExcelExportUtil.column("页面名称", "name", 8000, ExcelExportUtil.CellType.text)
+		);
+		return columnList;
 	}
 	
 }

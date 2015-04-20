@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sogou.map.logreplay.bean.TagTarget;
-import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.service.TagTargetService;
 import com.sogou.map.mengine.common.service.BaseService;
 
@@ -24,7 +23,7 @@ public class TagTargetController extends BaseService {
 	@GET
 	@Path("/list")
 	public Response list() {
-		List<TagTarget> list = tagTargetService.getTagTargetListResult(QueryParamMap.emptyMap());
+		List<TagTarget> list = tagTargetService.getTagTargetListResult();
 		return successResultToJson(list, true);
 	}
 }
