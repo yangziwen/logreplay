@@ -352,8 +352,11 @@ public class TagInfoController extends BaseService {
 		columnList.add(ExcelExportUtil.column("初始版本", "originVersionDisplay", 3000, CellType.text));
 		columnList.add(ExcelExportUtil.column("开发校验结果", "devInspectStatus", 4000, CellType.text));
 		columnList.add(ExcelExportUtil.column("测试校验结果", "inspectStatus", 4000, CellType.text));
-
+		
+		columnList.add(ExcelExportUtil.column("操作项备注", "comment", 6000, CellType.text));
+		
 		columnList.add(ExcelExportUtil.column("操作参数", "tagParamDisplay", 10000, CellType.text));
+		columnList.add(ExcelExportUtil.column("操作参数备注", "tagParamComment", 10000, CellType.text));
 		
 		return columnList;
 	}

@@ -49,8 +49,8 @@ public class TagInfoDto implements DataContainer{
 	private Timestamp updateTime;
 	
 	private TagParam tagParam;
-	
 	private String tagParamDisplay;
+	private String tagParamComment;
 	
 	public TagInfoDto() {}
 
@@ -214,6 +214,14 @@ public class TagInfoDto implements DataContainer{
 		this.tagParamDisplay = tagParamDisplay;
 	}
 	
+	public String getTagParamComment() {
+		return tagParamComment;
+	}
+
+	public void setTagParamComment(String tagParamComment) {
+		this.tagParamComment = tagParamComment;
+	}
+
 	@Override
 	public Object getColumnValue(String columnKey) {
 		try {
@@ -264,6 +272,7 @@ public class TagInfoDto implements DataContainer{
 		
 		this.tagParam = tagParamMap.get(info.getId());
 		if(tagParam != null && CollectionUtils.isNotEmpty(tagParam.getParamInfoList())) {
+			this.tagParamComment = tagParam.getComment();
 			Iterator<ParamInfo> iter = tagParam.getParamInfoList().iterator();
 			ParamInfo param = iter.next();
 			String value = StringUtils.isNotBlank(param.getValue())
