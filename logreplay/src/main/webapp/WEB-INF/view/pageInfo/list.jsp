@@ -49,7 +49,9 @@
 			     <div class="col-sm-12">
 			     	<div class="row">
 			     		<div class="col-sm-2">
-			     			<button class="btn btn-primary btn-lg-font" id="J_openCreateModalBtn">新增</button>
+			     			<shiro:hasRole name="admin">
+			     				<button class="btn btn-primary btn-lg-font" id="J_openCreateModalBtn">新增</button>
+			     			</shiro:hasRole>
 			     		</div>
 			     		<div id="J_pagebar" class="col-sm-10">
 			     			

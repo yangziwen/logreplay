@@ -10,6 +10,7 @@ public class Role extends AbstractBean implements Cloneable {
 	public static final String ADMIN = "admin";
 	public static final String TEST = "test";
 	public static final String DEV = "dev";
+	public static final String VISITOR = "visitor";
 
 	@Id
 	@Column

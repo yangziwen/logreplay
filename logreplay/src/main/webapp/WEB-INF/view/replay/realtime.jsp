@@ -101,7 +101,9 @@
 				     				<th>日志描述</th>
 				     				<th style="width: 220px;">日志内容</th>
 				     				<th style="width:100px">历史记录</th>
-				     				<th style="width: 100px;">管理</th>
+				     				<shiro:lacksRole name="visitor">
+				     					<th style="width: 100px;">管理</th>
+				     				</shiro:lacksRole>
 				     			</tr>
 				     		</thead>
 				     		<tbody id="J_replayTbody" style="max-height: 800px;" >
@@ -117,11 +119,13 @@
 										${'${'}params}
 									</td>
 									<td>{{html $item.displayInspectStatus(inspectStatus)}}</td>
+									<shiro:lacksRole name="visitor">
 				     				<td>
 										<button class="btn btn-success btn-xs submit-success-btn"><span class="glyphicon glyphicon-ok"></span></button>
 										&nbsp;
 										<button class="btn btn-danger btn-xs submit-error-btn"><span class="glyphicon glyphicon-remove"></span></button>
 									</td>
+									</shiro:lacksRole>
 				     			</tr>
 							</script>
 				     	</table>
