@@ -19,7 +19,8 @@ seajs.config({
 		'bootstrap.uploadfilebtn': 'bootstrap/bootstrapUploadFileBtn.js',
 		'bootstrap.browsefilebtn': 'bootstrap/bootstrapBrowseFileBtn.js',
 		'bootstrap.datetimepicker': 'bootstrap/bootstrap-datetimepicker.js'
-	}
+	}, 
+	map: [[/^(.+\.js)/i, '$1?v=${static_version}' ]]
 });
 </script>
 <script>

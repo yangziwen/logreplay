@@ -14,7 +14,7 @@
 						<span> 埋点信息管理</span>
 						<span class="pull-right glyphicon glyphicon-chevron-down"></span>
 					</a>
-					<c:set var="showConfigSubmenu" value="${fn:contains(requestURI, '/pageInfo') or fn:contains(requestURI, '/tagInfo')}"></c:set>
+					<c:set var="showConfigSubmenu" value="${fn:contains(request_uri, '/pageInfo') or fn:contains(request_uri, '/tagInfo')}"></c:set>
 					<%-- <ul id="J_logConfigSubmenu" class="nav submenu ${showConfigSubmenu eq true? 'in': ''}" ${showConfigSubmenu eq false? 'style="height: 0px;"': ''}>  --%>
 					<ul id="J_logConfigSubmenu" class="nav submenu in" >
 						<li><a href="${ctx_path}/pageInfo/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> 页面信息管理</a></li>
@@ -28,7 +28,7 @@
 						<span> 埋点信息校验</span>
 						<span class="pull-right glyphicon glyphicon-chevron-down"></span>
 					</a>
-					<c:set var="showReplaySubmenu" value="${fn:contains(requestURI, '/replay') or fn:contains(requestURI, '/inspectionRecord')}"></c:set>
+					<c:set var="showReplaySubmenu" value="${fn:contains(request_uri, '/replay') or fn:contains(request_uri, '/inspectionRecord')}"></c:set>
 					<%-- <ul id="J_logReplaySubmenu" class="nav submenu ${showReplaySubmenu eq true? 'in': ''}" ${showReplaySubmenu eq false? 'style="height: 0px;"': ''}> --%>
 					<ul id="J_logReplaySubmenu" class="nav submenu in">
 						<li><a href="${ctx_path}/replay/realtime.htm"><i class="glyphicon glyphicon-chevron-right"></i> 实时校验</a></li>
@@ -45,7 +45,7 @@
 						<span> 系统管理</span>
 						<span class="pull-right glyphicon glyphicon-chevron-down"></span>
 					</a>
-					<c:set var="showSystemManageSubmenu" value="${fn:contains(requestURI, '/admin') or fn:contains(requestURI, '/user/detail.htm')}"></c:set>
+					<c:set var="showSystemManageSubmenu" value="${fn:contains(request_uri, '/admin') or fn:contains(request_uri, '/user/detail.htm')}"></c:set>
 					<%-- <ul id="J_systemManageSubmenu" class="nav submenu ${showSystemManageSubmenu eq true? 'in': ''}" ${showSystemManageSubmenu eq false? 'style="height: 0px;"': ''}> --%>
 					<ul id="J_systemManageSubmenu" class="nav submenu in" >
 						<shiro:hasRole name="admin">
