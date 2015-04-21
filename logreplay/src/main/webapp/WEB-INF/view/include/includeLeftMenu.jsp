@@ -36,7 +36,7 @@
 						<shiro:lacksRole name="visitor">
 							<li><a href="${ctx_path}/inspectionRecord/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> 校验结果</a></li>
 						</shiro:lacksRole>
-						<li><a href="${ctx_path}/inspectionRecord/inspectStatusList.htm"><i class="glyphicon glyphicon-chevron-right"></i> 校验状态查询</a></li>
+						<li><a href="${ctx_path}/inspectionRecord/statusList.htm"><i class="glyphicon glyphicon-chevron-right"></i> 校验状态查询</a></li>
 					</ul>
 				</li>
 				<li class="active">
