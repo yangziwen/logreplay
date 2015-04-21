@@ -50,6 +50,8 @@ define(function(require, exports, module) {
 		var params = $.extend({
 			start: start, limit: limit, isCommonTag: true
 		}, common.collectParams('#J_queryArea input[type!=button][type!=submit][type!=reset]'));
+		params['originVersionSince'] = common.parseAppVersion(params['originVersionSince']);
+		params['originVersionUntil'] = common.parseAppVersion(params['originVersionUntil']);
 		var url = CTX_PATH + '/tagInfo/list';
 		$.get(url, params, function(data) {
 			if(!data || !data.response || !data.response.list) {
@@ -348,7 +350,11 @@ define(function(require, exports, module) {
 	/** 导出excel **/
 	function initExportTagInfoBtn() {
 		$('#J_exportTagInfoBtn').on('click', function() {
-			var url = CTX_PATH + '/tagInfo/export?isCommonTag=true';
+			var params = common.collectParams('#J_queryArea input[type!=button][type!=submit][type!=reset]');
+			params['originVersionSince'] = common.parseAppVersion(params['originVersionSince']);
+			params['originVersionUntil'] = common.parseAppVersion(params['originVersionUntil']);
+			params['isCommonTag'] = true;
+			var url = common.buildUrlByParams(CTX_PATH + '/tagInfo/export', params, true);
 			window.open(url, 'exportFrame');
 		});
 	}

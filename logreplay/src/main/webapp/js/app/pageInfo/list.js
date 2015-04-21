@@ -291,7 +291,8 @@ define(function(require, exports, module) {
 	/** 导出excel **/
 	function initExportPageInfoBtn() {
 		$('#J_exportPageInfoBtn').on('click', function() {
-			var url = CTX_PATH + '/pageInfo/export';
+			var params = common.collectParams('#J_queryArea input[type!=button][type!=submit][type!=reset]');
+			var url = common.buildUrlByParams(CTX_PATH + '/pageInfo/export', params, true);
 			window.open(url, 'exportFrame');
 		});
 	}

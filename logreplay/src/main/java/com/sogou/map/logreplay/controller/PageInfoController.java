@@ -3,7 +3,6 @@ package com.sogou.map.logreplay.controller;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -11,7 +10,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang.StringUtils;
@@ -66,8 +64,17 @@ public class PageInfoController extends BaseService {
 	
 	@GET
 	@Path("/export")
-	public Response export(@Context HttpServletRequest request) throws UnsupportedEncodingException {
+	public Response export(
+			@QueryParam("pageNo") Integer pageNo,
+			@QueryParam("pageName") String name,
+			@QueryParam("updateBeginTime") String updateBeginTime,
+			@QueryParam("updateEndTime") String updateEndTime
+			) throws UnsupportedEncodingException {
 		List<PageInfo> list = pageInfoService.getPageInfoListResult(new QueryParamMap()
+			.addParam(pageNo != null, "pageNo", pageNo)
+			.addParam(StringUtils.isNotBlank(name), "name__contain", name)
+			.addParam(StringUtils.isNotBlank(updateBeginTime), "updateTime__ge", updateBeginTime)
+			.addParam(StringUtils.isNotBlank(updateEndTime), "updateTime__le", updateEndTime)
 			.addParam("productId", ProductUtil.getProductId())
 			.orderByAsc("pageNo")
 		);

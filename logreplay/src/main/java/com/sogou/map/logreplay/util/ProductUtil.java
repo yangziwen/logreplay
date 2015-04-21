@@ -10,7 +10,6 @@ import org.apache.commons.lang.StringUtils;
 
 import com.google.common.collect.Lists;
 import com.sogou.map.logreplay.bean.Product;
-import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.service.ProductService;
 
 /**
@@ -79,7 +78,7 @@ public class ProductUtil {
 	}
 	
 	private static List<Product> doGetProductList() {
-		return SpringUtil.getBean(ProductService.class).getProductListResult(QueryParamMap.emptyMap());
+		return SpringUtil.getBean(ProductService.class).getProductListResult();
 	}
 	
 	public static String formatAppVersion(Integer version) {

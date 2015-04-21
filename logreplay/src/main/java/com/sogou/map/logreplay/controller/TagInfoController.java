@@ -88,33 +88,9 @@ public class TagInfoController extends BaseService {
 			@QueryParam("inspectStatus") String inspectStatusStr,
 			@QueryParam("inspectMode") String inspectMode
 			) {
-		InspectStatus inspectStatus = InspectStatus.from(NumberUtils.toInt(inspectStatusStr, -1));
-		List<Long> pageInfoIdList = new ArrayList<Long>();
-		if(StringUtils.isNotBlank(pageName)) {
-			List<PageInfo> pageInfoList = pageInfoService.getPageInfoListResult(new QueryParamMap()
-				.addParam("name__contain", pageName)
-				.addParam("productId", ProductUtil.getProductId())
-			);
-			for(PageInfo pageInfo: pageInfoList) {
-				pageInfoIdList.add(pageInfo.getId());
-			}
-		}
-		String inspectStatusField = Role.DEV.equals(inspectMode)? "devInspectStatus": "inspectStatus";
-		Page<TagInfo> page = tagInfoService.getTagInfoPageResult(start, limit, new QueryParamMap()
-			.addParam("productId", ProductUtil.getProductId())
-			.addParam(pageNo != null, "pageNo", pageNo)
-			.addParam(tagNo != null, "tagNo", tagNo)
-			.addParam(CollectionUtils.isNotEmpty(pageInfoIdList), "pageInfoId__in", pageInfoIdList)
-			.addParam(StringUtils.isNotBlank(tagName), "name__contain", tagName)
-			.addParam(StringUtils.isNotBlank(pageName), "page_info.name__contain", pageName)
-			.addParam(StringUtils.isNotBlank(updateBeginTime), "updateTime__ge", updateBeginTime)
-			.addParam(StringUtils.isNotBlank(updateEndTime), "updateTime__le", updateEndTime)
-			.addParam(Boolean.FALSE.equals(isCommonTag), "page_info.id__is_not_null")
-			.addParam(Boolean.TRUE.equals(isCommonTag), "page_info.id__is_null")
-			.addParam(originVersionSince != null && originVersionSince > 0, "originVersion__ge", originVersionSince)
-			.addParam(originVersionUntil != null && originVersionUntil > 0 , "originVersion__le", originVersionUntil)
-			.addParam(inspectStatus != InspectStatus.UNKNOWN, inspectStatusField, inspectStatus.getIntValue())
-			.orderByAsc("page_info.page_no").orderByAsc("tagNo")
+		Page<TagInfo> page = tagInfoService.getTagInfoPageResult(start, limit, buildQueryParamMap(
+				pageNo, tagNo, pageName, tagName, updateBeginTime, updateEndTime, 
+				isCommonTag, originVersionSince, originVersionUntil, inspectStatusStr, inspectMode)
 		);
 		fillHasParamsFlag(page.getList());
 		return successResultToJson(page, JsonUtil.configInstance(), true);
@@ -300,13 +276,21 @@ public class TagInfoController extends BaseService {
 	@GET
 	@Path("/export")
 	public Response export(
-			@QueryParam("isCommonTag") boolean isCommonTag
+			@QueryParam("pageNo") Integer pageNo,
+			@QueryParam("tagNo") Integer tagNo,
+			@QueryParam("pageName") String pageName,
+			@QueryParam("tagName") String tagName,
+			@QueryParam("updateBeginTime") String updateBeginTime,
+			@QueryParam("updateEndTime") String updateEndTime,
+			@QueryParam("isCommonTag") Boolean isCommonTag,
+			@QueryParam("originVersionSince") Integer originVersionSince,
+			@QueryParam("originVersionUntil") Integer originVersionUntil,
+			@QueryParam("inspectStatus") String inspectStatusStr,
+			@QueryParam("inspectMode") String inspectMode
 			) {
-		List<TagInfo> list = tagInfoService.getTagInfoListResult(new QueryParamMap()
-			.addParam("productId", ProductUtil.getProductId())
-			.addParam(Boolean.FALSE.equals(isCommonTag), "page_info.id__is_not_null")
-			.addParam(Boolean.TRUE.equals(isCommonTag), "page_info.id__is_null")
-			.orderByAsc("page_info.page_no").orderByAsc("tagNo")
+		List<TagInfo> list = tagInfoService.getTagInfoListResult(buildQueryParamMap(
+				pageNo, tagNo, pageName, tagName, updateBeginTime, updateEndTime, 
+				isCommonTag, originVersionSince, originVersionUntil, inspectStatusStr, inspectMode)
 		);
 		Map<Long, TagAction> actionMap = Maps.uniqueIndex(tagActionService.getTagActionListResult(), new Function<TagAction, Long>() {
 			@Override
@@ -335,6 +319,50 @@ public class TagInfoController extends BaseService {
 		String filename = ProductUtil.getCurrentProduct().getName() 
 				+ (isCommonTag? "_公共操作详情.xls": "_操作详情.xls");
 		return ExcelExportUtil.generateExcelResponse(workbook, filename);
+	}
+	
+	/**
+	 * 查询接口和excel导出接口都会用到这个组织参数map的方法
+	 */
+	private Map<String, Object> buildQueryParamMap(
+			Integer pageNo,
+			Integer tagNo,
+			String pageName,
+			String tagName,
+			String updateBeginTime,
+			String updateEndTime,
+			Boolean isCommonTag,
+			Integer originVersionSince,
+			Integer originVersionUntil,
+			String inspectStatusStr,
+			String inspectMode) {
+		InspectStatus inspectStatus = InspectStatus.from(NumberUtils.toInt(inspectStatusStr, -1));
+		List<Long> pageInfoIdList = new ArrayList<Long>();
+		if(StringUtils.isNotBlank(pageName)) {
+			List<PageInfo> pageInfoList = pageInfoService.getPageInfoListResult(new QueryParamMap()
+				.addParam("name__contain", pageName)
+				.addParam("productId", ProductUtil.getProductId())
+			);
+			for(PageInfo pageInfo: pageInfoList) {
+				pageInfoIdList.add(pageInfo.getId());
+			}
+		}
+		String inspectStatusField = Role.DEV.equals(inspectMode)? "devInspectStatus": "inspectStatus";
+		return new QueryParamMap()
+			.addParam("productId", ProductUtil.getProductId())
+			.addParam(pageNo != null, "pageNo", pageNo)
+			.addParam(tagNo != null, "tagNo", tagNo)
+			.addParam(CollectionUtils.isNotEmpty(pageInfoIdList), "pageInfoId__in", pageInfoIdList)
+			.addParam(StringUtils.isNotBlank(tagName), "name__contain", tagName)
+			.addParam(StringUtils.isNotBlank(pageName), "page_info.name__contain", pageName)
+			.addParam(StringUtils.isNotBlank(updateBeginTime), "updateTime__ge", updateBeginTime)
+			.addParam(StringUtils.isNotBlank(updateEndTime), "updateTime__le", updateEndTime)
+			.addParam(Boolean.FALSE.equals(isCommonTag), "page_info.id__is_not_null")
+			.addParam(Boolean.TRUE.equals(isCommonTag), "page_info.id__is_null")
+			.addParam(originVersionSince != null && originVersionSince > 0, "originVersion__ge", originVersionSince)
+			.addParam(originVersionUntil != null && originVersionUntil > 0 , "originVersion__le", originVersionUntil)
+			.addParam(inspectStatus != InspectStatus.UNKNOWN, inspectStatusField, inspectStatus.getIntValue())
+			.orderByAsc("page_info.page_no").orderByAsc("tagNo");
 	}
 	
 	private static List<Column> buildTagInfoColumnList(boolean isCommonTag) {

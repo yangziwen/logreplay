@@ -139,7 +139,7 @@
 </div>
 <%@ include file="../include/includeJs.jsp" %>
 <script>
-seajs.use('app/inspectionRecord/inspectStatusList', function(list) {
+seajs.use('app/inspectionRecord/statusList', function(list) {
 	list.init();
 });
 </script>

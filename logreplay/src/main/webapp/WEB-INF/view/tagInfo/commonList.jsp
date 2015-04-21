@@ -47,6 +47,16 @@
 									<input type="text" class="form-control" id="J_tagName" name="tagName" placeholder="请输入操作名称" />
 								</div>
 							</div>
+							<div class="form-group">
+								<label for="J_originVersionSince" class="col-sm-2 control-label">起始版本：</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="J_originVersionSince" name="originVersionSince" placeholder="请输入起始版本" />
+								</div>
+								<label for="J_originVersionUntil" class="col-sm-2 control-label">终止版本：</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="J_originVersionUntil" name="originVersionUntil" placeholder="请输入终止版本" />
+								</div>
+							</div>
 							<div class="form-group" style="margin-bottom: 0px;">
 								<div class="col-sm-12" style="margin-top: 10px;">
 									<button id="J_queryBtn" type="button" class="btn btn-primary btn-lg-font" style="width: 90px;">查&nbsp;&nbsp;询</button>

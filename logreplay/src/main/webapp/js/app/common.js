@@ -161,7 +161,7 @@ define(function(require, exports, module){
 		var arr = [];
 		for(var key in params) {
 			var value = params[key];
-			if(ignoreEmptyParams && !value && value !== 0) {
+			if(ignoreEmptyParams && (value === null || value === undefined || value === '')) {
 				continue;
 			}
 			arr.push(key + "=" + encodeURIComponent(value));
