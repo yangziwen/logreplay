@@ -1,5 +1,5 @@
 -- 角色
-insert  into `role`(`id`,`name`,`comment`) values (1,'admin','管理员'),(2,'test','测试人员'),(3,'dev','开发人员');
+insert  into `role`(`id`,`name`,`display_name`) values (1,'admin','管理员'),(2,'test','测试人员'),(3,'dev','开发人员');
 
 -- 用户
 INSERT INTO `user` (`id`, `username`, `password`, `screen_name`, `create_time`, `enabled`) VALUES (1, 'admin', '7b18f9e91f009c2473b5ed3513549c08', '管理员', NOW(), 1);
