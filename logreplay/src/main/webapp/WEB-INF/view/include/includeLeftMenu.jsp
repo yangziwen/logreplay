@@ -11,7 +11,7 @@
 				<li class="active">
 					<a class="has-submenu" data-toggle="collapse" href="#J_logConfigSubmenu">
 						<i class="glyphicon glyphicon-plus"></i>
-						<span> 日志项管理</span>
+						<span> 埋点信息管理</span>
 						<span class="pull-right glyphicon glyphicon-chevron-down"></span>
 					</a>
 					<c:set var="showConfigSubmenu" value="${fn:contains(requestURI, '/pageInfo') or fn:contains(requestURI, '/tagInfo')}"></c:set>
@@ -25,7 +25,7 @@
 				<li class="active">
 					<a class="has-submenu" data-toggle="collapse" href="#J_logReplaySubmenu">
 						<i class="glyphicon glyphicon-plus"></i>
-						<span> 日志项校验</span>
+						<span> 埋点信息校验</span>
 						<span class="pull-right glyphicon glyphicon-chevron-down"></span>
 					</a>
 					<c:set var="showReplaySubmenu" value="${fn:contains(requestURI, '/replay') or fn:contains(requestURI, '/inspectionRecord')}"></c:set>

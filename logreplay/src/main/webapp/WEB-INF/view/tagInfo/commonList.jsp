@@ -28,7 +28,7 @@
 			<div>
 			    <ul class="breadcrumb">
 			        <li>
-						当前位置: <a data-toggle="collapse" href="#J_logConfigSubmenu">日志项管理</a> 
+						当前位置: <a data-toggle="collapse" href="#J_logConfigSubmenu">埋点信息管理</a> 
 						&gt; <a href="${ctx_path}/tagInfo/list.htm">公共操作项管理</a>
 			        </li> 
 			    </ul>

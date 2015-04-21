@@ -31,7 +31,7 @@
 			<div>
 			    <ul class="breadcrumb">
 			        <li>
-						当前位置: <a data-toggle="collapse" href="#J_logReplaySubmenu">日志项校验</a> 
+						当前位置: <a data-toggle="collapse" href="#J_logReplaySubmenu">埋点信息校验</a> 
 						&gt; <a href="${ctx_path}/inspectionRecord/statusList.htm">校验状态查询</a>
 			        </li> 
 			    </ul>
