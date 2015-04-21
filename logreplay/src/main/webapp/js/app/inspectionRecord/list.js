@@ -172,9 +172,11 @@ define(function(require, exports, module) {
 	}
 	
 	function initClearBtn() {
+		var currentRoleId = $('#J_currentRoleId').val();
 		$('#J_clearBtn').on('click', function() {
 			start = 0;
 			common.clearForm($('#J_queryArea form'));
+			$('#J_submitterRoleId').val(currentRoleId);
 			refreshInspectionRecordTbl();
 		});
 	}

@@ -48,12 +48,15 @@
 									request.setAttribute("roleList", AuthUtil.getAllRoleObjList());
 									request.setAttribute("currentRoleId", AuthUtil.getCurrentRoleId());
 								%>
+								<input type="hidden" id="J_currentRoleId" value="${currentRoleId}" />
 								<label for="J_submitterRoleId" class="col-sm-2 control-label">提交者角色：</label>
 								<div class="col-sm-4">
 									<select id="J_submitterRoleId" name="submitterRoleId" class="form-control">
 										<option value="">全部</option>
 										<c:forEach var="role" items="${roleList}">
+											<c:if test="${role.name ne 'visitor'}">
 											<option value="${role.id}" <c:if test="${currentRoleId eq role.id}">selected</c:if>>${role.displayName}</option>
+											</c:if>
 										</c:forEach>
 									</select>
 								</div>
@@ -62,7 +65,9 @@
 									<select id="J_solverRoleId" name="solverRoleId" class="form-control">
 										<option value="">全部</option>
 										<c:forEach var="role" items="${roleList}">
+											<c:if test="${role.name ne 'visitor'}">
 											<option value="${role.id}">${role.displayName}</option>
+											</c:if>
 										</c:forEach>
 									</select>
 								</div>
@@ -133,11 +138,13 @@
 				     	<table class="table table-bordered table-striped table-condensed table-hover ">
 				     		<thead>
 				     			<tr>
-				     				<th style="width: 90px;">页面编号</th>
+				     				<th style="width: 85px;">页面编号</th>
 				     				<th style="width: 150px">页面名称</th>
-				     				<th style="width: 90px;">操作编号</th>
+				     				<th style="width: 85px;">操作编号</th>
 				     				<th style="width: 150px;">操作名称</th>
-				     				<th style="width: 150px;">提交时间</th>
+				     				<!-- <th style="width: 150px;">提交时间</th> -->
+				     				<th style="width: 90px;">提交者</th>
+				     				<th style="width: 90px;">解决者</th>
 				     				<th style="width: 90px;">校验结果</th>
 				     				<th style="width: 90px;">处理状态</th>
 				     				<%-- <shiro:hasAnyRoles name="admin,test"> --%>
@@ -153,7 +160,9 @@
 				     				<td>${'${'}pageName}</td>
 				     				<td>${'${'}tagNo}</td>
 				     				<td>${'${'}tagName}</td>
-									<td>${'${'}createTime? new Date(createTime).format('yyyy-MM-dd hh:mm:ss'): '--'}</td>
+									<%-- <td>${'${'}createTime? new Date(createTime).format('yyyy-MM-dd hh:mm:ss'): '--'}</td> --%>
+									<td>${'${'}submitterScreenName || '--'}</td>
+									<td>${'${'}solverScreenName || '--'}</td>
 									<td>{{html $item.displayValidStatus($data) }}</td>
 									<td>{{html $item.displaySolvedStatus($data) }}</td>
 									<%-- <shiro:hasAnyRoles name="admin,test"> --%>

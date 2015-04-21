@@ -41,6 +41,7 @@ public class InspectionRecord extends AbstractBean {
 	private Long submitterId;
 	
 	/** 校验结果提交人角色id **/
+	@Column(name = "submitter_role_id")
 	private Long submitterRoleId;
 	
 	/** 校验结果解决人id **/
@@ -48,6 +49,7 @@ public class InspectionRecord extends AbstractBean {
 	private Long solverId;
 	
 	/** 校验结果解决人角色id **/
+	@Column(name = "solver_role_id")
 	private Long solverRoleId;
 	
 	@Column(name = "create_time")
