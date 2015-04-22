@@ -32,7 +32,7 @@
 					<%-- <ul id="J_logReplaySubmenu" class="nav submenu ${showReplaySubmenu eq true? 'in': ''}" ${showReplaySubmenu eq false? 'style="height: 0px;"': ''}> --%>
 					<ul id="J_logReplaySubmenu" class="nav submenu in">
 						<li><a href="${ctx_path}/replay/realtime.htm"><i class="glyphicon glyphicon-chevron-right"></i> 实时校验</a></li>
-						<%--<li><a href="${ctx_path}/replay/sequence.htm"><i class="glyphicon glyphicon-chevron-right"></i> 序列校验</a></li> --%>
+						<%-- <li><a href="${ctx_path}/replay/sequence.htm"><i class="glyphicon glyphicon-chevron-right"></i> 批量回放</a></li> --%>
 						<shiro:lacksRole name="visitor">
 							<li><a href="${ctx_path}/inspectionRecord/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> 校验结果</a></li>
 						</shiro:lacksRole>

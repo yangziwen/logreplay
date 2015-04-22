@@ -53,14 +53,14 @@ define(function(require, exports, module) {
 	
 	function switchButtonStatus(replaying) {
 		if(replaying) {
-			$replaySwitchBtn.html('停止校验');
+			$replaySwitchBtn.html('停止回放');
 //			$clearBtn.attr({disabled: true});
 			var params = common.collectParams('#J_queryArea input[type!=button][type!=submit][type!=reset]');
 			params.since = params.replayTimeSince && Date.parse(params.replayTimeSince);
 			params.until= params.replayTimeUntil && Date.parse(params.replayTimeUntil);
 			doReplay(params, 1000);
 		} else {
-			$replaySwitchBtn.html('开始校验');
+			$replaySwitchBtn.html('开始回放');
 //			$clearBtn.attr({disabled: false});
 		}
 	}
@@ -186,6 +186,8 @@ define(function(require, exports, module) {
 			forceParse : 0,
 			showMeridian : 1,
 			pickerPosition: "bottom-left"
+		}).find('input[type=text]').on('focus', function(ev) {
+			$(this).trigger('blur');
 		});
 	}
 	

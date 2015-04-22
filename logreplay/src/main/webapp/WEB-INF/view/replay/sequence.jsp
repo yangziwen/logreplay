@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>
-    <title>序列校验</title>
+    <title>批量回放</title>
 	<%@ include file="../include/includeCss.jsp" %>
 	<link rel="stylesheet" href="${static_path}/css/bootstrap-datetimepicker.min.css"/>
 	<style>
@@ -28,7 +28,7 @@
 			    <ul class="breadcrumb">
 			        <li>
 						当前位置: <a data-toggle="collapse" href="#J_logReplaySubmenu">埋点信息校验</a>
-						 &gt; <a href="${ctx_path}/replay/sequence.htm">序列校验</a>
+						 &gt; <a href="${ctx_path}/replay/sequence.htm">批量回放</a>
 			        </li> 
 			    </ul>
 			</div>
@@ -61,7 +61,7 @@
 								<label for="J_replayTimeSince" class="col-sm-2 control-label">开始时间：</label>
 								<div class="col-sm-4">
 									<div class="input-group date form_datetime" data-date-format="yyyy-MM-dd" data-link-field="J_replayTimeSince">
-										<input id="J_replayTimeSince" name="replayTimeSince" class="form-control" type="text" value="" readonly />
+										<input id="J_replayTimeSince" name="replayTimeSince" class="form-control" type="text" value="" style="cursor: pointer;" placeholder="请选择开始时间" />
 										<span class="input-group-addon">
 											<span class="glyphicon glyphicon-th"></span>
 										</span>
@@ -70,7 +70,7 @@
 								<label for="J_replayTimeUntil" class="col-sm-2 control-label">结束时间：</label>
 								<div class="col-sm-4">
 									<div class="input-group date form_datetime" data-date-format="yyyy-MM-dd" data-link-field="J_replayTimeUntil">
-										<input id="J_replayTimeUntil" name="replayTimeUntil" class="form-control" type="text" value="" readonly />
+										<input id="J_replayTimeUntil" name="replayTimeUntil" class="form-control" type="text" value="" style="cursor: pointer;" placeholder="请选择结束时间" />
 										<span class="input-group-addon">
 											<span class="glyphicon glyphicon-th"></span>
 										</span>
@@ -80,7 +80,7 @@
 							<div class="form-group" style="_margin-bottom: 0px;">
 								<div class="col-sm-12" style="margin-top: 10px;">
 									<button id="J_openUploadLogModalBtn" type="button" class="btn btn-primary btn-lg-font">上传日志</button>
-									<button id="J_replaySwitchBtn" type="button" class="btn btn-primary btn-lg-font">开始校验</button>
+									<button id="J_replaySwitchBtn" type="button" class="btn btn-primary btn-lg-font">开始回放</button>
 									<button id="J_lockScrollBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">锁定滚动</button>
 									<button id="J_clearBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">清&nbsp;&nbsp;除</button>
 								</div>
@@ -99,8 +99,8 @@
 				     				<th style="width: 125px;">平台</th>
 				     				<th style="width: 100px;">日志编号</th>
 				     				<th>日志描述</th>
-				     				<th style="width: 250px;">日志内容</th>
-				     				<th style="width: 125px;">管理</th>
+				     				<th style="width: 280px;">日志内容</th>
+				     				<!-- <th style="width: 125px;">管理</th> -->
 				     			</tr>
 				     		</thead>
 				     		<tbody id="J_replayTbody" style="max-height: 500px;" >
@@ -113,7 +113,7 @@
 				     				<td title="${'${'}params}" style="max-width: 250px; overflow-x: hidden; text-align: left;">
 										${'${'}params}
 									</td>
-				     				<td></td>
+				     				<%-- <td></td> --%>
 				     			</tr>
 							</script>
 				     	</table>
