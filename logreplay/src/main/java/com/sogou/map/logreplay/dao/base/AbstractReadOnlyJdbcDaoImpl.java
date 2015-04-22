@@ -36,7 +36,8 @@ import com.sogou.map.logreplay.util.ClassUtil;
 
 public class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 
-	protected static final boolean DEBUG_SQL = BooleanUtils.toBoolean(System.getProperty("jdbc.sql.debug"));
+	/** SQL_DEBUG == true时，会打印所有查询的sql **/
+	protected static final boolean SQL_DEBUG = BooleanUtils.toBoolean(System.getProperty("jdbc.sql.debug"));
 	
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -157,8 +158,8 @@ public class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 	}
 	
 	protected List<E> doList(String sql, Map<String, Object> params, ResultSetExtractor<List<E>> rse) {
-		if(DEBUG_SQL) {
-			logger.info(sql);
+		if(SQL_DEBUG) {
+			return outputLogInfoWithTimespan(now(), jdbcTemplate.query(sql, params, rse), now(), sql);
 		}
 		return jdbcTemplate.query(sql, params, rse);
 	}
@@ -185,10 +186,12 @@ public class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 		} else {
 			sql = "select count(*) " + sql.substring(beginPos, endPos);
 		}
-		if(DEBUG_SQL) logger.info(sql);
+		if(SQL_DEBUG) {
+			return outputLogInfoWithTimespan(now(), jdbcTemplate.queryForObject(sql, params, Integer.class), now(), sql);
+		}
 		return jdbcTemplate.queryForObject(sql, params, Integer.class);
 	}
-
+	
 	public Page<E> paginate(int start, int limit, Map<String, Object> params) {
 		String sql = generateSqlByParam(start, limit, params);
 		return new Page<E>(start, limit, doCount(sql, params), doList(sql, params));
@@ -410,9 +413,6 @@ public class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 		}
 		String key = keyWithOper.substring(0, index);
 		String operName = keyWithOper.substring(index + 2);
-//		if(!fieldColumnMapping.containsKey(key)) {
-//			return null;
-//		}
 		return QueryOperator.valueOf(operName).buildResult(getColumnByField(key), keyWithOper);
 	}
 	
@@ -421,6 +421,15 @@ public class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 			return null;
 		}
 		return "'" + StringEscapeUtils.escapeSql(value) + "'";
+	}
+	
+	protected <R> R outputLogInfoWithTimespan(long t1, R result, long t2, String logInfo) {
+		logger.info("[{}ms] {}", t2 - t1, logInfo);
+		return result;
+	}
+	
+	protected static long now() {
+		return System.currentTimeMillis();
 	}
 	
 }
