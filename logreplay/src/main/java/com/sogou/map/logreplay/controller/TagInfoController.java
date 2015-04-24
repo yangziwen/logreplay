@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -315,7 +315,7 @@ public class TagInfoController extends BaseService {
 		List<Column> columnList = isCommonTag
 				? COMMON_TAG_INFO_COLUMN_LIST
 				: TAG_INFO_COLUMN_LIST;
-		HSSFWorkbook workbook = ExcelExportUtil.exportDataList(columnList, dtoList);
+		Workbook workbook = ExcelExportUtil.exportDataList(columnList, dtoList);
 		String filename = ProductUtil.getCurrentProduct().getName() 
 				+ (isCommonTag? "_公共操作详情.xls": "_操作详情.xls");
 		return ExcelExportUtil.generateExcelResponse(workbook, filename);

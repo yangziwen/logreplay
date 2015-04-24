@@ -13,7 +13,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -78,7 +78,7 @@ public class PageInfoController extends BaseService {
 			.addParam("productId", ProductUtil.getProductId())
 			.orderByAsc("pageNo")
 		);
-		HSSFWorkbook workbook = ExcelExportUtil.exportDataList(PAGE_INFO_COLUMN_LIST, list);
+		Workbook workbook = ExcelExportUtil.exportDataList(PAGE_INFO_COLUMN_LIST, list);
 		String filename = ProductUtil.getCurrentProduct().getName() + "_“≥√ÊœÍ«È.xls";
 		return ExcelExportUtil.generateExcelResponse(workbook, filename);
 	}
