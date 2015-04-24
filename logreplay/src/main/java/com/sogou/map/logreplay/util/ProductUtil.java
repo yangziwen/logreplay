@@ -100,6 +100,12 @@ public class ProductUtil {
 		if(StringUtils.isBlank(version)) {
 			return 0;
 		}
+		try {	// version是科学记数法的情形
+			int v = Double.valueOf(Double.parseDouble(version)).intValue();
+			if(v > MAJOR_UNIT) {
+				return v;
+			}
+		} catch (NumberFormatException e) {}
 		if(NumberUtils.isNumber(version) && NumberUtils.toInt(version) > MAJOR_UNIT) {
 			return NumberUtils.toInt(version);
 		}

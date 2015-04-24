@@ -69,12 +69,13 @@ public class ExcelUtil {
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 		
 		while(rowIter.hasNext()) {
-			Iterator<Cell> cellIter = rowIter.next().cellIterator();
+			Row row = rowIter.next();
 			Map<String, String> map = new HashMap<String, String>();
 			list.add(map);
-			for(int i = 0; i < len && cellIter.hasNext(); i++) {
+			for(int i = 0; i < len; i++) {
+				Cell cell = row.getCell(i);
 				String key = headerList.get(i);
-				String value = cellIter.next().toString();
+				String value = cell != null? cell.toString(): null;
 				map.put(key, value);
 			}
 		}
