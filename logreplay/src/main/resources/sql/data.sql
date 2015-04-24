@@ -8,10 +8,10 @@ INSERT INTO `user_rel_role` (`user_id`, `role_id`) VALUES (1, 1);
 -- 产品信息
 insert into `product` (`id`, `name`) values('1','Android地图');
 insert into `product` (`id`, `name`) values('2','iOS地图');
-insert into `product` (`id`, `name`) values('4','iOS导航');
-insert into `product` (`id`, `name`) values('5','Android公交');
-insert into `product` (`id`, `name`) values('7','Android车机');
-insert into `product` (`id`, `name`) values('8','iOS车机');
+-- insert into `product` (`id`, `name`) values('4','iOS导航');
+-- insert into `product` (`id`, `name`) values('5','Android公交');
+-- insert into `product` (`id`, `name`) values('7','Android车机');
+-- insert into `product` (`id`, `name`) values('8','iOS车机');
 
 -- 操作动作
 insert into `tag_action` (`id`, `name`, `enabled`) values('1','打开','1');

@@ -22,8 +22,6 @@
 
 <%@ include file="../include/includeTopBar.jsp" %>
 
-<input type="hidden" id="J_currentRole" value="<%=AuthUtil.getCurrentRoleObj().getName()%>" />
-
 <div class="container" style="margin-bottom: 50px;">
 	<div class="row"><!-- row1 -->
 		<%@ include file="../include/includeLeftMenu.jsp" %>
@@ -61,14 +59,16 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="J_inspectMode" class="col-sm-2 control-label">校验模式：</label>
+								<label for="J_devInspectStatus" class="col-sm-2 control-label">自测结果：</label>
 								<div class="col-sm-4">
-									<select id="J_inspectMode" name="inspectMode" class="form-control">
-										<option value="dev" <shiro:hasRole name="dev">selected</shiro:hasRole>>开发模式</option>
-										<option value="test" <shiro:lacksRole name="dev">selected</shiro:lacksRole>>测试模式</option>
+									<select id="J_devInspectStatus" name="devInspectStatus" class="form-control">
+										<option value="">全部</option>
+										<option value="0">未校验</option>
+										<option value="1">校验正确</option>
+										<option value="2">校验错误</option>
 									</select>
 								</div>
-								<label for="J_inspectStatus" class="col-sm-2 control-label">校验状态：</label>
+								<label for="J_inspectStatus" class="col-sm-2 control-label">测试结果：</label>
 								<div class="col-sm-4">
 									<select id="J_inspectStatus" name="inspectStatus" class="form-control">
 										<option value="">全部</option>
@@ -106,14 +106,15 @@
 				     	<table class="table table-bordered table-striped table-condensed table-hover ">
 				     		<thead>
 				     			<tr>
-				     				<th style="width: 100px;">页面编号</th>
-				     				<th>页面名称</th>
-				     				<th style="width: 100px;">操作编号</th>
+				     				<th style="width: 85px;">页面编号</th>
+				     				<th style="width: 100px;">页面名称</th>
+				     				<th style="width: 85px;">操作编号</th>
 				     				<th>操作名称</th>
-				     				<th style="width: 100px;">操作动作</th>
-				     				<th style="width: 100px;">操作目标</th>
-				     				<th style="width: 100px;">初始版本</th>
-				     				<th style="width: 100px;">校验状态</th>
+				     				<th style="width: 85px;">操作动作</th>
+				     				<th style="width: 85px;">操作目标</th>
+				     				<th style="width: 85px;">初始版本</th>
+				     				<th style="width: 85px;">自测结果</th>
+				     				<th style="width: 85px;">测试结果</th>
 				     			</tr>
 				     		</thead>
 				     		<tbody id="J_tagInfoTbody">
@@ -127,7 +128,8 @@
 				     				<td>${'${'}$item.getActionName(actionId)}</td>
 				     				<td>${'${'}$item.getTargetName(targetId)}</td>
 									<td>${'${'}$item.displayOriginVersion(originVersion)}</td>
-				     				<td>{{html $item.displayInspectStatus($data)}}</td>
+				     				<td>{{html $item.displayInspectStatus(devInspectStatus)}}</td>
+									<td>{{html $item.displayInspectStatus(inspectStatus)}}</td>
 				     			</tr>
 							</script>
 				     	</table>

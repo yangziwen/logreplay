@@ -86,11 +86,11 @@ public class TagInfoController extends BaseService {
 			@QueryParam("originVersionSince") Integer originVersionSince,
 			@QueryParam("originVersionUntil") Integer originVersionUntil,
 			@QueryParam("inspectStatus") String inspectStatusStr,
-			@QueryParam("inspectMode") String inspectMode
+			@QueryParam("devInspectStatus") String devInspectStatusStr
 			) {
 		Page<TagInfo> page = tagInfoService.getTagInfoPageResult(start, limit, buildQueryParamMap(
 				pageNo, tagNo, pageName, tagName, updateBeginTime, updateEndTime, 
-				isCommonTag, originVersionSince, originVersionUntil, inspectStatusStr, inspectMode)
+				isCommonTag, originVersionSince, originVersionUntil, inspectStatusStr, devInspectStatusStr)
 		);
 		fillHasParamsFlag(page.getList());
 		return successResultToJson(page, JsonUtil.configInstance(), true);
@@ -286,11 +286,11 @@ public class TagInfoController extends BaseService {
 			@QueryParam("originVersionSince") Integer originVersionSince,
 			@QueryParam("originVersionUntil") Integer originVersionUntil,
 			@QueryParam("inspectStatus") String inspectStatusStr,
-			@QueryParam("inspectMode") String inspectMode
+			@QueryParam("devInspectStatus") String devInspectStatusStr
 			) {
 		List<TagInfo> list = tagInfoService.getTagInfoListResult(buildQueryParamMap(
 				pageNo, tagNo, pageName, tagName, updateBeginTime, updateEndTime, 
-				isCommonTag, originVersionSince, originVersionUntil, inspectStatusStr, inspectMode)
+				isCommonTag, originVersionSince, originVersionUntil, inspectStatusStr, devInspectStatusStr)
 		);
 		Map<Long, TagAction> actionMap = Maps.uniqueIndex(tagActionService.getTagActionListResult(), new Function<TagAction, Long>() {
 			@Override
@@ -334,9 +334,11 @@ public class TagInfoController extends BaseService {
 			Boolean isCommonTag,
 			Integer originVersionSince,
 			Integer originVersionUntil,
-			String inspectStatusStr,
-			String inspectMode) {
+			String inspectStatusStr,		// 测试结果
+			String devInspectStatusStr		// 自测结果
+			) {
 		InspectStatus inspectStatus = InspectStatus.from(NumberUtils.toInt(inspectStatusStr, -1));
+		InspectStatus devInspectStatus = InspectStatus.from(NumberUtils.toInt(devInspectStatusStr, -1));
 		List<Long> pageInfoIdList = new ArrayList<Long>();
 		if(StringUtils.isNotBlank(pageName)) {
 			List<PageInfo> pageInfoList = pageInfoService.getPageInfoListResult(new QueryParamMap()
@@ -347,7 +349,6 @@ public class TagInfoController extends BaseService {
 				pageInfoIdList.add(pageInfo.getId());
 			}
 		}
-		String inspectStatusField = Role.DEV.equals(inspectMode)? "devInspectStatus": "inspectStatus";
 		return new QueryParamMap()
 			.addParam("productId", ProductUtil.getProductId())
 			.addParam(pageNo != null, "pageNo", pageNo)
@@ -361,7 +362,8 @@ public class TagInfoController extends BaseService {
 			.addParam(Boolean.TRUE.equals(isCommonTag), "page_info.id__is_null")
 			.addParam(originVersionSince != null && originVersionSince > 0, "originVersion__ge", originVersionSince)
 			.addParam(originVersionUntil != null && originVersionUntil > 0 , "originVersion__le", originVersionUntil)
-			.addParam(inspectStatus != InspectStatus.UNKNOWN, inspectStatusField, inspectStatus.getIntValue())
+			.addParam(inspectStatus != InspectStatus.UNKNOWN, "inspectStatus", inspectStatus.getIntValue())
+			.addParam(devInspectStatus != InspectStatus.UNKNOWN, "devInspectStatus", devInspectStatus.getIntValue())
 			.orderByAsc("page_info.page_no").orderByAsc("tagNo");
 	}
 	

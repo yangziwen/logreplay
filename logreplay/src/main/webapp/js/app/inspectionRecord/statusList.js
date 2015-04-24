@@ -55,7 +55,6 @@ define(function(require, exports, module) {
 	}
 	
 	function renderTagInfoTbody(list) {
-		var inspectMode = $('#J_inspectMode').val();
 		$('#J_tagInfoTbody').empty().append($('#J_tagInfoTmpl').tmpl(list, {
 			getActionName: function(actionId) {
 				return tagActionDict[actionId] || '--';
@@ -66,10 +65,8 @@ define(function(require, exports, module) {
 			displayOriginVersion: function(originVersion) {
 				return common.formatAppVersion(originVersion) || '--';
 			},
-			displayInspectStatus: function(tagInfo) {
-				// 按选择框中的校验身份来决定显示devInspectStatus或inspectStatus;
-				var inspectStatus = 'dev' == inspectMode? tagInfo.devInspectStatus: tagInfo.inspectStatus;
-				switch(inspectStatus) {
+			displayInspectStatus: function(status) {
+				switch(status) {
 					case 0: return '<span class="label label-default">未校验</span>';
 					case 1: return '<span class="label label-success">校验正确</span>';
 					case 2: return '<span class="label label-danger">校验错误</span>';
@@ -107,8 +104,6 @@ define(function(require, exports, module) {
 		$('#J_clearBtn').on('click', function() {
 			start = 0;
 			common.clearForm($('#J_queryArea form'));
-			var currentRole = $('#J_currentRole').val();
-			$('#J_inspectMode').val(currentRole == 'dev'? 'dev': 'test');
 			refreshTagInfoTbl();
 		});
 	}
