@@ -9,6 +9,8 @@ import java.util.Map;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
 import com.sogou.map.logreplay.bean.ParamInfo;
 import com.sogou.map.logreplay.bean.TagAction;
@@ -17,7 +19,7 @@ import com.sogou.map.logreplay.bean.TagInfo.InspectStatus;
 import com.sogou.map.logreplay.bean.TagParam;
 import com.sogou.map.logreplay.bean.TagTarget;
 import com.sogou.map.logreplay.util.ProductUtil;
-import com.sogou.map.logreplay.util.ExcelExportUtil.DataContainer;
+import com.sogou.map.logreplay.util.ExcelUtil.DataContainer;
 
 /**
  * 仅用于excel导出
@@ -220,6 +222,10 @@ public class TagInfoDto implements DataContainer{
 
 	public void setTagParamComment(String tagParamComment) {
 		this.tagParamComment = tagParamComment;
+	}
+	
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
 
 	@Override

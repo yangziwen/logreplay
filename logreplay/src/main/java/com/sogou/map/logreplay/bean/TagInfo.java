@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * 操作项信息，分为“普通操作项”和“公共操作项”
  * “公共操作项”不关联特定的页面信息(PageInfo)，操作编号>10000
@@ -241,9 +243,22 @@ public class TagInfo extends AbstractBean {
 			return UNKNOWN;
 		}
 		
+		public static InspectStatus fromDescription(String description) {
+			if(StringUtils.isBlank(description)) {
+				return UNKNOWN;
+			}
+			for(InspectStatus status: values()) {
+				if(description.equals(status.description)) {
+					return status;
+				}
+			}
+			return UNKNOWN;
+		}
+		
 		public static String toDescription(Integer intValue) {
 			return from(intValue).getDescription();
 		}
+		
 	}
 	
 }

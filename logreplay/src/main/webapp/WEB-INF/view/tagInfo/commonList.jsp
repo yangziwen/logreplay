@@ -69,13 +69,14 @@
 			     <div class="col-sm-12"><hr /></div>
 			     <div class="col-sm-12">
 			     	<div class="row">
-			     		<div class="col-sm-3">
+			     		<div class="col-sm-4">
 			     			<shiro:hasRole name="admin">
 			     				<button class="btn btn-primary btn-lg-font" id="J_openCreateTagModalBtn" title="新增公共操作项">新增</button>
+			     				<button class="btn btn-primary btn-lg-font" id="J_openUploadExcelModalBtn" title="导入excel">导入</button>
 			     			</shiro:hasRole>
 		     				<button class="btn btn-primary btn-lg-font" id="J_exportTagInfoBtn" title="导出excel">导出</button>
 			     		</div>
-			     		<div id="J_pagebar" class="col-sm-9"></div>
+			     		<div id="J_pagebar" class="col-sm-8"></div>
 			     	</div>
 			     	<div style="margin-top: 20px;">
 				     	<table class="table table-bordered table-striped table-condensed table-hover ">
@@ -245,6 +246,36 @@
 				</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary update-tag-param" id="J_updateTagParamBtn" >更新</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 上传Excel的弹出层 -->
+<div class="modal" id="J_uploadExcelModal" tabindex="-1">
+    <div class="modal-dialog">
+    	<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title"><strong>导入操作项</strong></h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Excel文件：</label>
+						<div class="col-sm-9">
+							<input id="J_uploadExcelPath" type="text" class="form-control" disabled="disabled"/>
+						</div>
+						<div class="col-sm-9 col-sm-offset-3 hide">
+							<div id="J_uploadProgressBar" class="progress progress-striped" style="width: 100%; margin-top: 20px; margin-bottom: 0px;"></div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" id="J_browseExcelBtn" >浏览</button>
+				<button type="button" class="btn btn-primary" id="J_uploadExcelBtn" style="margin-left:5px;">上传</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 			</div>
 		</div><!-- /.modal-content -->

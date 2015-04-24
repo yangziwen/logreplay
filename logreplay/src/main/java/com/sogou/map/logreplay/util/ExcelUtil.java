@@ -1,11 +1,13 @@
 package com.sogou.map.logreplay.util;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +18,7 @@ import javax.ws.rs.core.StreamingOutput;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -28,12 +31,57 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
-public class ExcelExportUtil {
+public class ExcelUtil {
 
 	private static final int MAX_DATAROW_PER_SHEET = 65000;
 	
-	private ExcelExportUtil() {}
+	private ExcelUtil() {}
 	
+	// ------------ 导入相关 -------------- //
+	public static List<Map<String, String>> importMapList(InputStream in) {
+		try {
+			Workbook workbook = new HSSFWorkbook(in);
+			Sheet sheet = workbook.getSheetAt(0);
+			return readMapListFromSheet(sheet);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Collections.emptyList();
+		} finally {
+			IOUtils.closeQuietly(in);
+		}
+	}
+	
+	private static List<Map<String, String>> readMapListFromSheet(Sheet sheet) {
+		if(sheet == null) {
+			return Collections.emptyList();
+		}
+		Iterator<Row> rowIter = sheet.rowIterator();
+		if(!rowIter.hasNext()) {
+			return Collections.emptyList();
+		}
+		Iterator<Cell> headerIter = rowIter.next().cellIterator();
+		List<String> headerList = new ArrayList<String>();
+		while(headerIter.hasNext()) {
+			headerList.add(headerIter.next().toString());
+		}
+		int len = headerList.size();
+		
+		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+		
+		while(rowIter.hasNext()) {
+			Iterator<Cell> cellIter = rowIter.next().cellIterator();
+			Map<String, String> map = new HashMap<String, String>();
+			list.add(map);
+			for(int i = 0; i < len && cellIter.hasNext(); i++) {
+				String key = headerList.get(i);
+				String value = cellIter.next().toString();
+				map.put(key, value);
+			}
+		}
+		return list;
+	}
+	
+	// ------------ 导出相关 -------------- //
 	public static Response generateExcelResponse(final Workbook workbook, String filename) {
 		try {
 			filename = new String(filename.getBytes("GBK"),"iso-8859-1");

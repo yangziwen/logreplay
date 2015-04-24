@@ -1,11 +1,13 @@
 package com.sogou.map.logreplay.controller;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -13,6 +15,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -21,6 +24,7 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.ModelMap;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
@@ -41,12 +45,15 @@ import com.sogou.map.logreplay.service.TagInfoService;
 import com.sogou.map.logreplay.service.TagParamService;
 import com.sogou.map.logreplay.service.TagTargetService;
 import com.sogou.map.logreplay.util.AuthUtil;
-import com.sogou.map.logreplay.util.ExcelExportUtil;
-import com.sogou.map.logreplay.util.ExcelExportUtil.CellType;
-import com.sogou.map.logreplay.util.ExcelExportUtil.Column;
+import com.sogou.map.logreplay.util.ExcelUtil;
+import com.sogou.map.logreplay.util.ExcelUtil.CellType;
+import com.sogou.map.logreplay.util.ExcelUtil.Column;
 import com.sogou.map.logreplay.util.JsonUtil;
 import com.sogou.map.logreplay.util.ProductUtil;
+import com.sogou.map.logreplay.util.TagFields;
 import com.sogou.map.mengine.common.service.BaseService;
+import com.sun.jersey.multipart.FormDataBodyPart;
+import com.sun.jersey.multipart.FormDataMultiPart;
 
 @Component
 @Path("/tagInfo")
@@ -275,7 +282,7 @@ public class TagInfoController extends BaseService {
 	
 	@GET
 	@Path("/export")
-	public Response export(
+	public Response exportTagInfos(
 			@QueryParam("pageNo") Integer pageNo,
 			@QueryParam("tagNo") Integer tagNo,
 			@QueryParam("pageName") String pageName,
@@ -315,10 +322,10 @@ public class TagInfoController extends BaseService {
 		List<Column> columnList = isCommonTag
 				? COMMON_TAG_INFO_COLUMN_LIST
 				: TAG_INFO_COLUMN_LIST;
-		Workbook workbook = ExcelExportUtil.exportDataList(columnList, dtoList);
+		Workbook workbook = ExcelUtil.exportDataList(columnList, dtoList);
 		String filename = ProductUtil.getCurrentProduct().getName() 
 				+ (isCommonTag? "_公共操作详情.xls": "_操作详情.xls");
-		return ExcelExportUtil.generateExcelResponse(workbook, filename);
+		return ExcelUtil.generateExcelResponse(workbook, filename);
 	}
 	
 	/**
@@ -370,25 +377,121 @@ public class TagInfoController extends BaseService {
 	private static List<Column> buildTagInfoColumnList(boolean isCommonTag) {
 		List<Column> columnList = new ArrayList<Column>();
 		if(!isCommonTag) {
-			columnList.add(ExcelExportUtil.column("页面编号", "pageNo", 3000, CellType.number));
-			columnList.add(ExcelExportUtil.column("页面名称", "pageName", 8000, CellType.text));
+			columnList.add(ExcelUtil.column(TagFields.pageNo, "pageNo", 3000, CellType.number));
+			columnList.add(ExcelUtil.column(TagFields.pageName, "pageName", 8000, CellType.text));
 		}
-		columnList.add(ExcelExportUtil.column("操作编号", "tagNo", 3000, CellType.number));
-		columnList.add(ExcelExportUtil.column("操作项名称", "tagName", 10000, CellType.text));
+		columnList.add(ExcelUtil.column(TagFields.tagNo, "tagNo", 3000, CellType.number));
+		columnList.add(ExcelUtil.column(TagFields.tagName, "tagName", 10000, CellType.text));
 		
-		columnList.add(ExcelExportUtil.column("操作动作", "actionName", 3000, CellType.text));
-		columnList.add(ExcelExportUtil.column("操作目标", "targetName", 3000, CellType.text));
+		columnList.add(ExcelUtil.column(TagFields.actionName, "actionName", 3000, CellType.text));
+		columnList.add(ExcelUtil.column(TagFields.targetName, "targetName", 3000, CellType.text));
 		
-		columnList.add(ExcelExportUtil.column("初始版本", "originVersionDisplay", 3000, CellType.text));
-		columnList.add(ExcelExportUtil.column("开发校验结果", "devInspectStatus", 4000, CellType.text));
-		columnList.add(ExcelExportUtil.column("测试校验结果", "inspectStatus", 4000, CellType.text));
+		columnList.add(ExcelUtil.column(TagFields.originVersionDisplay, "originVersionDisplay", 3000, CellType.text));
+		columnList.add(ExcelUtil.column(TagFields.devInspectStatus, "devInspectStatus", 4000, CellType.text));
+		columnList.add(ExcelUtil.column(TagFields.inspectStatus, "inspectStatus", 4000, CellType.text));
 		
-		columnList.add(ExcelExportUtil.column("操作项备注", "comment", 6000, CellType.text));
+		columnList.add(ExcelUtil.column(TagFields.comment, "comment", 6000, CellType.text));
 		
-		columnList.add(ExcelExportUtil.column("操作参数", "tagParamDisplay", 10000, CellType.text));
-		columnList.add(ExcelExportUtil.column("操作参数备注", "tagParamComment", 10000, CellType.text));
+		columnList.add(ExcelUtil.column(TagFields.tagParamDisplay, "tagParamDisplay", 10000, CellType.text));
+		columnList.add(ExcelUtil.column(TagFields.tagParamComment, "tagParamComment", 10000, CellType.text));
 		
 		return columnList;
+	}
+	
+	@POST
+	@Path("/import")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public Response importTagInfos(FormDataMultiPart multiPartData) {
+		if(!AuthUtil.hasRole(Role.ADMIN)) {
+			throw LogReplayException.unauthorizedException("Role[admin] is required!");
+		}
+		FormDataBodyPart filePart = multiPartData.getField("file");
+		List<Map<String, String>> mapList = ExcelUtil.importMapList(filePart.getValueAs(InputStream.class));
+		List<TagInfoDto> dtoList = TagFields.convertToTagInfoDtoList(mapList);
+		int count = importTagInfoByDtoList(dtoList);
+		return successResultToJson(new ModelMap("count", count), true);
+	}
+	
+	public int importTagInfoByDtoList(List<TagInfoDto> dtoList) {
+		Map<Integer, PageInfo> pageInfoMap = Maps.newHashMap();
+		pageInfoMap.put(0, new PageInfo());			// 遇到“公共操作项”时，pageNo会被解析为0
+		pageInfoMap.put(null, new PageInfo());		// 插入个空key，以防万一
+		
+		Map<String, TagAction> actionMap = Maps.newHashMap();
+		List<TagAction> actionList = tagActionService.getTagActionListResult();
+		for(TagAction action: actionList) {
+			actionMap.put(action.getName(), action);
+		}
+		
+		Map<String, TagTarget> targetMap = Maps.newHashMap();
+		List<TagTarget> targetList = tagTargetService.getTagTargetListResult();
+		for(TagTarget target: targetList) {
+			targetMap.put(target.getName(), target);
+		}
+		
+		int cnt = 0;
+		for(TagInfoDto tagInfoDto: dtoList) {
+			if(createTagInfoByDto(tagInfoDto, pageInfoMap, actionMap, targetMap)) {
+				cnt ++;
+			}
+		}
+		return cnt;
+	}
+	
+	private PageInfo getOrCreatePageInfoIfNotExist(Integer pageNo, String pageName) {
+		if(pageNo <= 0) {
+			return null;
+		}
+		PageInfo pageInfo = pageInfoService.getPageInfoByPageNoAndProductId(pageNo, ProductUtil.getProductId());
+		if(pageInfo == null) {
+			pageInfo = new PageInfo(pageNo, pageName);
+			pageInfoService.createPageInfo(pageInfo);
+		}
+		return pageInfo;
+	}
+	
+	private boolean createTagInfoByDto(
+			TagInfoDto tagInfoDto, 
+			Map<Integer, PageInfo> pageInfoMap,		// Map<PageNo, PageInfo>
+			Map<String, TagAction> actionMap,		// Map<TagAction.name, TagAction>
+			Map<String, TagTarget> targetMap) {		// Map<TagTarget.name, TagTarget>
+		
+		if(tagInfoService.getTagInfoByPageNoTagNoAndProductId(
+				tagInfoDto.getPageNo(), 
+				tagInfoDto.getTagNo(), 
+				ProductUtil.getProductId()) != null) {
+			return false;
+		}
+		
+		if(!pageInfoMap.containsKey(tagInfoDto.getPageNo())) {
+			PageInfo pageInfo = getOrCreatePageInfoIfNotExist(tagInfoDto.getPageNo(), tagInfoDto.getPageName());
+			if(pageInfo != null) {
+				pageInfoMap.put(pageInfo.getPageNo(), pageInfo);
+			}
+		}
+		PageInfo pageInfo = pageInfoMap.get(tagInfoDto.getPageNo());
+		
+		TagInfo tagInfo = new TagInfo();
+		tagInfo.setProductId(ProductUtil.getProductId());
+		tagInfo.setPageInfoId(pageInfo.getId());
+		tagInfo.setPageNo(tagInfoDto.getPageNo());
+		tagInfo.setTagNo(tagInfoDto.getTagNo());
+		tagInfo.setName(tagInfoDto.getTagName());
+		tagInfo.setActionId(actionMap.get(tagInfoDto.getActionName()).getId());
+		tagInfo.setTargetId(targetMap.get(tagInfoDto.getTargetName()).getId());
+		tagInfo.setComment(tagInfoDto.getComment());
+		tagInfo.setDevInspectStatus(InspectStatus.UNCHECKED.getIntValue());
+		tagInfo.setInspectStatus(InspectStatus.UNCHECKED.getIntValue());
+		tagInfo.setOriginVersion(tagInfoDto.getOriginVersion());
+		tagInfoService.createTagInfo(tagInfo);
+		
+		TagParam tagParam = tagInfoDto.getTagParam();
+		if(tagParam != null) {
+			tagParam.setTagInfoId(tagInfo.getId());
+			tagParamService.renewTagParamAndParamInfo(tagParam, tagParam.getParamInfoList());
+		}
+		
+		return true;
 	}
 	
 }

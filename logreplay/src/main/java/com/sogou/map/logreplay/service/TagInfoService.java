@@ -56,5 +56,5 @@ public class TagInfoService {
 		info.setCreateTime(new Timestamp(System.currentTimeMillis()));
 		tagInfoDao.save(info);
 	}
-
+	
 }

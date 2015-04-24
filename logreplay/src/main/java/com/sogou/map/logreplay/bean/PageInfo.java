@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
-import com.sogou.map.logreplay.util.ExcelExportUtil.DataContainer;
+import com.sogou.map.logreplay.util.ExcelUtil.DataContainer;
 
 /**
  * “≥√Ê–≈œ¢

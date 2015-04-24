@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 
 import com.google.common.collect.Lists;
 import com.sogou.map.logreplay.bean.Product;
@@ -93,6 +94,25 @@ public class ProductUtil {
 			list.add(revision);
 		}
 		return StringUtils.join(list, '.');
+	}
+	
+	public static Integer parseAppVersion(String version) {
+		if(StringUtils.isBlank(version)) {
+			return 0;
+		}
+		if(NumberUtils.isNumber(version) && NumberUtils.toInt(version) > MAJOR_UNIT) {
+			return NumberUtils.toInt(version);
+		}
+		String[] arr = StringUtils.split(version, '.');
+		for(int i = 0, l = arr.length; i < l; i++) {
+			if(!NumberUtils.isNumber(arr[i])) {
+				return 0;
+			}
+		}
+		int major = NumberUtils.toInt(arr[0]),
+			minor = arr.length > 1? NumberUtils.toInt(arr[1]): 0,
+			revision = arr.length > 2? NumberUtils.toInt(arr[2]): 0;
+		return major * MAJOR_UNIT + minor * MINOR_UNIT + revision * REVISION_UNIT;
 	}
 	
 }

@@ -25,8 +25,8 @@ import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.exception.LogReplayException;
 import com.sogou.map.logreplay.service.PageInfoService;
 import com.sogou.map.logreplay.util.AuthUtil;
-import com.sogou.map.logreplay.util.ExcelExportUtil;
-import com.sogou.map.logreplay.util.ExcelExportUtil.Column;
+import com.sogou.map.logreplay.util.ExcelUtil;
+import com.sogou.map.logreplay.util.ExcelUtil.Column;
 import com.sogou.map.logreplay.util.JsonUtil;
 import com.sogou.map.logreplay.util.ProductUtil;
 import com.sogou.map.mengine.common.bo.ApiException;
@@ -78,9 +78,9 @@ public class PageInfoController extends BaseService {
 			.addParam("productId", ProductUtil.getProductId())
 			.orderByAsc("pageNo")
 		);
-		Workbook workbook = ExcelExportUtil.exportDataList(PAGE_INFO_COLUMN_LIST, list);
+		Workbook workbook = ExcelUtil.exportDataList(PAGE_INFO_COLUMN_LIST, list);
 		String filename = ProductUtil.getCurrentProduct().getName() + "_页面详情.xls";
-		return ExcelExportUtil.generateExcelResponse(workbook, filename);
+		return ExcelUtil.generateExcelResponse(workbook, filename);
 	}
 	
 	@GET
@@ -178,9 +178,9 @@ public class PageInfoController extends BaseService {
 	}
 	
 	private static List<Column> buildPageInfoColumnList() {
-		List<ExcelExportUtil.Column> columnList = Lists.newArrayList(
-				ExcelExportUtil.column("页面编号", "pageNo", 3000, ExcelExportUtil.CellType.number),
-				ExcelExportUtil.column("页面名称", "name", 8000, ExcelExportUtil.CellType.text)
+		List<ExcelUtil.Column> columnList = Lists.newArrayList(
+				ExcelUtil.column("页面编号", "pageNo", 3000, ExcelUtil.CellType.number),
+				ExcelUtil.column("页面名称", "name", 8000, ExcelUtil.CellType.text)
 		);
 		return columnList;
 	}

@@ -3,6 +3,8 @@ define(function(require, exports, module) {
 	"use strict";
 
 	require('jquery.tmpl');
+	require('bootstrap.browsefilebtn');
+	require('bootstrap.uploadfilebtn');
 	require('bootstrap.pagebar');
 	var $ = require('jquery'),
 		common = require('app/common'),
@@ -303,6 +305,63 @@ define(function(require, exports, module) {
 		});
 	}
 	
+	/** excel导入 **/
+	function initOpenUploadExcelModalBtn() {
+		var $modal = $('#J_uploadExcelModal');
+		$('#J_openUploadExcelModalBtn').on('click', function() {
+			$modal.find('.modal-dialog').css({
+				width: 500,
+				'margin-top': function() {
+					return ( $(window).height() - $(this).height() ) / 3;
+				}
+			});
+			$modal.modal({
+				backdrop: 'static'
+			});
+		});
+		$modal.on('hide.bs.modal', function() {
+			$('#J_uploadExcelPath').val('');
+		});
+	}
+	
+	function initBrowseExcelBtn() {
+		$('#J_browseExcelBtn').bootstrapBrowseFileBtn({
+			pathTxt: '#J_uploadExcelPath',
+			browseBtn: '#J_browseExcelBtn',
+			fileInputId: 'J_uploadExcelInput',
+			fileInputName: 'file'
+		});
+	}
+
+	function initUploadExcelBtn() {
+		$('#J_uploadExcelBtn').bootstrapUploadFileBtn({
+			progressBar: '#J_uploadProgressBar',
+			fileInput: '#J_uploadExcelInput',
+			url: CTX_PATH + '/tagInfo/import',
+			validator: function() {
+				var fileName = $('#J_uploadExcelInput').val();
+				if(!fileName){
+					common.alertMsg('请先选择要上传的Excel文件!');
+					return false;
+				}
+				return true;
+			},
+			success: function(data,ev) {
+				common.alertMsg('导入[' + data.response.count + ']条数据');
+				$('#J_uploadExcelModal').modal('hide');
+				refreshTagInfoTbl();
+			},
+			error: function(status, ev) {common.alertMsg('导入失败');},
+			unsupport: function() {common.alertMsg('不支持当前浏览器');}
+		});
+	}
+	
+	function initUploadExcel() {
+		initOpenUploadExcelModalBtn();
+		initBrowseExcelBtn();
+		initUploadExcelBtn();
+	}
+	
 	function init() {
 		$.when(refreshTagActionOptions(), refreshTagTargetOptions())
 		.done(function() {
@@ -316,6 +375,7 @@ define(function(require, exports, module) {
 		initQueryBtn();
 		initClearBtn();
 		initExportTagInfoBtn();
+		initUploadExcel();
 	}
 	
 	module.exports = {init: init};
