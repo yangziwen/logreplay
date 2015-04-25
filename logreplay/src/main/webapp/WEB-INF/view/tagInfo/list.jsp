@@ -91,13 +91,13 @@
 				     	<table class="table table-bordered table-striped table-condensed table-hover ">
 				     		<thead>
 				     			<tr>
-				     				<th style="width: 100px;">页面编号</th>
-				     				<th>页面名称</th>
-				     				<th style="width: 100px;">操作编号</th>
+				     				<th style="width: 85px;">页面编号</th>
+				     				<th style="min-width: 85px">页面名称</th>
+				     				<th style="width: 85px;">操作编号</th>
 				     				<th>操作名称</th>
-				     				<th style="width: 100px;">操作动作</th>
-				     				<th style="width: 100px;">操作目标</th>
-				     				<th style="width: 100px;">初始版本</th>
+				     				<th style="width: 85px;">操作动作</th>
+				     				<th style="width: 85px;">操作目标</th>
+				     				<th style="width: 85px;">初始版本</th>
 				     				<shiro:hasRole name="admin">
 				     				<th style="width: 130px;">管理</th>
 				     				</shiro:hasRole>
