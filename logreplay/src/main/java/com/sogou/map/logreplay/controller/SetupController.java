@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
@@ -25,8 +23,8 @@ import com.sogou.map.logreplay.bean.PageInfo;
 import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.TagAction;
 import com.sogou.map.logreplay.bean.TagInfo;
-import com.sogou.map.logreplay.bean.TagTarget;
 import com.sogou.map.logreplay.bean.TagInfo.InspectStatus;
+import com.sogou.map.logreplay.bean.TagTarget;
 import com.sogou.map.logreplay.dao.PageInfoDao;
 import com.sogou.map.logreplay.dao.TagActionDao;
 import com.sogou.map.logreplay.dao.TagInfoDao;
@@ -42,7 +40,8 @@ import com.sogou.map.mengine.common.service.BaseService;
  * 仅作初始化导入用，后续已没有实际用途
  */
 @Component
-@Path("/setup")
+//@Path("/setup")
+@Deprecated
 public class SetupController extends BaseService {
 	
 	@Autowired
@@ -57,8 +56,9 @@ public class SetupController extends BaseService {
 	@Autowired
 	private TagActionDao tagActionDao;
 	
-	@GET
-	@Path("/tagAction/import")
+//	@GET
+//	@Path("/tagAction/import")
+	@Deprecated
 	public Response importTagAction(
 			@QueryParam("filePath") String filePath) {
 		if(!AuthUtil.hasRole(Role.ADMIN)) {
@@ -85,8 +85,9 @@ public class SetupController extends BaseService {
 		return successResultToJson("success", true);
 	}
 	
-	@GET
-	@Path("/tagTarget/import")
+//	@GET
+//	@Path("/tagTarget/import")
+	@Deprecated
 	public Response importTagTarget(
 			@QueryParam("filePath") String filePath) {
 		if(!AuthUtil.hasRole(Role.ADMIN)) {
@@ -113,8 +114,9 @@ public class SetupController extends BaseService {
 		return successResultToJson("success", true);
 	}
 	
-	@GET
-	@Path("/pageInfo/import")
+//	@GET
+//	@Path("/pageInfo/import")
+	@Deprecated
 	public Response importPageInfo(
 			@QueryParam("filePath") String filePath) {
 		if(!AuthUtil.hasRole(Role.ADMIN)) {
@@ -150,8 +152,9 @@ public class SetupController extends BaseService {
 		return successResultToJson("success", true);
 	}
 	
-	@GET
-	@Path("/commonTagInfo/import")
+//	@GET
+//	@Path("/commonTagInfo/import")
+	@Deprecated
 	public Response importCommonTagInfo(
 			@QueryParam("filePath") String filePath) {
 		if(!AuthUtil.hasRole(Role.ADMIN)) {
@@ -211,8 +214,9 @@ public class SetupController extends BaseService {
 		return successResultToJson("success", true);
 	}
 	
-	@GET
-	@Path("/tagInfo/import")
+//	@GET
+//	@Path("/tagInfo/import")
+	@Deprecated
 	public Response importTagInfo(
 			@QueryParam("filePath") String filePath) {
 		if(!AuthUtil.hasRole(Role.ADMIN)) {
