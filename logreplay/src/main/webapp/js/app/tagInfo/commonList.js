@@ -223,6 +223,31 @@ define(function(require, exports, module) {
 	}
 	/** 修改tagInfo结束 **/
 	
+	/** 删除tagInfo开始 **/
+	function initDeleteTagInfoBtn() {
+		$("#J_tagInfoTbody").on('click', '.delete-tag-btn', function() {
+			var $tr = $(this).parents('tr').eq(0);
+			var $tds = $tr.children('td'),
+				id = $tr.data('id');
+			var tagNo = $tds.eq(0).text(),
+				tagName = $tds.eq(1).text();
+			common.confirmMsg('确定要删除如下操作项? <br/> [t' + tagNo + '] [' + tagName + ']').done(function(result) {
+				if(!result) {
+					return;
+				}
+				$.post(CTX_PATH + '/tagInfo/delete', {id: id}, function(data) {
+					if(data && data.code === 0) {
+						common.alertMsg('删除成功!');
+						refreshTagInfoTbl();
+					} else {
+						common.alertMsg('删除失败!');
+					}
+				});
+			});
+		});
+	}
+	/** 删除tagInfo结束 **/
+	
 	/** 更新tagParam开始 **/
 	var paramNameList = ['num', 'idx', 'type', 'key', 'color', 'cont', 'mode', 'sum', 'choose', 'subway', 'info', 'value'];
 	
@@ -429,6 +454,7 @@ define(function(require, exports, module) {
 		initUpdateTagInfoBtn();
 		initOpenUpdateTagParamModalBtn();
 		initAddNewTagParamBtn();
+		initDeleteTagInfoBtn();
 		initUpdateTagParamBtn();
 		initQueryBtn();
 		initClearBtn();

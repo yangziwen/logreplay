@@ -166,6 +166,32 @@ define(function(require, exports, module) {
 	}
 	/** 更新tagInfo结束 **/
 	
+	/** 删除tagInfo开始 **/
+	function initDeleteTagInfoBtn() {
+		$("#J_tagInfoTbody").on('click', '.delete-tag-btn', function() {
+			var $tr = $(this).parents('tr').eq(0);
+			var $tds = $tr.children('td'),
+				id = $tr.data('id');
+			var pageNo = $tds.eq(0).text(),
+				tagNo = $tds.eq(2).text(),
+				tagName = $tds.eq(3).text();
+			common.confirmMsg('确定要删除如下操作项? <br/> [p' + pageNo + '][t' + tagNo + '] [' + tagName + ']').done(function(result) {
+				if(!result) {
+					return;
+				}
+				$.post(CTX_PATH + '/tagInfo/delete', {id: id}, function(data) {
+					if(data && data.code === 0) {
+						common.alertMsg('删除成功!');
+						refreshTagInfoTbl();
+					} else {
+						common.alertMsg('删除失败!');
+					}
+				});
+			});
+		});
+	}
+	/** 删除tagInfo结束 **/
+	
 	/** 更新tagParam开始 **/
 	var paramNameList = ['num', 'idx', 'type', 'key', 'color', 'cont', 'mode', 'sum', 'choose', 'subway', 'info', 'value'];
 	
@@ -371,6 +397,7 @@ define(function(require, exports, module) {
 		initOpenUpdateTagParamModalBtn();
 		initUpdateTagInfoBtn();
 		initAddNewTagParamBtn();
+		initDeleteTagInfoBtn();
 		initUpdateTagParamBtn();
 		initQueryBtn();
 		initClearBtn();

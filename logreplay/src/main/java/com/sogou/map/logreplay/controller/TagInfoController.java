@@ -241,6 +241,23 @@ public class TagInfoController extends BaseService {
 		
 	}
 	
+	@POST
+	@Path("/delete")
+	public Response delete(@FormParam("id") Long id) {
+		if(!AuthUtil.hasRole(Role.ADMIN)) {
+			throw LogReplayException.unauthorizedException("Role[admin] is required!");
+		}
+		if(id == null || id <= 0) {
+			throw LogReplayException.invalidParameterException("Parameters are invalid!");
+		}
+		try {
+			tagInfoService.deleteTagInfoById(id);
+			return successResultToJson(String.format("TagInfo[%d] is deleted successfully!", id), true);
+		} catch (Exception e) {
+			throw LogReplayException.operationFailedException(String.format("Failed to delete TagInfo[%d]!", id));
+		}
+	}
+	
 	@GET
 	@Path("/checkDuplication")
 	public Response checkDuplication(

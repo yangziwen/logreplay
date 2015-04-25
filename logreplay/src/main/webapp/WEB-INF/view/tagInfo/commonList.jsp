@@ -88,7 +88,7 @@
 				     				<th style="width: 100px;">操作目标</th>
 				     				<th style="width: 100px;">初始版本</th>
 				     				<shiro:hasRole name="admin">
-				     				<th style="width: 100px;">管理</th>
+				     				<th style="width: 130px;">管理</th>
 				     				</shiro:hasRole>
 				     			</tr>
 				     		</thead>
@@ -104,6 +104,7 @@
 									<shiro:hasRole name="admin">
 				     				<td>
 				     					<button class="btn btn-primary btn-xs open-update-tag-modal">修改</button>
+										<button class="btn btn-primary btn-xs delete-tag-btn">删除</button>
 				     					<button class="btn btn-xs open-update-tag-param-modal ${'${'}$item.getParamBtnClass(hasParams)}">参数</button>
 				     				</td>
 									</shiro:hasRole>
