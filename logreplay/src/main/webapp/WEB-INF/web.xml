@@ -40,7 +40,7 @@
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
 	</filter-mapping>
-
+	
 	<filter>
 		<filter-name>productFilter</filter-name>
 		<filter-class>com.sogou.map.logreplay.filter.ProductFilter</filter-class>
@@ -56,6 +56,16 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>forwardToJSPFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- deal with LogReplayException -->
+	<filter>
+		<filter-name>logReplayExceptionFilter</filter-name>
+		<filter-class>com.sogou.map.logreplay.filter.LogReplayExceptionFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>logReplayExceptionFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 		

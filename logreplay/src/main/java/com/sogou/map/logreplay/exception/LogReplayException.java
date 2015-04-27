@@ -3,6 +3,8 @@ package com.sogou.map.logreplay.exception;
 @SuppressWarnings("serial")
 public class LogReplayException extends RuntimeException {
 	
+	public static final int UNEXPECTED_ERROR_ID = 999;
+	
 	private int errorId;
 	private String errorMsg;
 
