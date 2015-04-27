@@ -16,13 +16,13 @@ import com.sogou.map.logreplay.util.JsonUtil;
  */
 public abstract class BaseController {
 
-	protected <T> Response successResultToJson(T response, boolean notCached) {
-		return successResultToJson(response, new JsonConfig(), notCached);
+	protected <T> Response successResultToJson(T response, boolean noCache) {
+		return successResultToJson(response, new JsonConfig(), noCache);
 	}
 	
-	protected <T> Response successResultToJson(T response, JsonConfig jsonConfig, boolean cachable) {
+	protected <T> Response successResultToJson(T response, JsonConfig jsonConfig, boolean noCache) {
 		CacheControl cacheControl = new CacheControl();
-		cacheControl.setNoCache(cachable);
+		cacheControl.setNoCache(noCache);
 		return successResultToJson(response, jsonConfig, cacheControl);
 	}
 	

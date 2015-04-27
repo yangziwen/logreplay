@@ -21,6 +21,11 @@ public class LogReplayException extends RuntimeException {
 		this.errorMsg = errorMsg;
 	}
 	
+	@Override
+	public Throwable fillInStackTrace() {
+		return this;
+	}
+	
 	public static NotExistException notExistException(String errorMsg) {
 		return new NotExistException(errorMsg);
 	}
