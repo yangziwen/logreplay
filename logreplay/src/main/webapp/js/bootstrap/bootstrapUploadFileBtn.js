@@ -72,6 +72,9 @@ define(function(require){
 					xhr.open("POST", uploadUrl);
 					xhr.send(fd);
 					$uploadBtn.html('上传中').attr({disabled: true});
+					
+					// 应对有些浏览器在执行上传操作后，input[type=file]不再响应change事件的问题
+					$(opts.fileInput).replaceWith($(opts.fileInput).clone());
 				});
 			}
 		});

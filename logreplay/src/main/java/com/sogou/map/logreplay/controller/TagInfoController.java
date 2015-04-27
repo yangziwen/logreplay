@@ -494,8 +494,12 @@ public class TagInfoController extends BaseService {
 		tagInfo.setPageNo(tagInfoDto.getPageNo());
 		tagInfo.setTagNo(tagInfoDto.getTagNo());
 		tagInfo.setName(tagInfoDto.getTagName());
-		tagInfo.setActionId(actionMap.get(tagInfoDto.getActionName()).getId());
-		tagInfo.setTargetId(targetMap.get(tagInfoDto.getTargetName()).getId());
+		tagInfo.setActionId(actionMap.containsKey(tagInfoDto.getActionName())
+				? actionMap.get(tagInfoDto.getActionName()).getId()
+				: null);
+		tagInfo.setTargetId(targetMap.containsKey(tagInfoDto.getTargetName())
+				? targetMap.get(tagInfoDto.getTargetName()).getId()
+				: null);
 		tagInfo.setComment(tagInfoDto.getComment());
 		tagInfo.setDevInspectStatus(InspectStatus.UNCHECKED.getIntValue());
 		tagInfo.setInspectStatus(InspectStatus.UNCHECKED.getIntValue());

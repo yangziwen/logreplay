@@ -10,4 +10,4 @@ static_path是静态文件的根路径，目前使用contextPath。
  --%>
 <c:set var="static_path" value="${pageContext.request.contextPath}" />
 <c:set var="request_uri" value="${pageContext.request.requestURI}" />
-<c:set var="static_version" value="20150425" /><%-- 静态文件的版本号 --%>
+<c:set var="static_version" value="20150427" /><%-- 静态文件的版本号 --%>

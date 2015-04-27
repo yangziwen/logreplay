@@ -66,10 +66,10 @@ define(function(require){
 						'cursor': 'pointer'
 					});
 					$wrapper.append($fileLabel).append($fileInput);
-					$fileInput.on('change', function(){
+					$wrapper.on('change', 'input[type=file]', function() {
 						$this.attr('data-path', this.value);
-						$pathTxt.val(this.value);
-					});
+						$(options.pathTxt).val(this.value);
+					})
 					return $fileInput;
 				}
 			}
