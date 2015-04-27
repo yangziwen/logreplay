@@ -1,4 +1,4 @@
-package com.sogou.map.logreplay.bean;
+package com.sogou.map.logreplay.bean.base;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;

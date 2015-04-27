@@ -22,6 +22,7 @@ import com.sogou.map.logreplay.bean.PageInfo;
 import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.bean.User;
+import com.sogou.map.logreplay.controller.base.BaseController;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.dto.InspectionRecordDto;
@@ -33,11 +34,10 @@ import com.sogou.map.logreplay.service.UserService;
 import com.sogou.map.logreplay.util.AuthUtil;
 import com.sogou.map.logreplay.util.JsonUtil;
 import com.sogou.map.logreplay.util.ProductUtil;
-import com.sogou.map.mengine.common.service.BaseService;
 
 @Component
 @Path("/inspectionRecord")
-public class InspectionRecordController extends BaseService {
+public class InspectionRecordController extends BaseController {
 	
 	@Autowired
 	private UserService userService;

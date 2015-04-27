@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import com.google.common.collect.Lists;
 import com.sogou.map.logreplay.bean.PageInfo;
 import com.sogou.map.logreplay.bean.Role;
+import com.sogou.map.logreplay.controller.base.BaseController;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.exception.LogReplayException;
@@ -29,12 +30,10 @@ import com.sogou.map.logreplay.util.ExcelUtil;
 import com.sogou.map.logreplay.util.ExcelUtil.Column;
 import com.sogou.map.logreplay.util.JsonUtil;
 import com.sogou.map.logreplay.util.ProductUtil;
-import com.sogou.map.mengine.common.bo.ApiException;
-import com.sogou.map.mengine.common.service.BaseService;
 
 @Component
 @Path("/pageInfo")
-public class PageInfoController extends BaseService {
+public class PageInfoController extends BaseController {
 	
 	private static final List<Column> PAGE_INFO_COLUMN_LIST = buildPageInfoColumnList();
 	
@@ -101,7 +100,7 @@ public class PageInfoController extends BaseService {
 	@Path("/update/{id}")
 	public Response update(@PathParam("id") Long id,
 			@FormParam("pageNo") Integer pageNo,
-			@FormParam("name") String name) throws ApiException {
+			@FormParam("name") String name) {
 		if(!AuthUtil.hasRole(Role.ADMIN)) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
@@ -127,7 +126,7 @@ public class PageInfoController extends BaseService {
 	public Response create(
 			@FormParam("pageNo") Integer pageNo,
 			@FormParam("name") String name
-			) throws ApiException {
+			) {
 		if(!AuthUtil.hasRole(Role.ADMIN)) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}

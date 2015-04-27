@@ -44,6 +44,7 @@ import com.sogou.map.logreplay.bean.PageInfo;
 import com.sogou.map.logreplay.bean.ParamInfo;
 import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.TagInfo;
+import com.sogou.map.logreplay.controller.base.BaseController;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.dto.OperationRecordDto;
 import com.sogou.map.logreplay.dto.OperationRecordDto.TagParamParsedResult;
@@ -56,18 +57,17 @@ import com.sogou.map.logreplay.service.PageInfoService;
 import com.sogou.map.logreplay.service.TagInfoService;
 import com.sogou.map.logreplay.service.TagParamService;
 import com.sogou.map.logreplay.util.AuthUtil;
+import com.sogou.map.logreplay.util.IPUtil;
 import com.sogou.map.logreplay.util.JsonUtil;
 import com.sogou.map.logreplay.util.ProductUtil;
 import com.sogou.map.logreplay.util.TagParamParser;
 import com.sogou.map.logreplay.util.TagParamParser.ParamInfoHolder;
-import com.sogou.map.mengine.common.service.BaseService;
-import com.sogou.map.mengine.http.filter.AccessLoggerFilter;
 import com.sun.jersey.multipart.FormDataBodyPart;
 import com.sun.jersey.multipart.FormDataMultiPart;
 
 @Component
 @Path("/operationRecord")
-public class OperationRecordController extends BaseService {
+public class OperationRecordController extends BaseController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(OperationRecordController.class);
 
@@ -308,7 +308,7 @@ public class OperationRecordController extends BaseService {
 		OperationRecord record = null;
 		try {
 			record = new OperationRecord.Builder()
-				.ip(AccessLoggerFilter.getIpAddr(request))
+				.ip(IPUtil.getIpAddr(request))
 				.productId(moblog.getProductId())
 				.deviceId(moblog.getDeviceId())
 				.uvid(moblog.getUvid())

@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.sogou.map.logreplay.bean.base.AbstractBean;
+
 /**
  * 操作项与参数的关联
  * 一个操作项(TagInfo)可关联多个参数信息(ParamInfo)

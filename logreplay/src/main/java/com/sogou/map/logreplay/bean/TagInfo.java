@@ -9,6 +9,8 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.sogou.map.logreplay.bean.base.AbstractBean;
+
 /**
  * 操作项信息，分为“普通操作项”和“公共操作项”
  * “公共操作项”不关联特定的页面信息(PageInfo)，操作编号>10000

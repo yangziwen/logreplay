@@ -11,6 +11,7 @@ import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.math.NumberUtils;
 
 import com.alibaba.fastjson.JSON;
+import com.sogou.map.logreplay.bean.base.AbstractBean;
 
 /**
  * ²Ù×÷¼ÇÂ¼

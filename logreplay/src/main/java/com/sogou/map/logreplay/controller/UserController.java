@@ -12,15 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sogou.map.logreplay.bean.User;
+import com.sogou.map.logreplay.controller.base.BaseController;
 import com.sogou.map.logreplay.exception.LogReplayException;
 import com.sogou.map.logreplay.service.UserService;
 import com.sogou.map.logreplay.util.AuthUtil;
 import com.sogou.map.logreplay.util.JsonUtil;
-import com.sogou.map.mengine.common.service.BaseService;
 
 @Component
 @Path("/user")
-public class UserController extends BaseService {
+public class UserController extends BaseController {
 
 	@Autowired
 	private UserService userService;

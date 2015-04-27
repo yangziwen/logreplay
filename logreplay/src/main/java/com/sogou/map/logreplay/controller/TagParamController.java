@@ -16,15 +16,15 @@ import com.alibaba.fastjson.JSON;
 import com.sogou.map.logreplay.bean.ParamInfo;
 import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.TagParam;
+import com.sogou.map.logreplay.controller.base.BaseController;
 import com.sogou.map.logreplay.exception.LogReplayException;
 import com.sogou.map.logreplay.service.TagInfoService;
 import com.sogou.map.logreplay.service.TagParamService;
 import com.sogou.map.logreplay.util.AuthUtil;
-import com.sogou.map.mengine.common.service.BaseService;
 
 @Component
 @Path("/tagParam")
-public class TagParamController extends BaseService {
+public class TagParamController extends BaseController {
 	
 	@Autowired
 	private TagParamService tagParamService;

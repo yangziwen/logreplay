@@ -1,5 +1,7 @@
 package com.sogou.map.logreplay.logprocess.processor;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,7 +9,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 import com.sogou.map.logreplay.logprocess.log.MobLog;
-import com.sogou.map.mengine.common.tool.impl.encode.URLDecoder;
 
 public class MobLogProcessor {
 
@@ -29,7 +30,9 @@ public class MobLogProcessor {
 			}
 			String key = pair.substring(0, colonIndex);
 			String value = pair.substring(colonIndex + 1, pair.length());
-			params.put(key, URLDecoder.decode(URLDecoder.decode(value)));
+			try {
+				params.put(key, URLDecoder.decode(URLDecoder.decode(value, "GBK"), "GBK"));
+			} catch (UnsupportedEncodingException e) {}
 		}
 		return params;
 	}

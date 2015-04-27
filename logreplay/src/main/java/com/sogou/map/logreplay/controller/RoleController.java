@@ -10,14 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sogou.map.logreplay.bean.Role;
+import com.sogou.map.logreplay.controller.base.BaseController;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.service.RoleService;
 import com.sogou.map.logreplay.util.JsonUtil;
-import com.sogou.map.mengine.common.service.BaseService;
 
 @Component
 @Path("/role")
-public class RoleController extends BaseService {
+public class RoleController extends BaseController {
 	
 	@Autowired
 	private RoleService roleService;

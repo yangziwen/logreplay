@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.sogou.map.logreplay.bean.base.AbstractBean;
+
 @Table(name = "role")
 public class Role extends AbstractBean implements Cloneable {
 	

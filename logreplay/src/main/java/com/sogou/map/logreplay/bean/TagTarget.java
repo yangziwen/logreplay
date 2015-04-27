@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.sogou.map.logreplay.bean.base.AbstractBean;
+
 /**
  * 操作项关联的目标
  */

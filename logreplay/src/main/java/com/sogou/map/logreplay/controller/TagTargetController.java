@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sogou.map.logreplay.bean.TagTarget;
+import com.sogou.map.logreplay.controller.base.BaseController;
 import com.sogou.map.logreplay.service.TagTargetService;
-import com.sogou.map.mengine.common.service.BaseService;
 
 @Component
 @Path("/tagTarget")
-public class TagTargetController extends BaseService {
+public class TagTargetController extends BaseController {
 	
 	@Autowired
 	private TagTargetService tagTargetService;

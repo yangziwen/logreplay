@@ -25,6 +25,7 @@ import com.sogou.map.logreplay.bean.TagAction;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.bean.TagInfo.InspectStatus;
 import com.sogou.map.logreplay.bean.TagTarget;
+import com.sogou.map.logreplay.controller.base.BaseController;
 import com.sogou.map.logreplay.dao.PageInfoDao;
 import com.sogou.map.logreplay.dao.TagActionDao;
 import com.sogou.map.logreplay.dao.TagInfoDao;
@@ -33,7 +34,6 @@ import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.exception.LogReplayException;
 import com.sogou.map.logreplay.util.AuthUtil;
 import com.sogou.map.logreplay.util.ProductUtil;
-import com.sogou.map.mengine.common.service.BaseService;
 
 /**
  * 通过文本信息导入“页面信息”，“操作项信息”等内容
@@ -42,7 +42,7 @@ import com.sogou.map.mengine.common.service.BaseService;
 @Component
 //@Path("/setup")
 @Deprecated
-public class SetupController extends BaseService {
+public class SetupController extends BaseController {
 	
 	@Autowired
 	private PageInfoDao pageInfoDao;

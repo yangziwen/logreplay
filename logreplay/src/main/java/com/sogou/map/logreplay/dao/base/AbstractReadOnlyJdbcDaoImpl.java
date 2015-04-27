@@ -31,7 +31,7 @@ import org.springframework.jdbc.core.RowMapperResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 
-import com.sogou.map.logreplay.bean.AbstractBean;
+import com.sogou.map.logreplay.bean.base.AbstractBean;
 import com.sogou.map.logreplay.util.ClassUtil;
 
 public class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {

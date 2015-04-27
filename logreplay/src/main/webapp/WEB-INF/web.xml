@@ -40,39 +40,7 @@
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
 	</filter-mapping>
-	
-	<!-- prerequest filter-->
-	<filter>
-		<display-name>RequestPreprocessFilter</display-name>
-		<filter-name>RequestPreprocessFilter</filter-name>
-		<filter-class>com.sogou.map.mengine.http.filter.RequestPreprocessFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>RequestPreprocessFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
 
-	<!-- access log filter -->
-<!-- 	<filter>
-		<filter-name>AccessLoggerFilter</filter-name>
-		<filter-class>com.sogou.map.mengine.http.filter.AccessLoggerFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>AccessLoggerFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping> -->
-
-	<!-- uncatched exception filter -->
-	<filter>
-		<display-name>exceptionCatchFilter</display-name>
-		<filter-name>exceptionCatchFilter</filter-name>
-		<filter-class>com.sogou.map.mengine.http.filter.ExceptionCatchFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>exceptionCatchFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	
 	<filter>
 		<filter-name>productFilter</filter-name>
 		<filter-class>com.sogou.map.logreplay.filter.ProductFilter</filter-class>

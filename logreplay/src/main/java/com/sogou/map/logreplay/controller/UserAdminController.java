@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.User;
 import com.sogou.map.logreplay.bean.UserWithRoles;
+import com.sogou.map.logreplay.controller.base.BaseController;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.exception.LogReplayException;
@@ -27,11 +28,10 @@ import com.sogou.map.logreplay.service.RoleService;
 import com.sogou.map.logreplay.service.UserService;
 import com.sogou.map.logreplay.util.AuthUtil;
 import com.sogou.map.logreplay.util.JsonUtil;
-import com.sogou.map.mengine.common.service.BaseService;
 
 @Component
 @Path("/admin/user")
-public class UserAdminController extends BaseService {
+public class UserAdminController extends BaseController {
 	
 	@Autowired
 	private UserService userService;

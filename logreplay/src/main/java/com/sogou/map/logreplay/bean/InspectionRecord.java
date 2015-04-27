@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.sogou.map.logreplay.bean.base.AbstractBean;
+
 /**
  * 操作日志的校验记录
  */

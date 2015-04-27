@@ -18,7 +18,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
-import com.sogou.map.logreplay.bean.AbstractBean;
+import com.sogou.map.logreplay.bean.base.AbstractBean;
 
 public class AbstractJdbcDaoImpl<E extends AbstractBean>  extends AbstractReadOnlyJdbcDaoImpl<E> {
 	

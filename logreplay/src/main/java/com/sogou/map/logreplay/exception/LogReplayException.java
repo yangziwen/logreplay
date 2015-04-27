@@ -1,12 +1,22 @@
 package com.sogou.map.logreplay.exception;
 
-import com.sogou.map.mengine.common.bo.UncheckedApiException;
-
 @SuppressWarnings("serial")
-public class LogReplayException extends UncheckedApiException {
+public class LogReplayException extends RuntimeException {
+	
+	private int errorId;
+	private String errorMsg;
+
+	public int getErrorId() {
+		return errorId;
+	}
+
+	public String getErrorMsg() {
+		return errorMsg;
+	}
 
 	public LogReplayException(int errorId, String errorMsg) {
-		super(errorId, errorMsg);
+		this.errorId = errorId;
+		this.errorMsg = errorMsg;
 	}
 	
 	public static NotExistException notExistException(String errorMsg) {

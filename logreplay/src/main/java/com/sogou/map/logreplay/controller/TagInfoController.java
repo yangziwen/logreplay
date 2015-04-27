@@ -35,6 +35,7 @@ import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.bean.TagInfo.InspectStatus;
 import com.sogou.map.logreplay.bean.TagParam;
 import com.sogou.map.logreplay.bean.TagTarget;
+import com.sogou.map.logreplay.controller.base.BaseController;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.dto.TagInfoDto;
@@ -51,13 +52,12 @@ import com.sogou.map.logreplay.util.ExcelUtil.Column;
 import com.sogou.map.logreplay.util.JsonUtil;
 import com.sogou.map.logreplay.util.ProductUtil;
 import com.sogou.map.logreplay.util.TagFields;
-import com.sogou.map.mengine.common.service.BaseService;
 import com.sun.jersey.multipart.FormDataBodyPart;
 import com.sun.jersey.multipart.FormDataMultiPart;
 
 @Component
 @Path("/tagInfo")
-public class TagInfoController extends BaseService {
+public class TagInfoController extends BaseController {
 	
 	private static List<Column> TAG_INFO_COLUMN_LIST = buildTagInfoColumnList(false);
 	
