@@ -68,8 +68,8 @@ define(function(require){
 					$wrapper.append($fileLabel).append($fileInput);
 					$wrapper.on('change', 'input[type=file]', function() {
 						$this.attr('data-path', this.value);
-						$(options.pathTxt).val(this.value);
-					})
+						$pathTxt.val(this.value);
+					});
 					return $fileInput;
 				}
 			}
