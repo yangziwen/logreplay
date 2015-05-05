@@ -20,8 +20,39 @@
 	</context-param>
 	
 	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+	
+	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	
+	<servlet>
+		<servlet-name>dispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+ 	<!-- <filter>
+		<filter-name>Character Encoding</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>Character Encoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping> -->
 	
 	<!-- Shiro Filter -->
 	<filter>
@@ -58,50 +89,7 @@
 		<filter-name>forwardToJSPFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
-	<!-- deal with LogReplayException -->
-	<filter>
-		<filter-name>logReplayExceptionFilter</filter-name>
-		<filter-class>com.sogou.map.logreplay.filter.LogReplayExceptionFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>logReplayExceptionFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
 		
-	<filter>
-		<filter-name>Jersey</filter-name>
-		<filter-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</filter-class>
-		<init-param>
-			<param-name>com.sun.jersey.config.feature.Redirect</param-name>
-			<param-value>true</param-value>
-		</init-param>
-		<init-param>
-			<param-name>com.sun.jersey.config.property.JSPTemplatesBasePath</param-name>
-			<param-value>/WEB-INF/view</param-value>
-		</init-param>
-		<init-param>
-			<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
-			<param-value>true</param-value>
-		</init-param>
-		<init-param>
-			<param-name>com.sun.jersey.config.feature.FilterForwardOn404</param-name>
-			<param-value>true</param-value>
-		</init-param>
-		<init-param>
-			<param-name>com.sun.jersey.config.property.WebPageContentRegex</param-name>
-			<param-value>/(img|css|html|js|fonts|view)/.*</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>Jersey</filter-name>
-		<url-pattern>/*</url-pattern>
-		<dispatcher>REQUEST</dispatcher>
-		<dispatcher>ERROR</dispatcher>
-		<dispatcher>FORWARD</dispatcher>
-		<dispatcher>INCLUDE</dispatcher>
-	</filter-mapping>
-	
 	<session-config>
 		<session-timeout>30</session-timeout>
 		<tracking-mode>COOKIE</tracking-mode>

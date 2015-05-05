@@ -10,10 +10,9 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import net.sf.json.JSONObject;
-
 import org.springframework.ui.ModelMap;
 
+import com.alibaba.fastjson.JSON;
 import com.sogou.map.logreplay.exception.LogReplayException;
 
 public class LogReplayExceptionFilter implements Filter {
@@ -46,7 +45,7 @@ public class LogReplayExceptionFilter implements Filter {
 			errorId = logReplayExp.getErrorId();
 			errorMsg = logReplayExp.getErrorMsg();
 		}
-		String result = JSONObject.fromObject(new ModelMap("code", errorId)
+		String result = JSON.toJSONString(new ModelMap("code", errorId)
 			.addAttribute("errorMsg", errorMsg)
 		).toString();
 		outputJsonResponse(response, result);

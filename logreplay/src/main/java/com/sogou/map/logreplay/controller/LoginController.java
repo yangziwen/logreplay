@@ -4,29 +4,25 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.Context;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.sogou.map.logreplay.util.AuthUtil;
-import com.sun.jersey.api.view.Viewable;
 
 /**
  * 登录相关的跳转接口
  * @author yangziwen
  */
-@Component
-@Path("/login.htm")
+@Controller
 public class LoginController {
 
-	@GET
-	public Viewable toLogin(@Context HttpServletRequest request) {
+	@RequestMapping(value = "/login.htm", method = RequestMethod.GET)
+	public String toLogin(HttpServletRequest request) {
 		SavedRequest savedRequest = WebUtils.getSavedRequest(request);
 		if(savedRequest != null) {
 			String savedUri = savedRequest.getRequestURI();
@@ -36,20 +32,20 @@ public class LoginController {
 				WebUtils.getAndClearSavedRequest(request);
 			}
 		}
-		return new Viewable("/login.jsp");
+		return "login";
 	}
 	
 	/**
 	 * 此接口用于处理登录错误的情形
 	 * 用户名或者密码错误时，请求才会击穿shiro的过滤器链，抵达此方法
 	 */
-	@POST
-	public Viewable afterLoginSubmission(
-			@Context HttpServletRequest request,
-			@Context HttpServletResponse response
+	@RequestMapping(value = "/login.htm", method = RequestMethod.POST)
+	public String afterLoginSubmission(
+			HttpServletRequest request,
+			HttpServletResponse response
 			) throws IOException {
 		if(AuthUtil.isAuthenticated()) {
-			org.apache.shiro.web.util.WebUtils.redirectToSavedRequest(request, response, "/home");
+			org.apache.shiro.web.util.WebUtils.redirectToSavedRequest(request, response, "/home.htm");
 			return null;
 		} 
 		if(AuthUtil.isRemembered()) {
@@ -57,6 +53,6 @@ public class LoginController {
 		} else {
 			request.setAttribute("errorMessage", "用户名或密码错误，请重试!");
 		}
-		return new Viewable("/login.jsp");
+		return "login";
 	}
 }

@@ -2,20 +2,20 @@ package com.sogou.map.logreplay.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Map;
 
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.collect.Lists;
 import com.sogou.map.logreplay.bean.PageInfo;
@@ -28,11 +28,10 @@ import com.sogou.map.logreplay.service.PageInfoService;
 import com.sogou.map.logreplay.util.AuthUtil;
 import com.sogou.map.logreplay.util.ExcelUtil;
 import com.sogou.map.logreplay.util.ExcelUtil.Column;
-import com.sogou.map.logreplay.util.JsonUtil;
 import com.sogou.map.logreplay.util.ProductUtil;
 
-@Component
-@Path("/pageInfo")
+@Controller
+@RequestMapping("/pageInfo")
 public class PageInfoController extends BaseController {
 	
 	private static final List<Column> PAGE_INFO_COLUMN_LIST = buildPageInfoColumnList();
@@ -40,38 +39,39 @@ public class PageInfoController extends BaseController {
 	@Autowired
 	private PageInfoService pageInfoService;
 
-	@GET
-	@Path("/list")
-	public Response list(
-			@DefaultValue(Page.DEFAULT_START) @QueryParam("start") int start,
-			@DefaultValue(Page.DEFAULT_LIMIT) @QueryParam("limit") int limit,
-			@QueryParam("pageNo") Integer pageNo,
-			@QueryParam("pageName") String name,
-			@QueryParam("updateBeginTime") String updateBeginTime,
-			@QueryParam("updateEndTime") String updateEndTime
+	@ResponseBody
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public Map<String, Object> list(
+			@RequestParam(defaultValue = Page.DEFAULT_START) int start,
+			@RequestParam(defaultValue = Page.DEFAULT_LIMIT) int limit,
+			Integer pageNo,
+			String pageName,
+			String updateBeginTime,
+			String updateEndTime
 			) {
 		Page<PageInfo> page = pageInfoService.getPageInfoPageResult(start, limit, new QueryParamMap()
 			.addParam(pageNo != null, "pageNo", pageNo)
-			.addParam(StringUtils.isNotBlank(name), "name__contain", name)
+			.addParam(StringUtils.isNotBlank(pageName), "name__contain", pageName)
 			.addParam(StringUtils.isNotBlank(updateBeginTime), "updateTime__ge", updateBeginTime)
 			.addParam(StringUtils.isNotBlank(updateEndTime), "updateTime__le", updateEndTime)
 			.addParam("productId", ProductUtil.getProductId())
 			.orderByAsc("pageNo")
 		);
-		return successResultToJson(page, JsonUtil.configInstance(), true);
+		return successResult(page);
 	}
 	
-	@GET
-	@Path("/export")
-	public Response export(
-			@QueryParam("pageNo") Integer pageNo,
-			@QueryParam("pageName") String name,
-			@QueryParam("updateBeginTime") String updateBeginTime,
-			@QueryParam("updateEndTime") String updateEndTime
+	@ResponseBody
+	@RequestMapping(value = "/export", method = RequestMethod.GET)
+	public void export(
+			Integer pageNo,
+			String pageName,
+			String updateBeginTime,
+			String updateEndTime,
+			HttpServletResponse response
 			) throws UnsupportedEncodingException {
 		List<PageInfo> list = pageInfoService.getPageInfoListResult(new QueryParamMap()
 			.addParam(pageNo != null, "pageNo", pageNo)
-			.addParam(StringUtils.isNotBlank(name), "name__contain", name)
+			.addParam(StringUtils.isNotBlank(pageName), "name__contain", pageName)
 			.addParam(StringUtils.isNotBlank(updateBeginTime), "updateTime__ge", updateBeginTime)
 			.addParam(StringUtils.isNotBlank(updateEndTime), "updateTime__le", updateEndTime)
 			.addParam("productId", ProductUtil.getProductId())
@@ -79,28 +79,28 @@ public class PageInfoController extends BaseController {
 		);
 		Workbook workbook = ExcelUtil.exportDataList(PAGE_INFO_COLUMN_LIST, list);
 		String filename = ProductUtil.getCurrentProduct().getName() + "_“≥√ÊœÍ«È.xls";
-		return ExcelUtil.generateExcelResponse(workbook, filename);
+		ExcelUtil.outputExcelToResponse(workbook, filename, response);
 	}
 	
-	@GET
-	@Path("/detail/{id}")
-	public Response detail(@PathParam("id") Long id) {
+	@ResponseBody
+	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+	public Map<String, Object> detail(@PathVariable("id") Long id) {
 		PageInfo info = pageInfoService.getPageInfoById(id);
-		return successResultToJson(info, JsonUtil.configInstance(), true);
+		return successResult(info);
 	}
 	
-	@GET
-	@Path("/detailByPageNo/{pageNo}")
-	public Response detailByPageNo(@PathParam("pageNo") Integer pageNo) {
+	@ResponseBody
+	@RequestMapping(value = "/detailByPageNo/{pageNo}", method = RequestMethod.GET)
+	public Map<String, Object> detailByPageNo(@PathVariable("pageNo") Integer pageNo) {
 		PageInfo info = pageInfoService.getPageInfoByPageNoAndProductId(pageNo, ProductUtil.getProductId());
-		return successResultToJson(info, JsonUtil.configInstance(), true);
+		return successResult(info);
 	}
 	
-	@POST
-	@Path("/update/{id}")
-	public Response update(@PathParam("id") Long id,
-			@FormParam("pageNo") Integer pageNo,
-			@FormParam("name") String name) {
+	@ResponseBody
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+	public Map<String, Object> update(@PathVariable("id") Long id,
+			@RequestParam Integer pageNo,
+			@RequestParam String name) {
 		if(!AuthUtil.hasRole(Role.ADMIN)) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
@@ -115,17 +115,17 @@ public class PageInfoController extends BaseController {
 			info.setName(name);
 			info.setPageNo(pageNo);
 			pageInfoService.updatePageInfo(info);
-			return successResultToJson(String.format("PageInfo[%d] is updated successfully!", id), true);
+			return successResult(String.format("PageInfo[%d] is updated successfully!", id));
 		} catch (Exception e) {
 			throw LogReplayException.operationFailedException(String.format("Failed to update PageInfo[%d]", id));
 		}
 	}
-	
-	@POST
-	@Path("/create")
-	public Response create(
-			@FormParam("pageNo") Integer pageNo,
-			@FormParam("name") String name
+
+	@ResponseBody
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	public ModelMap create(
+			@RequestParam Integer pageNo,
+			@RequestParam String name
 			) {
 		if(!AuthUtil.hasRole(Role.ADMIN)) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
@@ -136,44 +136,42 @@ public class PageInfoController extends BaseController {
 		try {
 			PageInfo info = new PageInfo(pageNo, name);
 			pageInfoService.createPageInfo(info);
-			return successResultToJson(String.format("PageInfo[%s] is created successfully!", info.getId()), true);
+			return successResult(String.format("PageInfo[%s] is created successfully!", info.getId()));
 		} catch (Exception e) {
 			throw LogReplayException.operationFailedException("Failed to create PageInfo!");
 		}
 	}
 	
-	@GET
-	@Path("/checkDuplication")
-	public Response checkDuplication(
-			@QueryParam("id") Long id,
-			@QueryParam("pageNo") Integer pageNo) {
+	@ResponseBody
+	@RequestMapping("/checkDuplication")
+	public boolean checkDuplication(Long id, Integer pageNo) {
 		if(pageNo == null || pageNo <= 0) {
-			return Response.ok().entity("false").build();
+			return false;
 		}
 		if(id == null && pageInfoService.getPageInfoListResult(0, 1, new QueryParamMap()
 				.addParam("pageNo", pageNo)
 				.addParam("productId", ProductUtil.getProductId())).size() > 0) {
-			return Response.ok().entity("false").build();
+			return false;
 		}
 		if(pageInfoService.getPageInfoListResult(0, 1, new QueryParamMap()
 				.addParam("pageNo", pageNo)
 				.addParam("productId", ProductUtil.getProductId())
 				.addParam("id__ne", id)).size() > 0) {
-			return Response.ok().entity("false").build();
+			return false;
 		}
-		return Response.ok().entity("true").build();
+		return true;
 	}
 	
-	@GET
-	@Path("/checkExist")
-	public Response checkExist(@QueryParam("pageNo") Integer pageNo) {
+	@ResponseBody
+	@RequestMapping("/checkExist")
+	public boolean checkExist(Integer pageNo) {
 		if(pageNo == null || pageNo <= 0) {
-			return Response.ok().entity("false").build();
+			return false;
 		}
 		if(pageInfoService.getPageInfoByPageNoAndProductId(pageNo, ProductUtil.getProductId()) == null) {
-			return Response.ok().entity("false").build();
+			return false;
 		}
-		return Response.ok().entity("true").build();
+		return true;
 	}
 	
 	private static List<Column> buildPageInfoColumnList() {

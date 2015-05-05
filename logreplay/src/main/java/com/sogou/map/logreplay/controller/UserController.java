@@ -1,41 +1,37 @@
 package com.sogou.map.logreplay.controller;
 
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sogou.map.logreplay.bean.User;
 import com.sogou.map.logreplay.controller.base.BaseController;
 import com.sogou.map.logreplay.exception.LogReplayException;
 import com.sogou.map.logreplay.service.UserService;
 import com.sogou.map.logreplay.util.AuthUtil;
-import com.sogou.map.logreplay.util.JsonUtil;
 
-@Component
-@Path("/user")
+@Controller
+@RequestMapping("/user")
 public class UserController extends BaseController {
 
 	@Autowired
 	private UserService userService;
 	
-	@GET
-	@Path("/detail")
-	public Response detail() {
+	@ResponseBody
+	@RequestMapping("/detail")
+	public ModelMap detail() {
 		User user = userService.getUserByUsername(AuthUtil.getUsername());
-		return successResultToJson(user, JsonUtil.configInstance(), true);
+		return successResult(user);
 	}
 	
-	@POST
-	@Path("/profile/update")
-	public Response updateProfile(
-			@FormParam("screenName") String screenName) { 
+	@ResponseBody
+	@RequestMapping(value = "/profile/update", method = RequestMethod.POST)
+	public ModelMap updateProfile(@RequestParam String screenName) { 
 		if(StringUtils.isBlank(screenName)) {
 			throw LogReplayException.invalidParameterException("ScreenName should not be null!");
 		}
@@ -44,18 +40,18 @@ public class UserController extends BaseController {
 			User user = userService.getUserByUsername(username);
 			user.setScreenName(screenName);
 			userService.updateUser(user);
-			return successResultToJson(String.format("User[%s] is successfully updated", username), true);
+			return successResult(String.format("User[%s] is successfully updated", username));
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw LogReplayException.operationFailedException(String.format("Failed to update User[%s]", username));
 		}
 	}
 	
-	@POST
-	@Path("/password/update")
-	public Response updatePassword(
-			@FormParam("oldPassword") String oldPassword,
-			@FormParam("newPassword") String newPassword) {
+	@ResponseBody
+	@RequestMapping(value = "/password/update", method = RequestMethod.POST)
+	public ModelMap updatePassword(
+			@RequestParam String oldPassword,
+			@RequestParam String newPassword) {
 		if(StringUtils.isBlank(oldPassword) || StringUtils.isBlank(newPassword)) {
 			throw LogReplayException.invalidParameterException("Neither oldPassword nor newPassword should be null!");
 		}
@@ -70,23 +66,23 @@ public class UserController extends BaseController {
 		try {
 			user.setPassword(AuthUtil.hashPassword(username, newPassword));
 			userService.updateUser(user);
-			return successResultToJson(String.format("The password of User[%s] is successfully updated", username), true);
+			return successResult(String.format("The password of User[%s] is successfully updated", username));
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw LogReplayException.operationFailedException(String.format("Failed to update the password of User[%s]", username));
 		}
 	}
 	
-	@GET
-	@Path("/checkPassword")
-	public Response checkPassword(@QueryParam("password") String password) {
+	@ResponseBody
+	@RequestMapping("/checkPassword")
+	public boolean checkPassword(String password) {
 		if(StringUtils.isBlank(password)) {
-			return Response.ok().entity("false").build();
+			return false;
 		}
 		User user = userService.getUserByUsername(AuthUtil.getUsername());
 		if(!AuthUtil.hashPassword(user.getUsername(), password).equals(user.getPassword())) { 
-			return Response.ok().entity("false").build();
+			return false;
 		}
-		return Response.ok().entity("true").build();
+		return true;
 	}
 }

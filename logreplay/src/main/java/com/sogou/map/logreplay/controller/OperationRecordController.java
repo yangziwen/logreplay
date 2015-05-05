@@ -1,7 +1,6 @@
 package com.sogou.map.logreplay.controller;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,16 +12,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
@@ -31,8 +20,13 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -45,6 +39,7 @@ import com.sogou.map.logreplay.bean.ParamInfo;
 import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.controller.base.BaseController;
+import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.dto.OperationRecordDto;
 import com.sogou.map.logreplay.dto.OperationRecordDto.TagParamParsedResult;
@@ -58,15 +53,12 @@ import com.sogou.map.logreplay.service.TagInfoService;
 import com.sogou.map.logreplay.service.TagParamService;
 import com.sogou.map.logreplay.util.AuthUtil;
 import com.sogou.map.logreplay.util.IPUtil;
-import com.sogou.map.logreplay.util.JsonUtil;
 import com.sogou.map.logreplay.util.ProductUtil;
 import com.sogou.map.logreplay.util.TagParamParser;
 import com.sogou.map.logreplay.util.TagParamParser.ParamInfoHolder;
-import com.sun.jersey.multipart.FormDataBodyPart;
-import com.sun.jersey.multipart.FormDataMultiPart;
 
-@Component
-@Path("/operationRecord")
+@Controller
+@RequestMapping("/operationRecord")
 public class OperationRecordController extends BaseController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(OperationRecordController.class);
@@ -87,29 +79,29 @@ public class OperationRecordController extends BaseController {
 	 * 获取数据库中最新的一条操作记录
 	 * 用于在实时校验(回放)开始时确定第一次轮询的idSince的值
 	 */
-	@GET
-	@Path("/latest")
-	public Response getLatestRecord() {
-		return successResultToJson(operationRecordService.getLatestOperationRecord(), true);
+	@ResponseBody
+	@RequestMapping("/latest")
+	public ModelMap getLatestRecord() {
+		return successResult(operationRecordService.getLatestOperationRecord());
 	}
 	
 	/**
 	 * 获取操作记录
 	 * 用于实时校验(回放)
 	 */
-	@GET
-	@Path("/query")
-	public Response query(
-			@QueryParam("idSince") Long idSince,
-			@QueryParam("since") Long since,
-			@QueryParam("until") Long until,
-			@QueryParam("deviceId") String deviceId,
-			@QueryParam("uvid") String uvid,
-			@QueryParam("pageNo") Integer pageNo,
-			@QueryParam("tagNo") Integer tagNo,
-			@QueryParam("originVersionSince") Integer originVersionSince,
-			@QueryParam("originVersionUntil") Integer originVersionUntil,
-			@DefaultValue("30") @QueryParam("limit") int limit
+	@ResponseBody
+	@RequestMapping("/query")
+	public ModelMap query(
+			Long idSince,
+			Long since,
+			Long until,
+			String deviceId,
+			String uvid,
+			Integer pageNo,
+			Integer tagNo,
+			Integer originVersionSince,
+			Integer originVersionUntil,
+			@RequestParam(defaultValue = Page.DEFAULT_LIMIT) int limit
 			) {
 		List<OperationRecord> list = operationRecordService.getOperationRecordListResult(0, limit, new QueryParamMap()
 			.addParam("productId", ProductUtil.getProductId())
@@ -127,7 +119,7 @@ public class OperationRecordController extends BaseController {
 		List<OperationRecordDto> dtoList = convertToDtoList(list);
 		findAndFillCommonTagInfo(dtoList);
 		fillTagParamParsedResult(dtoList);
-		return successResultToJson(dtoList, JsonUtil.configInstance(), true);
+		return successResult(dtoList);
 	}
 	
 	/**
@@ -276,27 +268,25 @@ public class OperationRecordController extends BaseController {
 	 * 请求串格式如下
 	 * http://127.0.0.1:8075/logreplay//operationRecord/receive?moblog=sid:,os:Android4%252e1%252e2,d:A00000408A5798,op:460%252d03,density:240,loginid:,net:wifi,vn:6%252e2%252e0,pd:1,v:60200000,u:1420989208035172,md:SCH%252dI829,bsns:807,openid:,mf:samsung,apn:&info={"key":"菜市场","tag":1,"p":4,"t":1421656262063}
 	 */
-	@GET
-	@Path("/receive")
-	public Response receiveDataViaGet(
-			@QueryParam("moblog") String moblogStr,
-			@QueryParam("info") String infoStr,
-			@QueryParam("productId") Long productId,
-			@Context HttpServletRequest request) {
+	@ResponseBody
+	@RequestMapping(value = "/receive", method = RequestMethod.GET)
+	public ModelMap receiveDataViaGet(
+			@RequestParam("moblog") String moblogStr,
+			@RequestParam("info") String infoStr,
+			HttpServletRequest request) {
 		return doReceiveData(moblogStr, infoStr, request);
 	}
 	
-	@POST
-	@Path("/receive")
-	public Response receiveDataViaPost (
-			@QueryParam("moblog") String moblogStr,
-			@FormParam("info") String infoStr,
-			@FormParam("productId") Long productId,
-			@Context HttpServletRequest request) {
+	@ResponseBody
+	@RequestMapping(value = "/receive", method = RequestMethod.POST)
+	public ModelMap receiveDataViaPost (
+			@RequestParam("moblog") String moblogStr,
+			@RequestParam("info") String infoStr,
+			HttpServletRequest request) {
 		return doReceiveData(moblogStr, infoStr, request);
 	}
 	
-	private Response doReceiveData(String moblogStr, String infoStr, HttpServletRequest request) {
+	private ModelMap doReceiveData(String moblogStr, String infoStr, HttpServletRequest request) {
 		MobLog moblog = new MobLogProcessor().process(moblogStr);
 		if(StringUtils.isEmpty(moblog.getDeviceId()) || StringUtils.isEmpty(moblog.getVersion())) {
 			throw LogReplayException.invalidParameterException("Invalid parameter of moblog!");
@@ -324,25 +314,20 @@ public class OperationRecordController extends BaseController {
 			e.printStackTrace();
 			throw LogReplayException.operationFailedException(String.format("Failed to save %s", record));
 		}
-		return successResultToJson(new ModelMap("success", true), true);
+		return successResult(new ModelMap("success", true));
 	}
 	
-	@POST
-	@Path("/upload/nginx")
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response uploadNginxLog(
-			FormDataMultiPart multiPartData
-			) {
+	@ResponseBody
+	@RequestMapping(value = "/upload/nginx", method = RequestMethod.POST)
+	public ModelMap uploadNginxLog(MultipartFile file) {
 		if(!AuthUtil.hasRole(Role.ADMIN)) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
-		FormDataBodyPart filePart = multiPartData.getField("file");
-		InputStream in = filePart.getValueAs(InputStream.class);
 		BufferedReader reader = null;
 		String line = "";
 		int count = 0;
 		try {
-			reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+			reader = new BufferedReader(new InputStreamReader(file.getInputStream(), "UTF-8"));
 			List<OperationRecord> recordList = new ArrayList<OperationRecord>(500);
 			OperationLogProcessor processor = new OperationLogProcessor();
 			while(true) {
@@ -370,7 +355,7 @@ public class OperationRecordController extends BaseController {
 		} finally {
 			IOUtils.closeQuietly(reader);
 		}
-		return successResultToJson(new ModelMap("count", count), true);
+		return successResult(new ModelMap("count", count));
 	}
 	
 }

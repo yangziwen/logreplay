@@ -1,44 +1,16 @@
 package com.sogou.map.logreplay.controller.base;
 
-import javax.ws.rs.core.CacheControl;
-import javax.ws.rs.core.Response;
-
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
-
 import org.springframework.ui.ModelMap;
 
-import com.sogou.map.logreplay.util.JsonUtil;
-
 /**
- * 这个类的存在，仅仅是为了摆脱对mengine-core包的相关类的依赖
- * 包括这里面使用jsonlib而不是fastjson，也是技术以外的原因
+ * 在摆脱对mengine-core包的依赖后，
+ * 为了与前端代码保持兼容，
+ * 而统一用successResult方法输出json结果
  */
 public abstract class BaseController {
+	
+	protected ModelMap successResult(Object response) {
+		return new ModelMap("code", 0).addAttribute("response", response);
+	}
 
-	protected <T> Response successResultToJson(T response, boolean noCache) {
-		return successResultToJson(response, new JsonConfig(), noCache);
-	}
-	
-	protected <T> Response successResultToJson(T response, JsonConfig jsonConfig, boolean noCache) {
-		CacheControl cacheControl = new CacheControl();
-		cacheControl.setNoCache(noCache);
-		return successResultToJson(response, jsonConfig, cacheControl);
-	}
-	
-	protected <T> Response successResultToJson(T response, JsonConfig jsonConfig, CacheControl cacheControl) {
-		if(jsonConfig == null){
-			jsonConfig = JsonUtil.configInstance();
-		}
-		String result = JSONObject.fromObject(new ModelMap("code", 0)
-			.addAttribute("response", response)
-		, jsonConfig).toString();
-		return Response
-				.ok()
-				.cacheControl(cacheControl)
-				.type("application/json;charset=GBK")
-				.entity(result)
-				.build();
-	}
-	
 }

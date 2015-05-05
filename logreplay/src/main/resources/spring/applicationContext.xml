@@ -11,7 +11,9 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
 	default-lazy-init="false" default-autowire="byName">
 
-    <context:component-scan base-package="com.sogou.map"/>
+    <context:component-scan base-package="com.sogou.map">
+    	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
     
     <!-- <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/dataSource"/> -->
 	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/dataSource"/>

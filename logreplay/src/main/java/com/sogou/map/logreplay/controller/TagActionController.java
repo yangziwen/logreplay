@@ -1,30 +1,29 @@
 package com.sogou.map.logreplay.controller;
 
 import java.util.List;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.Response;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sogou.map.logreplay.bean.TagAction;
 import com.sogou.map.logreplay.controller.base.BaseController;
 import com.sogou.map.logreplay.service.TagActionService;
 
-@Component
-@Path("/tagAction")
+@Controller
+@RequestMapping("/tagAction")
 public class TagActionController extends BaseController {
 	
 	@Autowired
 	private TagActionService tagActionService;
 
-	@GET
-	@Path("/list")
-	public Response list() {
+	@ResponseBody
+	@RequestMapping("/list")
+	public Map<String, Object> list() {
 		List<TagAction> list = tagActionService.getTagActionListResult();
-		return successResultToJson(list, true);
+		return successResult(list);
 	}
 	
 }
