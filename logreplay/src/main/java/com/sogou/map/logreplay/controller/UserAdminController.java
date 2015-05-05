@@ -2,20 +2,16 @@ package com.sogou.map.logreplay.controller;
 
 import java.util.List;
 
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
-
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.User;
@@ -27,10 +23,9 @@ import com.sogou.map.logreplay.exception.LogReplayException;
 import com.sogou.map.logreplay.service.RoleService;
 import com.sogou.map.logreplay.service.UserService;
 import com.sogou.map.logreplay.util.AuthUtil;
-import com.sogou.map.logreplay.util.JsonUtil;
 
-@Component
-@Path("/admin/user")
+@Controller
+@RequestMapping("/admin/user")
 public class UserAdminController extends BaseController {
 	
 	@Autowired
@@ -39,40 +34,40 @@ public class UserAdminController extends BaseController {
 	@Autowired
 	private RoleService roleService;
 	
-	@GET
-	@Path("/list")
-	public Response list(
-			@DefaultValue(Page.DEFAULT_START) @QueryParam("start") int start,
-			@DefaultValue(Page.DEFAULT_LIMIT) @QueryParam("limit") int limit,
-			@QueryParam("username") String username,
-			@QueryParam("screenName") String screenName,
-			@QueryParam("roleNames") String roleNames,
-			@QueryParam("enabled") String enabled) {
+	@ResponseBody
+	@RequestMapping("/list")
+	public ModelMap list(
+			@RequestParam(defaultValue = Page.DEFAULT_START) int start,
+			@RequestParam(defaultValue = Page.DEFAULT_LIMIT) int limit,
+			String username,
+			String screenName,
+			String roleNames,
+			Boolean enabled) {
 		Page<UserWithRoles> page = userService.getUserWithRolesPaginateResult(start, limit, new QueryParamMap()
 			.addParam(StringUtils.isNotBlank(username), "username__start_with", username)
 			.addParam(StringUtils.isNotBlank(screenName), "screenName__contain", screenName)
 			.addParam(StringUtils.isNotBlank(roleNames), "role.name__in", roleNames.split(","))
-			.addParam(StringUtils.isNotBlank(enabled), "user.enabled", BooleanUtils.toBoolean(enabled))
+			.addParam(enabled != null, "user.enabled", enabled)
 			.orderByAsc("user.username")
 		);
-		return successResultToJson(page, JsonUtil.configInstance(), true);
+		return successResult(page);
 	}
 	
-	@GET
-	@Path("/detail/{id}")
-	public Response detail(@PathParam("id") Long id) {
+	@ResponseBody
+	@RequestMapping("/detail/{id}")
+	public ModelMap detail(@PathVariable("id") Long id) {
 		UserWithRoles user = userService.getUserWithRolesById(id);
-		return successResultToJson(user, JsonUtil.configInstance(), true);
+		return successResult(user);
 	}
 	
-	@POST
-	@Path("/create")
-	public Response create (
-			@FormParam("username") String username,
-			@FormParam("password") String password,
-			@FormParam("screenName") String screenName,
-			@FormParam("roleNames") String roleNames,
-			@FormParam("enabled") Boolean enabled) {
+	@ResponseBody
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	public ModelMap create (
+			@RequestParam("username") String username,
+			@RequestParam("password") String password,
+			@RequestParam("screenName") String screenName,
+			@RequestParam("roleNames") String roleNames,
+			@RequestParam("enabled") Boolean enabled) {
 		if(StringUtils.isBlank(username) || StringUtils.isBlank(roleNames)) {
 			throw LogReplayException.invalidParameterException("Either Username or roleNames should not be null!");
 		}
@@ -89,20 +84,19 @@ public class UserAdminController extends BaseController {
 		try {
 			User user = new User(username, screenName, AuthUtil.hashPassword(username, password), enabled); 
 			userService.createUser(user, roleList);
-			return successResultToJson(String.format("User[%d] is created successfully!", user.getId()), true);
+			return successResult(String.format("User[%d] is created successfully!", user.getId()));
 		} catch (Exception e) {
 			throw LogReplayException.operationFailedException("Failed to create user!");
 		}
 	}
 	
-	@POST
-	@Path("/update/{id}")
-	public Response update (
-			@PathParam("id") Long id,
-			@FormParam("screenName") String screenName,
-			@FormParam("roleNames") String roleNames,
-			@FormParam("enabled") Boolean enabled
-			) {
+	@ResponseBody
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+	public ModelMap update (
+			@PathVariable("id") Long id,
+			@RequestParam String screenName,
+			@RequestParam String roleNames,
+			@RequestParam Boolean enabled) {
 		if(id == null) {
 			throw LogReplayException.invalidParameterException("Id of user should not be null!");
 		}
@@ -122,7 +116,7 @@ public class UserAdminController extends BaseController {
 		}
 		try {
 			userService.updateUser(user, roleList);
-			return successResultToJson(String.format("User[%d] is updated successfully!", user.getId()), true);
+			return successResult(String.format("User[%d] is updated successfully!", user.getId()));
 		} catch (Exception e) {
 			throw LogReplayException.operationFailedException(String.format("Failed to update user[%d]!", id));
 		}
@@ -131,12 +125,11 @@ public class UserAdminController extends BaseController {
 	/**
 	 * 管理员重置密码
 	 */
-	@POST
-	@Path("/password/update/{id}")
-	public Response updatePassword(
-			@PathParam("id") Long id,
-			@FormParam("password") String password
-			) {
+	@ResponseBody
+	@RequestMapping(value = "/password/update/{id}", method = RequestMethod.POST)
+	public ModelMap updatePassword(
+			@PathVariable("id") Long id,
+			@RequestParam String password) {
 		User user = null;
 		if(StringUtils.isBlank(password) || (password = password.trim()).length() < User.PASSWORD_MIN_LENGTH) {
 			throw LogReplayException.invalidParameterException(String.format("Invalid password[%s]!", password));
@@ -147,21 +140,19 @@ public class UserAdminController extends BaseController {
 		try {
 			user.setPassword(AuthUtil.hashPassword(user.getUsername(), password));
 			userService.updateUser(user);
-			return successResultToJson(String.format("Password of user[%d] is updated successfully!", user.getId()), true);
+			return successResult(String.format("Password of user[%d] is updated successfully!", user.getId()));
 		} catch (Exception e) {
 			throw LogReplayException.operationFailedException(String.format("Failed to update password of user[%d]!", id));
 		}
 	}
 	
-	@GET
-	@Path("/checkDuplication")
-	public Response checkDuplication(
-			@QueryParam("id") Long id,
-			@QueryParam("username") String username) {
+	@ResponseBody
+	@RequestMapping("/checkDuplication")
+	public boolean checkDuplication(Long id, String username) {
 		if(id == null && userService.getUserByUsername(username) != null) {
-			return Response.ok().entity("false").build();
+			return false;
 		}
-		return Response.ok().entity("true").build();
+		return true;
 	}
 
 }

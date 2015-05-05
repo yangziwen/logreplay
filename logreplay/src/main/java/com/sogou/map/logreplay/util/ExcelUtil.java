@@ -2,7 +2,6 @@ package com.sogou.map.logreplay.util;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,10 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.StreamingOutput;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
@@ -83,24 +79,20 @@ public class ExcelUtil {
 	}
 	
 	// ------------ 导出相关 -------------- //
-	public static Response generateExcelResponse(final Workbook workbook, String filename) {
+	public static void outputExcelToResponse(Workbook workbook, String filename, HttpServletResponse response) {
 		try {
 			filename = new String(filename.getBytes("GBK"),"iso-8859-1");
 		} catch (UnsupportedEncodingException e) {}
 		
-		StreamingOutput stream = new StreamingOutput() {
-			@Override
-			public void write(OutputStream output) throws IOException, WebApplicationException {
-				workbook.write(output);
-			}
-		};
-		return Response
-				.ok(stream, MediaType.APPLICATION_OCTET_STREAM)
-				.header("Cache-Control", "no-cache")
-				.header("Pragma", "public")
-				.header("Content-Type", "application/vnd.ms-excel; charset=UTF-8")
-				.header("Content-Disposition", String.format("attachment; filename = \"%s\"", filename))
-				.build();
+		response.setContentType("application/vnd.ms-excel; charset=UTF-8");
+		response.setHeader("Cache-Control", "no-cache");
+		response.setHeader("Pragma", "public"); 
+		response.setHeader("Content-Disposition", String.format("attachment; filename = \"%s\"", filename));
+		try {
+			workbook.write(response.getOutputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static Workbook exportDataList(List<Column> columnList, List<? extends DataContainer> dataList) {

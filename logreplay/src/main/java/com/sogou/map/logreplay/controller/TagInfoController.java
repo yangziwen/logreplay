@@ -1,30 +1,27 @@
 package com.sogou.map.logreplay.controller;
 
-import java.io.InputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
@@ -49,14 +46,11 @@ import com.sogou.map.logreplay.util.AuthUtil;
 import com.sogou.map.logreplay.util.ExcelUtil;
 import com.sogou.map.logreplay.util.ExcelUtil.CellType;
 import com.sogou.map.logreplay.util.ExcelUtil.Column;
-import com.sogou.map.logreplay.util.JsonUtil;
 import com.sogou.map.logreplay.util.ProductUtil;
 import com.sogou.map.logreplay.util.TagFields;
-import com.sun.jersey.multipart.FormDataBodyPart;
-import com.sun.jersey.multipart.FormDataMultiPart;
 
-@Component
-@Path("/tagInfo")
+@Controller
+@RequestMapping("/tagInfo")
 public class TagInfoController extends BaseController {
 	
 	private static List<Column> TAG_INFO_COLUMN_LIST = buildTagInfoColumnList(false);
@@ -78,29 +72,31 @@ public class TagInfoController extends BaseController {
 	@Autowired
 	private TagParamService tagParamService;
 	
-	@GET
-	@Path("/list")
-	public Response list(
-			@DefaultValue(Page.DEFAULT_START) @QueryParam("start") int start,
-			@DefaultValue(Page.DEFAULT_LIMIT) @QueryParam("limit") int limit,
-			@QueryParam("pageNo") Integer pageNo,
-			@QueryParam("tagNo") Integer tagNo,
-			@QueryParam("pageName") String pageName,
-			@QueryParam("tagName") String tagName,
-			@QueryParam("updateBeginTime") String updateBeginTime,
-			@QueryParam("updateEndTime") String updateEndTime,
-			@QueryParam("isCommonTag") Boolean isCommonTag,
-			@QueryParam("originVersionSince") Integer originVersionSince,
-			@QueryParam("originVersionUntil") Integer originVersionUntil,
-			@QueryParam("inspectStatus") String inspectStatusStr,
-			@QueryParam("devInspectStatus") String devInspectStatusStr
+	@ResponseBody
+	@RequestMapping("/list")
+	public ModelMap list(
+			@RequestParam(defaultValue = Page.DEFAULT_START) int start,
+			@RequestParam(defaultValue = Page.DEFAULT_LIMIT) int limit,
+			Integer pageNo,
+			Integer tagNo,
+			String pageName,
+			String tagName,
+			String updateBeginTime,
+			String updateEndTime,
+			Boolean isCommonTag,
+			Integer originVersionSince,
+			Integer originVersionUntil,
+			@RequestParam(value = "inspectStatus", required = false) 
+			String inspectStatusStr,
+			@RequestParam(value = "devInspectStatus", required = false) 
+			String devInspectStatusStr
 			) {
 		Page<TagInfo> page = tagInfoService.getTagInfoPageResult(start, limit, buildQueryParamMap(
 				pageNo, tagNo, pageName, tagName, updateBeginTime, updateEndTime, 
 				isCommonTag, originVersionSince, originVersionUntil, inspectStatusStr, devInspectStatusStr)
 		);
 		fillHasParamsFlag(page.getList());
-		return successResultToJson(page, JsonUtil.configInstance(), true);
+		return successResult(page);
 	}
 	
 	/**
@@ -129,33 +125,33 @@ public class TagInfoController extends BaseController {
 		
 	}
 	
-	@GET
-	@Path("/detail/{id}")
-	public Response detail(@PathParam("id") Long id) {
+	@ResponseBody
+	@RequestMapping("/detail/{id}")
+	public ModelMap detail(@PathVariable("id") Long id) {
 		TagInfo tagInfo = tagInfoService.getTagInfoById(id);
-		return successResultToJson(tagInfo, JsonUtil.configInstance(), true);
+		return successResult(tagInfo);
 	}
 	
-	@GET
-	@Path("/detailByPageNoAndTagNo/{pageNo}/{tagNo}")
-	public Response detailByPageNoAndTagNo(
-			@PathParam("pageNo") Integer pageNo,
-			@PathParam("tagNo") Integer tagNo) {
+	@ResponseBody
+	@RequestMapping("/detailByPageNoAndTagNo/{pageNo}/{tagNo}")
+	public ModelMap detailByPageNoAndTagNo(
+			@PathVariable("pageNo") Integer pageNo,
+			@PathVariable("tagNo") Integer tagNo) {
 		TagInfo tagInfo = tagInfoService.getTagInfoByPageNoTagNoAndProductId(pageNo, tagNo, ProductUtil.getProductId());
-		return successResultToJson(tagInfo, JsonUtil.configInstance(), true);
+		return successResult(tagInfo);
 	}
 	
-	@POST
-	@Path("/update")
-	public Response update(
-			@FormParam("id") Long id,
-			@FormParam("tagNo") Integer tagNo,
-			@FormParam("name") String name,
-			@FormParam("pageInfoId") Long pageInfoId,
-			@FormParam("actionId") Long actionId,
-			@FormParam("targetId") Long targetId,
-			@FormParam("originVersion") Integer originVersion,
-			@FormParam("comment") String comment
+	@ResponseBody
+	@RequestMapping("/update")
+	public ModelMap update(
+			@RequestParam("id") Long id,
+			@RequestParam("tagNo") Integer tagNo,
+			@RequestParam("name") String name,
+			@RequestParam("pageInfoId") Long pageInfoId,
+			@RequestParam("actionId") Long actionId,
+			@RequestParam("targetId") Long targetId,
+			@RequestParam("originVersion") Integer originVersion,
+			@RequestParam(required = false) String comment
 			) {
 		if(!AuthUtil.hasRole(Role.ADMIN)) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
@@ -187,23 +183,23 @@ public class TagInfoController extends BaseController {
 			tagInfo.setOriginVersion(originVersion);
 			tagInfo.setComment(comment);
 			tagInfoService.updateTagInfo(tagInfo);
-			return successResultToJson(String.format("TagInfo[%d] is updated successfully!", id), true);
+			return successResult(String.format("TagInfo[%d] is updated successfully!", id));
 		} catch (Exception e) {
 			throw LogReplayException.operationFailedException(String.format("Failed to update TagInfo[%d]", id));
 		}
 		
 	}
 	
-	@POST
-	@Path("/create")
-	public Response create(
-			@FormParam("tagNo") Integer tagNo,
-			@FormParam("name") String name,
-			@FormParam("pageInfoId") Long pageInfoId,
-			@FormParam("actionId") Long actionId,
-			@FormParam("targetId") Long targetId,
-			@FormParam("originVersion") Integer originVersion,
-			@FormParam("comment") String comment
+	@ResponseBody
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	public ModelMap create(
+			@RequestParam Integer tagNo,
+			@RequestParam String name,
+			@RequestParam Long pageInfoId,
+			@RequestParam Long actionId,
+			@RequestParam Long targetId,
+			@RequestParam Integer originVersion,
+			@RequestParam(required = false) String comment
 			) {
 		if(!AuthUtil.hasRole(Role.ADMIN)) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
@@ -234,16 +230,16 @@ public class TagInfoController extends BaseController {
 			tagInfo.setInspectStatus(InspectStatus.UNCHECKED.getIntValue());
 			tagInfo.setDevInspectStatus(InspectStatus.UNCHECKED.getIntValue());
 			tagInfoService.createTagInfo(tagInfo);
-			return successResultToJson(String.format("TagInfo[%d] is created successfully!", tagInfo.getId()), true);
+			return successResult(String.format("TagInfo[%d] is created successfully!", tagInfo.getId()));
 		} catch (Exception e) {
 			throw LogReplayException.operationFailedException("Failed to create TagInfo!");
 		}
 		
 	}
 	
-	@POST
-	@Path("/delete")
-	public Response delete(@FormParam("id") Long id) {
+	@ResponseBody
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public ModelMap delete(@RequestParam("id") Long id) {
 		if(!AuthUtil.hasRole(Role.ADMIN)) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
@@ -252,65 +248,61 @@ public class TagInfoController extends BaseController {
 		}
 		try {
 			tagInfoService.deleteTagInfoById(id);
-			return successResultToJson(String.format("TagInfo[%d] is deleted successfully!", id), true);
+			return successResult(String.format("TagInfo[%d] is deleted successfully!", id));
 		} catch (Exception e) {
 			throw LogReplayException.operationFailedException(String.format("Failed to delete TagInfo[%d]!", id));
 		}
 	}
 	
-	@GET
-	@Path("/checkDuplication")
-	public Response checkDuplication(
-			@QueryParam("id") Long id,
-			@QueryParam("tagNo") Integer tagNo,
-			@QueryParam("pageInfoId") Long pageInfoId) {
+	@ResponseBody
+	@RequestMapping("/checkDuplication")
+	public boolean checkDuplication(Long id, Integer tagNo, Long pageInfoId) {
 		if(tagNo == null || tagNo <= 0) {
-			return Response.ok().entity("false").build();
+			return false;
 		}
 		if(id == null && tagInfoService.getTagInfoListResult(0, 1, new QueryParamMap()
 				.addParam("productId", ProductUtil.getProductId())
 				.addParam(pageInfoId != null, "pageInfoId", pageInfoId)
 				.addParam("tagNo", tagNo)).size() > 0) {
-			return Response.ok().entity("false").build();
+			return false;
 		}
 		if(tagInfoService.getTagInfoListResult(0, 1, new QueryParamMap()
 				.addParam("productId", ProductUtil.getProductId())
 				.addParam(pageInfoId != null, "pageInfoId", pageInfoId)
 				.addParam("tagNo", tagNo)
 				.addParam("id__ne", id)).size() > 0) {
-			return Response.ok().entity("false").build();
+			return false;
 		}
-		return Response.ok().entity("true").build();
+		return true;
 	}
 	
-	@GET
-	@Path("/checkExist")
-	public Response checkExist(
-			@QueryParam("pageNo") Integer pageNo,
-			@QueryParam("tagNo") Integer tagNo) {
+	@ResponseBody
+	@RequestMapping("/checkExist")
+	public boolean checkExist(Integer pageNo, Integer tagNo) {
 		if(tagNo == null || (tagNo < TagInfo.COMMON_TAG_NO_MIN_VALUE && pageNo == null)) {
-			return Response.ok().entity("false").build();
+			return false;
 		}
 		if(tagInfoService.getTagInfoByPageNoTagNoAndProductId(pageNo, tagNo, ProductUtil.getProductId()) == null) {
-			return Response.ok().entity("false").build();
+			return false;
 		}
-		return Response.ok().entity("true").build();
+		return true;
 	}
 	
-	@GET
-	@Path("/export")
-	public Response exportTagInfos(
-			@QueryParam("pageNo") Integer pageNo,
-			@QueryParam("tagNo") Integer tagNo,
-			@QueryParam("pageName") String pageName,
-			@QueryParam("tagName") String tagName,
-			@QueryParam("updateBeginTime") String updateBeginTime,
-			@QueryParam("updateEndTime") String updateEndTime,
-			@QueryParam("isCommonTag") Boolean isCommonTag,
-			@QueryParam("originVersionSince") Integer originVersionSince,
-			@QueryParam("originVersionUntil") Integer originVersionUntil,
-			@QueryParam("inspectStatus") String inspectStatusStr,
-			@QueryParam("devInspectStatus") String devInspectStatusStr
+	@ResponseBody
+	@RequestMapping("/export")
+	public void exportTagInfos(
+			Integer pageNo,
+			Integer tagNo,
+			String pageName,
+			String tagName,
+			String updateBeginTime,
+			String updateEndTime,
+			Boolean isCommonTag,
+			Integer originVersionSince,
+			Integer originVersionUntil,
+			@RequestParam(value = "inspectStatus", required = false) String inspectStatusStr,
+			@RequestParam(value = "devInspectStatus", required = false) String devInspectStatusStr,
+			HttpServletResponse response
 			) {
 		List<TagInfo> list = tagInfoService.getTagInfoListResult(buildQueryParamMap(
 				pageNo, tagNo, pageName, tagName, updateBeginTime, updateEndTime, 
@@ -342,7 +334,7 @@ public class TagInfoController extends BaseController {
 		Workbook workbook = ExcelUtil.exportDataList(columnList, dtoList);
 		String filename = ProductUtil.getCurrentProduct().getName() 
 				+ (isCommonTag? "_公共操作详情.xls": "_操作详情.xls");
-		return ExcelUtil.generateExcelResponse(workbook, filename);
+		ExcelUtil.outputExcelToResponse(workbook, filename, response);
 	}
 	
 	/**
@@ -415,18 +407,16 @@ public class TagInfoController extends BaseController {
 		return columnList;
 	}
 	
-	@POST
-	@Path("/import")
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response importTagInfos(FormDataMultiPart multiPartData) {
+	@ResponseBody
+	@RequestMapping(value = "/import", method = RequestMethod.POST)
+	public ModelMap importTagInfos(MultipartFile file) throws IOException {
 		if(!AuthUtil.hasRole(Role.ADMIN)) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
-		FormDataBodyPart filePart = multiPartData.getField("file");
-		List<Map<String, String>> mapList = ExcelUtil.importMapList(filePart.getValueAs(InputStream.class));
+		List<Map<String, String>> mapList = ExcelUtil.importMapList(file.getInputStream());
 		List<TagInfoDto> dtoList = TagFields.convertToTagInfoDtoList(mapList);
 		int count = importTagInfoByDtoList(dtoList);
-		return successResultToJson(new ModelMap("count", count), true);
+		return successResult(new ModelMap("count", count));
 	}
 	
 	public int importTagInfoByDtoList(List<TagInfoDto> dtoList) {

@@ -2,15 +2,13 @@ package com.sogou.map.logreplay.controller;
 
 import java.util.List;
 
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.sogou.map.logreplay.bean.ParamInfo;
@@ -22,8 +20,8 @@ import com.sogou.map.logreplay.service.TagInfoService;
 import com.sogou.map.logreplay.service.TagParamService;
 import com.sogou.map.logreplay.util.AuthUtil;
 
-@Component
-@Path("/tagParam")
+@Controller
+@RequestMapping("/tagParam")
 public class TagParamController extends BaseController {
 	
 	@Autowired
@@ -32,19 +30,18 @@ public class TagParamController extends BaseController {
 	@Autowired
 	private TagInfoService tagInfoService;
 
-	@GET
-	@Path("/detail")
-	public Response detail(
-			@QueryParam("tagInfoId") Long tagInfoId) {
-		return successResultToJson(tagParamService.getTagParamByTagInfoId(tagInfoId), true);
+	@ResponseBody
+	@RequestMapping("/detail")
+	public ModelMap detail(@RequestParam Long tagInfoId) {
+		return successResult(tagParamService.getTagParamByTagInfoId(tagInfoId));
 	}
 	
-	@POST
-	@Path("/update")
-	public Response update(
-			@FormParam("tagInfoId") Long tagInfoId,
-			@FormParam("comment") String comment,
-			@FormParam("paramInfoList") String paramInfoListJson) {
+	@ResponseBody
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public ModelMap update(
+			@RequestParam Long tagInfoId,
+			@RequestParam(required = false) String comment,
+			@RequestParam(value = "paramInfoList", required = false) String paramInfoListJson) {
 		if(!AuthUtil.hasRole(Role.ADMIN)) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
@@ -60,7 +57,7 @@ public class TagParamController extends BaseController {
 		}
 		try {
 			tagParamService.renewTagParamAndParamInfo(tagParam, paramInfoList);
-			return successResultToJson(String.format("TagParam[%d] is renewed successfully!", tagParam.getId()), true);
+			return successResult(String.format("TagParam[%d] is renewed successfully!", tagParam.getId()));
 		} catch (Exception e) {
 			throw LogReplayException.operationFailedException("Failed to renew TagParam!");
 		}

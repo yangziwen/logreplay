@@ -1,21 +1,18 @@
 package com.sogou.map.logreplay.controller;
 
 import java.util.List;
-
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sogou.map.logreplay.bean.InspectionRecord;
 import com.sogou.map.logreplay.bean.PageInfo;
@@ -32,11 +29,10 @@ import com.sogou.map.logreplay.service.PageInfoService;
 import com.sogou.map.logreplay.service.TagInfoService;
 import com.sogou.map.logreplay.service.UserService;
 import com.sogou.map.logreplay.util.AuthUtil;
-import com.sogou.map.logreplay.util.JsonUtil;
 import com.sogou.map.logreplay.util.ProductUtil;
 
-@Component
-@Path("/inspectionRecord")
+@Controller
+@RequestMapping("/inspectionRecord")
 public class InspectionRecordController extends BaseController {
 	
 	@Autowired
@@ -54,36 +50,34 @@ public class InspectionRecordController extends BaseController {
 	/**
 	 * 获取校验结果的列表
 	 */
-	@GET
-	@Path("/list")
-	public Response list(
-			@DefaultValue(Page.DEFAULT_START) @QueryParam("start") int start,
-			@DefaultValue(Page.DEFAULT_LIMIT) @QueryParam("limit") int limit,
-			@QueryParam("submitterName") String submitterName,
-			@QueryParam("submitterRoleId") Long submitterRoleId,
-			@QueryParam("solverName") String solverName,
-			@QueryParam("solverRoleId") Long solverRoleId,
-			@QueryParam("pageNo") Integer pageNo,
-			@QueryParam("tagNo") Integer tagNo,
-			@QueryParam("valid") String validStr,
-			@QueryParam("solved") String solvedStr,
-			@QueryParam("submitTimeSince") String submitTimeSince,
-			@QueryParam("submitTimeUntil") String submitTimeUntil
+	@ResponseBody
+	@RequestMapping("/list")
+	public ModelMap list(
+			@RequestParam(defaultValue = Page.DEFAULT_START) int start,
+			@RequestParam(defaultValue = Page.DEFAULT_LIMIT) int limit,
+			String submitterName,
+			Long submitterRoleId,
+			String solverName,
+			Long solverRoleId,
+			Integer pageNo,
+			Integer tagNo,
+			Boolean valid,
+			Boolean solved,
+			String submitTimeSince,
+			String submitTimeUntil
 			) {
-		Boolean valid = BooleanUtils.toBooleanObject(validStr);
-		Boolean solved = BooleanUtils.toBooleanObject(solvedStr);
 		List<Long> submitterIdList = null;
 		if(StringUtils.isNotBlank(submitterName)) {
 			submitterIdList = userService.getUserIdListResultByName(submitterName);
 			if(CollectionUtils.isEmpty(submitterIdList)) {
-				return successResultToJson(Page.<InspectionRecordDto>emptyPage(), JsonUtil.configInstance(), true);
+				return successResult(Page.<InspectionRecordDto>emptyPage());
 			}
 		}
 		List<Long> solverIdList = null;
 		if(StringUtils.isNotBlank(solverName)) {
 			solverIdList = userService.getUserIdListResultByName(solverName);
 			if(CollectionUtils.isEmpty(solverIdList)) {
-				return successResultToJson(Page.<InspectionRecordDto>emptyPage(), JsonUtil.configInstance(), true);
+				return successResult(Page.<InspectionRecordDto>emptyPage());
 			}
 		}
 		QueryParamMap params = new QueryParamMap()
@@ -101,26 +95,26 @@ public class InspectionRecordController extends BaseController {
 			.orderByDesc("createTime")
 		;
 		Page<InspectionRecordDto> page = InspectionRecordDto.from(inspectionRecordService.getInspectionRecordPaginateResultWithTransientFields(start, limit, params));
-		return successResultToJson(page, JsonUtil.configInstance(), true);
+		return successResult(page);
 	}
 	
-	@GET
-	@Path("/detail/{id}")
-	public Response detail(@PathParam("id") Long id) {
+	@ResponseBody
+	@RequestMapping("/detail/{id}")
+	public ModelMap detail(@PathVariable("id") Long id) {
 		InspectionRecord record = inspectionRecordService.getInspectionRecordById(id);
-		return successResultToJson(new InspectionRecordDto().from(record), JsonUtil.configInstance(), true);
+		return successResult(new InspectionRecordDto().from(record));
 	}
 	
 	/**
 	 * 提交校验结果，相当于创建
 	 */
-	@POST
-	@Path("/submit")
-	public Response submit(
-			@FormParam("pageNo") Integer pageNo,
-			@FormParam("tagNo") Integer tagNo,
-			@FormParam("valid") Boolean valid,
-			@FormParam("comment") String comment
+	@ResponseBody
+	@RequestMapping(value = "/submit", method = RequestMethod.POST)
+	public ModelMap submit(
+			@RequestParam Integer pageNo,
+			@RequestParam Integer tagNo,
+			@RequestParam Boolean valid,
+			@RequestParam(required = false) String comment
 			) {
 		// permission显然比role好用，但是已经来不及开发role关联permission的管理功能了
 		if(!AuthUtil.hasAnyRoles(Role.ADMIN, Role.TEST, Role.DEV)) { 
@@ -143,7 +137,7 @@ public class InspectionRecordController extends BaseController {
 			record.setTagInfo(tagInfo);
 			record.setSubmitterRoleId(AuthUtil.getCurrentRoleId());
 			inspectionRecordService.createInspectionRecord(record);
-			return successResultToJson("InspectionRecord is created successfully!", true);
+			return successResult("InspectionRecord is created successfully!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw LogReplayException.operationFailedException("Failed to create InspectionRecord!");
@@ -153,11 +147,9 @@ public class InspectionRecordController extends BaseController {
 	/**
 	 * 将校验结果标记为“已处理”
 	 */
-	@POST
-	@Path("/resolve/{id}")
-	public Response resolve(
-			@PathParam("id") Long id
-			) {
+	@ResponseBody
+	@RequestMapping(value = "/resolve/{id}", method = RequestMethod.POST)
+	public Map<String, Object> resolve(@PathVariable("id") Long id) {
 		if(!AuthUtil.hasAnyRoles(Role.ADMIN, Role.TEST, Role.DEV)) {
 			throw LogReplayException.unauthorizedException("Role of 'admin' or 'test' or 'dev' is required!");
 		}
@@ -171,7 +163,7 @@ public class InspectionRecordController extends BaseController {
 			record.setSolved(true);
 			record.setSolverRoleId(AuthUtil.getCurrentRoleId());
 			inspectionRecordService.updateInspectionRecord(record);
-			return successResultToJson("InspectionRecord is updated successfully!", true);
+			return successResult("InspectionRecord is updated successfully!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw LogReplayException.operationFailedException(String.format("Failed to update InspectionRecord[%d]", record.getId()));
