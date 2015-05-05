@@ -1,3 +1,5 @@
+USE logreplay;
+
 -- 产品信息
 DROP TABLE IF EXISTS `product`;
 CREATE TABLE `product` (

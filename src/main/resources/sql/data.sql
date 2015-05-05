@@ -1,3 +1,5 @@
+USE logreplay;
+
 -- 角色
 insert  into `role`(`id`,`name`,`display_name`) values (1,'admin','管理员'),(2,'test','测试人员'),(3,'dev','开发人员');
 
