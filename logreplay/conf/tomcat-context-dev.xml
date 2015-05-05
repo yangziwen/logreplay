@@ -9,14 +9,13 @@
 		jdbcUrl="jdbc:mysql://localhost:3306/logreplay?useUnicode=true&amp;characterEncoding=GBK" 
 		username="mobile"
 		password="mobile"
-		idleConnectionTestPeriod="60" 
-		idleMaxAge="240"
+		idleConnectionTestPeriodInMinutes="60" 
+		idleMaxAgeInMinutes="240"
 		maxConnectionsPerPartition="3" 
 		minConnectionsPerPartition="1"
 		partitionCount="1"
         acquireIncrement="5"
         statementsCacheSize="100"
-		releaseHelperThreads="3"
 		defaultAutoCommit="true"
 	/>
 	
