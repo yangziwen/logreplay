@@ -21,26 +21,21 @@
 				method="post">
 				<fieldset>
 					<div class="input-group input-group-lg">
-						<span class="input-group-addon"><i
-							class="glyphicon glyphicon-user red"></i></span> <input type="text"
-							name="username" class="form-control" placeholder="用户名">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-user red"></i></span>
+						<input type="text" name="username" class="form-control" placeholder="用户名">
 					</div>
 					<div class="clearfix"></div>
-					<br>
-
+					<br/>
 					<div class="input-group input-group-lg">
-						<span class="input-group-addon"><i
-							class="glyphicon glyphicon-lock red"></i></span> <input type="password"
-							name="password" class="form-control" placeholder="密码">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-lock red"></i></span>
+						<input type="password" name="password" class="form-control" placeholder="密码">
 					</div>
 					<div class="clearfix"></div>
-
-					<div class="input-prepend" style="display: none;">
-						<label class="remember" for="remember"><input
-							type="checkbox" id="remember"> Remember me</label>
+					<div class="input-prepend" style="margin-top: 6px;">
+						<label class="remember" for="rememberMe">
+						<input type="checkbox" id="rememberMe" name="rememberMe"> 7天内自动登录</label>
 					</div>
 					<div class="clearfix"></div>
-
 					<p class="center" style="text-align: center; margin: 10px;">
 						<button type="submit" class="btn btn-primary" style="width: 80px;">登录</button>
 					</p>

@@ -1,5 +1,6 @@
 package com.sogou.map.logreplay.bean;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -8,8 +9,9 @@ import javax.persistence.Table;
 
 import com.sogou.map.logreplay.bean.base.AbstractBean;
 
+@SuppressWarnings("serial")
 @Table(name="user")
-public class User extends AbstractBean {
+public class User extends AbstractBean implements Serializable {
 	
 	public static final int PASSWORD_MIN_LENGTH = 4;
 
