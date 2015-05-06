@@ -27,7 +27,7 @@
 
 ### 开发环境运行方法
 
- &ensp;&ensp;**1.下载工程**  `https://github.com/yangziwen/logreplay.git`
+ &ensp;&ensp;**1.下载工程**  `git clone https://github.com/yangziwen/logreplay.git`
 
  &ensp;&ensp;**2.初始化数据库**
  
@@ -36,7 +36,7 @@ create database logreplay default charset gbk;
 grant all on logreplay.* to 'mobile'@localhost identified by 'mobile';
 flush privileges;
 ```
-&ensp;&ensp;&ensp;&ensp;此后在logreplay数据库中执行src/main/resources/sql路径下的schema.sql和data.sql中的sql
+&ensp;&ensp;此后在logreplay数据库中执行src/main/resources/sql路径下的schema.sql和data.sql中的sql
 ```
 set autocommit=0;
 source src/main/resources/sql/schema.sql; commit;

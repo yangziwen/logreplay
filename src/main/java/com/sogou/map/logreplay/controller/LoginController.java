@@ -11,6 +11,7 @@ import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sogou.map.logreplay.util.AuthUtil;
 
@@ -42,17 +43,18 @@ public class LoginController {
 	@RequestMapping(value = "/login.htm", method = RequestMethod.POST)
 	public String afterLoginSubmission(
 			HttpServletRequest request,
-			HttpServletResponse response
+			HttpServletResponse response,
+			RedirectAttributes redirectAttributes
 			) throws IOException {
 		if(AuthUtil.isAuthenticated()) {
 			org.apache.shiro.web.util.WebUtils.redirectToSavedRequest(request, response, "/home.htm");
 			return null;
 		} 
 		if(AuthUtil.isRemembered()) {
-			request.setAttribute("errorMessage", "密码错误，请重试!");
+			redirectAttributes.addFlashAttribute("errorMessage", "密码错误，请重试!");
 		} else {
-			request.setAttribute("errorMessage", "用户名或密码错误，请重试!");
+			redirectAttributes.addFlashAttribute("errorMessage", "用户名或密码错误，请重试!");
 		}
-		return "login";
+		return "redirect:/login.htm";
 	}
 }

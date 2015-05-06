@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=GBK"  pageEncoding="GBK"%>
 <%@ include file="./include/include.jsp" %>
 <shiro:authenticated>
-	<c:redirect url="${ctx_path}/home.htm"></c:redirect>
+	<c:redirect url="/home.htm"></c:redirect>
 </shiro:authenticated>
 <!DOCTYPE html>
 <html lang="zh_CN">
