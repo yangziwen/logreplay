@@ -96,13 +96,13 @@
 				     	<table id="J_replayTbl" class="table table-bordered table-striped table-condensed table-hover" >
 				     		<thead>
 				     			<tr>
-				     				<th style="width: 100px;">平台</th>
 				     				<th style="width: 100px;">日志编号</th>
 				     				<th>日志描述</th>
 				     				<th style="width: 220px;">日志内容</th>
-				     				<th style="width:100px">历史记录</th>
+				     				<th style="width:85px">自测结果</th>
+				     				<th style="width:85px">测试结果</th>
 				     				<shiro:lacksRole name="visitor">
-				     					<th style="width: 100px;">管理</th>
+				     					<th style="width: 90px;">管理</th>
 				     				</shiro:lacksRole>
 				     			</tr>
 				     		</thead>
@@ -112,12 +112,12 @@
 								<tr class="${'${'}$item.bgClass($data)}" data-id="${'${'}id}" 
 										data-page-no="${'${'}pageNo}" data-tag-no="${'${'}tagNo}"
 										data-page-name="${'${'}pageName}" data-tag-name="${'${'}tagName}">
-				     				<td>${'${'}os}</td>
 				     				<td style="text-align: left">&nbsp;p[${'${'}pageNo}] t[${'${'}tagNo}]</td>
 				     				<td>{{html $item.describe($data) }}</td>
 				     				<td title="${'${'}params}" style="max-width: 250px; overflow-x: hidden; text-align: left;">
 										${'${'}params}
 									</td>
+									<td>{{html $item.displayInspectStatus(devInspectStatus)}}</td>
 									<td>{{html $item.displayInspectStatus(inspectStatus)}}</td>
 									<shiro:lacksRole name="visitor">
 				     				<td>
