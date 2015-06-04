@@ -38,8 +38,8 @@ define(function(require){
 						return;
 					}
 					var $fileInput = $(opts.fileInput);
-					$progressBar.empty().append('<div class="bar" style="width: 0%;"></div>');
-					var $completedBar = $progressBar.children('.bar');
+					$progressBar.empty().append('<div class="progress-bar" style="width: 0%;"></div>');
+					var $completedBar = $progressBar.children('.progress-bar');
 					var fd = new FormData(),
 						file = $fileInput[0].files[0];
 					var params = $.isFunction(data)? data(): data;

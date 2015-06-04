@@ -144,6 +144,7 @@ define(function(require, exports, module) {
 		});
 		$modal.on('hide.bs.modal', function() {
 			$('#J_uploadLogFilePath').val('');
+			$(this).find('.progress-bar').remove();
 		});
 	}
 	

@@ -138,7 +138,7 @@
 						<div class="col-sm-9">
 							<input id="J_uploadLogFilePath" type="text" class="form-control" disabled="disabled"/>
 						</div>
-						<div class="col-sm-9 col-sm-offset-3 hide">
+						<div class="col-sm-9 col-sm-offset-3">
 							<div id="J_uploadProgressBar" class="progress progress-striped" style="width: 100%; margin-top: 20px; margin-bottom: 0px;"></div>
 						</div>
 					</div>
