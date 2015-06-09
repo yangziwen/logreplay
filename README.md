@@ -46,4 +46,4 @@ set autocommit=1;
 
  &ensp;&ensp;**3.运行工程**  `mvn tomcat7:run`或`mvn jetty:run`
 
- &ensp;&ensp;**4.访问工程** [http://localhost:8075/logreplay](http://localhost:8075/logreplay)
+ &ensp;&ensp;**4.访问工程** [http://localhost:8075/logreplay](http://localhost:8075/logreplay) ( 用户名:admin / 密码: 1234 )
