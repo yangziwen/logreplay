@@ -63,11 +63,11 @@ public class UserAdminController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public ModelMap create (
-			@RequestParam("username") String username,
-			@RequestParam("password") String password,
-			@RequestParam("screenName") String screenName,
-			@RequestParam("roleNames") String roleNames,
-			@RequestParam("enabled") Boolean enabled) {
+			@RequestParam String username,
+			@RequestParam String password,
+			@RequestParam String screenName,
+			@RequestParam String roleNames,
+			@RequestParam Boolean enabled) {
 		if(StringUtils.isBlank(username) || StringUtils.isBlank(roleNames)) {
 			throw LogReplayException.invalidParameterException("Either Username or roleNames should not be null!");
 		}

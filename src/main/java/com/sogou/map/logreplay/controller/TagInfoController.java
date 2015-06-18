@@ -144,13 +144,13 @@ public class TagInfoController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/update")
 	public ModelMap update(
-			@RequestParam("id") Long id,
-			@RequestParam("tagNo") Integer tagNo,
-			@RequestParam("name") String name,
-			@RequestParam("pageInfoId") Long pageInfoId,
-			@RequestParam("actionId") Long actionId,
-			@RequestParam("targetId") Long targetId,
-			@RequestParam("originVersion") Integer originVersion,
+			@RequestParam Long id,
+			@RequestParam Integer tagNo,
+			@RequestParam String name,
+			@RequestParam(required = false) Long pageInfoId,
+			@RequestParam Long actionId,
+			@RequestParam Long targetId,
+			@RequestParam Integer originVersion,
 			@RequestParam(required = false) String comment
 			) {
 		if(!AuthUtil.hasRole(Role.ADMIN)) {
