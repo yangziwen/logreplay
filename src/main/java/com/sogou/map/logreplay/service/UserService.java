@@ -63,7 +63,7 @@ public class UserService {
 	 */
 	public List<User> getUserListResultByName(String name) {
 		return userDao.list(new QueryParamMap()
-			.or("name__or", new QueryParamMap()
+			.or(new QueryParamMap()
 				.addParam("username__contain", name)
 				.addParam("screenName__contain", name)
 			)

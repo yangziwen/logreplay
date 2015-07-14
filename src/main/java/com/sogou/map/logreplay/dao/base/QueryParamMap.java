@@ -5,9 +5,19 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @SuppressWarnings("serial")
 public class QueryParamMap extends HashMap<String, Object> {
+	
+	private AtomicInteger seqHolder = new AtomicInteger(101);
+	
+	/**
+	 * 由于拼接sql的机制所限，表达or的paramMap中不能再嵌套表达or的paramMap
+	 * 但整套dao的抽象，都是为了应对大多数简单情况
+	 * 而且or嵌套or的复杂sql本不应被推荐使用
+	 */
+	private boolean isOrMap = false;
 	
 	/** an unmodifiable empty QueryParamMap instance  **/
 	public static final QueryParamMap EMPTY_MAP = new QueryParamMap(0) {
@@ -54,9 +64,21 @@ public class QueryParamMap extends HashMap<String, Object> {
 		return addParam(true, key);
 	}
 	
+	private String generateOrMapKey() {
+		return seqHolder.getAndIncrement() + DaoConstant.OR_SUFFIX;
+	}
+	
+	public QueryParamMap or(Map<String, Object> orMap) {
+		return or(generateOrMapKey(), orMap);
+	}
+	
 	public QueryParamMap or(String orMapKey, Map<String, Object> orMap) {
 		ensureOrMap(orMapKey).putAll(orMap);
 		return this;
+	}
+	
+	public QueryParamMap or(String key, String value) {
+		return or(generateOrMapKey(), key, value);
 	}
 	
 	public QueryParamMap or(String orMapKey, String key, String value) {
@@ -86,13 +108,21 @@ public class QueryParamMap extends HashMap<String, Object> {
 		return this;
 	}
 	
+	private QueryParamMap markOrMap() {
+		this.isOrMap = true;
+		return this;
+	}
+	
 	private QueryParamMap ensureOrMap(String orMapKey) {
+		if(this.isOrMap) {
+			throw new UnsupportedOperationException("Nested orMap is not supported!");
+		}
 		QueryParamMap orMap = (QueryParamMap) get(orMapKey + DaoConstant.OR_SUFFIX);
 		if(orMap == null) {
 			orMap = new QueryParamMap();
 			put(orMapKey + DaoConstant.OR_SUFFIX, orMap);
 		}
-		return orMap;
+		return orMap.markOrMap();
 	}
 	
 	@SuppressWarnings("unchecked")
