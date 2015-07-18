@@ -27,4 +27,5 @@ public class PermissionController extends BaseController {
 		List<Permission> list = permissionService.getPermissionListByRoleId(roleId, excluded);
 		return successResult(list);
 	}
+	
 }

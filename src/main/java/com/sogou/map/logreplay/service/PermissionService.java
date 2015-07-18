@@ -45,7 +45,7 @@ public class PermissionService {
 	}
 	
 	private List<Permission> getPermissionListByRelList(List<RoleRelPermission> relList, boolean excluded) {
-		if(CollectionUtils.isEmpty(relList)) {
+		if(CollectionUtils.isEmpty(relList) && !excluded) {
 			return Collections.emptyList();
 		}
 		List<Long> permissionIdList = Lists.transform(relList, new Function<RoleRelPermission, Long>() {
