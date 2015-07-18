@@ -50,6 +50,7 @@
 					<ul id="J_systemManageSubmenu" class="nav submenu in" >
 						<shiro:hasRole name="admin">
 							<li><a href="${ctx_path}/admin/user/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> 用户管理</a></li>
+							<li><a href="${ctx_path}/role/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> 角色管理</a></li>
 						</shiro:hasRole>
 						<li><a href="${ctx_path}/user/detail.htm"><i class="glyphicon glyphicon-chevron-right"></i> 帐户管理</a></li>
 					</ul>

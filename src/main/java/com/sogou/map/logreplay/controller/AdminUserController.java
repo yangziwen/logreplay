@@ -26,7 +26,7 @@ import com.sogou.map.logreplay.util.AuthUtil;
 
 @Controller
 @RequestMapping("/admin/user")
-public class UserAdminController extends BaseController {
+public class AdminUserController extends BaseController {
 	
 	@Autowired
 	private UserService userService;

@@ -111,12 +111,10 @@ public class UserService {
 		userRelRoleDao.deleteUserRelRolesByUserId(user.getId());
 		List<UserRelRole> userRelRoleList = new ArrayList<UserRelRole>();
 		for(Role role: roleList) {
-			UserRelRole rel = new UserRelRole();
-			rel.setUserId(user.getId());;
-			rel.setRoleId(role.getId());
+			UserRelRole rel = new UserRelRole(user.getId(), role.getId());
 			userRelRoleList.add(rel);
 		}
-		userRelRoleDao.batchSave(userRelRoleList, 20);
+		userRelRoleDao.batchSave(userRelRoleList);
 	}
 	
 }

@@ -27,6 +27,11 @@ public class UserRelRole extends AbstractBean {
 	private Role role;
 	
 	public UserRelRole() {}
+	
+	public UserRelRole(Long userId, Long roleId) {
+		this.userId = userId;
+		this.roleId = roleId;
+	}
 
 	public Long getId() {
 		return id;

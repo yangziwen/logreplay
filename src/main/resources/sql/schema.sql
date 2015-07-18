@@ -134,3 +134,18 @@ CREATE TABLE `user_rel_role` (
   `role_id` INT UNSIGNED NOT NULL,
   UNIQUE KEY `user_rel_role` (`user_id`, `role_id`)
 ) ENGINE=INNODB DEFAULT CHARSET=GBK;
+
+DROP TABLE IF EXISTS `permission`;
+CREATE TABLE `permission` (
+  `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  `target` varchar(20),
+  `action` varchar(20)
+) ENGINE=INNODB DEFAULT CHARSET=GBK;
+
+DROP TABLE IF EXISTS `role_rel_permission`;
+CREATE TABLE `role_rel_permission` (
+  `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  `role_id` INT UNSIGNED NOT NULL,
+  `permission_id` INT UNSIGNED NOT NULL,
+  UNIQUE KEY `role_rel_permission` (`role_id`, `permission_id`)
+) ENGINE=INNODB DEFAULT CHARSET=GBK;
