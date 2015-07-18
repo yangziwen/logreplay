@@ -235,7 +235,9 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary resolve-inspection-record" id="J_resolveBtn">已处理</button>
+				<shiro:hasPermission name="inspection_record:modify">
+					<button type="button" class="btn btn-primary resolve-inspection-record" id="J_resolveBtn">已处理</button>
+				</shiro:hasPermission>
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 			</div>
 		</div><!-- /.modal-content -->

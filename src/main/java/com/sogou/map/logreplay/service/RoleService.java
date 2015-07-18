@@ -31,6 +31,10 @@ public class RoleService {
 		return roleDao.list(params);
 	}
 	
+	public void updateRole(Role role) {
+		roleDao.update(role);
+	}
+	
 	@Transactional
 	public void updateRelatedPermissions(Role role, List<Permission> permissionList) {
 		roleRelPermissionDao.deleteRoleRelPermissionByRoleId(role.getId());

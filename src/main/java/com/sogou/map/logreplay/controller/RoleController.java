@@ -20,11 +20,13 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.sogou.map.logreplay.bean.Permission;
 import com.sogou.map.logreplay.bean.Role;
+import com.sogou.map.logreplay.bean.Permission.Target;
 import com.sogou.map.logreplay.controller.base.BaseController;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.exception.LogReplayException;
 import com.sogou.map.logreplay.service.PermissionService;
 import com.sogou.map.logreplay.service.RoleService;
+import com.sogou.map.logreplay.util.AuthUtil;
 
 @Controller
 @RequestMapping("/role")
@@ -48,12 +50,22 @@ public class RoleController extends BaseController {
 	public ModelMap update(
 			@PathVariable(value = "id") Long id,
 			@RequestParam String displayName, 
-			@RequestParam String commont) {
+			@RequestParam String comment) {
+		if(!AuthUtil.isPermitted(Target.Role.modify())) {
+			throw LogReplayException.unauthorizedException("Current user is not permitted to update role");
+		}
 		Role role = roleService.getRoleById(id);
 		if(role == null) {
 			throw LogReplayException.notExistException("Role[%d] does not exist!");
 		}
-		return null;
+		role.setDisplayName(displayName);
+		role.setComment(comment);
+		try {
+			roleService.updateRole(role);
+			return successResult("Role[%s] is updated successfully!", role.getName());
+		} catch (Exception e) {
+			throw LogReplayException.operationFailedException("Failed to update Role[%d]!", id);
+		}
 	}
 	
 	@ResponseBody

@@ -33,9 +33,9 @@
 					<ul id="J_logReplaySubmenu" class="nav submenu in">
 						<li><a href="${ctx_path}/replay/realtime.htm"><i class="glyphicon glyphicon-chevron-right"></i> 实时校验</a></li>
 						<%-- <li><a href="${ctx_path}/replay/sequence.htm"><i class="glyphicon glyphicon-chevron-right"></i> 批量回放</a></li> --%>
-						<shiro:lacksRole name="visitor">
+						<shiro:hasPermission name="inspection_record:modify">
 							<li><a href="${ctx_path}/inspectionRecord/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> 校验结果</a></li>
-						</shiro:lacksRole>
+						</shiro:hasPermission>
 						<li><a href="${ctx_path}/inspectionRecord/statusList.htm"><i class="glyphicon glyphicon-chevron-right"></i> 校验状态查询</a></li>
 					</ul>
 				</li>
@@ -48,10 +48,12 @@
 					<c:set var="showSystemManageSubmenu" value="${fn:contains(request_uri, '/admin') or fn:contains(request_uri, '/user/detail.htm')}"></c:set>
 					<%-- <ul id="J_systemManageSubmenu" class="nav submenu ${showSystemManageSubmenu eq true? 'in': ''}" ${showSystemManageSubmenu eq false? 'style="height: 0px;"': ''}> --%>
 					<ul id="J_systemManageSubmenu" class="nav submenu in" >
-						<shiro:hasRole name="admin">
+						<shiro:hasPermission name="user:modify">
 							<li><a href="${ctx_path}/admin/user/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> 用户管理</a></li>
+						</shiro:hasPermission>
+						<shiro:hasPermission name="role:modify">
 							<li><a href="${ctx_path}/role/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> 角色管理</a></li>
-						</shiro:hasRole>
+						</shiro:hasPermission>
 						<li><a href="${ctx_path}/user/detail.htm"><i class="glyphicon glyphicon-chevron-right"></i> 帐户管理</a></li>
 					</ul>
 				</li>

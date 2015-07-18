@@ -49,9 +49,9 @@
 			     <div class="col-sm-12">
 			     	<div class="row">
 			     		<div class="col-sm-3">
-			     			<shiro:hasRole name="admin">
+			     			<shiro:hasPermission name="page_info:modify">
 			     				<button class="btn btn-primary btn-lg-font" id="J_openCreateModalBtn" title="新增页面信息">新增</button>
-			     			</shiro:hasRole>
+			     			</shiro:hasPermission>
 		     				<button class="btn btn-primary btn-lg-font" id="J_exportPageInfoBtn" title="导出excel">导出</button>
 			     		</div>
 			     		<div id="J_pagebar" class="col-sm-9">
@@ -66,9 +66,9 @@
 				     				<th>页面名称</th>
 				     				<th style="width: 150px;">创建时间</th>
 				     				<th style="width: 150px;">修改时间</th>
-				     				<shiro:hasRole name="admin">
+				     				<shiro:hasPermission name="page_info:modify">
 				     				<th style="width: 200px;">管理</th>
-				     				</shiro:hasRole>
+				     				</shiro:hasPermission>
 				     			</tr>
 				     		</thead>
 				     		<tbody id="J_pageInfoTbody">
@@ -79,12 +79,14 @@
 				     				<td>${'${'}name}</td>
 				     				<td>${'${'}createTime? new Date(createTime).format('yyyy-MM-dd hh:mm:ss'): '--'}</td>
 				     				<td>${'${'}updateTime? new Date(updateTime).format('yyyy-MM-dd hh:mm:ss'): '--'}</td>
-									<shiro:hasRole name="admin">
+									<shiro:hasPermission name="page_info:modify">
 				     				<td>
 				     					<button class="btn btn-primary btn-xs open-update-modal">修改</button>
+										<shiro:hasPermission name="tag_info:modify">
 				     					<button class="btn btn-primary btn-xs open-create-tag-modal">操作项</button>
+										</shiro:hasPermission>
 				     				</td>
-									</shiro:hasRole>
+									</shiro:hasPermission>
 				     			</tr>
 							</script>
 				     	</table>

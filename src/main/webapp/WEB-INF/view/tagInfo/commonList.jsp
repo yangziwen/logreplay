@@ -70,10 +70,10 @@
 			     <div class="col-sm-12">
 			     	<div class="row">
 			     		<div class="col-sm-4">
-			     			<shiro:hasRole name="admin">
+			     			<shiro:hasPermission name="tag_info:modify">
 			     				<button class="btn btn-primary btn-lg-font" id="J_openCreateTagModalBtn" title="新增公共操作项">新增</button>
 			     				<button class="btn btn-primary btn-lg-font" id="J_openUploadExcelModalBtn" title="导入excel">导入</button>
-			     			</shiro:hasRole>
+			     			</shiro:hasPermission>
 		     				<button class="btn btn-primary btn-lg-font" id="J_exportTagInfoBtn" title="导出excel">导出</button>
 			     		</div>
 			     		<div id="J_pagebar" class="col-sm-8"></div>
@@ -87,9 +87,9 @@
 				     				<th style="width: 100px;">操作动作</th>
 				     				<th style="width: 100px;">操作目标</th>
 				     				<th style="width: 100px;">初始版本</th>
-				     				<shiro:hasRole name="admin">
+				     				<shiro:hasPermission name="tag_info:modify">
 				     				<th style="width: 130px;">管理</th>
-				     				</shiro:hasRole>
+				     				</shiro:hasPermission>
 				     			</tr>
 				     		</thead>
 				     		<tbody id="J_tagInfoTbody">
@@ -101,13 +101,13 @@
 				     				<td>${'${'}$item.getActionName(actionId)}</td>
 				     				<td>${'${'}$item.getTargetName(targetId)}</td>
 									<td>${'${'}$item.displayOriginVersion(originVersion)}</td>
-									<shiro:hasRole name="admin">
+									<shiro:hasPermission name="tag_info:modify">
 				     				<td>
 				     					<button class="btn btn-primary btn-xs open-update-tag-modal">修改</button>
 										<button class="btn btn-primary btn-xs delete-tag-btn">删除</button>
 				     					<button class="btn btn-xs open-update-tag-param-modal ${'${'}$item.getParamBtnClass(hasParams)}">参数</button>
 				     				</td>
-									</shiro:hasRole>
+									</shiro:hasPermission>
 				     			</tr>
 							</script>
 				     	</table>

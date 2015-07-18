@@ -45,10 +45,10 @@
 				     	<table class="table table-bordered table-striped table-condensed table-hover ">
 				     		<thead>
 				     			<tr>
-				     				<th style="width: 100px;">角色</th>
+				     				<th style="width: 150px;">角色</th>
 				     				<th style="width: 150px;">名称</th>
 				     				<th>描述</th>
-				     				<th style="width: 200px;">管理</th>
+				     				<th style="width: 150px;">管理</th>
 				     			</tr>
 				     		</thead>
 				     		<tbody id="J_roleTbody">
@@ -59,8 +59,7 @@
 				     				<td>${'${'}displayName}</td>
 				     				<td>${'${'}comment}</td>
 				     				<td>
-				     					<button class="btn btn-primary btn-xs open-update-modal">修改</button>
-				     					<button class="btn btn-primary btn-xs open-relate-permission-modal">权限</button>
+				     					<button class="btn btn-primary btn-xs open-relate-permission-modal">关联权限</button>
 				     				</td>
 				     			</tr>
 							</script>

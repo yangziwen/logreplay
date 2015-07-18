@@ -101,9 +101,9 @@
 				     				<th style="width: 220px;">日志内容</th>
 				     				<th style="width:85px">自测结果</th>
 				     				<th style="width:85px">测试结果</th>
-				     				<shiro:lacksRole name="visitor">
+				     				<shiro:hasPermission name="operation_record:modify">
 				     					<th style="width: 90px;">管理</th>
-				     				</shiro:lacksRole>
+				     				</shiro:hasPermission>
 				     			</tr>
 				     		</thead>
 				     		<tbody id="J_replayTbody" style="max-height: 800px;" >
@@ -119,13 +119,13 @@
 									</td>
 									<td>{{html $item.displayInspectStatus(devInspectStatus)}}</td>
 									<td>{{html $item.displayInspectStatus(inspectStatus)}}</td>
-									<shiro:lacksRole name="visitor">
+									<shiro:hasPermission name="operation_record:modify">
 				     				<td>
 										<button class="btn btn-success btn-xs submit-success-btn"><span class="glyphicon glyphicon-ok"></span></button>
 										&nbsp;
 										<button class="btn btn-danger btn-xs submit-error-btn"><span class="glyphicon glyphicon-remove"></span></button>
 									</td>
-									</shiro:lacksRole>
+									</shiro:hasPermission>
 				     			</tr>
 							</script>
 				     	</table>
