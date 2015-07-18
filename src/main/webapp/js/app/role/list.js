@@ -34,7 +34,7 @@ define(function(require, exports, module) {
 		$modal.data('id', roleId);
 		$modal.find('.modal-title > strong').html('修改角色[' + roleName + ']</strong>关联权限');
 		$modal.find('.modal-dialog').css({
-			width: 560,
+			width: 600,
 			'margin-top': 150
 		});
 		$modal.modal({backdrop: 'static'});

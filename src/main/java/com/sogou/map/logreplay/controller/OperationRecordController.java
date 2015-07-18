@@ -36,7 +36,7 @@ import com.google.common.collect.Maps;
 import com.sogou.map.logreplay.bean.OperationRecord;
 import com.sogou.map.logreplay.bean.PageInfo;
 import com.sogou.map.logreplay.bean.ParamInfo;
-import com.sogou.map.logreplay.bean.Role;
+import com.sogou.map.logreplay.bean.Permission.Target;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.controller.base.BaseController;
 import com.sogou.map.logreplay.dao.base.Page;
@@ -320,7 +320,7 @@ public class OperationRecordController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/upload/nginx", method = RequestMethod.POST)
 	public ModelMap uploadNginxLog(MultipartFile file) {
-		if(!AuthUtil.hasRole(Role.ADMIN)) {
+		if(!AuthUtil.isPermitted(Target.Operation_Record.modify())) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
 		BufferedReader reader = null;

@@ -1,5 +1,7 @@
 package com.sogou.map.logreplay.security;
 
+import java.util.List;
+
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -12,17 +14,25 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.util.SimpleByteSource;
 
+import com.sogou.map.logreplay.bean.Permission;
 import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.User;
 import com.sogou.map.logreplay.bean.UserWithRoles;
+import com.sogou.map.logreplay.service.PermissionService;
 import com.sogou.map.logreplay.service.UserService;
 
 public class ShiroDbRealm extends AuthorizingRealm {
 	
 	private UserService userService;
 	
+	private PermissionService permissionService;
+	
 	public void setUserService(UserService userService) {
 		this.userService = userService;
+	}
+	
+	public void setPermissionService(PermissionService permissionService) {
+		this.permissionService = permissionService;
 	}
 	
 	/* spring可通过父类的setCredentialsMatcher注入credentialsMatcher对象 */
@@ -55,6 +65,13 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			UserWithRoles userWithRoles = userService.getUserWithRolesById(user.getId());
 			for(Role role: userWithRoles.getRoles()) {
 				info.addRole(role.getName());
+				if(Role.ADMIN.equals(role.getName())) {
+					info.addStringPermission("*:*");
+				}
+			}
+			List<Permission> permissionList = permissionService.getPermissionListByRoleList(userWithRoles.getRoles());
+			for(Permission permission: permissionList) {
+				info.addStringPermission(permission.toString());
 			}
 		}
 		return info;

@@ -1,7 +1,14 @@
 USE logreplay;
 
 -- 角色
-insert  into `role`(`id`,`name`,`display_name`) values (1,'admin','管理员'),(2,'test','测试人员'),(3,'dev','开发人员');
+insert  into `role`(`id`,`name`,`display_name`) values (1,'admin','管理员'),(2,'test','测试人员'),(3,'dev','开发人员'), (4, 'visitor', '访问者');
+
+-- 权限
+INSERT INTO permission (`target`, `action`)
+VALUES ('user', 'view'), ('user', 'modify'), ('role', 'view'), ('role', 'modify'), 
+('page_info', 'view'), ('page_info', 'modify'), ('tag_info', 'view'), ('tag_info', 'modify'),
+('operation_record', 'view'), ('operation_record', 'modify'),
+('inspection_record', 'view'), ('inspection_record', 'modify'); 
 
 -- 用户
 INSERT INTO `user` (`id`, `username`, `password`, `screen_name`, `create_time`, `enabled`) VALUES (1, 'admin', '7b18f9e91f009c2473b5ed3513549c08', '管理员', NOW(), 1);

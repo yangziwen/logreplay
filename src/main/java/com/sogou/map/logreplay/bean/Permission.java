@@ -45,4 +45,48 @@ public class Permission extends AbstractBean {
 		this.action = action;
 	}
 	
+	public String toString() {
+		return target.toLowerCase() + ":" + action.toLowerCase();
+	}
+	
+	public enum Target {
+		Page_Info,
+		Tag_Info,
+		User,
+		Role,
+		Inspection_Record,
+		Operation_Record
+		;
+		
+		public String oper(Action action) {
+			return this.name().toLowerCase() + ":" + action.name().toLowerCase();
+		}
+		
+		public String oper(Action... actions) {
+			StringBuilder buff = new StringBuilder()
+				.append(this.name().toLowerCase())
+				.append(":")
+				.append(actions[0].name().toLowerCase())
+			;
+			for(int i = 1; i < actions.length; i++) {
+				buff.append(",").append(actions[i].name().toLowerCase());
+			}
+			return buff.toString();
+		}
+		
+		public String view() {
+			return oper(Action.View);
+		}
+		
+		public String modify() {
+			return oper(Action.Modify);
+		}
+	}
+	
+	public enum Action {
+		View,
+		Modify,
+		;
+	}
+	
 }

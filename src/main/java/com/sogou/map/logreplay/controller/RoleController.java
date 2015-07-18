@@ -1,8 +1,10 @@
 package com.sogou.map.logreplay.controller;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +76,9 @@ public class RoleController extends BaseController {
 				return NumberUtils.toLong(input);
 			}
 		});
-		List<Permission> permissionList = permissionService.getPermissionListResult(new QueryParamMap().addParam("id__in", permissionIdList));
+		List<Permission> permissionList = CollectionUtils.isNotEmpty(permissionIdList)
+				? permissionService.getPermissionListResult(new QueryParamMap().addParam("id__in", permissionIdList))
+				: Collections.<Permission>emptyList();
 		try {
 			roleService.updateRelatedPermissions(role, permissionList);
 			return successResult("Role[%d] is updated successfully!", role.getId());

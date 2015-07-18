@@ -40,6 +40,7 @@
 	
 	<bean id="shiroDbRealm" class="com.sogou.map.logreplay.security.ShiroDbRealm" >
 		<property name="userService" ref="userService" />
+		<property name="permissionService" ref="permissionService" />
 		<property name="credentialsMatcher" ref="credentialsMatcher" />
 	</bean>
 

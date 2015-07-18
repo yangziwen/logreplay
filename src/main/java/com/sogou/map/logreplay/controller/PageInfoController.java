@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.collect.Lists;
 import com.sogou.map.logreplay.bean.PageInfo;
-import com.sogou.map.logreplay.bean.Role;
+import com.sogou.map.logreplay.bean.Permission.Target;
 import com.sogou.map.logreplay.controller.base.BaseController;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
@@ -101,7 +101,7 @@ public class PageInfoController extends BaseController {
 	public Map<String, Object> update(@PathVariable("id") Long id,
 			@RequestParam Integer pageNo,
 			@RequestParam String name) {
-		if(!AuthUtil.hasRole(Role.ADMIN)) {
+		if(!AuthUtil.isPermitted(Target.Page_Info.modify())) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
 		if(pageNo == null || StringUtils.isBlank(name)) {
@@ -127,7 +127,7 @@ public class PageInfoController extends BaseController {
 			@RequestParam Integer pageNo,
 			@RequestParam String name
 			) {
-		if(!AuthUtil.hasRole(Role.ADMIN)) {
+		if(!AuthUtil.isPermitted(Target.Page_Info.modify())) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
 		if(pageNo == null || StringUtils.isBlank(name)) {

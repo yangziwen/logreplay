@@ -1,11 +1,13 @@
 package com.sogou.map.logreplay.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -128,6 +130,22 @@ public class AuthUtil {
 			}
 		}
 		return false;
+	}
+	
+	public static boolean isPermitted(String permission) {
+		return getCurrentSubject().isPermitted(permission);
+	}
+	
+	public static boolean[] isPermitted(String... permissions) {
+		return getCurrentSubject().isPermitted(permissions);
+	}
+	
+	public static boolean isPermittedAll(String... permissions) {
+		return getCurrentSubject().isPermittedAll(permissions);
+	}
+	
+	public static boolean isPermittedAll(Collection<String> permissions) {
+		return isPermittedAll(permissions.toArray(ArrayUtils.EMPTY_STRING_ARRAY));
 	}
 	
 	public static void login(String username, String password) {

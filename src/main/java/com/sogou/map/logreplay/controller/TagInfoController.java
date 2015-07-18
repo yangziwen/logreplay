@@ -26,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.sogou.map.logreplay.bean.PageInfo;
-import com.sogou.map.logreplay.bean.Role;
+import com.sogou.map.logreplay.bean.Permission.Target;
 import com.sogou.map.logreplay.bean.TagAction;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.bean.TagInfo.InspectStatus;
@@ -153,7 +153,7 @@ public class TagInfoController extends BaseController {
 			@RequestParam Integer originVersion,
 			@RequestParam(required = false) String comment
 			) {
-		if(!AuthUtil.hasRole(Role.ADMIN)) {
+		if(!AuthUtil.isPermitted(Target.Tag_Info.modify())) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
 		boolean needPageInfo = tagNo < TagInfo.COMMON_TAG_NO_MIN_VALUE;
@@ -201,7 +201,7 @@ public class TagInfoController extends BaseController {
 			@RequestParam Integer originVersion,
 			@RequestParam(required = false) String comment
 			) {
-		if(!AuthUtil.hasRole(Role.ADMIN)) {
+		if(!AuthUtil.isPermitted(Target.Tag_Info.modify())) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
 		boolean needPageInfo = tagNo < TagInfo.COMMON_TAG_NO_MIN_VALUE;
@@ -240,7 +240,7 @@ public class TagInfoController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public ModelMap delete(@RequestParam("id") Long id) {
-		if(!AuthUtil.hasRole(Role.ADMIN)) {
+		if(!AuthUtil.isPermitted(Target.Tag_Info.modify())) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
 		if(id == null || id <= 0) {
@@ -410,7 +410,7 @@ public class TagInfoController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/import", method = RequestMethod.POST)
 	public ModelMap importTagInfos(MultipartFile file) throws IOException {
-		if(!AuthUtil.hasRole(Role.ADMIN)) {
+		if(!AuthUtil.isPermitted(Target.Tag_Info.modify())) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
 		List<Map<String, String>> mapList = ExcelUtil.importMapList(file.getInputStream());

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.sogou.map.logreplay.bean.ParamInfo;
-import com.sogou.map.logreplay.bean.Role;
+import com.sogou.map.logreplay.bean.Permission.Target;
 import com.sogou.map.logreplay.bean.TagParam;
 import com.sogou.map.logreplay.controller.base.BaseController;
 import com.sogou.map.logreplay.exception.LogReplayException;
@@ -42,7 +42,7 @@ public class TagParamController extends BaseController {
 			@RequestParam Long tagInfoId,
 			@RequestParam(required = false) String comment,
 			@RequestParam(value = "paramInfoList", required = false) String paramInfoListJson) {
-		if(!AuthUtil.hasRole(Role.ADMIN)) {
+		if(!AuthUtil.isPermitted(Target.Tag_Info.modify())) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
 		if(tagInfoId == null || tagInfoService.getTagInfoById(tagInfoId) == null) {

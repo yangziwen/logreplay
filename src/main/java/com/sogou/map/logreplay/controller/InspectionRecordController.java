@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sogou.map.logreplay.bean.InspectionRecord;
 import com.sogou.map.logreplay.bean.PageInfo;
-import com.sogou.map.logreplay.bean.Role;
+import com.sogou.map.logreplay.bean.Permission.Target;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.bean.User;
 import com.sogou.map.logreplay.controller.base.BaseController;
@@ -116,8 +116,7 @@ public class InspectionRecordController extends BaseController {
 			@RequestParam Boolean valid,
 			@RequestParam(required = false) String comment
 			) {
-		// permission显然比role好用，但是已经来不及开发role关联permission的管理功能了
-		if(!AuthUtil.hasAnyRoles(Role.ADMIN, Role.TEST, Role.DEV)) { 
+		if(!AuthUtil.isPermitted(Target.Inspection_Record.modify())) { 
 			throw LogReplayException.unauthorizedException("Role of 'admin' or 'test' or 'dev' is required!");
 		}
 		if(pageNo == null || tagNo == null || valid == null) {
@@ -150,7 +149,7 @@ public class InspectionRecordController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/resolve/{id}", method = RequestMethod.POST)
 	public Map<String, Object> resolve(@PathVariable("id") Long id) {
-		if(!AuthUtil.hasAnyRoles(Role.ADMIN, Role.TEST, Role.DEV)) {
+		if(!AuthUtil.isPermitted(Target.Inspection_Record.modify())) {
 			throw LogReplayException.unauthorizedException("Role of 'admin' or 'test' or 'dev' is required!");
 		}
 		InspectionRecord record = null;
