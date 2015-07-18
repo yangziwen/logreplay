@@ -185,7 +185,7 @@ public class TagInfoController extends BaseController {
 			tagInfoService.updateTagInfo(tagInfo);
 			return successResult(String.format("TagInfo[%d] is updated successfully!", id));
 		} catch (Exception e) {
-			throw LogReplayException.operationFailedException(String.format("Failed to update TagInfo[%d]", id));
+			throw LogReplayException.operationFailedException("Failed to update TagInfo[%d]", id);
 		}
 		
 	}
@@ -250,7 +250,7 @@ public class TagInfoController extends BaseController {
 			tagInfoService.deleteTagInfoById(id);
 			return successResult(String.format("TagInfo[%d] is deleted successfully!", id));
 		} catch (Exception e) {
-			throw LogReplayException.operationFailedException(String.format("Failed to delete TagInfo[%d]!", id));
+			throw LogReplayException.operationFailedException("Failed to delete TagInfo[%d]!", id);
 		}
 	}
 	

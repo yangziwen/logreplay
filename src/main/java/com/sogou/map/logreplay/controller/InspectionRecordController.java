@@ -121,7 +121,7 @@ public class InspectionRecordController extends BaseController {
 			throw LogReplayException.unauthorizedException("Role of 'admin' or 'test' or 'dev' is required!");
 		}
 		if(pageNo == null || tagNo == null || valid == null) {
-			throw LogReplayException.invalidParameterException("Parameters invalid!");
+			throw LogReplayException.invalidParameterException("Parameters are invalid!");
 		}
 		PageInfo pageInfo = pageInfoService.getPageInfoByPageNoAndProductId(pageNo, ProductUtil.getProductId());
 		if(pageInfo == null) {
@@ -155,7 +155,7 @@ public class InspectionRecordController extends BaseController {
 		}
 		InspectionRecord record = null;
 		if(id == null || (record = inspectionRecordService.getInspectionRecordById(id)) == null) {
-			throw LogReplayException.invalidParameterException(String.format("Id[%d] of InspectionRecord is invalid!", id));
+			throw LogReplayException.invalidParameterException("Id[%d] of InspectionRecord is invalid!", id);
 		}
 		try {
 			User curUser = AuthUtil.getCurrentUser();
@@ -166,7 +166,7 @@ public class InspectionRecordController extends BaseController {
 			return successResult("InspectionRecord is updated successfully!");
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw LogReplayException.operationFailedException(String.format("Failed to update InspectionRecord[%d]", record.getId()));
+			throw LogReplayException.operationFailedException("Failed to update InspectionRecord[%d]", record.getId());
 		}
 		
 	}

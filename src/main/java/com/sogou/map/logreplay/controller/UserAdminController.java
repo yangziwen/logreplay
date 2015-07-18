@@ -106,7 +106,7 @@ public class UserAdminController extends BaseController {
 		}
 		User user = userService.getUserById(id);
 		if(user == null) {
-			throw LogReplayException.notExistException(String.format("User[%d] does not exist!", id));
+			throw LogReplayException.notExistException("User[%d] does not exist!", id);
 		}
 		if(StringUtils.isNotBlank(screenName)) {
 			user.setScreenName(screenName);
@@ -118,7 +118,7 @@ public class UserAdminController extends BaseController {
 			userService.updateUser(user, roleList);
 			return successResult(String.format("User[%d] is updated successfully!", user.getId()));
 		} catch (Exception e) {
-			throw LogReplayException.operationFailedException(String.format("Failed to update user[%d]!", id));
+			throw LogReplayException.operationFailedException("Failed to update user[%d]!", id);
 		}
 	}
 	
@@ -132,7 +132,7 @@ public class UserAdminController extends BaseController {
 			@RequestParam String password) {
 		User user = null;
 		if(StringUtils.isBlank(password) || (password = password.trim()).length() < User.PASSWORD_MIN_LENGTH) {
-			throw LogReplayException.invalidParameterException(String.format("Invalid password[%s]!", password));
+			throw LogReplayException.invalidParameterException("Invalid password[%s]!", password);
 		}
 		if(id == null || (user = userService.getUserById(id)) == null) {
 			throw LogReplayException.invalidParameterException(String.format("Invalid userId[%s]!", id));
@@ -142,7 +142,7 @@ public class UserAdminController extends BaseController {
 			userService.updateUser(user);
 			return successResult(String.format("Password of user[%d] is updated successfully!", user.getId()));
 		} catch (Exception e) {
-			throw LogReplayException.operationFailedException(String.format("Failed to update password of user[%d]!", id));
+			throw LogReplayException.operationFailedException("Failed to update password of user[%d]!", id);
 		}
 	}
 	

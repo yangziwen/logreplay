@@ -26,20 +26,20 @@ public class LogReplayException extends RuntimeException {
 		return this;
 	}
 	
-	public static NotExistException notExistException(String errorMsg) {
-		return new NotExistException(errorMsg);
+	public static NotExistException notExistException(String errorMsg, Object... args) {
+		return new NotExistException(String.format(errorMsg, args));
 	}
 	
-	public static OperationFailedException operationFailedException(String errorMsg) {
-		return new OperationFailedException(errorMsg);
+	public static OperationFailedException operationFailedException(String errorMsg, Object... args) {
+		return new OperationFailedException(String.format(errorMsg, args));
 	}
 	
-	public static InvalidParameterException invalidParameterException(String errorMsg) {
-		return new InvalidParameterException(errorMsg);
+	public static InvalidParameterException invalidParameterException(String errorMsg, Object... args) {
+		return new InvalidParameterException(String.format(errorMsg, args));
 	}
 	
-	public static UnauthorizedException unauthorizedException(String errorMsg) {
-		return new UnauthorizedException(errorMsg);
+	public static UnauthorizedException unauthorizedException(String errorMsg, Object... args) {
+		return new UnauthorizedException(String.format(errorMsg, args));
 	}
 	
 	// ----------------------------------- //

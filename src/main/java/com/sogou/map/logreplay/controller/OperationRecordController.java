@@ -312,7 +312,7 @@ public class OperationRecordController extends BaseController {
 			operationRecordService.saveOrUpdateOperationRecord(record);
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw LogReplayException.operationFailedException(String.format("Failed to save %s", record));
+			throw LogReplayException.operationFailedException("Failed to save %s", record);
 		}
 		return successResult(new ModelMap("success", true));
 	}

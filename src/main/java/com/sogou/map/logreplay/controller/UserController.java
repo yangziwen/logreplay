@@ -43,7 +43,7 @@ public class UserController extends BaseController {
 			return successResult(String.format("User[%s] is successfully updated", username));
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw LogReplayException.operationFailedException(String.format("Failed to update User[%s]", username));
+			throw LogReplayException.operationFailedException("Failed to update User[%s]", username);
 		}
 	}
 	
@@ -69,7 +69,7 @@ public class UserController extends BaseController {
 			return successResult(String.format("The password of User[%s] is successfully updated", username));
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw LogReplayException.operationFailedException(String.format("Failed to update the password of User[%s]", username));
+			throw LogReplayException.operationFailedException("Failed to update the password of User[%s]", username);
 		}
 	}
 	

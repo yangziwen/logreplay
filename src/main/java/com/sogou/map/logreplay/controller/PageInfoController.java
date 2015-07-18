@@ -117,7 +117,7 @@ public class PageInfoController extends BaseController {
 			pageInfoService.updatePageInfo(info);
 			return successResult(String.format("PageInfo[%d] is updated successfully!", id));
 		} catch (Exception e) {
-			throw LogReplayException.operationFailedException(String.format("Failed to update PageInfo[%d]", id));
+			throw LogReplayException.operationFailedException("Failed to update PageInfo[%d]", id);
 		}
 	}
 

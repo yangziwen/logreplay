@@ -46,7 +46,7 @@ public class TagParamController extends BaseController {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
 		if(tagInfoId == null || tagInfoService.getTagInfoById(tagInfoId) == null) {
-			throw LogReplayException.invalidParameterException(String.format("TagInfo[%d] does not exist!", tagInfoId));
+			throw LogReplayException.invalidParameterException("TagInfo[%d] does not exist!", tagInfoId);
 		}
 		List<ParamInfo> paramInfoList = JSON.parseArray(paramInfoListJson, ParamInfo.class);
 		TagParam tagParam = tagParamService.getTagParamByTagInfoId(tagInfoId);
