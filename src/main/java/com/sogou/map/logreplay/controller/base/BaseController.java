@@ -13,6 +13,14 @@ public abstract class BaseController {
 	 * 为了与前端代码保持兼容，
 	 * 而统一用successResult方法输出json结果
 	 */
+	protected ModelMap successResult(String response) {
+		return new ModelMap("code", 0).addAttribute("response", response);
+	}
+	
+	protected ModelMap successResult(String response, Object... args) {
+		return new ModelMap("code", 0).addAttribute("response", String.format(response, args));
+	}
+	
 	protected ModelMap successResult(Object response) {
 		return new ModelMap("code", 0).addAttribute("response", response);
 	}

@@ -183,7 +183,7 @@ public class TagInfoController extends BaseController {
 			tagInfo.setOriginVersion(originVersion);
 			tagInfo.setComment(comment);
 			tagInfoService.updateTagInfo(tagInfo);
-			return successResult(String.format("TagInfo[%d] is updated successfully!", id));
+			return successResult("TagInfo[%d] is updated successfully!", id);
 		} catch (Exception e) {
 			throw LogReplayException.operationFailedException("Failed to update TagInfo[%d]", id);
 		}
@@ -215,7 +215,7 @@ public class TagInfoController extends BaseController {
 		}
 		PageInfo pageInfo = needPageInfo ? pageInfoService.getPageInfoById(pageInfoId) : null;
 		if(pageInfo == null && needPageInfo) {
-			throw LogReplayException.invalidParameterException(String.format("PageInfo[%d] does not exist!", pageInfoId));
+			throw LogReplayException.invalidParameterException("PageInfo[%d] does not exist!", pageInfoId);
 		}
 		try {
 			TagInfo tagInfo = new TagInfo();
@@ -230,7 +230,7 @@ public class TagInfoController extends BaseController {
 			tagInfo.setInspectStatus(InspectStatus.UNCHECKED.getIntValue());
 			tagInfo.setDevInspectStatus(InspectStatus.UNCHECKED.getIntValue());
 			tagInfoService.createTagInfo(tagInfo);
-			return successResult(String.format("TagInfo[%d] is created successfully!", tagInfo.getId()));
+			return successResult("TagInfo[%d] is created successfully!", tagInfo.getId());
 		} catch (Exception e) {
 			throw LogReplayException.operationFailedException("Failed to create TagInfo!");
 		}
@@ -248,7 +248,7 @@ public class TagInfoController extends BaseController {
 		}
 		try {
 			tagInfoService.deleteTagInfoById(id);
-			return successResult(String.format("TagInfo[%d] is deleted successfully!", id));
+			return successResult("TagInfo[%d] is deleted successfully!", id);
 		} catch (Exception e) {
 			throw LogReplayException.operationFailedException("Failed to delete TagInfo[%d]!", id);
 		}

@@ -40,7 +40,7 @@ public class UserController extends BaseController {
 			User user = userService.getUserByUsername(username);
 			user.setScreenName(screenName);
 			userService.updateUser(user);
-			return successResult(String.format("User[%s] is successfully updated", username));
+			return successResult("User[%s] is successfully updated", username);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw LogReplayException.operationFailedException("Failed to update User[%s]", username);
@@ -66,7 +66,7 @@ public class UserController extends BaseController {
 		try {
 			user.setPassword(AuthUtil.hashPassword(username, newPassword));
 			userService.updateUser(user);
-			return successResult(String.format("The password of User[%s] is successfully updated", username));
+			return successResult("The password of User[%s] is successfully updated", username);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw LogReplayException.operationFailedException("Failed to update the password of User[%s]", username);

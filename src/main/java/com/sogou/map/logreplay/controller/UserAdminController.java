@@ -84,7 +84,7 @@ public class UserAdminController extends BaseController {
 		try {
 			User user = new User(username, screenName, AuthUtil.hashPassword(username, password), enabled); 
 			userService.createUser(user, roleList);
-			return successResult(String.format("User[%d] is created successfully!", user.getId()));
+			return successResult("User[%d] is created successfully!", user.getId());
 		} catch (Exception e) {
 			throw LogReplayException.operationFailedException("Failed to create user!");
 		}
@@ -116,7 +116,7 @@ public class UserAdminController extends BaseController {
 		}
 		try {
 			userService.updateUser(user, roleList);
-			return successResult(String.format("User[%d] is updated successfully!", user.getId()));
+			return successResult("User[%d] is updated successfully!", user.getId());
 		} catch (Exception e) {
 			throw LogReplayException.operationFailedException("Failed to update user[%d]!", id);
 		}
@@ -140,7 +140,7 @@ public class UserAdminController extends BaseController {
 		try {
 			user.setPassword(AuthUtil.hashPassword(user.getUsername(), password));
 			userService.updateUser(user);
-			return successResult(String.format("Password of user[%d] is updated successfully!", user.getId()));
+			return successResult("Password of user[%d] is updated successfully!", user.getId());
 		} catch (Exception e) {
 			throw LogReplayException.operationFailedException("Failed to update password of user[%d]!", id);
 		}

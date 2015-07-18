@@ -115,7 +115,7 @@ public class PageInfoController extends BaseController {
 			info.setName(name);
 			info.setPageNo(pageNo);
 			pageInfoService.updatePageInfo(info);
-			return successResult(String.format("PageInfo[%d] is updated successfully!", id));
+			return successResult("PageInfo[%d] is updated successfully!", id);
 		} catch (Exception e) {
 			throw LogReplayException.operationFailedException("Failed to update PageInfo[%d]", id);
 		}
@@ -136,7 +136,7 @@ public class PageInfoController extends BaseController {
 		try {
 			PageInfo info = new PageInfo(pageNo, name);
 			pageInfoService.createPageInfo(info);
-			return successResult(String.format("PageInfo[%s] is created successfully!", info.getId()));
+			return successResult("PageInfo[%s] is created successfully!", info.getId());
 		} catch (Exception e) {
 			throw LogReplayException.operationFailedException("Failed to create PageInfo!");
 		}
