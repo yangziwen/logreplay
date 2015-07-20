@@ -37,9 +37,7 @@ define(function(require, exports, module) {
 					return true;
 				},
 				success: function(data, ev) {
-					common.alertMsg('上传成功!').done(function() {
-						initImageTailor(data);
-					});
+					initImageTailor(data);
 				}, 
 				error: function() {
 					common.alertMsg('上传失败!');

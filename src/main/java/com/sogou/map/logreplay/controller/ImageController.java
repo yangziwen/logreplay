@@ -73,7 +73,6 @@ public class ImageController extends BaseController {
 		if(id == null 
 				|| (image = imageService.getImageById(id)) == null
 				|| !(imageFile = new File(image.getFilepath())).exists()) {
-			// TODO Ìæ»»³ÉÄ¬ÈÏÍ¼Æ¬
 			throw new NoSuchRequestHandlingMethodException(request);
 		}
 		// TODO ¼Ó»º´æÍ·
@@ -102,7 +101,7 @@ public class ImageController extends BaseController {
 			@RequestParam(defaultValue = Image.TYPE_MIDDLE) String type,
 			HttpServletRequest request,
 			HttpServletResponse response
-			) throws ServletException {
+			) throws ServletException, IOException {
 		if(userId == null) {
 			userId = AuthUtil.getCurrentUser().getId();
 		}
@@ -110,8 +109,9 @@ public class ImageController extends BaseController {
 		Image image = avatar != null? imageService.getImageById(avatar.getImageId()): null;
 		File imageFile = null;
 		if(image == null || !(imageFile = new File(image.getFilepath())).exists()) {
-			// TODO Ìæ»»³ÉÄ¬ÈÏÍ¼Æ¬
-			throw new NoSuchRequestHandlingMethodException(request);
+			// Ìæ»»³ÉÄ¬ÈÏÍ¼Æ¬
+			response.sendRedirect(request.getContextPath() + Avatar.DEFAULT_AVATAR);
+			return;
 		}
 		InputStream input = null;
 		OutputStream output = null;

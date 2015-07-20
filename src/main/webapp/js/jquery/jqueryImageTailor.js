@@ -37,7 +37,8 @@ define(function(require){
 			'mask-width': 200,			// 剪裁遮罩的默认宽度
 			'mask-height': 200,			// 剪裁遮罩的默认高度
 			'img-background-opacity': 0.6,
-			'img-src': ''
+			'img-src': '',
+			'mask-title': '通过拖拽进行剪裁'
 		};
 		
 		function buildTailor($tailor, ops) {
@@ -67,7 +68,7 @@ define(function(require){
 				position: 'absolute',
 				border: '2px dashed #666',
 				overflow: 'hidden'
-			}).addClass('img-mask').hide();
+			}).addClass('img-mask').attr('title', ops['mask-title']).hide();
 			$mask.append($maskImg)
 				.append('<div style="width: 100%; height: 100%;" />')
 				.append('<div class="handler left-handler top-handler" />')
@@ -107,8 +108,8 @@ define(function(require){
 			}, $mask.position());
 			
 			$maskImg.css({
-				left: imgInfo.left - maskInfo.left,
-				top: imgInfo.top - maskInfo.top - 2
+				left: imgInfo.left - maskInfo.left - 1,
+				top: imgInfo.top - maskInfo.top - 3
 			});
 			
 			var x0 = 0, y0 = 0;
@@ -173,8 +174,8 @@ define(function(require){
 				}
 				$mask.css({left: left, top: top});
 				$maskImg.css({
-					left: imgInfo.left - left,
-					top: imgInfo.top - top - 2 
+					left: imgInfo.left - left - 1,
+					top: imgInfo.top - top - 3 
 				});
 			});
 			

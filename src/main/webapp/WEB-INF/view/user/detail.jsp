@@ -39,8 +39,13 @@
 			     		<table class="table table-bordered">
 			     			<tbody>
 			     				<tr>
-			     					<td><strong>用户名</strong></td>
-			     					<td><shiro:principal/></td>
+			     					<td rowspan="4" style="width: 128px; border-right: 1px solid #ddd; padding: 0px;">
+			     						<img src="${ctx_path}/image/avatar?type=large" style="width:128px;" />
+			     					</td>
+			     				</tr>
+			     				<tr>
+			     					<td  style="border-top-width: 0px;"><strong>用户名</strong></td>
+			     					<td  style="border-top-width: 0px;"><shiro:principal/></td>
 			     				</tr>
 			     				<tr>
 			     					<td><strong>昵称</strong></td>
@@ -51,7 +56,7 @@
 			     					<td><%=AuthUtil.getCurrentRoleObj().getDisplayName()%></td>
 			     				</tr>
 			     				<tr>
-			     					<td colspan="2">
+			     					<td colspan="3">
 			     						<button class="btn btn-primary" id="J_openUpdatePasswordModalBtn">修改密码</button>
 			     						&nbsp;
 			     						<button class="btn btn-primary" id="J_openUploadAvatarModalBtn">上传头像</button>

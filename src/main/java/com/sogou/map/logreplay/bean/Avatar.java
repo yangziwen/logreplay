@@ -10,6 +10,8 @@ import com.sogou.map.logreplay.bean.base.AbstractBean;
 
 @Table(name = "avatar")
 public class Avatar extends AbstractBean {
+	
+	public static final String DEFAULT_AVATAR = "/img/default-avatar.jpg";
 
 	@Id
 	@Column
