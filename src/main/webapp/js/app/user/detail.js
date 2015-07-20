@@ -69,6 +69,7 @@ define(function(require, exports, module) {
 	function init() {
 		initOpenUpdatePasswordModalBtn();
 		initUpdatePasswordBtn();
+		require('app/user/uploadAvatar').init();
 	}
 	
 	module.exports = {init: init};

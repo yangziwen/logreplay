@@ -149,3 +149,26 @@ CREATE TABLE `role_rel_permission` (
   `permission_id` INT UNSIGNED NOT NULL,
   UNIQUE KEY `role_rel_permission` (`role_id`, `permission_id`)
 ) ENGINE=INNODB DEFAULT CHARSET=GBK;
+
+DROP TABLE IF EXISTS `image`;
+CREATE TABLE `image` (
+  `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  `creator_id` INT UNSIGNED,
+  `checksum` VARCHAR (40),
+  `format` VARCHAR (10),
+  `type` VARCHAR (10),
+  `width` INT,
+  `height` INT,
+  `size` INT,
+  `create_time` DATETIME
+) ENGINE=INNODB DEFAULT CHARSET=GBK;
+
+-- ÓÃ»§Í·Ïñ
+DROP TABLE IF EXISTS `avatar`;
+CREATE TABLE `avatar` (
+  `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  `user_id` INT UNSIGNED,
+  `image_id` INT UNSIGNED,
+  `type` VARCHAR (10),
+  `create_time` DATETIME
+) ENGINE = INNODB DEFAULT CHARSET = GBK ;

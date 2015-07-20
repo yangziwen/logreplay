@@ -53,3 +53,16 @@ table.table > tbody > tr > td {
 ul.submenu {
 	overflow: hidden;
 }
+
+/** imageTailor begin **/
+.handler { width: 10px; height: 10px; background-color: #666; position: absolute; }
+.left-handler{ left: 0px; }
+.top-handler { top: 0px; }
+.right-handler { right: 0px; }
+.bottom-handler { bottom: 0px; }
+.left-handler.top-handler { cursor: nw-resize; }
+.left-handler.bottom-handler { cursor: sw-resize; }
+.right-handler.top-handler { cursor: ne-resize; }
+.right-handler.bottom-handler { cursor: se-resize; }
+.img-mask { cursor: crosshair; } 
+/** imageTailor end **/

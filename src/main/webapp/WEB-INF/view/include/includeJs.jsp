@@ -14,6 +14,7 @@ seajs.config({
 		'jquery.tmpl': 'jquery/jquery.tmpl.js',
 		'jquery.validate': 'jquery/jquery.validate.js',
 		'jquery.cookie': 'jquery/jquery.cookie.js',
+		'jquery.imagetailor': 'jquery/jqueryImageTailor.js',
 		'bootstrap': 'bootstrap/bootstrap.min.js',
 		'bootstrap.pagebar': 'bootstrap/bootstrapPageBar.js',
 		'bootstrap.uploadfilebtn': 'bootstrap/bootstrapUploadFileBtn.js',

@@ -53,6 +53,8 @@
 			     				<tr>
 			     					<td colspan="2">
 			     						<button class="btn btn-primary" id="J_openUpdatePasswordModalBtn">修改密码</button>
+			     						&nbsp;
+			     						<button class="btn btn-primary" id="J_openUploadAvatarModalBtn">上传头像</button>
 			     					</td>
 			     				</tr>
 			     			</tbody>
@@ -96,6 +98,35 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary update-user-password" id="J_updatePasswordBtn" >提交</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 上传头像的弹出层 -->
+<div class="modal" id="J_uploadAvatarModal" tabindex="-1">
+    <div class="modal-dialog">
+    	<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title"><strong>上传头像</strong></h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" role="form">
+					<div class="form-group upload-group">
+						<label class="col-sm-3 control-label">头像文件：</label>
+						<div class="col-sm-9">
+							<input id="J_avatarPath" type="text" class="form-control" disabled="disabled"/>
+						</div>
+					</div>
+					<div class="form-group tailor-container"></div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary btn-browse" >浏览</button>
+				<button type="button" class="btn btn-primary btn-upload" style="margin-left:5px;">上传</button>
+				<button type="button" class="btn btn-primary btn-submit" style="margin-left:5px;">提交</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 			</div>
 		</div><!-- /.modal-content -->

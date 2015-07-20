@@ -28,6 +28,9 @@
 						</ul>
 					</li>
 					<%-- <li><a href="${ctx_path}/home.htm">Ö÷Ò³</a></li> --%>
+					<li>
+						<img src="${ctx_path}/image/avatar?type=small" style="width: 32px; height: 32px; margin-top: 10px;"/>
+					</li>
 					<li><a id="J_openProfileModalBtn" href="javascript:void(0);"><shiro:principal/></a></li>
 					<li><a href="${ctx_path}/logout.htm">ÍË³ö</a></li>
 					<li style="width: 10px;"></li>
