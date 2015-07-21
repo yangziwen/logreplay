@@ -2,6 +2,8 @@ package com.sogou.map.logreplay.bean;
 
 import java.sql.Timestamp;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -9,6 +11,8 @@ import javax.persistence.Transient;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -21,9 +25,9 @@ public class Image extends AbstractBean {
 	public static final String TYPE_MIDDLE 	= "middle";
 	public static final String TYPE_LARGE 	= "large";
 	public static final String TYPE_RAW 	= "raw";
-	
-	// TODO 更改为容器级的配置
-	public static final String IMAGE_BASE_PATH = "d:/mytest/images/";
+
+	/** 图片根路径通过jndi进行配置 **/
+	public static final String IMAGE_BASE_PATH = lookupBaseImagePath();
 	
 	@Id
 	@Column
@@ -244,6 +248,19 @@ public class Image extends AbstractBean {
 			return height;
 		}
 		
+	}
+	
+	private static final String lookupBaseImagePath() {
+		String imageBasePath = null;
+		try {
+			imageBasePath = (String) new InitialContext().lookup("java:comp/env/imageBasePath");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		};
+		if(StringUtils.isBlank(imageBasePath)) {
+			imageBasePath = SystemUtils.USER_DIR;
+		}
+		return imageBasePath;
 	}
 	
 }

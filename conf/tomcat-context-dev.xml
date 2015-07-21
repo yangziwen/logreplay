@@ -1,6 +1,9 @@
 <Context distributable="true">
 
 	<WatchedResource>WEB-INF/web.xml</WatchedResource>
+	
+	<!-- 图片文件根目录 -->
+	<Environment name="imageBasePath" type="java.lang.String" value="/mytest/images"/>
 
 	<Resource name="jdbc/dataSource"
 		factory="org.apache.naming.factory.BeanFactory"

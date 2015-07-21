@@ -18,6 +18,9 @@
     <!-- <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/dataSource"/> -->
 	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/dataSource"/>
 	
+	<!-- 图片根目录的路径，工程中并没有通过spring进行注入，这里仅仅是标识下 -->
+	<jee:jndi-lookup id="imageBasePath" jndi-name="java:comp/env/imageBasePath"/>
+	
 	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"/>
 	</bean>

@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configure class="org.mortbay.jetty.webapp.WebAppContext">  
+<Configure class="org.mortbay.jetty.webapp.WebAppContext">
+	<New class="org.mortbay.jetty.plus.naming.EnvEntry">
+		<Arg></Arg>
+		<Arg>imageBasePath</Arg>
+		<Arg type="java.lang.String">/mytest/images</Arg>
+		<Arg type="boolean">true</Arg>
+	</New>
     <New id="dataSource" class="org.mortbay.jetty.plus.naming.Resource">  
         <Arg>jdbc/dataSource</Arg>  
         <Arg>  
