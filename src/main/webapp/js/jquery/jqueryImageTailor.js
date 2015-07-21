@@ -19,12 +19,12 @@ define(function(require){
 					var maskPos = $mask.position(),
 						imgPos = $img.position();
 					return {
-						left: maskPos.left - imgPos.left,
-						top: maskPos.top - imgPos.top,
-						width: $mask.width(),
-						height: $mask.height(),
-						imgWidth: $img.width(),
-						imgHeight: $img.height()
+						left: parseInt(maskPos.left - imgPos.left),
+						top: parseInt(maskPos.top - imgPos.top),
+						width: parseInt($mask.width()),
+						height: parseInt($mask.height()),
+						imgWidth: parseInt($img.width()),
+						imgHeight: parseInt($img.height())
 					};
 				}
 				return this;

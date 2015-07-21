@@ -49,15 +49,19 @@ define(function(require, exports, module) {
 			var image = data.response;
 			var $container = $modal.find('.tailor-container').empty();
 			$container.imageTailor({
-				'img-src': CTX_PATH + '/image/' + image.id
+				'img-src': CTX_PATH + '/image/' + image.id,
+				'img-max-width': 400,
+				'img-max-height': 300,
+				'mask-width': 150,
+				'mask-height': 150
 			});
 			var $submitBtn = $modal.find('.btn-submit').off('click').on('click', function(){
 				var url = CTX_PATH + '/image/avatar';
 				var info = $container.tailorInfo();
 				$.post(url, {
-					imageId: parseInt(image.id),
-					left: parseInt(info.left),
-					top: parseInt(info.top),
+					imageId: image.id,
+					left: info.left,
+					top: info.top,
 					width: info.width,
 					height: info.height,
 					imgWidth: info.imgWidth,
