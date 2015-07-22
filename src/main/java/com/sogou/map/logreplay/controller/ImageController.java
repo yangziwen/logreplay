@@ -67,7 +67,7 @@ public class ImageController extends BaseController {
 	 * 按id获取图片
 	 */
 	@RequestMapping("{id:\\d+}")
-	public void getImage(
+	public void getImageById(
 			@PathVariable("id") Long id,
 			HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -79,24 +79,31 @@ public class ImageController extends BaseController {
 			throw new NoSuchRequestHandlingMethodException(request);
 		}
 		
-		ServletContext servletContext = request.getSession().getServletContext();
-		String mimeType = servletContext.getMimeType(image.getFilename());
-		setContentHeaders(mimeType, image.getSize(), response);
-		setCacheHeaders(response, DEFAULT_CACHE_SECONDS, false);
+		outputImage(imageFile, request, response);
 		
-		InputStream input = null;
-		OutputStream output = null;
-		try {
-			input = new FileInputStream(imageFile);
-			output = response.getOutputStream();
-			IOUtils.copy(input, output);
-			output.flush();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			IOUtils.closeQuietly(input);
-			IOUtils.closeQuietly(output);
+	}
+	
+	/**
+	 * 按路径获取图片
+	 * 正式情况下可使用独立的图片服务器提供服务
+	 * 修改jndi的配置即可调整图片url根路径
+	 */
+	@RequestMapping("/{year:\\d{4}}/{month:\\d{2}}/{date:\\d{2}}/{filename:[^.]{40}\\.\\w+}")
+	public void getImageByPath(
+			@PathVariable("year") String year,
+			@PathVariable("month") String month,
+			@PathVariable("date") String date,
+			@PathVariable("filename") String filename,
+			HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		filename = filename.toLowerCase();
+		String filepath = StringUtils.join(new String[]{Image.IMAGE_BASE_PATH, year, month, date, filename}, "/");
+		File imageFile = new File(filepath);
+		if(!imageFile.exists()) {
+			throw new NoSuchRequestHandlingMethodException(request);
 		}
+		
+		outputImage(imageFile, request, response);
 		
 	}
 	
@@ -114,6 +121,27 @@ public class ImageController extends BaseController {
 			headerValue += ", must-revalidate";
 		}
 		response.setHeader("Cache-Control",  headerValue);
+	}
+	
+	private void outputImage(File imageFile, HttpServletRequest request, HttpServletResponse response) {
+		ServletContext servletContext = request.getSession().getServletContext();
+		String mimeType = servletContext.getMimeType(imageFile.getName());
+		setContentHeaders(mimeType, Long.valueOf(imageFile.length()).intValue(), response);
+		setCacheHeaders(response, DEFAULT_CACHE_SECONDS, false);
+		
+		InputStream input = null;
+		OutputStream output = null;
+		try {
+			input = new FileInputStream(imageFile);
+			output = response.getOutputStream();
+			IOUtils.copy(input, output);
+			output.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			IOUtils.closeQuietly(input);
+			IOUtils.closeQuietly(output);
+		}
 	}
 	
 	/**
@@ -136,25 +164,8 @@ public class ImageController extends BaseController {
 			response.sendRedirect(request.getContextPath() + Avatar.DEFAULT_AVATAR);
 			return;
 		}
-
-		ServletContext servletContext = request.getSession().getServletContext();
-		String mimeType = servletContext.getMimeType(image.getFilename());
-		setContentHeaders(mimeType, image.getSize(), response);
-		setCacheHeaders(response, DEFAULT_CACHE_SECONDS, false);
 		
-		InputStream input = null;
-		OutputStream output = null;
-		try {
-			input = new FileInputStream(imageFile);
-			output = response.getOutputStream();
-			IOUtils.copy(input, output);
-			output.flush();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			IOUtils.closeQuietly(input);
-			IOUtils.closeQuietly(output);
-		}
+		outputImage(imageFile, request, response);
 	}
 	
 	/**

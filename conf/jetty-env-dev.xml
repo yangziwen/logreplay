@@ -6,6 +6,12 @@
 		<Arg type="java.lang.String">/mytest/images</Arg>
 		<Arg type="boolean">true</Arg>
 	</New>
+	<New class="org.mortbay.jetty.plus.naming.EnvEntry">
+		<Arg></Arg>
+		<Arg>imageBaseUrl</Arg>
+		<Arg type="java.lang.String">http://localhost:8075/logreplay/image</Arg>
+		<Arg type="boolean">true</Arg>
+	</New>
     <New id="dataSource" class="org.mortbay.jetty.plus.naming.Resource">  
         <Arg>jdbc/dataSource</Arg>  
         <Arg>  

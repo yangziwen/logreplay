@@ -2,8 +2,6 @@ package com.sogou.map.logreplay.bean;
 
 import java.sql.Timestamp;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -12,11 +10,11 @@ import javax.persistence.Transient;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sogou.map.logreplay.bean.base.AbstractBean;
+import com.sogou.map.logreplay.util.JndiUtil;
 
 @Table(name = "image")
 public class Image extends AbstractBean {
@@ -27,7 +25,9 @@ public class Image extends AbstractBean {
 	public static final String TYPE_RAW 	= "raw";
 
 	/** 图片根路径通过jndi进行配置 **/
-	public static final String IMAGE_BASE_PATH = lookupBaseImagePath();
+	public static final String IMAGE_BASE_PATH = JndiUtil.lookup("java:comp/env/imageBasePath");
+	
+	public static final String IMAGE_BASE_URL = JndiUtil.lookup("java:comp/env/imageBaseUrl");
 	
 	@Id
 	@Column
@@ -162,8 +162,15 @@ public class Image extends AbstractBean {
 	 */
 	@JsonIgnore
 	public String getFilepath() {
-		String subDir = DateFormatUtils.format(createTime, "yyyy/MM/dd/");
-		return FilenameUtils.concat(IMAGE_BASE_PATH, subDir + getFilename());
+		return FilenameUtils.concat(IMAGE_BASE_PATH, getDateSubDir() + getFilename());
+	}
+	
+	public String getUrl() {
+		return StringUtils.join(new String[]{IMAGE_BASE_URL, getDateSubDir() + getFilename()}, "/");
+	}
+	
+	private String getDateSubDir() {
+		return DateFormatUtils.format(createTime, "yyyy/MM/dd/");
 	}
 	
 	public static class Builder {
@@ -248,19 +255,6 @@ public class Image extends AbstractBean {
 			return height;
 		}
 		
-	}
-	
-	private static final String lookupBaseImagePath() {
-		String imageBasePath = null;
-		try {
-			imageBasePath = (String) new InitialContext().lookup("java:comp/env/imageBasePath");
-		} catch (NamingException e) {
-			e.printStackTrace();
-		};
-		if(StringUtils.isBlank(imageBasePath)) {
-			imageBasePath = SystemUtils.USER_DIR;
-		}
-		return imageBasePath;
 	}
 	
 }
