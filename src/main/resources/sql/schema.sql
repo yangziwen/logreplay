@@ -160,7 +160,8 @@ CREATE TABLE `image` (
   `width` INT,
   `height` INT,
   `size` INT,
-  `create_time` DATETIME
+  `create_time` DATETIME,
+  KEY `idx_checksum` (`checksum`(10))
 ) ENGINE=INNODB DEFAULT CHARSET=GBK;
 
 -- ÓÃ»§Í·Ïñ

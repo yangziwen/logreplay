@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,11 +22,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -54,6 +55,8 @@ public class ImageController extends BaseController {
 	
 	public static final String DEFAULT_IMAGE_FORMAT = "jpg";
 	
+	public static final int DEFAULT_CACHE_SECONDS = 28800;
+	
 	@Autowired
 	private ImageService imageService;
 	
@@ -75,7 +78,12 @@ public class ImageController extends BaseController {
 				|| !(imageFile = new File(image.getFilepath())).exists()) {
 			throw new NoSuchRequestHandlingMethodException(request);
 		}
-		// TODO 加缓存头
+		
+		ServletContext servletContext = request.getSession().getServletContext();
+		String mimeType = servletContext.getMimeType(image.getFilename());
+		setContentHeaders(mimeType, image.getSize(), response);
+		setCacheHeaders(response, DEFAULT_CACHE_SECONDS, false);
+		
 		InputStream input = null;
 		OutputStream output = null;
 		try {
@@ -92,6 +100,22 @@ public class ImageController extends BaseController {
 		
 	}
 	
+	private void setContentHeaders(String mimeType, int length, HttpServletResponse response) {
+		if(StringUtils.isNotBlank(mimeType)) {
+			response.setContentType(mimeType);
+		}
+		response.setContentLength(length);
+	}
+	
+	private void setCacheHeaders(HttpServletResponse response, int seconds, boolean mustRevalidate) {
+		response.setDateHeader("Expires", System.currentTimeMillis() + seconds * 1000L);
+		String headerValue = "max-age=" + seconds;
+		if(mustRevalidate) {
+			headerValue += ", must-revalidate";
+		}
+		response.setHeader("Cache-Control",  headerValue);
+	}
+	
 	/**
 	 * 获取用户头像
 	 */
@@ -100,8 +124,7 @@ public class ImageController extends BaseController {
 			Long userId,
 			@RequestParam(defaultValue = Image.TYPE_MIDDLE) String type,
 			HttpServletRequest request,
-			HttpServletResponse response
-			) throws ServletException, IOException {
+			HttpServletResponse response) throws ServletException, IOException {
 		if(userId == null) {
 			userId = AuthUtil.getCurrentUser().getId();
 		}
@@ -113,6 +136,12 @@ public class ImageController extends BaseController {
 			response.sendRedirect(request.getContextPath() + Avatar.DEFAULT_AVATAR);
 			return;
 		}
+
+		ServletContext servletContext = request.getSession().getServletContext();
+		String mimeType = servletContext.getMimeType(image.getFilename());
+		setContentHeaders(mimeType, image.getSize(), response);
+		setCacheHeaders(response, DEFAULT_CACHE_SECONDS, false);
+		
 		InputStream input = null;
 		OutputStream output = null;
 		try {
@@ -214,7 +243,7 @@ public class ImageController extends BaseController {
 	}
 	
 	private List<Image> buildAvatarImages(BufferedImage image, String format) throws IOException {
-		if(StringUtils.isEmpty(format)) {
+		if(StringUtils.isBlank(format)) {
 			format = DEFAULT_IMAGE_FORMAT;
 		}
 		List<Image> avatarList = new ArrayList<Image>();
@@ -263,7 +292,7 @@ public class ImageController extends BaseController {
 	}
 	
 	private Image buildRawImage(MultipartFile file, String format) throws IOException {
-		if(StringUtils.isEmpty(format)) {
+		if(StringUtils.isBlank(format)) {
 			format = FilenameUtils.getExtension(file.getName());
 		}
 		BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(file.getBytes()));
