@@ -29,7 +29,9 @@
 					</li>
 					<%-- <li><a href="${ctx_path}/home.htm">Ö÷Ò³</a></li> --%>
 					<li>
-						<img src="${ctx_path}/image/avatar?type=small" style="width: 32px; height: 32px; margin-top: 10px;"/>
+						<a href="${ctx_path}/user/detail.htm#avatar" target="_self" style="padding: 0px;">
+							<img src="${ctx_path}/image/avatar?type=small" style="width: 32px; height: 32px; margin-top: 10px;"/>
+						</a>
 					</li>
 					<li><a id="J_openProfileModalBtn" href="javascript:void(0);"><shiro:principal/></a></li>
 					<li><a href="${ctx_path}/logout.htm">ÍË³ö</a></li>
