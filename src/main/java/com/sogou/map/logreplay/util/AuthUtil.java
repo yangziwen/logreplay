@@ -95,6 +95,14 @@ public class AuthUtil {
 		return getCurrentSubject().getPrincipals().oneByType(User.class);
 	}
 	
+	public static Long getCurrentUserId() {
+		User user = getCurrentUser();
+		if(user == null) {
+			return null;
+		}
+		return user.getId();
+	}
+	
 	public static String getScreenName() {
 		User user = getCurrentUser();
 		if(user == null) {

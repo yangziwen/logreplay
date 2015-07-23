@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<c:set var="typeUser" value="com.sogou.map.logreplay.bean.User" />
 <nav class="navbar navbar-default navbar-fixed-top top-bar" role="navigation">
 	<div class="container-fluit">
 		<div class="collapse navbar-collapse">
@@ -30,7 +31,8 @@
 					<%-- <li><a href="${ctx_path}/home.htm">ึ๗าณ</a></li> --%>
 					<li>
 						<a href="${ctx_path}/user/detail.htm#avatar" target="_self" style="padding: 0px;">
-							<img src="${ctx_path}/image/avatar?type=small" style="width: 32px; height: 32px; margin-top: 10px;"/>
+							<img src="${ctx_path}/image/avatar/<shiro:principal  property="id" type="${typeUser}"/>?type=small" 
+								style="width: 32px; height: 32px; margin-top: 10px;"/>
 						</a>
 					</li>
 					<li><a id="J_openProfileModalBtn" href="javascript:void(0);"><shiro:principal/></a></li>

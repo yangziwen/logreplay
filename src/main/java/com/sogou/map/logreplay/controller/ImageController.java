@@ -78,7 +78,7 @@ public class ImageController extends BaseController {
 			@PathVariable("id") Long id,
 			NativeWebRequest webRequest,
 			HttpServletResponse response) throws ServletException, IOException {
-		HttpServletRequest request = webRequest.getNativeResponse(HttpServletRequest.class);
+		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 		Image image = null;
 		File imageFile = null;
 		if(id == null 
@@ -104,7 +104,7 @@ public class ImageController extends BaseController {
 			@PathVariable("filename") String filename,
 			NativeWebRequest webRequest,
 			HttpServletResponse response) throws ServletException, IOException {
-		HttpServletRequest request = webRequest.getNativeResponse(HttpServletRequest.class);
+		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 		filename = filename.toLowerCase();
 		String filepath = StringUtils.join(new String[]{Image.IMAGE_BASE_PATH, year, month, date, filename}, "/");
 		File imageFile = new File(filepath);
@@ -163,16 +163,13 @@ public class ImageController extends BaseController {
 	/**
 	 * 获取用户头像
 	 */
-	@RequestMapping(value = "avatar", method = RequestMethod.GET)
+	@RequestMapping(value = "/avatar/{userId:\\d+}", method = RequestMethod.GET)
 	public void getAvatar(
-			Long userId,
+			@PathVariable("userId") Long userId,
 			@RequestParam(defaultValue = Image.TYPE_MIDDLE) String type,
 			NativeWebRequest webRequest,
 			HttpServletResponse response) throws ServletException, IOException {
-		HttpServletRequest request = webRequest.getNativeResponse(HttpServletRequest.class);
-		if(userId == null) {
-			userId = AuthUtil.getCurrentUser().getId();
-		}
+		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 		Avatar avatar = avatarService.getAvatarByUserIdAndType(userId, type);
 		Image image = avatar != null? imageService.getImageById(avatar.getImageId()): null;
 		File imageFile = null;
@@ -211,12 +208,8 @@ public class ImageController extends BaseController {
 		}
 		// 切出3种尺寸的头像
 		double ratio = image.getWidth() * 1D / imgWidth;
-		left = Double.valueOf(left * ratio).intValue();
-		top = Double.valueOf(top * ratio).intValue();
-		width = Double.valueOf(width * ratio).intValue();
-		height = Double.valueOf(height * ratio).intValue();
-		
-		BufferedImage cuttedImage = ImageIO.read(imageFile).getSubimage(left, top, width, height);
+		BufferedImage cuttedImage = ImageIO.read(imageFile)
+				.getSubimage(toInt(left * ratio), toInt(top * ratio), toInt(width * ratio), toInt(height * ratio));
 		List<Image> avatarImageList = buildAvatarImages(cuttedImage, DEFAULT_IMAGE_FORMAT);
 		
 		// 按校验和检查并丢弃已存在的图片
@@ -253,7 +246,7 @@ public class ImageController extends BaseController {
 			
 			avatarImageList.addAll(prevImageList);
 			List<Avatar> avatarList = buildAvatarList(avatarImageList);
-			avatarService.renewAvatars(avatarList, AuthUtil.getCurrentUser().getId());
+			avatarService.renewAvatars(avatarList, AuthUtil.getCurrentUserId());
 			return successResult("Avatars are updated successfully!");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -341,5 +334,8 @@ public class ImageController extends BaseController {
 		FileUtils.writeByteArrayToFile(imageFile, image.getBytes());
 	}
 	
+	private int toInt(double value) {
+		return Double.valueOf(value).intValue();
+	}
 	
 }
