@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
@@ -57,6 +58,12 @@ public class ImageController extends BaseController {
 	
 	public static final int DEFAULT_CACHE_SECONDS = 28800;
 	
+	private static final String HEADER_CACHE_CONTROL = "Cache-Control";
+	
+	private static final String HEADER_EXPIRES = "Expires";
+	
+	private static final String HEADER_LAST_MODIFIED = "Last-Modified";
+	
 	@Autowired
 	private ImageService imageService;
 	
@@ -69,8 +76,9 @@ public class ImageController extends BaseController {
 	@RequestMapping("{id:\\d+}")
 	public void getImageById(
 			@PathVariable("id") Long id,
-			HttpServletRequest request,
+			NativeWebRequest webRequest,
 			HttpServletResponse response) throws ServletException, IOException {
+		HttpServletRequest request = webRequest.getNativeResponse(HttpServletRequest.class);
 		Image image = null;
 		File imageFile = null;
 		if(id == null 
@@ -79,7 +87,7 @@ public class ImageController extends BaseController {
 			throw new NoSuchRequestHandlingMethodException(request);
 		}
 		
-		outputImage(imageFile, request, response);
+		outputImage(imageFile, webRequest, response);
 		
 	}
 	
@@ -94,8 +102,9 @@ public class ImageController extends BaseController {
 			@PathVariable("month") String month,
 			@PathVariable("date") String date,
 			@PathVariable("filename") String filename,
-			HttpServletRequest request,
+			NativeWebRequest webRequest,
 			HttpServletResponse response) throws ServletException, IOException {
+		HttpServletRequest request = webRequest.getNativeResponse(HttpServletRequest.class);
 		filename = filename.toLowerCase();
 		String filepath = StringUtils.join(new String[]{Image.IMAGE_BASE_PATH, year, month, date, filename}, "/");
 		File imageFile = new File(filepath);
@@ -103,7 +112,7 @@ public class ImageController extends BaseController {
 			throw new NoSuchRequestHandlingMethodException(request);
 		}
 		
-		outputImage(imageFile, request, response);
+		outputImage(imageFile, webRequest, response);
 		
 	}
 	
@@ -115,15 +124,22 @@ public class ImageController extends BaseController {
 	}
 	
 	private void setCacheHeaders(HttpServletResponse response, int seconds, boolean mustRevalidate) {
-		response.setDateHeader("Expires", System.currentTimeMillis() + seconds * 1000L);
+		response.setDateHeader(HEADER_EXPIRES, System.currentTimeMillis() + seconds * 1000L);
 		String headerValue = "max-age=" + seconds;
 		if(mustRevalidate) {
 			headerValue += ", must-revalidate";
 		}
-		response.setHeader("Cache-Control",  headerValue);
+		response.setHeader(HEADER_CACHE_CONTROL,  headerValue);
 	}
 	
-	private void outputImage(File imageFile, HttpServletRequest request, HttpServletResponse response) {
+	private void outputImage(File imageFile, NativeWebRequest webRequest, HttpServletResponse response) {
+		long lastModified = imageFile.lastModified();
+		if(webRequest.checkNotModified(lastModified)) {
+			response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+			return;
+		}
+		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
+		response.setDateHeader(HEADER_LAST_MODIFIED, lastModified);
 		ServletContext servletContext = request.getSession().getServletContext();
 		String mimeType = servletContext.getMimeType(imageFile.getName());
 		setContentHeaders(mimeType, Long.valueOf(imageFile.length()).intValue(), response);
@@ -151,8 +167,9 @@ public class ImageController extends BaseController {
 	public void getAvatar(
 			Long userId,
 			@RequestParam(defaultValue = Image.TYPE_MIDDLE) String type,
-			HttpServletRequest request,
+			NativeWebRequest webRequest,
 			HttpServletResponse response) throws ServletException, IOException {
+		HttpServletRequest request = webRequest.getNativeResponse(HttpServletRequest.class);
 		if(userId == null) {
 			userId = AuthUtil.getCurrentUser().getId();
 		}
@@ -165,7 +182,7 @@ public class ImageController extends BaseController {
 			return;
 		}
 		
-		outputImage(imageFile, request, response);
+		outputImage(imageFile, webRequest, response);
 	}
 	
 	/**
