@@ -96,7 +96,7 @@ public class ImageController extends BaseController {
 	 * 正式情况下可使用独立的图片服务器提供服务
 	 * 修改jndi的配置即可调整图片url根路径
 	 */
-	@RequestMapping("/{year:\\d{4}}/{month:\\d{2}}/{date:\\d{2}}/{filename:[^.]{40}\\.\\w+}")
+	@RequestMapping("/{year:\\d{4}}/{month:\\d{2}}/{date:\\d{2}}/{filename:[^.]{20,30}\\.\\w+}")
 	public void getImageByPath(
 			@PathVariable("year") String year,
 			@PathVariable("month") String month,

@@ -154,7 +154,7 @@ DROP TABLE IF EXISTS `image`;
 CREATE TABLE `image` (
   `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   `creator_id` INT UNSIGNED,
-  `checksum` VARCHAR (40),
+  `checksum` VARCHAR (28),
   `format` VARCHAR (10),
   `type` VARCHAR (10),
   `width` INT,

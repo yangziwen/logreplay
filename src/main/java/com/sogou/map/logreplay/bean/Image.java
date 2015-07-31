@@ -7,13 +7,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sogou.map.logreplay.bean.base.AbstractBean;
+import com.sogou.map.logreplay.util.ChecksumUtil;
 import com.sogou.map.logreplay.util.JndiUtil;
 
 @Table(name = "image")
@@ -222,7 +222,7 @@ public class Image extends AbstractBean {
 			image.setHeight(height);
 			if(bytes != null) {
 				image.setBytes(bytes);
-				image.setChecksum(DigestUtils.sha1Hex(bytes));
+				image.setChecksum(ChecksumUtil.sha1_64(bytes));
 				image.setSize(bytes.length);
 			}
 			return image;
