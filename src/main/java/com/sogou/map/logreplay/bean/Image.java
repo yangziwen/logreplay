@@ -222,7 +222,7 @@ public class Image extends AbstractBean {
 			image.setHeight(height);
 			if(bytes != null) {
 				image.setBytes(bytes);
-				image.setChecksum(ChecksumUtil.sha1_64(bytes));
+				image.setChecksum(ChecksumUtil.sha1Base64(bytes));
 				image.setSize(bytes.length);
 			}
 			return image;

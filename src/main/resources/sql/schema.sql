@@ -122,9 +122,9 @@ CREATE TABLE `user` (
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
   `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-  `name` VARCHAR (45) UNIQUE,
-  `display_name` VARCHAR (45),
-  `comment` VARCHAR (100)
+  `name` VARCHAR (45) UNIQUE NOT NULL,
+  `display_name` VARCHAR (45) NOT NULL DEFAULT '',
+  `comment` VARCHAR (100) NOT NULL DEFAULT ''
 ) ENGINE=INNODB DEFAULT CHARSET=GBK;
 
 DROP TABLE IF EXISTS `user_rel_role`;
@@ -138,8 +138,8 @@ CREATE TABLE `user_rel_role` (
 DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission` (
   `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-  `target` varchar(20),
-  `action` varchar(20)
+  `target` VARCHAR(20) NOT NULL,
+  `action` VARCHAR(20) NOT NULL
 ) ENGINE=INNODB DEFAULT CHARSET=GBK;
 
 DROP TABLE IF EXISTS `role_rel_permission`;
@@ -153,14 +153,14 @@ CREATE TABLE `role_rel_permission` (
 DROP TABLE IF EXISTS `image`;
 CREATE TABLE `image` (
   `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-  `creator_id` INT UNSIGNED,
-  `checksum` VARCHAR (28),
-  `format` VARCHAR (10),
-  `type` VARCHAR (10),
-  `width` INT,
-  `height` INT,
-  `size` INT,
-  `create_time` DATETIME,
+  `creator_id` INT UNSIGNED NOT NULL,
+  `checksum` VARCHAR (28) NOT NULL,
+  `format` VARCHAR (10) NOT NULL,
+  `type` VARCHAR (10) NOT NULL,
+  `width` INT NOT NULL,
+  `height` INT NOT NULL,
+  `size` INT NOT NULL,
+  `create_time` DATETIME NOT NULL,
   KEY `idx_checksum` (`checksum`(10))
 ) ENGINE=INNODB DEFAULT CHARSET=GBK;
 
@@ -168,8 +168,8 @@ CREATE TABLE `image` (
 DROP TABLE IF EXISTS `avatar`;
 CREATE TABLE `avatar` (
   `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-  `user_id` INT UNSIGNED,
-  `image_id` INT UNSIGNED,
-  `type` VARCHAR (10),
-  `create_time` DATETIME
+  `user_id` INT UNSIGNED NOT NULL,
+  `image_id` INT UNSIGNED NOT NULL,
+  `type` VARCHAR (10) NOT NULL,
+  `create_time` DATETIME NOT NULL
 ) ENGINE = INNODB DEFAULT CHARSET = GBK ;
