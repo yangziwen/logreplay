@@ -54,7 +54,7 @@ public class TagInfoDao extends AbstractJdbcDaoImpl<TagInfo> {
 		return doList(sql, params, new RowMapper<TagInfo>() {
 			@Override
 			public TagInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
-				TagInfo tagInfo = ROW_MAPPER.mapRow(rs, rowNum);
+				TagInfo tagInfo = beanMapping.getRowMapper().mapRow(rs, rowNum);
 				PageInfo pageInfo = new PageInfo();
 				pageInfo.setId(tagInfo.getPageInfoId());
 				pageInfo.setName(rs.getString("page_name"));

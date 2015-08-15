@@ -48,7 +48,7 @@ public class OperationRecordDao extends AbstractJdbcDaoImpl<OperationRecord> {
 		return doList(sql, params, new RowMapper<OperationRecord>() {
 			@Override
 			public OperationRecord mapRow(ResultSet rs, int rowNum) throws SQLException {
-				OperationRecord record = ROW_MAPPER.mapRow(rs, rowNum);
+				OperationRecord record = beanMapping.getRowMapper().mapRow(rs, rowNum);
 				record.setTagInfoId(rs.getLong("tag_info_id"));
 				return record;
 			}

@@ -1,20 +1,13 @@
 package com.sogou.map.logreplay.dao.base;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.sql.DataSource;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -29,7 +22,6 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.RowMapperResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 
 import com.sogou.map.logreplay.bean.base.AbstractBean;
 import com.sogou.map.logreplay.util.ClassUtil;
@@ -41,21 +33,8 @@ public class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 	
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@SuppressWarnings("unchecked")
-	protected final Class<E> entityClass = ClassUtil.getSuperClassGenericType(this.getClass(), 0);
-	
-	protected final String tableName = getTableNameFromAnnotation(entityClass);
-	
-	protected final List<Field> entityFields = Collections.unmodifiableList(getFieldsWithColumnAnnotation(entityClass));
-	
-	protected final String idFieldName = getIdField(entityFields).getName();
-	
-	protected final Map<String, String> fieldColumnMapping = Collections.unmodifiableMap(generateFieldColumnMapping(entityFields));
-	
-	protected final RowMapper<E> ROW_MAPPER = ParameterizedBeanPropertyRowMapper.newInstance(entityClass);
-	
-	@SuppressWarnings("unchecked")
-	protected final E[] emptyArray = (E[])Array.newInstance(entityClass, 0);
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	protected BeanMapping<E> beanMapping = new BeanMapping(ClassUtil.getSuperClassGenericType(this.getClass(), 0));
 	
 	protected NamedParameterJdbcTemplate jdbcTemplate;
 	
@@ -64,80 +43,12 @@ public class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 	}
 	
-	protected static String getTableNameFromAnnotation(Class<?> clazz) {
-		Table table = clazz.getAnnotation(Table.class);
-		if(table != null && StringUtils.isNotBlank(table.name())) {
-			return table.name();
-		}
-		return convertCamelToUnderscore(clazz.getSimpleName());
-	}
-	
-	protected static List<Field> getFieldsWithColumnAnnotation(Class<?> clazz) {
-		List<Field> list = new ArrayList<Field>();
-		if(clazz.getSuperclass() != Object.class) {
-			list.addAll(getFieldsWithColumnAnnotation(clazz.getSuperclass()));
-		}
-		for(Field field: clazz.getDeclaredFields()) {
-			if(field.getAnnotation(Column.class) == null) {
-				continue;
-			}
-			list.add(field);
-		}
-		return list;
-	}
-	
-	/**
-	 * 寻找主键所对应的field时，
-	 * 优先使用@Id，
-	 * 退而使用fieldName
-	 */
-	protected static Field getIdField(List<Field> fields) {
-		Field idNamedField = null;
-		for(Field field: fields) {
-			if(field.getAnnotation(Id.class) != null) {
-				return field;
-			}
-			if("id".equalsIgnoreCase(field.getName())) {
-				idNamedField = field;
-			}
-		}
-		if(idNamedField == null) {
-			throw new IllegalStateException("No id field specified in the relative entity class");
-		}
-		return idNamedField;
-	}
-	
-	protected static Map<String, String> generateFieldColumnMapping(List<Field> fields) {
-		Map<String, String> mapping = new LinkedHashMap<String, String>();
-		for(Field field: fields) {
-			Column column = field.getAnnotation(Column.class);
-			if(column == null) {
-				continue;
-			}
-			String columnName = StringUtils.isNotBlank(column.name())
-					? column.name()
-					: convertCamelToUnderscore(field.getName());
-			mapping.put(field.getName(), columnName);
-		}
-		return mapping;
-	}
-	
-	protected static String convertCamelToUnderscore(String str) {
-		return StringUtils.isBlank(str)? "": str.replaceAll("([^\\sA-Z])([A-Z])", "$1_$2").toLowerCase();
-	}
-	
 	protected String getTableName() {
-		return tableName;
+		return beanMapping.getTableName();
 	}
-	
-	protected String getTableName(Map<String, Object> params) {
-		return getTableName();
-	}
-	
-	//------------- 以上为一些工具方法 -------------//
 	
 	public E getById(Long id) {
-		return first(new QueryParamMap().addParam(getColumnByField(idFieldName), id));
+		return first(new QueryParamMap().addParam(beanMapping.getIdColumn(), id));
 	}
 
 	public List<E> list(int start, int limit, Map<String, Object> params) {
@@ -150,7 +61,7 @@ public class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 	}
 	
 	protected List<E> doList(String sql, Map<String, Object> params) {
-		return doList(sql, params, ROW_MAPPER);
+		return doList(sql, params, beanMapping.getRowMapper());
 	}
 	
 	protected List<E> doList(String sql, Map<String, Object> params, RowMapper<E> rowMapper) {
@@ -226,7 +137,7 @@ public class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 	}
 	
 	protected String generateSqlByParam(int start, int limit, String selectClause, Map<String, Object> params) {
-		return generateSqlByParam(start, limit, selectClause, " from " + getTableName(params), params);
+		return generateSqlByParam(start, limit, selectClause, " from " + beanMapping.getTableName(params), params);
 	}
 	
 	protected String generateSqlByParam(int start, int limit, String selectClause, String fromClause, Map<String, Object> params) {
@@ -343,9 +254,9 @@ public class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 		}
 		StringBuilder groupByBuff = new StringBuilder(" group by ");
 		Iterator<?> iter = groupBy.iterator();
-		groupByBuff.append(getColumnByField(iter.next().toString()));
+		groupByBuff.append(beanMapping.getColumnByField(iter.next().toString()));
 		while(iter.hasNext()) {
-			groupByBuff.append(",").append(getColumnByField(iter.next().toString()));
+			groupByBuff.append(",").append(beanMapping.getColumnByField(iter.next().toString()));
 		}
 		return groupByBuff.toString();
 	}
@@ -378,7 +289,7 @@ public class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 		StringBuilder orderByBuff = new StringBuilder();
 		boolean isFirst = true;
 		for(Entry<?, ?> entry: orderByParams.entrySet()) {
-			String key = entry.getKey() != null? getColumnByField(entry.getKey().toString()): "";
+			String key = entry.getKey() != null? beanMapping.getColumnByField(entry.getKey().toString()): "";
 			String value = entry.getValue() != null? entry.getValue().toString(): "";
 			if(StringUtils.isBlank(key) && StringUtils.isBlank(value)) {
 				continue;
@@ -394,14 +305,6 @@ public class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 		return orderByBuff.toString();
 	}
 	
-	protected String getColumnByField(String field) {
-		String column = fieldColumnMapping.get(field);
-		if(StringUtils.isBlank(column)) {
-			column = convertCamelToUnderscore(field);
-		}
-		return column;
-	}
-	
 	protected OperationParsedResult parseOperation(String keyWithOper) {
 		if (StringUtils.isBlank(keyWithOper)) {
 			return null;
@@ -409,11 +312,11 @@ public class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 		int index = keyWithOper.lastIndexOf(QueryOperator.__);
 		if (index == -1) {
 			String key = keyWithOper;
-			return QueryOperator.eq.buildResult(getColumnByField(key), keyWithOper);
+			return QueryOperator.eq.buildResult(beanMapping.getColumnByField(key), keyWithOper);
 		}
 		String key = keyWithOper.substring(0, index);
 		String operName = keyWithOper.substring(index + 2);
-		return QueryOperator.valueOf(operName).buildResult(getColumnByField(key), keyWithOper);
+		return QueryOperator.valueOf(operName).buildResult(beanMapping.getColumnByField(key), keyWithOper);
 	}
 	
 	protected static String escapeSqlStringValue(String value) {

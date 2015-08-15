@@ -22,7 +22,7 @@ import com.sogou.map.logreplay.bean.base.AbstractBean;
 
 public class AbstractJdbcDaoImpl<E extends AbstractBean>  extends AbstractReadOnlyJdbcDaoImpl<E> {
 	
-	protected final String updateSql = generateUpdateSql(getTableName(), idFieldName, fieldColumnMapping);
+	protected final String updateSql = generateUpdateSql(beanMapping.getTableName(), beanMapping.getIdField(), beanMapping.getFieldColumnMapping());
 	
 	protected SimpleJdbcInsert jdbcInsert;
 	
@@ -31,8 +31,8 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean>  extends AbstractReadOn
 	public void setDataSource(DataSource dataSource) {
 		super.setDataSource(dataSource);
 		this.jdbcInsert = new SimpleJdbcInsert(dataSource)
-			.withTableName(getTableName())
-			.usingGeneratedKeyColumns(getColumnByField(idFieldName));
+			.withTableName(beanMapping.getTableName())
+			.usingGeneratedKeyColumns(beanMapping.getIdColumn());
 	}
 	
 	private static String generateUpdateSql(String tableName, String idFieldName, Map<String, String> fieldColumnMapping) {
@@ -75,7 +75,7 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean>  extends AbstractReadOn
 	}
 
 	public void deleteById(Long id) {
-		String sql = "delete from " + getTableName() + " where " + getColumnByField(idFieldName) + " = :id";
+		String sql = "delete from " + beanMapping.getTableName() + " where " + beanMapping.getIdColumn() + " = :id";
 		jdbcTemplate.update(sql, new MapSqlParameterSource().addValue("id", id));
 	}
 	
@@ -90,7 +90,7 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean>  extends AbstractReadOn
 		if(CollectionUtils.isEmpty(entityList)) {
 			return 0;
 		}
-		return batchSave(entityList.toArray(emptyArray), batchSize);
+		return batchSave(entityList.toArray(beanMapping.emptyArray()), batchSize);
 	}
 	
 	public int batchSave(E[] entities) {
@@ -131,7 +131,7 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean>  extends AbstractReadOn
 		if(CollectionUtils.isEmpty(entityList)) {
 			return 0;
 		}
-		return batchUpdate(entityList.toArray(emptyArray), batchSize);
+		return batchUpdate(entityList.toArray(beanMapping.emptyArray()), batchSize);
 	}
 	
 	public int batchUpdate(E[] entities) {
@@ -168,7 +168,7 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean>  extends AbstractReadOn
 		if(CollectionUtils.isEmpty(entityList)) {
 			return 0;
 		}
-		return batchSaveOrUpdate(entityList.toArray(emptyArray), batchSize);
+		return batchSaveOrUpdate(entityList.toArray(beanMapping.emptyArray()), batchSize);
 	}
 	
 	public int batchSaveOrUpdate(E[] entities, int batchSize) {
@@ -188,15 +188,15 @@ public class AbstractJdbcDaoImpl<E extends AbstractBean>  extends AbstractReadOn
 				toUpdateList.add(entity);
 			}
 		}
-		return 	batchSave(toSaveList.toArray(emptyArray), batchSize) + 
-				batchUpdate(toUpdateList.toArray(emptyArray), batchSize);
+		return 	batchSave(toSaveList.toArray(beanMapping.emptyArray()), batchSize) + 
+				batchUpdate(toUpdateList.toArray(beanMapping.emptyArray()), batchSize);
 	}
 	
 	public int batchDeleteByIds(Collection<Long> ids) {
 		if(CollectionUtils.isEmpty(ids)) {
 			return 0;
 		}
-		String sql = "delete from " + getTableName() + " where " + getColumnByField(idFieldName) + " in (:ids)";
+		String sql = "delete from " + beanMapping.getTableName() + " where " + beanMapping.getIdColumn() + " in (:ids)";
 		return jdbcTemplate.update(sql, new MapSqlParameterSource().addValue("ids", ids));
 	}
 	
