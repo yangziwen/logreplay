@@ -8,32 +8,35 @@ import org.springframework.stereotype.Service;
 
 import com.sogou.map.logreplay.bean.Image;
 import com.sogou.map.logreplay.dao.ImageDao;
-import com.sogou.map.logreplay.dao.base.QueryParamMap;
+import com.sogou.map.logreplay.mappers.ImageMapper;
 
 @Service
 public class ImageService {
 	
 	@Autowired
 	private ImageDao imageDao;
+	
+	@Autowired
+	private ImageMapper imageMapper;
 
 	public void createImage(Image image) {
-		imageDao.save(image);
+		imageMapper.save(image);
 	}
 	
 	public Image getImageById(Long id) {
-		return imageDao.getById(id);
+		return imageMapper.getById(id);
 	}
 	
 	public Image getImageByChecksum(String checksum) {
-		return imageDao.first(new QueryParamMap().addParam("checksum", checksum));
+		return imageMapper.getByChecksum(checksum);
 	}
 	
 	public List<Image> getImageListResult(Map<String, Object> params) {
-		return imageDao.list(params);
+		return imageMapper.list(params);
 	}
 	
 	public int batchSaveImageList(List<Image> imageList) {
-		return imageDao.batchSave(imageList);
+		return imageMapper.batchSave(imageList);
 	}
 	
 }

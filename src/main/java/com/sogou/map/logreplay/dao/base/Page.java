@@ -3,6 +3,9 @@ package com.sogou.map.logreplay.dao.base;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 public class Page<E> {
 	
 	public static final String DEFAULT_START = "0";
@@ -45,6 +48,11 @@ public class Page<E> {
 	}
 	public void setList(List<E> list) {
 		this.list = list;
+	}
+	
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
 	
 	public static <T> Page<T> emptyPage() {

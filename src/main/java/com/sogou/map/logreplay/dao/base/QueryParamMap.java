@@ -108,6 +108,14 @@ public class QueryParamMap extends HashMap<String, Object> {
 		return this;
 	}
 	
+	public QueryParamMap limit(int limit) {
+		return addParam(DaoConstant.LIMIT, limit);
+	}
+	
+	public QueryParamMap offset(int offset) {
+		return addParam(DaoConstant.START, offset);
+	}
+	
 	private QueryParamMap markOrMap() {
 		this.isOrMap = true;
 		return this;
