@@ -48,7 +48,7 @@
   				index="field" 
   				item="sortType" 
   				separator=",">
-  				#{field} <if test="sortType == 'desc'">desc</if>
+  				${field} <if test="sortType == 'desc'">desc</if>
   			</foreach>
   		</if>
   	</sql>

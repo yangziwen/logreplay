@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sogou.map.logreplay.mappers.UserWithRolesMapper">
+	
+	<resultMap id="UserWithRolesResult" type="UserWithRoles" >
+		<id 	property="id" 			column="user_id" />
+		<result property="username"		column="username" />
+		<result property="screenName"	column="screen_name" />
+		<result property="password"		column="password" />
+		<result property="createTime"	column="create_time" />
+		<result property="updateTime"	column="update_time" />
+		<result property="enabled"		column="enabled"/>
+		<collection property="roles" ofType="Role">
+			<id		property="id"			column="role_id"/>
+			<result	property="name"			column="role_name"/>
+			<result	property="displayName"	column="role_display_name"/>
+		</collection>
+	</resultMap>
+	
+	<select id="getById" resultMap="UserWithRolesResult">
+		<include refid="select" />
+		<include refid="from" />
+		<where> user.id = #{id}</where>
+	</select>
+	
+	<select id="list" resultMap="UserWithRolesResult">
+		<include refid="select" />
+		<include refid="from" />
+		<include refid="where" />
+		<include refid="orderBy" />
+		<include refid="CommonMapper.limit" />
+	</select>
+	
+	<select id="count" resultType="_int">
+		select count(*) from (select 1
+		<include refid="from" />
+		<include refid="where" />
+		group by user.id) as tmp
+	</select>
+	
+	<sql id="select">
+		select user.id as user_id,
+			user.username,
+			user.screen_name,
+			user.password,
+			user.create_time,
+			user.update_time,
+			user.enabled,
+			role.id as role_id,
+			role.name as role_name,
+			role.display_name as role_display_name
+	</sql>
+	<sql id="from">
+		from user
+			left join user_rel_role on user.id = user_rel_role.user_id 
+			left join role on role.id = user_rel_role.role_id
+	</sql>	
+	<sql id="where">
+		<where>
+			<if test="username__start_with != null">
+				and user.username like concat(#{username__start_with}, '%')
+			</if>
+			<if test="screenName__contain != null">
+				and user.screen_name like concat('%', #{screenName__contain}, '%')
+			</if>
+			<if test="enabled != null">
+				and user.enabled = #{user.enabled}
+			</if>
+			<if test="role_name__in != null">
+				and role.name in 
+				<foreach collection="role_name__in"
+					item="role_name"
+					separator=","
+					open="(" close=")">
+					#{role_name}	
+				</foreach>
+			</if>
+		</where>
+	</sql>
+	<sql id="orderBy">
+		<if test="__order_by != null and __order_by.size() > 0">
+			order by 
+			<foreach collection="__order_by"
+				index="field"
+				item="sortType"
+				separator=","
+				>
+			${field} <if test="sortType == 'desc'">desc</if>
+			</foreach>
+		</if>
+	</sql>
+</mapper>

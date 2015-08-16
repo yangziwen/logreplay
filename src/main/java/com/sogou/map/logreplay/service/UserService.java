@@ -17,12 +17,12 @@ import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.User;
 import com.sogou.map.logreplay.bean.UserRelRole;
 import com.sogou.map.logreplay.bean.UserWithRoles;
-import com.sogou.map.logreplay.dao.UserWithRolesDao;
 import com.sogou.map.logreplay.dao.base.DaoConstant;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.mappers.UserMapper;
 import com.sogou.map.logreplay.mappers.UserRelRoleMapper;
+import com.sogou.map.logreplay.mappers.UserWithRolesMapper;
 
 @Service
 public class UserService {
@@ -34,7 +34,7 @@ public class UserService {
 	private UserRelRoleMapper userRelRoleMapper;
 	
 	@Autowired
-	private UserWithRolesDao userWithRolesDao;
+	private UserWithRolesMapper userWithRolesMapper;
 	
 	public User getUserById(Long id) {
 		return userMapper.getById(id);
@@ -48,7 +48,7 @@ public class UserService {
 		if(id == null) {
 			return null;
 		}
-		return userWithRolesDao.getById(id);
+		return userWithRolesMapper.getById(id);
 	}
 	
 	public Page<User> getUserPaginateResult(int start, int limit, Map<String, Object> params) {
@@ -60,7 +60,11 @@ public class UserService {
 	}
 	
 	public Page<UserWithRoles> getUserWithRolesPaginateResult(int start, int limit, Map<String, Object> params) {
-		return userWithRolesDao.paginate(start, limit, params);
+		int count = userWithRolesMapper.count(params);
+		DaoConstant.offset(start, params);
+		DaoConstant.limit(limit, params);
+		List<UserWithRoles> list = userWithRolesMapper.list(params);
+		return new Page<UserWithRoles>(start, limit, count, list);
 	}
 	
 	/**

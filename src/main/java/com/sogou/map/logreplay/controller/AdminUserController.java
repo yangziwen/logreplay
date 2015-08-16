@@ -46,9 +46,9 @@ public class AdminUserController extends BaseController {
 		Page<UserWithRoles> page = userService.getUserWithRolesPaginateResult(start, limit, new QueryParamMap()
 			.addParam(StringUtils.isNotBlank(username), "username__start_with", username)
 			.addParam(StringUtils.isNotBlank(screenName), "screenName__contain", screenName)
-			.addParam(StringUtils.isNotBlank(roleNames), "role.name__in", roleNames.split(","))
-			.addParam(enabled != null, "user.enabled", enabled)
-			.orderByAsc("user.username")
+			.addParam(StringUtils.isNotBlank(roleNames), "role_name__in", roleNames.split(","))
+			.addParam(enabled != null, "enabled", enabled)
+			.orderByAsc("username")
 		);
 		return successResult(page);
 	}
