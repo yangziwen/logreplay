@@ -15,10 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sogou.map.logreplay.bean.ParamInfo;
 import com.sogou.map.logreplay.bean.TagParam;
-import com.sogou.map.logreplay.dao.ParamInfoDao;
 import com.sogou.map.logreplay.dao.TagParamDao;
 import com.sogou.map.logreplay.dao.TagParamWithInfosDao;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
+import com.sogou.map.logreplay.mappers.ParamInfoMapper;
 import com.sogou.map.logreplay.util.TagParamParser;
 
 @Service
@@ -28,7 +28,7 @@ public class TagParamService {
 	private TagParamDao tagParamDao;
 	
 	@Autowired
-	private ParamInfoDao paramInfoDao;
+	private ParamInfoMapper paramInfoMapper;
 	
 	@Autowired
 	private TagParamWithInfosDao tagParamWithInfosDao;
@@ -59,7 +59,7 @@ public class TagParamService {
 	@Transactional
 	public void renewTagParamAndParamInfo(TagParam tagParam, List<ParamInfo> paramInfoList) {
 		if(CollectionUtils.isEmpty(paramInfoList) && StringUtils.isBlank(tagParam.getComment())) {
-			paramInfoDao.batchDeleteByIds(collectParamInfoId(tagParam.getParamInfoList()));
+			paramInfoMapper.batchDeleteByIds(new ArrayList<Long>(collectParamInfoId(tagParam.getParamInfoList())));
 			if(tagParam.getId() != null) {
 				tagParamDao.delete(tagParam);
 			}
@@ -72,9 +72,15 @@ public class TagParamService {
 		List<ParamInfo> toSaveParamInfoList = extractToSaveParamInfoList(paramInfoList);
 		List<ParamInfo> toUpdateParamInfoList = extractToUpdateParamInfoList(tagParam, paramInfoList);
 		List<ParamInfo> toDeleteParamInfoList = extractToDeleteParamInfoList(tagParam, paramInfoList);
-		paramInfoDao.batchSave(toSaveParamInfoList, 100);
-		paramInfoDao.batchUpdate(toUpdateParamInfoList, 100);
-		paramInfoDao.batchDeleteByIds(collectParamInfoId(toDeleteParamInfoList));
+		if(CollectionUtils.isNotEmpty(toSaveParamInfoList)) {
+			paramInfoMapper.batchSave(toSaveParamInfoList);
+		}
+		if(CollectionUtils.isNotEmpty(toUpdateParamInfoList)) {
+			paramInfoMapper.batchUpdate(toUpdateParamInfoList);
+		}
+		if(CollectionUtils.isNotEmpty(toDeleteParamInfoList)) {
+			paramInfoMapper.batchDeleteByIds(new ArrayList<Long>(collectParamInfoId(toDeleteParamInfoList)));
+		}
 	}
 	
 	private List<ParamInfo> extractToSaveParamInfoList(List<ParamInfo> paramInfoList) {
@@ -155,6 +161,6 @@ public class TagParamService {
 	}
 	
 	public List<ParamInfo> getParamInfoListResultByTagParamId(Long tagParamId) {
-		return paramInfoDao.list(new QueryParamMap().addParam("tagParamId", tagParamId).orderByAsc("name").orderByAsc("value")); 
+		return paramInfoMapper.list(new QueryParamMap().addParam("tagParamId", tagParamId).orderByAsc("name").orderByAsc("value")); 
 	}
 }

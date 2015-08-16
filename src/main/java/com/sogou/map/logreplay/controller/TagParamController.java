@@ -59,6 +59,7 @@ public class TagParamController extends BaseController {
 			tagParamService.renewTagParamAndParamInfo(tagParam, paramInfoList);
 			return successResult("TagParam[%d] is renewed successfully!", tagParam.getId());
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw LogReplayException.operationFailedException("Failed to renew TagParam!");
 		}
 	}

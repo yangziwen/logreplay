@@ -6,16 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sogou.map.logreplay.bean.TagTarget;
-import com.sogou.map.logreplay.dao.TagTargetDao;
-import com.sogou.map.logreplay.dao.base.QueryParamMap;
+import com.sogou.map.logreplay.mappers.TagTargetMapper;
 
 @Service
 public class TagTargetService {
 
 	@Autowired
-	private TagTargetDao tagTargetDao;
+	private TagTargetMapper tagTargetMapper;
 	
 	public List<TagTarget> getTagTargetListResult() {
-		return tagTargetDao.list(QueryParamMap.emptyMap());
+		return tagTargetMapper.list();
 	}
 }

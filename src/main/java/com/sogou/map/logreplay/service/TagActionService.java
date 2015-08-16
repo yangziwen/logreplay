@@ -6,17 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sogou.map.logreplay.bean.TagAction;
-import com.sogou.map.logreplay.dao.TagActionDao;
-import com.sogou.map.logreplay.dao.base.QueryParamMap;
+import com.sogou.map.logreplay.mappers.TagActionMapper;
 
 @Component
 public class TagActionService {
 	
 	@Autowired
-	private TagActionDao tagActionDao;
+	private TagActionMapper tagActionMapper;
 
 	public List<TagAction> getTagActionListResult() {
-		return tagActionDao.list(QueryParamMap.emptyMap());
+		return tagActionMapper.list();
 	}
 	
 }

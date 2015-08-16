@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sogou.map.logreplay.mappers.ParamInfoMapper">
+
+	<insert id="batchSave" useGeneratedKeys="true" parameterType="java.util.List">
+		insert into param_info (<include refid="columns" />)
+		values
+		<foreach collection="list" item="paramInfo" separator=",">
+			(<include refid="fields" />)
+		</foreach>
+	</insert>
+	
+	<delete id="batchDeleteByIds">
+		delete from param_info where id in 
+		<foreach collection="list"
+			item="id"
+			separator=","
+			open="(" close=")">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<update id="batchUpdate" parameterType="java.util.List">
+		<foreach collection="list" item="paramInfo" separator=";">
+			update param_info
+			set tag_param_id = #{paramInfo.tagParamId},
+				name = #{paramInfo.name},
+				value = #{paramInfo.value},
+				description = #{paramInfo.description}
+			where id = #{paramInfo.id}
+		</foreach>
+	</update>
+		  	
+  	<select id="list" resultType="ParamInfo">
+  		select * from param_info
+  		<include refid="where" />
+  		<include refid="orderBy" />
+		<include refid="CommonMapper.limit" />
+  	</select>
+  	
+  	<sql id="columns">
+  		id, tag_param_id, name, value, description
+  	</sql>
+  	
+  	<sql id="fields">
+  		#{paramInfo.id}, #{paramInfo.tagParamId}, #{paramInfo.name}, #{paramInfo.value}, #{paramInfo.description}
+  	</sql>
+  	
+  	<sql id="where">
+  		<where>
+  			<if test="id != null">
+  				and id = #{id}
+  			</if>
+  			<if test="tagParamId != null">
+  				and tag_param_id = #{tagParamId}
+  			</if>
+  		</where>
+  	</sql>
+  	
+  	<sql id="orderBy">
+  		<if test="__order_by != null and __order_by.size() > 0">
+  			order by 
+  			<foreach collection="__order_by"
+  				index="field" item="sortType"
+  				separator=",">
+  				${field} ${sortType}
+  			</foreach>
+  		</if>
+  	</sql>
+  	
+</mapper>
