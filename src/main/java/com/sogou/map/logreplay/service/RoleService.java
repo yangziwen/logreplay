@@ -11,39 +11,39 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sogou.map.logreplay.bean.Permission;
 import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.RoleRelPermission;
-import com.sogou.map.logreplay.dao.RoleDao;
-import com.sogou.map.logreplay.dao.RoleRelPermissionDao;
+import com.sogou.map.logreplay.mappers.RoleMapper;
+import com.sogou.map.logreplay.mappers.RoleRelPermissionMapper;
 
 @Service
 public class RoleService {
 
 	@Autowired
-	private RoleDao roleDao;
+	private RoleMapper roleMapper;
 	
 	@Autowired
-	private RoleRelPermissionDao roleRelPermissionDao;
+	private RoleRelPermissionMapper roleRelPermissionMapper;
 	
 	public Role getRoleById(Long id) {
-		return roleDao.getById(id);
+		return roleMapper.getById(id);
 	}
 	
 	public List<Role> getRoleListResult(Map<String, Object> params) {
-		return roleDao.list(params);
+		return roleMapper.list(params);
 	}
 	
 	public void updateRole(Role role) {
-		roleDao.update(role);
+		roleMapper.update(role);
 	}
 	
 	@Transactional
 	public void updateRelatedPermissions(Role role, List<Permission> permissionList) {
-		roleRelPermissionDao.deleteRoleRelPermissionByRoleId(role.getId());
+		roleRelPermissionMapper.deleteRoleRelPermissionByRoleId(role.getId());
 		List<RoleRelPermission> relList = new ArrayList<RoleRelPermission>();
 		for(Permission permission: permissionList) {
 			RoleRelPermission rel = new RoleRelPermission(role.getId(), permission.getId());
 			relList.add(rel);
 		}
-		roleRelPermissionDao.batchSave(relList);
+		roleRelPermissionMapper.batchSave(relList);
 	}
 	
 }

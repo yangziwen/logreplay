@@ -17,30 +17,31 @@ import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.User;
 import com.sogou.map.logreplay.bean.UserRelRole;
 import com.sogou.map.logreplay.bean.UserWithRoles;
-import com.sogou.map.logreplay.dao.UserDao;
-import com.sogou.map.logreplay.dao.UserRelRoleDao;
 import com.sogou.map.logreplay.dao.UserWithRolesDao;
+import com.sogou.map.logreplay.dao.base.DaoConstant;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
+import com.sogou.map.logreplay.mappers.UserMapper;
+import com.sogou.map.logreplay.mappers.UserRelRoleMapper;
 
 @Service
 public class UserService {
 	
 	@Autowired
-	private UserDao userDao;
+	private UserMapper userMapper;
 	
 	@Autowired
-	private UserRelRoleDao userRelRoleDao;
+	private UserRelRoleMapper userRelRoleMapper;
 	
 	@Autowired
 	private UserWithRolesDao userWithRolesDao;
 	
 	public User getUserById(Long id) {
-		return userDao.getById(id);
+		return userMapper.getById(id);
 	}
 
 	public User getUserByUsername(String username) {
-		return userDao.first(new QueryParamMap().addParam("username", username)); 
+		return userMapper.getByUsername(username); 
 	}
 	
 	public UserWithRoles getUserWithRolesById(Long id) {
@@ -51,7 +52,11 @@ public class UserService {
 	}
 	
 	public Page<User> getUserPaginateResult(int start, int limit, Map<String, Object> params) {
-		return userDao.paginate(start, limit, params);
+		int count = userMapper.count(params);
+		DaoConstant.offset(start, params);
+		DaoConstant.limit(limit, params);
+		List<User> list = userMapper.list(params);
+		return new Page<User>(start, limit, count, list);
 	}
 	
 	public Page<UserWithRoles> getUserWithRolesPaginateResult(int start, int limit, Map<String, Object> params) {
@@ -62,7 +67,7 @@ public class UserService {
 	 * 根据username或screenName来查找用户
 	 */
 	public List<User> getUserListResultByName(String name) {
-		return userDao.list(new QueryParamMap()
+		return userMapper.list(new QueryParamMap()
 			.or(new QueryParamMap()
 				.addParam("username__contain", name)
 				.addParam("screenName__contain", name)
@@ -88,7 +93,7 @@ public class UserService {
 		if(user.getEnabled() == null) {
 			user.setEnabled(true);
 		}
-		userDao.save(user);
+		userMapper.save(user);
 		List<UserRelRole> userRelRoleList = new ArrayList<UserRelRole>();
 		for(Role role: roleList) {
 			UserRelRole rel = new UserRelRole();
@@ -96,25 +101,25 @@ public class UserService {
 			rel.setRoleId(role.getId());
 			userRelRoleList.add(rel);
 		}
-		userRelRoleDao.batchSave(userRelRoleList, 20);
+		userRelRoleMapper.batchSave(userRelRoleList);
 	}
 	
 	public void updateUser(User user) {
 		user.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-		userDao.update(user);
+		userMapper.update(user);
 	}
 	
 	@Transactional
 	public void updateUser(User user, List<Role> roleList) {
 		user.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-		userDao.update(user);
-		userRelRoleDao.deleteUserRelRolesByUserId(user.getId());
+		userMapper.update(user);
+		userRelRoleMapper.deleteUserRelRolesByUserId(user.getId());
 		List<UserRelRole> userRelRoleList = new ArrayList<UserRelRole>();
 		for(Role role: roleList) {
 			UserRelRole rel = new UserRelRole(user.getId(), role.getId());
 			userRelRoleList.add(rel);
 		}
-		userRelRoleDao.batchSave(userRelRoleList);
+		userRelRoleMapper.batchSave(userRelRoleList);
 	}
 	
 }

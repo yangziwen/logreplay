@@ -13,21 +13,21 @@ import com.google.common.collect.Lists;
 import com.sogou.map.logreplay.bean.Permission;
 import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.RoleRelPermission;
-import com.sogou.map.logreplay.dao.PermissionDao;
-import com.sogou.map.logreplay.dao.RoleRelPermissionDao;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
+import com.sogou.map.logreplay.mappers.PermissionMapper;
+import com.sogou.map.logreplay.mappers.RoleRelPermissionMapper;
 
 @Service
 public class PermissionService {
 
 	@Autowired
-	private PermissionDao permissionDao;
+	private PermissionMapper permissionMapper;
 
 	@Autowired
-	private RoleRelPermissionDao roleRelPermissionDao;
+	private RoleRelPermissionMapper roleRelPermissionMapper;
 	
 	public List<Permission> getPermissionListResult(Map<String, Object> params) {
-		return permissionDao.list(params);
+		return permissionMapper.list(params);
 	}
 	
 	public List<Permission> getPermissionListByRole(Role role, boolean excluded) {
@@ -38,7 +38,7 @@ public class PermissionService {
 		if(roleId == null && !excluded) {
 			return Collections.emptyList();
 		}
-		List<RoleRelPermission> relList = roleRelPermissionDao.list(new QueryParamMap()
+		List<RoleRelPermission> relList = roleRelPermissionMapper.list(new QueryParamMap()
 			.addParam("roleId", roleId)
 		);
 		return getPermissionListByRelList(relList, excluded);
@@ -60,7 +60,7 @@ public class PermissionService {
 		if(CollectionUtils.isEmpty(roleIdList)) {
 			return Collections.emptyList();
 		}
-		List<RoleRelPermission> relList = roleRelPermissionDao.list(new QueryParamMap()
+		List<RoleRelPermission> relList = roleRelPermissionMapper.list(new QueryParamMap()
 			.addParam("roleId__in", roleIdList)
 		);
 		return getPermissionListByRelList(relList, false);
@@ -87,10 +87,10 @@ public class PermissionService {
 		QueryParamMap params = new QueryParamMap().orderByAsc("target").orderByAsc("action");
 		if(CollectionUtils.isEmpty(idList)) {
 			return excluded
-					? permissionDao.list(params)
+					? permissionMapper.list(params)
 					: Collections.<Permission>emptyList();
 		}
-		return permissionDao.list(params
+		return permissionMapper.list(params
 			.addParam(excluded? "id__not_in": "id__in", idList)
 		); 
 	}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sogou.map.logreplay.mappers.RoleMapper">
+		  	
+  	<select id="list" resultType="Role">
+  		select * from role
+  		<include refid="where" />
+		<include refid="CommonMapper.limit" />
+  	</select>
+  	
+  	<sql id="where">
+  		<where>
+  			<if test="id != null">
+  				and id = #{id}
+  			</if>
+  			<if test="name != null">
+  				and name = #{name}
+  			</if>
+  			<if test="name__in != null">
+  				and name in (
+  				<foreach collection="name__in" item="name" separator=",">
+  					#{name}
+  				</foreach>)
+  			</if>
+  		</where>
+  	</sql>
+  	
+</mapper>

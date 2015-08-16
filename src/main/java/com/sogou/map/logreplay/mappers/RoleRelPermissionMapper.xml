@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sogou.map.logreplay.mappers.RoleRelPermissionMapper">
+
+	<insert id="batchSave" useGeneratedKeys="true">
+		insert into role_rel_permission (<include refid="columns" />)
+		values <foreach collection="list" item="rel" separator=",">
+		(<include refid="fields" />)
+		</foreach>
+	</insert>
+		  	
+	<select id="list" resultType="RoleRelPermission">
+  		select * from role_rel_permission
+  		<include refid="where" />
+		<include refid="CommonMapper.limit" />
+  	</select>
+  	
+  	<sql id="columns">
+  		id, role_id, permission_id
+  	</sql>
+  	
+  	<sql id="fields">
+  		#{rel.id}, #{rel.roleId}, #{rel.permissionId}
+  	</sql>
+  	
+  	<sql id="where">
+  		<where>
+  			<if test="id != null">
+  				and id = #{id}
+  			</if>
+  			<if test="roleId != null">
+  				and role_id = #{roleId}
+  			</if>
+  			<if test="roleId__in != null">
+  				and role_id in (
+  				<foreach collection="roleId__in" item="roleId" separator=",">
+  					#{roleId}
+  				</foreach>)
+  			</if>
+  		</where>
+  	</sql>
+  	
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sogou.map.logreplay.mappers.UserMapper">
+		  	
+  	<insert id="batchSave" useGeneratedKeys="true">
+  		insert into user (<include refid="columns" />)
+  		values
+  		<foreach collection="list" item="user" separator=",">
+  			(<include refid="fields" />)
+  		</foreach>
+  	</insert>
+  	
+  	<select id="count" resultType="_int">
+  		select count(*) from user
+  		<include refid="where" />
+  	</select>
+  	
+  	<select id="list" resultType="User">
+  		select * from user
+  		<include refid="where" />
+		<include refid="CommonMapper.limit" />
+  	</select>
+  	
+  	<sql id="columns">
+  		id, username, screen_name, password, create_time, update_time, enabled
+  	</sql>
+  	
+  	<sql id="fields">
+  		#{user.id}, #{user.username}, #{user.screenName}, #{user.password}, 
+  		#{user.createTime}, #{user.updateTime}, #{user.enabled}
+  	</sql>
+  	
+  	<sql id="where">
+  		<where>
+  			<if test="id != null">
+  				and id = #{id}
+  			</if>
+  			<if test="username != null">
+  				and username = #{username}
+  			</if> 
+  			<if test="username__contain != null">
+  				and username like concat('%', #{username__contain} , '%')
+  			</if>
+  			<if test="screenName__contain != null">
+  				and screen_name like concat('%', #{screenName__contain} , '%')
+  			</if>
+  		</where>
+  	</sql>
+  	
+</mapper>

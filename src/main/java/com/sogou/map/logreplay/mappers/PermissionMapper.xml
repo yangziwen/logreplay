@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sogou.map.logreplay.mappers.PermissionMapper">
+		  	
+  	<select id="list" resultType="Permission">
+  		select * from permission
+  		<include refid="where" />
+  		<include refid="orderBy" />
+		<include refid="CommonMapper.limit" />
+  	</select>
+  	
+  	<sql id="where">
+  		<where>
+  			<if test="id != null">
+  				and id = #{id}
+  			</if>
+  			<if test="id__in != null">
+  				and id in 
+  				<foreach 
+  					collection="id__in" 
+  					item="id" 
+  					separator="," 
+  					open="(" close=")">
+  					#{id}
+  				</foreach>
+  			</if>
+  			<if test="id__not_in != null">
+  				and id not in 
+  				<foreach 
+  					collection="id__not_in" 
+  					item="id" 
+  					separator="," 
+  					open="(" close=")">
+  					#{id}
+  				</foreach>
+  			</if>
+  		</where>
+  	</sql>
+  	
+  	<sql id="orderBy">
+  		<if test="__order_by != null and __order_by.size() > 0">
+  			order by
+  			<foreach 
+  				collection="__order_by" 
+  				index="field" 
+  				item="sortType" 
+  				separator=",">
+  				#{field} <if test="sortType == 'desc'">desc</if>
+  			</foreach>
+  		</if>
+  	</sql>
+  	
+</mapper>
