@@ -9,39 +9,44 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sogou.map.logreplay.bean.PageInfo;
-import com.sogou.map.logreplay.dao.PageInfoDao;
 import com.sogou.map.logreplay.dao.TagInfoDao;
+import com.sogou.map.logreplay.dao.base.DaoConstant;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
+import com.sogou.map.logreplay.mappers.PageInfoMapper;
 import com.sogou.map.logreplay.util.ProductUtil;
 
 @Service
 public class PageInfoService {
 	
 	@Autowired
-	private PageInfoDao pageInfoDao;
+	private PageInfoMapper pageInfoMapper;
 	
 	@Autowired
 	private TagInfoDao tagInfoDao;
 	
 	public Page<PageInfo> getPageInfoPageResult(int start, int limit, Map<String, Object> params) {
-		return pageInfoDao.paginate(start, limit, params);
+		int count = pageInfoMapper.count(params);
+		List<PageInfo> list = getPageInfoListResult(start, limit, params);
+		return new Page<PageInfo>(start, limit, count, list);
 	}
 	
 	public List<PageInfo> getPageInfoListResult(int start, int limit, Map<String, Object> params) {
-		return pageInfoDao.list(start, limit, params);
+		DaoConstant.offset(start, params);
+		DaoConstant.limit(limit, params);
+		return getPageInfoListResult(params);
 	}
 	
 	public List<PageInfo> getPageInfoListResult(Map<String, Object> params) {
-		return pageInfoDao.list(params);
+		return pageInfoMapper.list(params);
 	}
 	
 	public PageInfo getPageInfoById(Long id) {
-		return pageInfoDao.getById(id);
+		return pageInfoMapper.getById(id);
 	}
 	
 	public PageInfo getPageInfoByPageNoAndProductId(int pageNo, long productId) {
-		return pageInfoDao.first(new QueryParamMap()
+		return pageInfoMapper.first(new QueryParamMap()
 			.addParam("pageNo", pageNo)
 			.addParam("productId", productId)
 		);
@@ -50,14 +55,14 @@ public class PageInfoService {
 	@Transactional
 	public void updatePageInfo(PageInfo info) {
 		info.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-		pageInfoDao.update(info);
+		pageInfoMapper.update(info);
 		tagInfoDao.updatePageNoByPageInfoId(info.getId(), info.getPageNo());
 	}
 	
 	public void createPageInfo(PageInfo info) {
 		info.setProductId(ProductUtil.getProductId());
 		info.setCreateTime(new Timestamp(System.currentTimeMillis()));
-		pageInfoDao.save(info);
+		pageInfoMapper.save(info);
 	}
 
 }

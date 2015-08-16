@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sogou.map.logreplay.mappers.PageInfoMapper">
+
+	<select id="first" resultType="PageInfo">
+		select * from page_info
+		<include refid="where" />
+		limit 1
+	</select>
+		  	
+  	<select id="list" resultType="PageInfo">
+  		select * from page_info
+  		<include refid="where" />
+  		<include refid="orderBy" />
+		<include refid="CommonMapper.limit" />
+  	</select>
+  	
+  	<select id="count" resultType="_int">
+  		select count(*) from page_info
+  		<include refid="where" />
+  	</select>
+  	
+  	<sql id="where">
+  		<where>
+  			<if test="id != null">
+  				and id = #{id}
+  			</if>
+  			<if test="id__ne != null">
+  				and id != #{id__ne}
+  			</if>
+  			<if test="productId != null">
+  				and product_id = #{productId}
+  			</if>
+  			<if test="pageNo != null">
+  				and page_no = #{pageNo}
+  			</if>
+  			<if test="pageNo__in != null">
+  				and page_no in 
+  				<foreach collection="pageNo__in" item="number" separator="," open="(" close=")">
+  					#{number}
+  				</foreach>
+  			</if>
+  			<if test="name__contain != null">
+  				and name like concat('%', #{name__contain}, '%')
+  			</if>
+  			<if test="updteTime__ge != null">
+  				and update_time >= #{updateTime__ge}
+  			</if>
+  			<if test="updateTime__le != null">
+  				<![CDATA[and update_time <= #{updateTime__le}]]>
+  			</if>
+  		</where>
+  	</sql>
+  	
+  	<sql id="orderBy">
+  		<if test="__order_by != null">
+  			order by 
+  			<if test="__order_by.pageNo != null">
+  				page_no <choose>
+  					<when test="__order_by.pageNo == 'desc'">desc</when>
+  				</choose>
+  			</if>
+  		</if>
+  	</sql>
+  	
+</mapper>

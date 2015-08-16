@@ -7,17 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sogou.map.logreplay.bean.Product;
-import com.sogou.map.logreplay.dao.ProductDao;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
+import com.sogou.map.logreplay.mappers.ProductMapper;
 
 @Service
 public class ProductService {
 
 	@Autowired
-	private ProductDao productDao;
+	private ProductMapper productMapper;
 	
 	public List<Product> getProductListResult(Map<String, Object> params) {
-		return productDao.list(params);
+		return productMapper.list(params);
 	}
 	
 	public List<Product> getProductListResult() {
