@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 
@@ -15,13 +14,9 @@ import com.sogou.map.logreplay.dao.base.BeanMapping;
 
 public interface ImageMapper {
 	
-	String IMAGE_RESULT = "ImageResult";
-	
-	@ResultMap(IMAGE_RESULT)
 	@SelectProvider(type = SqlProvider.class, method = "getById")
 	Image getById(Long id);
 	
-	@ResultMap(IMAGE_RESULT)
 	@Select("select * from image where checksum = #{checksum}")
 	Image getByChecksum(String checksum);
 	

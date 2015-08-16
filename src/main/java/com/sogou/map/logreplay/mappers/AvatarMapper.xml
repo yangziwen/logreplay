@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sogou.map.logreplay.mappers.AvatarMapper">
+
+	<insert id="batchSave" useGeneratedKeys="true">
+		insert into avatar (<include refid="columns" />)
+		values
+		<foreach collection="list" item="avatar" separator=",">
+			(<include refid="fields" />)
+		</foreach>
+	</insert>
+	
+	<select id="first" resultType="Avatar">
+		select * from avatar
+		<include refid="where" />
+		limit 1
+	</select>
+		  	
+  	<select id="list" resultType="Avatar">
+  		select * from avatar
+  		<include refid="where" />
+		<include refid="CommonMapper.limit" />
+  	</select>
+  	
+  	<sql id="columns">
+  		id, user_id, image_id, type, create_time
+  	</sql>
+  	
+  	<sql id="fields">
+  		#{avatar.id}, #{avatar.userId}, #{avatar.imageId}, #{avatar.type}, #{avatar.createTime}
+  	</sql>
+  	
+  	<sql id="where">
+  		<where>
+  			<if test="id != null">
+  				and id = #{id}
+  			</if>
+  			<if test="userId != null">
+  				and user_id = #{userId}
+  			</if>
+  			<if test="type != null">
+  				and type = #{type}
+  			</if>
+  		</where>
+  	</sql>
+  	
+</mapper>

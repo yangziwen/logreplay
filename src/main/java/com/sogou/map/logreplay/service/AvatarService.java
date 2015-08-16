@@ -8,17 +8,17 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.sogou.map.logreplay.bean.Avatar;
-import com.sogou.map.logreplay.dao.AvatarDao;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
+import com.sogou.map.logreplay.mappers.AvatarMapper;
 
 @Service
 public class AvatarService {
-
+	
 	@Autowired
-	private AvatarDao avatarDao;
+	private AvatarMapper avatarMapper;
 	
 	public void saveAvatar(Avatar avatar) {
-		avatarDao.save(avatar);
+		avatarMapper.save(avatar);
 	}
 	
 	@Transactional
@@ -26,12 +26,12 @@ public class AvatarService {
 		if(CollectionUtils.isEmpty(avatarList)) {
 			return;
 		}
-		avatarDao.deleteByUserId(userId);
-		avatarDao.batchSave(avatarList);
+		avatarMapper.deleteByUserId(userId);
+		avatarMapper.batchSave(avatarList);
 	}
 	
 	
 	public Avatar getAvatarByUserIdAndType(Long userId, String type) {
-		return avatarDao.first(new QueryParamMap().addParam("userId", userId).addParam("type", type));
+		return avatarMapper.first(new QueryParamMap().addParam("userId", userId).addParam("type", type));
 	}
 }

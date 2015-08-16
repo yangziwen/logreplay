@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="CommonMapper">
+		  	
+  	<sql id="limit">
+ 		<if test="__query_limit != null">
+  			limit #{__query_limit}
+  			<if test="__query_start != null" >
+  				offset #{__query_start}
+  			</if>
+  		</if>
+  	</sql>
+  	
+</mapper>

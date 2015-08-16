@@ -5,27 +5,11 @@
   
 <mapper namespace="com.sogou.map.logreplay.mappers.ImageMapper">
 		  	
-  	<resultMap 	type="Image" id="ImageResult">
-  		<id 	property="id" 			column="addr_id"/>
-		<result property="checksum"		column="checksum"/>
-		<result property="format" 		column="format"/>
-		<result property="type"			column="type"/>
-		<result property="width"		column="width"/>
-		<result property="height"		column="height"/>
-		<result property="size"			column="size"/>
-		<result property="creatorId" 	column="creator_id"/>
-		<result property="createTime"	column="create_time"/>
-  	</resultMap>
-  	
   	<insert id="batchSave" useGeneratedKeys="true">
   		insert into image (<include refid="columns" />)
   		values
   		<foreach collection="list" item="image" separator=",">
-  			(
-  				#{image.id}, #{image.checksum}, #{image.format}, #{image.type},
-  				#{image.width}, #{image.height}, #{image.size}, 
-  				#{image.creatorId}, #{image.createTime}
-  			)
+  			(<include refid="fields" />)
   		</foreach>
   	</insert>
   	
@@ -34,40 +18,37 @@
   		<include refid="where" />
   	</select>
   	
-  	<select id="list" resultMap="ImageResult">
+  	<select id="list" resultType="Image">
   		select * from image
   		<include refid="where" />
-		<include refid="limit" />
+		<include refid="CommonMapper.limit" />
   	</select>
   	
   	<sql id="columns">
   		id, checksum, format, type, width, height, size, creator_id, create_time
   	</sql>
   	
+  	<sql id="fields">
+  		#{image.id}, #{image.checksum}, #{image.format}, #{image.type},
+ 		#{image.width}, #{image.height}, #{image.size}, 
+ 		#{image.creatorId}, #{image.createTime}
+  	</sql>
+  	
   	<sql id="where">
   		<where>
   			<if test="id != null">
-  				id = #{id}
+  				and id = #{id}
   			</if>
   			<if test="checksum != null">
-  				checksum = #{checksum}
+  				and checksum = #{checksum}
   			</if>
   			<if test="checksum__in != null" >
-  				checksum in 
+  				and checksum in 
   				<foreach collection="checksum__in" item="item" separator="," open="(" close=")">
   					#{item}
   				</foreach>
   			</if>
   		</where>
-  	</sql>
-  	
-  	<sql id="limit">
- 		<if test="__query_limit != null">
-  			limit #{__query_limit}
-  			<if test="__query_start != null" >
-  				offset #{__query_start}
-  			</if>
-  		</if>
   	</sql>
   	
 </mapper>
