@@ -14,4 +14,15 @@
   		</if>
   	</sql>
   	
+  	<sql id="orderBy">
+  		<if test="__order_by != null and __order_by.size() > 0">
+  			order by 
+  			<foreach collection="__order_by"
+  				index="field" item="sortType"
+  				separator=",">
+  				${field} ${sortType}
+  			</foreach>
+  		</if>
+  	</sql>
+  	
 </mapper>

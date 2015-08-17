@@ -8,13 +8,14 @@
 	<select id="first" resultType="PageInfo">
 		select * from page_info
 		<include refid="where" />
+		<include refid="CommonMapper.orderBy" />
 		limit 1
 	</select>
 		  	
   	<select id="list" resultType="PageInfo">
   		select * from page_info
   		<include refid="where" />
-  		<include refid="orderBy" />
+  		<include refid="CommonMapper.orderBy" />
 		<include refid="CommonMapper.limit" />
   	</select>
   	
@@ -53,17 +54,6 @@
   				<![CDATA[and update_time <= #{updateTime__le}]]>
   			</if>
   		</where>
-  	</sql>
-  	
-  	<sql id="orderBy">
-  		<if test="__order_by != null">
-  			order by 
-  			<if test="__order_by.pageNo != null">
-  				page_no <choose>
-  					<when test="__order_by.pageNo == 'desc'">desc</when>
-  				</choose>
-  			</if>
-  		</if>
   	</sql>
   	
 </mapper>

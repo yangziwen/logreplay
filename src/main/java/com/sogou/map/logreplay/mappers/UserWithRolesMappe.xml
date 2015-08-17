@@ -30,7 +30,7 @@
 		<include refid="select" />
 		<include refid="from" />
 		<include refid="where" />
-		<include refid="orderBy" />
+		<include refid="CommonMapper.orderBy" />
 		<include refid="CommonMapper.limit" />
 	</select>
 	
@@ -79,17 +79,5 @@
 				</foreach>
 			</if>
 		</where>
-	</sql>
-	<sql id="orderBy">
-		<if test="__order_by != null and __order_by.size() > 0">
-			order by 
-			<foreach collection="__order_by"
-				index="field"
-				item="sortType"
-				separator=","
-				>
-			${field} <if test="sortType == 'desc'">desc</if>
-			</foreach>
-		</if>
 	</sql>
 </mapper>

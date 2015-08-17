@@ -55,7 +55,7 @@ public class PageInfoController extends BaseController {
 			.addParam(StringUtils.isNotBlank(updateBeginTime), "updateTime__ge", updateBeginTime)
 			.addParam(StringUtils.isNotBlank(updateEndTime), "updateTime__le", updateEndTime)
 			.addParam("productId", ProductUtil.getProductId())
-			.orderByAsc("pageNo")
+			.orderByAsc("page_no")
 		);
 		return successResult(page);
 	}
@@ -75,7 +75,7 @@ public class PageInfoController extends BaseController {
 			.addParam(StringUtils.isNotBlank(updateBeginTime), "updateTime__ge", updateBeginTime)
 			.addParam(StringUtils.isNotBlank(updateEndTime), "updateTime__le", updateEndTime)
 			.addParam("productId", ProductUtil.getProductId())
-			.orderByAsc("pageNo")
+			.orderByAsc("page_no")
 		);
 		Workbook workbook = ExcelUtil.exportDataList(PAGE_INFO_COLUMN_LIST, list);
 		String filename = ProductUtil.getCurrentProduct().getName() + "_“≥√ÊœÍ«È.xls";

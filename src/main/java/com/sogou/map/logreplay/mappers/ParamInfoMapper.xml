@@ -5,7 +5,7 @@
   
 <mapper namespace="com.sogou.map.logreplay.mappers.ParamInfoMapper">
 
-	<insert id="batchSave" useGeneratedKeys="true" parameterType="java.util.List">
+	<insert id="batchSave" useGeneratedKeys="true">
 		insert into param_info (<include refid="columns" />)
 		values
 		<foreach collection="list" item="paramInfo" separator=",">
@@ -23,7 +23,7 @@
 		</foreach>
 	</delete>
 	
-	<update id="batchUpdate" parameterType="java.util.List">
+	<update id="batchUpdate">
 		<foreach collection="list" item="paramInfo" separator=";">
 			update param_info
 			set tag_param_id = #{paramInfo.tagParamId},
@@ -37,7 +37,7 @@
   	<select id="list" resultType="ParamInfo">
   		select * from param_info
   		<include refid="where" />
-  		<include refid="orderBy" />
+  		<include refid="CommonMapper.orderBy" />
 		<include refid="CommonMapper.limit" />
   	</select>
   	
@@ -58,17 +58,6 @@
   				and tag_param_id = #{tagParamId}
   			</if>
   		</where>
-  	</sql>
-  	
-  	<sql id="orderBy">
-  		<if test="__order_by != null and __order_by.size() > 0">
-  			order by 
-  			<foreach collection="__order_by"
-  				index="field" item="sortType"
-  				separator=",">
-  				${field} ${sortType}
-  			</foreach>
-  		</if>
   	</sql>
   	
 </mapper>
