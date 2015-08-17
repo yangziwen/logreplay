@@ -20,12 +20,13 @@ import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.bean.TagInfo.InspectStatus;
 import com.sogou.map.logreplay.bean.User;
-import com.sogou.map.logreplay.dao.InspectionRecordDao;
-import com.sogou.map.logreplay.dao.PageInfoDao;
-import com.sogou.map.logreplay.dao.UserDao;
+import com.sogou.map.logreplay.dao.base.DaoConstant;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
+import com.sogou.map.logreplay.mappers.InspectionRecordMapper;
+import com.sogou.map.logreplay.mappers.PageInfoMapper;
 import com.sogou.map.logreplay.mappers.TagInfoMapper;
+import com.sogou.map.logreplay.mappers.UserMapper;
 import com.sogou.map.logreplay.util.AuthUtil;
 import com.sogou.map.logreplay.util.ProductUtil;
 
@@ -33,13 +34,13 @@ import com.sogou.map.logreplay.util.ProductUtil;
 public class InspectionRecordService {
 
 	@Autowired
-	private InspectionRecordDao inspectionRecordDao;
+	private InspectionRecordMapper inspectionRecordMapper;
 	
 	@Autowired
-	private UserDao userDao;
+	private UserMapper userMapper;
 	
 	@Autowired
-	private PageInfoDao pageInfoDao;
+	private PageInfoMapper pageInfoMapper;
 	
 	@Autowired
 	private TagInfoMapper tagInfoMapper;
@@ -53,7 +54,7 @@ public class InspectionRecordService {
 		}
 		record.setProductId(ProductUtil.getProductId());
 		record.setCreateTime(ts);
-		inspectionRecordDao.save(record);
+		inspectionRecordMapper.save(record);
 	}
 	
 	@Transactional
@@ -64,7 +65,7 @@ public class InspectionRecordService {
 			updateInspectStatusOfTagInfo(tagInfo, record.getSolved());
 		}
 		record.setUpdateTime(ts);
-		inspectionRecordDao.update(record);
+		inspectionRecordMapper.update(record);
 	}
 	
 	private void updateInspectStatusOfTagInfo(TagInfo tagInfo, Boolean correct) {
@@ -82,9 +83,9 @@ public class InspectionRecordService {
 	}
 	
 	public InspectionRecord getInspectionRecordById(Long id) {
-		InspectionRecord record = inspectionRecordDao.getById(id);
+		InspectionRecord record = inspectionRecordMapper.getById(id);
 		Map<Long, User> userMap = getUserMapByIdList(Arrays.asList(record.getSubmitterId(), record.getSolverId())); 
-		PageInfo pageInfo = record.getPageInfoId() != null? pageInfoDao.getById(record.getPageInfoId()): null;
+		PageInfo pageInfo = record.getPageInfoId() != null? pageInfoMapper.getById(record.getPageInfoId()): null;
 		TagInfo tagInfo = record.getTagInfoId() != null? tagInfoMapper.getById(record.getTagInfoId()): null;
 		record.setPageInfo(pageInfo);
 		record.setTagInfo(tagInfo);
@@ -94,7 +95,11 @@ public class InspectionRecordService {
 	}
 	
 	public Page<InspectionRecord> getInspectionRecordPaginateResult(int start, int limit, Map<String, Object> params) {
-		return inspectionRecordDao.paginate(start, limit, params);
+		int count = inspectionRecordMapper.count(params);
+		DaoConstant.offset(start, params);
+		DaoConstant.limit(limit, params);
+		List<InspectionRecord> list = inspectionRecordMapper.list(params);
+		return new Page<InspectionRecord>(start, limit, count, list);
 	}
 	
 	public Page<InspectionRecord> getInspectionRecordPaginateResultWithTransientFields(int start, int limit, Map<String, Object> params) {
@@ -122,7 +127,7 @@ public class InspectionRecordService {
 	
 	private Map<Long, User> getUserMapByIdList(List<Long> userIdList) {
 		List<User> userList = CollectionUtils.isNotEmpty(userIdList)
-				? userDao.list(new QueryParamMap().addParam("id__in", userIdList))
+				? userMapper.list(new QueryParamMap().addParam("id__in", userIdList))
 				: Collections.<User>emptyList();
 				
 		return Maps.uniqueIndex(userList, new Function<User, Long>() {
@@ -135,7 +140,7 @@ public class InspectionRecordService {
 	
 	private Map<Long, PageInfo> getPageInfoMapByIdList(List<Long> pageInfoIdList) {
 		List<PageInfo> pageInfoList = CollectionUtils.isNotEmpty(pageInfoIdList)
-				? pageInfoDao.list(new QueryParamMap().addParam("id__in", pageInfoIdList))
+				? pageInfoMapper.list(new QueryParamMap().addParam("id__in", pageInfoIdList))
 				: Collections.<PageInfo>emptyList();
 		return Maps.uniqueIndex(pageInfoList, new Function<PageInfo, Long>() {
 			@Override

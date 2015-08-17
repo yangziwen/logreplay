@@ -92,7 +92,7 @@ public class InspectionRecordController extends BaseController {
 			.addParam(solved != null, "solved", solved)
 			.addParam(StringUtils.isNotBlank(submitTimeSince), "createTime__ge", submitTimeSince)
 			.addParam(StringUtils.isNotBlank(submitTimeUntil), "createTime__le", submitTimeUntil)
-			.orderByDesc("createTime")
+			.orderByDesc("create_time")
 		;
 		Page<InspectionRecordDto> page = InspectionRecordDto.from(inspectionRecordService.getInspectionRecordPaginateResultWithTransientFields(start, limit, params));
 		return successResult(page);

@@ -38,6 +38,14 @@
   			<if test="id != null">
   				and id = #{id}
   			</if>
+  			<if test="id__in != null">
+  				and id in 
+  				<foreach collection="id__in"
+  					item="id" separator=","
+  					open="(" close=")">
+  					#{id}
+  				</foreach>
+  			</if>
   			<if test="username != null">
   				and username = #{username}
   			</if> 

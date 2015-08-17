@@ -17,6 +17,7 @@
 		<result property="comment"			column="comment" />
 		<result property="originVersion" 	column="origin_version" />
 		<result property="inspectStatus"	column="inspect_status" />
+		<result property="devInspectStatus"	column="dev_inspect_status" />
 		<result property="createTime"		column="create_time" />
 		<result property="updateTime"		column="update_time" />
 		<association property="pageInfo" 	javaType="PageInfo">

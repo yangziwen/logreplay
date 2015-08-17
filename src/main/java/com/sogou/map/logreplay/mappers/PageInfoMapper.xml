@@ -32,6 +32,14 @@
   			<if test="id__ne != null">
   				and id != #{id__ne}
   			</if>
+  			<if test="id__in != null">
+  				and id in 
+  				<foreach collection="id__in"
+  					item="id" separator=","
+  					open="(" close=")">
+  					#{id}
+  				</foreach>
+  			</if>
   			<if test="productId != null">
   				and product_id = #{productId}
   			</if>
