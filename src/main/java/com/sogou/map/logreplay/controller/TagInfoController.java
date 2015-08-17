@@ -372,16 +372,16 @@ public class TagInfoController extends BaseController {
 			.addParam(tagNo != null, "tagNo", tagNo)
 			.addParam(CollectionUtils.isNotEmpty(pageInfoIdList), "pageInfoId__in", pageInfoIdList)
 			.addParam(StringUtils.isNotBlank(tagName), "name__contain", tagName)
-			.addParam(StringUtils.isNotBlank(pageName), "page_info.name__contain", pageName)
+			.addParam(StringUtils.isNotBlank(pageName), "pageInfoName__contain", pageName)
 			.addParam(StringUtils.isNotBlank(updateBeginTime), "updateTime__ge", updateBeginTime)
 			.addParam(StringUtils.isNotBlank(updateEndTime), "updateTime__le", updateEndTime)
-			.addParam(Boolean.FALSE.equals(isCommonTag), "page_info.id__is_not_null")
-			.addParam(Boolean.TRUE.equals(isCommonTag), "page_info.id__is_null")
+			.addParam(Boolean.FALSE.equals(isCommonTag), "pageInfoId__is_not_null", true)
+			.addParam(Boolean.TRUE.equals(isCommonTag), "pageInfoId__is_null", true)
 			.addParam(originVersionSince != null && originVersionSince > 0, "originVersion__ge", originVersionSince)
 			.addParam(originVersionUntil != null && originVersionUntil > 0 , "originVersion__le", originVersionUntil)
 			.addParam(inspectStatus != InspectStatus.UNKNOWN, "inspectStatus", inspectStatus.getIntValue())
 			.addParam(devInspectStatus != InspectStatus.UNKNOWN, "devInspectStatus", devInspectStatus.getIntValue())
-			.orderByAsc("page_info.page_no").orderByAsc("tagNo");
+			.orderByAsc("page_info.page_no").orderByAsc("tag_no");
 	}
 	
 	private static List<Column> buildTagInfoColumnList(boolean isCommonTag) {

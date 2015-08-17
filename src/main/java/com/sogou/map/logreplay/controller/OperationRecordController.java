@@ -152,7 +152,7 @@ public class OperationRecordController extends BaseController {
 		});
 		Map<Integer, TagInfo> tagInfoMap = Maps.uniqueIndex(tagInfoService.getTagInfoListResult(new QueryParamMap()
 			.addParam("productId", ProductUtil.getProductId())
-			.addParam("tagNo__in", tagNoSet)
+			.addParam("tagNo__in", Lists.newArrayList(tagNoSet))
 		), new Function<TagInfo, Integer>() {
 			@Override
 			public Integer apply(TagInfo tagInfo) {
@@ -181,7 +181,7 @@ public class OperationRecordController extends BaseController {
 			return Collections.emptyList();
 		}
 		List<TagInfo> tagInfoList = tagInfoService.getTagInfoListResult(new QueryParamMap()
-			.addParam("id__in", collectTagInfoId(list))
+			.addParam("id__in", Lists.newArrayList(collectTagInfoId(list)))
 		);
 		Map<Integer, Map<Integer, TagInfo>> dict = new HashMap<Integer, Map<Integer,TagInfo>>();
 		for(TagInfo tagInfo: tagInfoList) {

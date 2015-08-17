@@ -22,10 +22,10 @@ import com.sogou.map.logreplay.bean.TagInfo.InspectStatus;
 import com.sogou.map.logreplay.bean.User;
 import com.sogou.map.logreplay.dao.InspectionRecordDao;
 import com.sogou.map.logreplay.dao.PageInfoDao;
-import com.sogou.map.logreplay.dao.TagInfoDao;
 import com.sogou.map.logreplay.dao.UserDao;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
+import com.sogou.map.logreplay.mappers.TagInfoMapper;
 import com.sogou.map.logreplay.util.AuthUtil;
 import com.sogou.map.logreplay.util.ProductUtil;
 
@@ -42,7 +42,7 @@ public class InspectionRecordService {
 	private PageInfoDao pageInfoDao;
 	
 	@Autowired
-	private TagInfoDao tagInfoDao;
+	private TagInfoMapper tagInfoMapper;
 	
 	@Transactional
 	public void createInspectionRecord(InspectionRecord record) {
@@ -78,14 +78,14 @@ public class InspectionRecordService {
 		} else {
 			tagInfo.setInspectStatus(status);
 		}
-		tagInfoDao.update(tagInfo);
+		tagInfoMapper.update(tagInfo);
 	}
 	
 	public InspectionRecord getInspectionRecordById(Long id) {
 		InspectionRecord record = inspectionRecordDao.getById(id);
 		Map<Long, User> userMap = getUserMapByIdList(Arrays.asList(record.getSubmitterId(), record.getSolverId())); 
 		PageInfo pageInfo = record.getPageInfoId() != null? pageInfoDao.getById(record.getPageInfoId()): null;
-		TagInfo tagInfo = record.getTagInfoId() != null? tagInfoDao.getById(record.getTagInfoId()): null;
+		TagInfo tagInfo = record.getTagInfoId() != null? tagInfoMapper.getById(record.getTagInfoId()): null;
 		record.setPageInfo(pageInfo);
 		record.setTagInfo(tagInfo);
 		record.setSubmitter(userMap.get(record.getSubmitterId()));
@@ -147,7 +147,7 @@ public class InspectionRecordService {
 	
 	private Map<Long, TagInfo> getTagInfoMapByIdList(List<Long> tagInfoIdList) {
 		List<TagInfo> tagInfoList = CollectionUtils.isNotEmpty(tagInfoIdList)
-				? tagInfoDao.list(new QueryParamMap().addParam("id__in", tagInfoIdList))
+				? tagInfoMapper.list(new QueryParamMap().addParam("id__in", tagInfoIdList))
 				: Collections.<TagInfo>emptyList();
 		return Maps.uniqueIndex(tagInfoList, new Function<TagInfo, Long>() {
 			@Override

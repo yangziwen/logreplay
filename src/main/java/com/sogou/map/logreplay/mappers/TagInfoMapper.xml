@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sogou.map.logreplay.mappers.TagInfoMapper">
+	
+	<resultMap id="TagInfoResult" type="TagInfo" >
+		<id 	property="id" 				column="id" />
+		<result property="productId"		column="product_id" />
+		<result property="tagNo"			column="tag_no" />
+		<result property="name"				column="name" />
+		<result property="pageInfoId"		column="page_info_id" />
+		<result property="pageNo"			column="page_no" />
+		<result property="actionId"			column="action_id" />
+		<result property="targetId"			column="target_id" />
+		<result property="comment"			column="comment" />
+		<result property="originVersion" 	column="origin_version" />
+		<result property="inspectStatus"	column="inspect_status" />
+		<result property="createTime"		column="create_time" />
+		<result property="updateTime"		column="update_time" />
+		<association property="pageInfo" 	javaType="PageInfo">
+			<id		property="id"			column="page_info_id"/>
+			<result	property="name"			column="page_name"/>
+			<result	property="pageNo"		column="page_no"/>
+			<result	property="createTime"	column="page_create_time"/>
+			<result	property="updateTime"	column="page_update_time"/>
+		</association >
+	</resultMap>
+	
+	<select id="getById" resultMap="TagInfoResult">
+		<include refid="select" />
+		<include refid="from" />
+		<where>tag_info.id = #{id}</where>
+	</select>
+	
+	<select id="count" resultType="_int">
+		select count(*)
+		<include refid="from" />
+		<include refid="where" />
+	</select>
+	
+	<select id="first" resultMap="TagInfoResult">
+		<include refid="select" />
+		<include refid="from" />
+		<include refid="where" />
+		<include refid="CommonMapper.orderBy" />
+		limit 1
+	</select>
+	
+	<select id="list" resultMap="TagInfoResult">
+		<include refid="select" />
+		<include refid="from" />
+		<include refid="where" />
+		<include refid="CommonMapper.orderBy" />
+		<include refid="CommonMapper.limit" />
+	</select>
+	
+	<sql id="select">
+		select tag_info.*,
+			page_info.name as page_name,
+			page_info.page_no as page_no,
+			page_info.create_time as page_create_time,
+			page_info.update_time as page_update_time
+	</sql>
+	<sql id="from">
+		from tag_info
+			left join page_info on page_info.id = page_info_id 
+	</sql>	
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				and tag_info.id = #{id}
+			</if>
+			<if test="id__ne != null">
+				and tag_info.id != #{id__ne}
+			</if>
+			<if test="id__in != null">
+				and id in 
+				<foreach collection="id__in"
+					item="id" separator=","
+					open="(" close=")">
+					#{id}
+				</foreach>
+			</if>
+			<if test="productId != null">
+				and tag_info.product_id = #{productId}
+			</if>
+			<if test="pageNo != null">
+				and tag_info.page_no = #{pageNo}
+			</if>
+			<if test="tagNo != null">
+				and tag_info.tag_no = #{tagNo}
+			</if>
+			<if test="tagNo__in != null">
+				and tag_info.tag_no in
+				<foreach collection="tagNo__in"
+					item="tagNo" separator=","
+					open="(" close=")">
+					#{tagNo}	
+				</foreach>
+			</if>
+			<if test="pageInfoId != null">
+				and tag_info.page_info_id = #{pageInfoId}
+			</if>
+			<if test="pageInfoId__is_null != null">
+				and tag_info.page_info_id is null
+			</if>
+			<if test="pageInfoId__is_not_null != null">
+				and tag_info.page_info_id is not null
+			</if>
+			<if test="pageInfoId__in != null">
+				and tag_info.page_info_id in
+				<foreach collection="pageInfoId__in"
+					item="pageInfoId" separator=","
+					open="(" close=")">
+					#{pageInfoId}
+				</foreach>
+			</if>
+			<if test="name__contain != null">
+				and tag_info.name like concat('%', #{name__contain}, '%')
+			</if>
+			<if test="pageInfoName__contain">
+				and page_info.name like concat('%', #{pageInfoName__contain}, '%')
+			</if>
+			<if test="updateTime__ge != null">
+				and tag_info.update_time >= #{updateTime__ge}
+			</if>
+			<if test="updateTime__le != null">
+				<![CDATA[and tag_info.update_time <= #{updateTime__le}]]>
+			</if>
+			<if test="originVersion__ge != null">
+				and tag_info.origin_version >= #{originVersion__ge}
+			</if>
+			<if test="originVersion__le != null">
+				<![CDATA[and tag_info.origin_version <= #{originVersion__le}]]>
+			</if>
+			<if test="inspectStatus != null">
+				and tag_info.inspect_status = #{inspectStatus}
+			</if>
+			<if test="devInspectStatus != null">
+				and tag_info.dev_inspect_status = #{devInspectStatus}
+			</if>
+		</where>
+	</sql>
+</mapper>

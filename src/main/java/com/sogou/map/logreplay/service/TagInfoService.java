@@ -16,10 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sogou.map.logreplay.bean.ParamInfo;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.bean.TagParam;
-import com.sogou.map.logreplay.dao.TagInfoDao;
+import com.sogou.map.logreplay.dao.base.DaoConstant;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.mappers.ParamInfoMapper;
+import com.sogou.map.logreplay.mappers.TagInfoMapper;
 import com.sogou.map.logreplay.mappers.TagParamMapper;
 import com.sogou.map.logreplay.mappers.TagParamWithInfosMapper;
 import com.sogou.map.logreplay.util.ProductUtil;
@@ -28,7 +29,7 @@ import com.sogou.map.logreplay.util.ProductUtil;
 public class TagInfoService {
 	
 	@Autowired
-	private TagInfoDao tagInfoDao;
+	private TagInfoMapper tagInfoMapper;
 	
 	@Autowired
 	private TagParamMapper tagParamMapper;
@@ -40,26 +41,30 @@ public class TagInfoService {
 	private ParamInfoMapper paramInfoMapper;
 	
 	public List<TagInfo> getTagInfoListResult(int start, int limit, Map<String, Object> params) {
-		return tagInfoDao.list(start, limit, params);
+		DaoConstant.offset(start, params);
+		DaoConstant.limit(limit, params);
+		return getTagInfoListResult(params);
 	}
 	
 	public List<TagInfo> getTagInfoListResult(Map<String, Object> params) {
-		return tagInfoDao.list(params);
+		return tagInfoMapper.list(params);
 	}
 	
 	public Page<TagInfo> getTagInfoPageResult(int start, int limit, Map<String, Object> params) {
-		return tagInfoDao.paginate(start, limit, params);
+		int count = tagInfoMapper.count(params);
+		List<TagInfo> list = getTagInfoListResult(start, limit, params);
+		return new Page<TagInfo>(start, limit, count, list);
 	}
 	
 	public TagInfo getTagInfoById(Long id) {
-		return tagInfoDao.getById(id);
+		return tagInfoMapper.getById(id);
 	}
 	
 	/**
 	 * 如果是"公共操作项"，则直接忽略pageNo
 	 */
 	public TagInfo getTagInfoByPageNoTagNoAndProductId(Integer pageNo, Integer tagNo, Long productId) {
-		return tagInfoDao.first(new QueryParamMap()
+		return tagInfoMapper.first(new QueryParamMap()
 			.addParam("productId", productId)
 			.addParam("tagNo", tagNo)
 			.addParam(tagNo < TagInfo.COMMON_TAG_NO_MIN_VALUE && pageNo != null && pageNo > 0, "pageNo", pageNo)
@@ -68,13 +73,13 @@ public class TagInfoService {
 	
 	public void updateTagInfo(TagInfo info) {
 		info.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-		tagInfoDao.update(info);
+		tagInfoMapper.update(info);
 	}
 	
 	public void createTagInfo(TagInfo info) {
 		info.setProductId(ProductUtil.getProductId());
 		info.setCreateTime(new Timestamp(System.currentTimeMillis()));
-		tagInfoDao.save(info);
+		tagInfoMapper.save(info);
 	}
 	
 	@Transactional
@@ -85,7 +90,7 @@ public class TagInfoService {
 			paramInfoMapper.batchDeleteByIds(new ArrayList<Long>(collectParamInfoId(tagParam.getParamInfoList())));
 			tagParamMapper.delete(tagParam);
 		}
-		tagInfoDao.deleteById(id);
+		tagInfoMapper.deleteById(id);
 	}
 	
 	private Set<Long> collectParamInfoId(List<ParamInfo> paramInfoList) {

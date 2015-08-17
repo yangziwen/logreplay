@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sogou.map.logreplay.bean.PageInfo;
-import com.sogou.map.logreplay.dao.TagInfoDao;
 import com.sogou.map.logreplay.dao.base.DaoConstant;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.mappers.PageInfoMapper;
+import com.sogou.map.logreplay.mappers.TagInfoMapper;
 import com.sogou.map.logreplay.util.ProductUtil;
 
 @Service
@@ -23,7 +23,7 @@ public class PageInfoService {
 	private PageInfoMapper pageInfoMapper;
 	
 	@Autowired
-	private TagInfoDao tagInfoDao;
+	private TagInfoMapper tagInfoMapper;
 	
 	public Page<PageInfo> getPageInfoPageResult(int start, int limit, Map<String, Object> params) {
 		int count = pageInfoMapper.count(params);
@@ -56,7 +56,7 @@ public class PageInfoService {
 	public void updatePageInfo(PageInfo info) {
 		info.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 		pageInfoMapper.update(info);
-		tagInfoDao.updatePageNoByPageInfoId(info.getId(), info.getPageNo());
+		tagInfoMapper.updatePageNoByPageInfoId(info.getId(), info.getPageNo());
 	}
 	
 	public void createPageInfo(PageInfo info) {
