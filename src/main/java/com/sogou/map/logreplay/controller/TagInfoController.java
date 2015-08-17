@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sogou.map.logreplay.bean.PageInfo;
 import com.sogou.map.logreplay.bean.Permission.Target;
@@ -111,7 +112,7 @@ public class TagInfoController extends BaseController {
 			tagInfoIdSet.add(tagInfo.getId());
 		}
 		List<TagParam> tagParamList = tagParamService.getTagParamListResult(new QueryParamMap()
-			.addParam("tagInfoId__in", tagInfoIdSet)
+			.addParam("tagInfoId__in", Lists.newArrayList(tagInfoIdSet))
 		);
 		Set<Long> tagInfoIdsWithParam = Maps.uniqueIndex(tagParamList, new Function<TagParam, Long>() {
 			@Override

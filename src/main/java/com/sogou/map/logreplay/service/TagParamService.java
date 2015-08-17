@@ -15,26 +15,26 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sogou.map.logreplay.bean.ParamInfo;
 import com.sogou.map.logreplay.bean.TagParam;
-import com.sogou.map.logreplay.dao.TagParamDao;
-import com.sogou.map.logreplay.dao.TagParamWithInfosDao;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.mappers.ParamInfoMapper;
+import com.sogou.map.logreplay.mappers.TagParamMapper;
+import com.sogou.map.logreplay.mappers.TagParamWithInfosMapper;
 import com.sogou.map.logreplay.util.TagParamParser;
 
 @Service
 public class TagParamService {
 
 	@Autowired
-	private TagParamDao tagParamDao;
+	private TagParamMapper tagParamMapper;
 	
 	@Autowired
 	private ParamInfoMapper paramInfoMapper;
 	
 	@Autowired
-	private TagParamWithInfosDao tagParamWithInfosDao;
+	private TagParamWithInfosMapper tagParamWithInfosMapper;
 	
 	public List<TagParam> getTagParamListResultWithInfos(Map<String, Object> params) {
-		return tagParamWithInfosDao.list(params);
+		return tagParamWithInfosMapper.list(params);
 	}
 	
 	public TagParamParser getTagParamParserByTagInfoIdList(List<Long> tagInfoIdList) {
@@ -59,13 +59,15 @@ public class TagParamService {
 	@Transactional
 	public void renewTagParamAndParamInfo(TagParam tagParam, List<ParamInfo> paramInfoList) {
 		if(CollectionUtils.isEmpty(paramInfoList) && StringUtils.isBlank(tagParam.getComment())) {
-			paramInfoMapper.batchDeleteByIds(new ArrayList<Long>(collectParamInfoId(tagParam.getParamInfoList())));
+			if(CollectionUtils.isNotEmpty(tagParam.getParamInfoList())) {
+				paramInfoMapper.batchDeleteByIds(new ArrayList<Long>(collectParamInfoId(tagParam.getParamInfoList())));
+			}
 			if(tagParam.getId() != null) {
-				tagParamDao.delete(tagParam);
+				tagParamMapper.delete(tagParam);
 			}
 			return;
 		}
-		tagParamDao.saveOrUpdate(tagParam);
+		this.saveOrUpdateTagParam(tagParam);
 		for(ParamInfo paramInfo: paramInfoList) {
 			paramInfo.setTagParamId(tagParam.getId());
 		}
@@ -145,11 +147,15 @@ public class TagParamService {
 	}
 	
 	public void saveOrUpdateTagParam(TagParam tagParam) {
-		tagParamDao.saveOrUpdate(tagParam);
+		if(tagParam.getId() == null) {
+			tagParamMapper.save(tagParam);
+		} else {
+			tagParamMapper.update(tagParam);
+		}
 	}
 	
 	public TagParam getTagParamByTagInfoId(Long tagInfoId) {
-		TagParam tagParam = tagParamDao.first(new QueryParamMap().addParam("tagInfoId", tagInfoId));
+		TagParam tagParam = tagParamMapper.getByTagInfoId(tagInfoId);
 		if(tagParam != null) {
 			tagParam.setParamInfoList(getParamInfoListResultByTagParamId(tagParam.getId()));
 		}
@@ -157,7 +163,7 @@ public class TagParamService {
 	}
 	
 	public List<TagParam> getTagParamListResult(Map<String, Object> params) {
-		return tagParamDao.list(params);
+		return tagParamMapper.list(params);
 	}
 	
 	public List<ParamInfo> getParamInfoListResultByTagParamId(Long tagParamId) {

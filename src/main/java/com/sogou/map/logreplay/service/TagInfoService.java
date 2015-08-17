@@ -17,10 +17,11 @@ import com.sogou.map.logreplay.bean.ParamInfo;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.bean.TagParam;
 import com.sogou.map.logreplay.dao.TagInfoDao;
-import com.sogou.map.logreplay.dao.TagParamWithInfosDao;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.mappers.ParamInfoMapper;
+import com.sogou.map.logreplay.mappers.TagParamMapper;
+import com.sogou.map.logreplay.mappers.TagParamWithInfosMapper;
 import com.sogou.map.logreplay.util.ProductUtil;
 
 @Service
@@ -30,7 +31,10 @@ public class TagInfoService {
 	private TagInfoDao tagInfoDao;
 	
 	@Autowired
-	private TagParamWithInfosDao tagParamWithInfosDao;
+	private TagParamMapper tagParamMapper;
+	
+	@Autowired
+	private TagParamWithInfosMapper tagParamWithInfosMapper;
 	
 	@Autowired
 	private ParamInfoMapper paramInfoMapper;
@@ -75,11 +79,11 @@ public class TagInfoService {
 	
 	@Transactional
 	public void deleteTagInfoById(Long id) {
-		List<TagParam> tagParamList = tagParamWithInfosDao.list(new QueryParamMap().addParam("tagInfoId", id));
+		List<TagParam> tagParamList = tagParamWithInfosMapper.list(new QueryParamMap().addParam("tagInfoId", id));
 		if(CollectionUtils.isNotEmpty(tagParamList)) {
 			TagParam tagParam = tagParamList.get(0);
 			paramInfoMapper.batchDeleteByIds(new ArrayList<Long>(collectParamInfoId(tagParam.getParamInfoList())));
-			tagParamWithInfosDao.delete(tagParam);
+			tagParamMapper.delete(tagParam);
 		}
 		tagInfoDao.deleteById(id);
 	}

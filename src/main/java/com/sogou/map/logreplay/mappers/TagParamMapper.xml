@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sogou.map.logreplay.mappers.TagParamMapper">
+		  	
+  	<select id="list" resultType="TagParam">
+  		select * from tag_param
+  		<include refid="where" />
+  		<include refid="CommonMapper.orderBy" />
+		<include refid="CommonMapper.limit" />
+  	</select>
+  	
+  	<select id="count" resultType="_int">
+  		select count(*) from tag_param
+  		<include refid="where" />
+  	</select>
+  	
+  	<sql id="where">
+  		<where>
+  			<if test="id != null">
+  				and id = #{id}
+  			</if>
+  			<if test="tagInfoId != null">
+  				and tag_info_id = #{tagInfoId}
+  			</if>
+  			<if test="tagInfoId__in != null">
+  				and tag_info_id in 
+  				<foreach collection="tagInfoId__in"
+  					item="tagInfoId"
+  					separator=","
+  					open="(" close=")">
+  					#{tagInfoId}
+  				</foreach>
+  			</if>
+  		</where>
+  	</sql>
+  	
+</mapper>
