@@ -77,7 +77,7 @@
 				and tag_info.id != #{id__ne}
 			</if>
 			<if test="id__in != null">
-				and id in 
+				and tag_info.id in 
 				<foreach collection="id__in"
 					item="id" separator=","
 					open="(" close=")">

@@ -45,6 +45,7 @@ import com.sogou.map.logreplay.dto.OperationRecordDto;
 import com.sogou.map.logreplay.dto.OperationRecordDto.TagParamParsedResult;
 import com.sogou.map.logreplay.exception.LogReplayException;
 import com.sogou.map.logreplay.logprocess.log.MobLog;
+import com.sogou.map.logreplay.logprocess.log.OperationLog;
 import com.sogou.map.logreplay.logprocess.processor.MobLogProcessor;
 import com.sogou.map.logreplay.logprocess.processor.OperationLogProcessor;
 import com.sogou.map.logreplay.service.OperationRecordService;
@@ -112,8 +113,8 @@ public class OperationRecordController extends BaseController {
 			.addParam(idSince != null, "id__gt", idSince)
 			.addParam(idSince == null && since != null, "timestamp__gt", since)
 			.addParam(until != null, "timestamp__lt", until)
-			.addParam(originVersionSince != null && originVersionSince > 0, "tag_info.origin_version__ge", originVersionSince)
-			.addParam(originVersionUntil != null && originVersionUntil > 0 , "tag_info.origin_version__le", originVersionUntil)
+			.addParam(originVersionSince != null && originVersionSince > 0, "tagInfoOriginVersion__ge", originVersionSince)
+			.addParam(originVersionUntil != null && originVersionUntil > 0 , "tagInfoOriginVersion__le", originVersionUntil)
 			.orderByAsc("timestamp")
 		);
 		List<OperationRecordDto> dtoList = convertToDtoList(list);
@@ -340,7 +341,11 @@ public class OperationRecordController extends BaseController {
 				if(line == null) {
 					break;
 				}
-				recordList.addAll(processor.process(line).toRecordList());
+				OperationLog processedLog = processor.process(line);
+				if(processedLog == null) {
+					continue;
+				}
+				recordList.addAll(processedLog.toRecordList());
 				if(recordList.size() > 1000) {
 					count += operationRecordService.batchSaveOperationRecord(recordList);
 					recordList = new ArrayList<OperationRecord>(500);

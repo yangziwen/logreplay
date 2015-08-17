@@ -7,26 +7,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sogou.map.logreplay.bean.OperationRecord;
-import com.sogou.map.logreplay.dao.OperationRecordDao;
+import com.sogou.map.logreplay.dao.base.DaoConstant;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
+import com.sogou.map.logreplay.mappers.OperationRecordMapper;
 import com.sogou.map.logreplay.util.ProductUtil;
 
 @Service
 public class OperationRecordService {
 
 	@Autowired
-	private OperationRecordDao operationRecordDao;
+	private OperationRecordMapper operationRecordMapper;
 	
 	public OperationRecord getLatestOperationRecord() {
-		return operationRecordDao.first(new QueryParamMap().orderByDesc("id"));
+		return operationRecordMapper.first(new QueryParamMap().orderByDesc("id"));
 	}
 	
 	public List<OperationRecord> getOperationRecordListResult(int start, int limit, Map<String, Object> params) {
-		return operationRecordDao.list(start, limit, params);
+		DaoConstant.offset(start, params);
+		DaoConstant.limit(limit, params);
+		return operationRecordMapper.list(params);
 	}
 	
 	public void saveOrUpdateOperationRecord(OperationRecord record) {
-		operationRecordDao.saveOrUpdate(record);
+		if(record.getId() == null) {
+			operationRecordMapper.save(record);
+		} else {
+			operationRecordMapper.update(record);
+		}
 	}
 	
 	public int batchSaveOperationRecord(List<OperationRecord> recordList) {
@@ -34,6 +41,11 @@ public class OperationRecordService {
 		for(OperationRecord record: recordList) {
 			record.setProductId(productId);
 		}
-		return operationRecordDao.batchSaveByDirectSql(recordList.toArray(new OperationRecord[]{}), 500);
+		int batchSize = 500, cnt = 0;
+		for (int i = 0, l = recordList.size(); i < l; i += batchSize ) {
+			int toIndex = Math.min(i + batchSize, l);
+			cnt += operationRecordMapper.batchSave(recordList.subList(i, toIndex));
+		}
+		return cnt;
 	}
 }
