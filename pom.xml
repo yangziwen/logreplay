@@ -283,13 +283,39 @@
 				</plugins>
 			</build>
 		</profile>
+		
+		<profile>
+			<id>dev</id>
+			<properties>
+				<env>dev</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>production</id>
+			<properties>
+				<env>production</env>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
 	</profiles>
 	
 	<build>
+	
 		<finalName>logreplay</finalName>
+		
+		<filters>
+			<filter>src/main/resources/filters/filter-${env}.properties</filter>
+		</filters>
+	
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<excludes>
+					<exclude>filters/*</exclude>
+				</excludes>
 			</resource>
 			<resource>
 				<directory>src/main/src/java</directory>
