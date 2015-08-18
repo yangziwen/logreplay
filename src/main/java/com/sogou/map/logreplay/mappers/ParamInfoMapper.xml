@@ -38,7 +38,6 @@
   		select * from param_info
   		<include refid="where" />
   		<include refid="CommonMapper.orderBy" />
-		<include refid="CommonMapper.limit" />
   	</select>
   	
   	<sql id="columns">

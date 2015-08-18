@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.session.RowBounds;
 
 import com.sogou.map.logreplay.bean.RoleRelPermission;
 
@@ -15,4 +16,7 @@ public interface RoleRelPermissionMapper {
 	public int batchSave(List<RoleRelPermission> list);
 	
 	public List<RoleRelPermission> list(Map<String, Object> params);
+	
+	public List<RoleRelPermission> list(Map<String, Object> params, RowBounds rowBounds);
+	
 }

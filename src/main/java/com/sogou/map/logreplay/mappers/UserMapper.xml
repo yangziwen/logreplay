@@ -21,7 +21,6 @@
   	<select id="list" resultType="User">
   		select * from user
   		<include refid="where" />
-		<include refid="CommonMapper.limit" />
   	</select>
   	
   	<sql id="columns">

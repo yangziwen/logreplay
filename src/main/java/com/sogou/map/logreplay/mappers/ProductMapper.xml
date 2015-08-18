@@ -8,7 +8,6 @@
   	<select id="list" resultType="Product">
   		select * from product
   		<include refid="where" />
-		<include refid="CommonMapper.limit" />
   	</select>
   	
   	<sql id="where">

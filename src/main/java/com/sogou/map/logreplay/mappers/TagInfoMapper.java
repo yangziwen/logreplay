@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.session.RowBounds;
 
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.dao.base.BeanMapping;
@@ -33,6 +34,8 @@ public interface TagInfoMapper {
 	public TagInfo first(Map<String, Object> params);
 	
 	public List<TagInfo> list(Map<String, Object> params);
+	
+	public List<TagInfo> list(Map<String, Object> params, RowBounds rowBounds);
 	
 	public int count(Map<String, Object> params);
 	

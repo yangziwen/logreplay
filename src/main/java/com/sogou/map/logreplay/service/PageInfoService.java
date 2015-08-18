@@ -4,12 +4,12 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sogou.map.logreplay.bean.PageInfo;
-import com.sogou.map.logreplay.dao.base.DaoConstant;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.mappers.PageInfoMapper;
@@ -32,9 +32,7 @@ public class PageInfoService {
 	}
 	
 	public List<PageInfo> getPageInfoListResult(int start, int limit, Map<String, Object> params) {
-		DaoConstant.offset(start, params);
-		DaoConstant.limit(limit, params);
-		return getPageInfoListResult(params);
+		return pageInfoMapper.list(params, new RowBounds(start, limit));
 	}
 	
 	public List<PageInfo> getPageInfoListResult(Map<String, Object> params) {

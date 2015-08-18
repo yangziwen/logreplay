@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +18,6 @@ import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.User;
 import com.sogou.map.logreplay.bean.UserRelRole;
 import com.sogou.map.logreplay.bean.UserWithRoles;
-import com.sogou.map.logreplay.dao.base.DaoConstant;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.mappers.UserMapper;
@@ -53,17 +53,13 @@ public class UserService {
 	
 	public Page<User> getUserPaginateResult(int start, int limit, Map<String, Object> params) {
 		int count = userMapper.count(params);
-		DaoConstant.offset(start, params);
-		DaoConstant.limit(limit, params);
-		List<User> list = userMapper.list(params);
+		List<User> list = userMapper.list(params, new RowBounds(start, limit));
 		return new Page<User>(start, limit, count, list);
 	}
 	
 	public Page<UserWithRoles> getUserWithRolesPaginateResult(int start, int limit, Map<String, Object> params) {
 		int count = userWithRolesMapper.count(params);
-		DaoConstant.offset(start, params);
-		DaoConstant.limit(limit, params);
-		List<UserWithRoles> list = userWithRolesMapper.list(params);
+		List<UserWithRoles> list = userWithRolesMapper.list(params, new RowBounds(start, limit));
 		return new Page<UserWithRoles>(start, limit, count, list);
 	}
 	

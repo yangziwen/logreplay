@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,6 @@ import com.sogou.map.logreplay.bean.Role;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.bean.TagInfo.InspectStatus;
 import com.sogou.map.logreplay.bean.User;
-import com.sogou.map.logreplay.dao.base.DaoConstant;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.mappers.InspectionRecordMapper;
@@ -96,9 +96,7 @@ public class InspectionRecordService {
 	
 	public Page<InspectionRecord> getInspectionRecordPaginateResult(int start, int limit, Map<String, Object> params) {
 		int count = inspectionRecordMapper.count(params);
-		DaoConstant.offset(start, params);
-		DaoConstant.limit(limit, params);
-		List<InspectionRecord> list = inspectionRecordMapper.list(params);
+		List<InspectionRecord> list = inspectionRecordMapper.list(params, new RowBounds(start, limit));
 		return new Page<InspectionRecord>(start, limit, count, list);
 	}
 	

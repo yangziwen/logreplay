@@ -31,7 +31,6 @@
 		<include refid="from" />
 		<include refid="where" />
 		<include refid="CommonMapper.orderBy" />
-		<include refid="CommonMapper.limit" />
 	</select>
 	
 	<select id="count" resultType="_int">

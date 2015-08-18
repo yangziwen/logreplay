@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.session.RowBounds;
 
 import com.sogou.map.logreplay.bean.OperationRecord;
 import com.sogou.map.logreplay.dao.base.BeanMapping;
@@ -22,6 +23,8 @@ public interface OperationRecordMapper {
 	public OperationRecord first(Map<String, Object> params);
 	
 	public List<OperationRecord> list(Map<String, Object> params);
+	
+	public List<OperationRecord> list(Map<String, Object> params, RowBounds rowBounds);
 	
 	public int batchSave(List<OperationRecord> list);
 	

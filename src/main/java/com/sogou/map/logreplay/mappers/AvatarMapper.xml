@@ -22,7 +22,6 @@
   	<select id="list" resultType="Avatar">
   		select * from avatar
   		<include refid="where" />
-		<include refid="CommonMapper.limit" />
   	</select>
   	
   	<sql id="columns">

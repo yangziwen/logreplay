@@ -21,7 +21,6 @@
   	<select id="list" resultType="Image">
   		select * from image
   		<include refid="where" />
-		<include refid="CommonMapper.limit" />
   	</select>
   	
   	<sql id="columns">

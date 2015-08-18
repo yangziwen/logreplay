@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.session.RowBounds;
 
 import com.sogou.map.logreplay.bean.PageInfo;
 import com.sogou.map.logreplay.dao.base.BeanMapping;
@@ -25,6 +26,8 @@ public interface PageInfoMapper {
 	public PageInfo first(Map<String, Object> params);
 
 	public List<PageInfo> list(Map<String, Object> params);
+	
+	public List<PageInfo> list(Map<String, Object> params, RowBounds rowBounds);
 	
 	public int count(Map<String, Object> params);
 	

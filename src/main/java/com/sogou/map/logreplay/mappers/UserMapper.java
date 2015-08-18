@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.session.RowBounds;
 
 import com.sogou.map.logreplay.bean.User;
 import com.sogou.map.logreplay.dao.base.BeanMapping;
@@ -22,6 +23,8 @@ public interface UserMapper {
 	public int count(Map<String, Object> params);
 	
 	public List<User> list(Map<String, Object> params);
+	
+	public List<User> list(Map<String, Object> params, RowBounds rowBounds);
 	
 	@InsertProvider(type = SqlProvider.class, method = "insert")
 	@Options(useGeneratedKeys = true, keyProperty = "id")

@@ -9,7 +9,6 @@
   		select * from permission
   		<include refid="where" />
   		<include refid="CommonMapper.orderBy" />
-		<include refid="CommonMapper.limit" />
   	</select>
   	
   	<sql id="where">

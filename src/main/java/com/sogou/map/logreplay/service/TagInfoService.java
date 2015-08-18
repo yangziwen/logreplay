@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sogou.map.logreplay.bean.ParamInfo;
 import com.sogou.map.logreplay.bean.TagInfo;
 import com.sogou.map.logreplay.bean.TagParam;
-import com.sogou.map.logreplay.dao.base.DaoConstant;
 import com.sogou.map.logreplay.dao.base.Page;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.mappers.ParamInfoMapper;
@@ -41,9 +41,7 @@ public class TagInfoService {
 	private ParamInfoMapper paramInfoMapper;
 	
 	public List<TagInfo> getTagInfoListResult(int start, int limit, Map<String, Object> params) {
-		DaoConstant.offset(start, params);
-		DaoConstant.limit(limit, params);
-		return getTagInfoListResult(params);
+		return tagInfoMapper.list(params, new RowBounds(start, limit));
 	}
 	
 	public List<TagInfo> getTagInfoListResult(Map<String, Object> params) {

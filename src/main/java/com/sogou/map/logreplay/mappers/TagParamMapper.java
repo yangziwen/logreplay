@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.session.RowBounds;
 
 import com.sogou.map.logreplay.bean.TagParam;
 import com.sogou.map.logreplay.dao.base.BeanMapping;
@@ -28,6 +29,8 @@ public interface TagParamMapper {
 	public TagParam getByTagInfoId(Long tagInfoId);
 	
 	public List<TagParam> list(Map<String, Object> params);
+	
+	public List<TagParam> list(Map<String, Object> params, RowBounds rowBounds);
 	
 	public class SqlProvider extends AbstractSqlProvider<TagParam> {
 

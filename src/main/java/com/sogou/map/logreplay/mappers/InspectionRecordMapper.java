@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.session.RowBounds;
 
 import com.sogou.map.logreplay.bean.InspectionRecord;
 import com.sogou.map.logreplay.dao.base.BeanMapping;
@@ -26,6 +27,8 @@ public interface InspectionRecordMapper {
 	public int count(Map<String, Object> params);
 	
 	public List<InspectionRecord> list(Map<String, Object> params);
+	
+	public List<InspectionRecord> list(Map<String, Object> params, RowBounds rowBounds);
 	
 	public class SqlProvider extends AbstractSqlProvider<InspectionRecord> {
 

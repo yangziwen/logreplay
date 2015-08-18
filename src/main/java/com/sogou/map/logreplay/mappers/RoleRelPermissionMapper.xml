@@ -15,7 +15,6 @@
 	<select id="list" resultType="RoleRelPermission">
   		select * from role_rel_permission
   		<include refid="where" />
-		<include refid="CommonMapper.limit" />
   	</select>
   	
   	<sql id="columns">
