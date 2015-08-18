@@ -165,7 +165,7 @@ public class ImageController extends BaseController {
 	@RequestMapping(value = "/avatar/{userId:\\d+}", method = RequestMethod.GET)
 	public void getAvatar(
 			@PathVariable("userId") Long userId,
-			@RequestParam(defaultValue = Image.Type.DEFAULT_VALUE) String type,
+			@RequestParam(defaultValue = Image.Type.DEFAULT_VALUE) Image.Type type,
 			NativeWebRequest webRequest,
 			HttpServletResponse response) throws ServletException, IOException {
 		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
