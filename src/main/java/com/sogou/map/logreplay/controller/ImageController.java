@@ -165,7 +165,7 @@ public class ImageController extends BaseController {
 	@RequestMapping(value = "/avatar/{userId:\\d+}", method = RequestMethod.GET)
 	public void getAvatar(
 			@PathVariable("userId") Long userId,
-			@RequestParam(defaultValue = Image.TYPE_MIDDLE) String type,
+			@RequestParam(defaultValue = Image.Type.DEFAULT_VALUE) String type,
 			NativeWebRequest webRequest,
 			HttpServletResponse response) throws ServletException, IOException {
 		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
@@ -280,7 +280,7 @@ public class ImageController extends BaseController {
 				.format(format)
 				.width(avatarType.width())
 				.height(avatarType.height())
-				.type(avatarType.name())
+				.type(avatarType)
 				.bytes(bytes)
 				.build();
 			avatarList.add(avatar);
@@ -324,7 +324,7 @@ public class ImageController extends BaseController {
 			.bytes(bytes)
 			.width(bufferedImage.getWidth())
 			.height(bufferedImage.getHeight())
-			.type(Image.TYPE_RAW)
+			.type(Image.Type.raw)
 			.build();
 	}
 	

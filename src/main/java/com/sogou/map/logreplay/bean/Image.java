@@ -19,11 +19,6 @@ import com.sogou.map.logreplay.util.JndiUtil;
 @Table(name = "image")
 public class Image extends AbstractBean {
 	
-	public static final String TYPE_SMALL 	= "small";
-	public static final String TYPE_MIDDLE 	= "middle";
-	public static final String TYPE_LARGE 	= "large";
-	public static final String TYPE_RAW 	= "raw";
-
 	/** 图片根路径通过jndi进行配置 **/
 	public static final String IMAGE_BASE_PATH = JndiUtil.lookup("java:comp/env/imageBasePath");
 	
@@ -43,7 +38,7 @@ public class Image extends AbstractBean {
 	
 	/** 图片业务类型 **/
 	@Column
-	private String type;
+	private Type type;
 	
 	/** 图片宽度 **/
 	@Column
@@ -95,11 +90,11 @@ public class Image extends AbstractBean {
 		this.format = format;
 	}
 
-	public String getType() {
+	public Type getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(Type type) {
 		this.type = type;
 	}
 
@@ -180,7 +175,7 @@ public class Image extends AbstractBean {
 		private Long creatorId;
 		private int width;
 		private int height;
-		private String type;
+		private Image.Type type;
 		
 		public Builder format(String format) {
 			this.format = format;
@@ -207,7 +202,7 @@ public class Image extends AbstractBean {
 			return this;
 		}
 		
-		public Builder type(String type) {
+		public Builder type(Image.Type type) {
 			this.type = type;
 			return this;
 		}
@@ -237,6 +232,8 @@ public class Image extends AbstractBean {
 		middle(64, 64),
 		large(128, 128)
 		;
+		
+		public static final String DEFAULT_VALUE = "middle";
 		
 		private int width;
 		

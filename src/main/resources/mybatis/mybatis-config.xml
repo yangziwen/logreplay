@@ -9,6 +9,11 @@
 		<setting name="useGeneratedKeys" value="true"/>
 	</settings>
 	
+	<typeHandlers>
+		<typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" 
+			javaType="com.sogou.map.logreplay.bean.Image.Type"/>
+	</typeHandlers>
+	
 	<mappers>
 		<mapper resource="mybatis/CommonMapper.xml"/>
 	</mappers>
