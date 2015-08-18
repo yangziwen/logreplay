@@ -12,6 +12,8 @@ import com.sogou.map.logreplay.bean.base.AbstractBean;
 public class Avatar extends AbstractBean {
 	
 	public static final String DEFAULT_AVATAR = "/img/default-avatar.jpg";
+	
+	public static Image.Type[] IMAGE_TYPES = {Image.Type.small, Image.Type.middle, Image.Type.large};
 
 	@Id
 	@Column

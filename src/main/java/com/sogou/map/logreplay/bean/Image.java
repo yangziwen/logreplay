@@ -230,28 +230,28 @@ public class Image extends AbstractBean {
 		
 	}
 	
-	/** 上传头像时产生的图片尺寸类型 **/
-	public enum AvatarType {
-
+	/** 上传图片时产生的图片尺寸类型 **/
+	public enum Type {
+		raw(0, 0),
 		small(32, 32),
 		middle(64, 64),
 		large(128, 128)
 		;
 		
-		private AvatarType(int width, int height) {
+		private int width;
+		
+		private int height;
+		
+		private Type(int width, int height) {
 			this.width = width;
 			this.height = height;
 		}
 		
-		private int width;
-		
-		private int height;
-
-		public int getWidth() {
+		public int width() {
 			return width;
 		}
 
-		public int getHeight() {
+		public int height() {
 			return height;
 		}
 		
