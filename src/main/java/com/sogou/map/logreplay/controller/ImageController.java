@@ -41,7 +41,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sogou.map.logreplay.bean.Avatar;
 import com.sogou.map.logreplay.bean.Image;
-import com.sogou.map.logreplay.bean.Image.AvatarType;
 import com.sogou.map.logreplay.controller.base.BaseController;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 import com.sogou.map.logreplay.exception.LogReplayException;
@@ -166,7 +165,7 @@ public class ImageController extends BaseController {
 	@RequestMapping(value = "/avatar/{userId:\\d+}", method = RequestMethod.GET)
 	public void getAvatar(
 			@PathVariable("userId") Long userId,
-			@RequestParam(defaultValue = Image.TYPE_MIDDLE) String type,
+			@RequestParam(defaultValue = Image.Type.DEFAULT_VALUE) Image.Type type,
 			NativeWebRequest webRequest,
 			HttpServletResponse response) throws ServletException, IOException {
 		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
@@ -270,18 +269,18 @@ public class ImageController extends BaseController {
 		List<Image> avatarList = new ArrayList<Image>();
 		int width = image.getWidth(), height = image.getHeight();
 		Long creatorId = AuthUtil.getCurrentUser().getId();
-		for(AvatarType avatarType: AvatarType.values()) {
-			double scaleX = avatarType.getWidth() * 1D / width;
-			double scaleY = avatarType.getHeight() * 1D / height;
+		for(Image.Type avatarType: Avatar.IMAGE_TYPES) {
+			double scaleX = avatarType.width() * 1D / width;
+			double scaleY = avatarType.height() * 1D / height;
 			BufferedImage zoomedImage = ImageUtil.zoomImage(image, scaleX, scaleY);
 			byte[] bytes = ImageUtil.toByteArray(zoomedImage, format);
 			
 			Image avatar = new Image.Builder()
 				.creatorId(creatorId)
 				.format(format)
-				.width(avatarType.getWidth())
-				.height(avatarType.getHeight())
-				.type(avatarType.name())
+				.width(avatarType.width())
+				.height(avatarType.height())
+				.type(avatarType)
 				.bytes(bytes)
 				.build();
 			avatarList.add(avatar);
@@ -325,7 +324,7 @@ public class ImageController extends BaseController {
 			.bytes(bytes)
 			.width(bufferedImage.getWidth())
 			.height(bufferedImage.getHeight())
-			.type(Image.TYPE_RAW)
+			.type(Image.Type.raw)
 			.build();
 	}
 	

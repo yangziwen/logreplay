@@ -156,7 +156,7 @@ CREATE TABLE `image` (
   `creator_id` INT UNSIGNED NOT NULL,
   `checksum` VARCHAR (28) NOT NULL,
   `format` VARCHAR (10) NOT NULL,
-  `type` VARCHAR (10) NOT NULL,
+  `type` SMALLINT NOT NULL,
   `width` INT NOT NULL,
   `height` INT NOT NULL,
   `size` INT NOT NULL,
@@ -170,6 +170,6 @@ CREATE TABLE `avatar` (
   `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   `user_id` INT UNSIGNED NOT NULL,
   `image_id` INT UNSIGNED NOT NULL,
-  `type` VARCHAR (10) NOT NULL,
+  `type` SMALLINT NOT NULL,
   `create_time` DATETIME NOT NULL
 ) ENGINE = INNODB DEFAULT CHARSET = GBK ;

@@ -13,17 +13,13 @@ import org.apache.commons.lang.time.DateFormatUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sogou.map.logreplay.bean.base.AbstractBean;
+import com.sogou.map.logreplay.dao.base.CustomPropertyEditor;
 import com.sogou.map.logreplay.util.ChecksumUtil;
 import com.sogou.map.logreplay.util.JndiUtil;
 
 @Table(name = "image")
 public class Image extends AbstractBean {
 	
-	public static final String TYPE_SMALL 	= "small";
-	public static final String TYPE_MIDDLE 	= "middle";
-	public static final String TYPE_LARGE 	= "large";
-	public static final String TYPE_RAW 	= "raw";
-
 	/** 图片根路径通过jndi进行配置 **/
 	public static final String IMAGE_BASE_PATH = JndiUtil.lookup("java:comp/env/imageBasePath");
 	
@@ -43,7 +39,7 @@ public class Image extends AbstractBean {
 	
 	/** 图片业务类型 **/
 	@Column
-	private String type;
+	private Type type;
 	
 	/** 图片宽度 **/
 	@Column
@@ -95,11 +91,11 @@ public class Image extends AbstractBean {
 		this.format = format;
 	}
 
-	public String getType() {
+	public Type getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(Type type) {
 		this.type = type;
 	}
 
@@ -180,7 +176,7 @@ public class Image extends AbstractBean {
 		private Long creatorId;
 		private int width;
 		private int height;
-		private String type;
+		private Type type;
 		
 		public Builder format(String format) {
 			this.format = format;
@@ -207,7 +203,7 @@ public class Image extends AbstractBean {
 			return this;
 		}
 		
-		public Builder type(String type) {
+		public Builder type(Type type) {
 			this.type = type;
 			return this;
 		}
@@ -231,14 +227,19 @@ public class Image extends AbstractBean {
 	}
 	
 	/** 上传头像时产生的图片尺寸类型 **/
-	public enum AvatarType {
-
+	public enum Type {
+		
+		raw(0, 0),
 		small(32, 32),
 		middle(64, 64),
 		large(128, 128)
 		;
 		
-		private AvatarType(int width, int height) {
+		public static final String DEFAULT_VALUE = "middle";
+		
+		public static final int LEN = Type.values().length;
+		
+		private Type(int width, int height) {
 			this.width = width;
 			this.height = height;
 		}
@@ -247,14 +248,65 @@ public class Image extends AbstractBean {
 		
 		private int height;
 
-		public int getWidth() {
+		public int width() {
 			return width;
 		}
 
-		public int getHeight() {
+		public int height() {
 			return height;
 		}
 		
+		public static Type from(Object value) {
+			if(value == null) {
+				return null;
+			}
+			if(value instanceof String) {
+				return from((String) value);
+			}
+			if(value instanceof Number) {
+				return from((Number) value);
+			}
+			return null;
+		}
+		
+		public static Type from(String value) {
+			try {
+				return Type.valueOf((String)value);
+			} catch (Exception e) {
+				return null;
+			}
+		}
+		
+		public static Type from(Number value) {
+			int i = ((Number) value).intValue();
+			if(i < 0 || i >= LEN) {
+				return null;
+			}
+			return Type.values()[i];
+		}
+		
+	}
+	
+	public static class TypePropertyEditor extends CustomPropertyEditor {
+
+		@Override
+		public void setValue(Object value) {
+			super.setValue(Type.from(value));
+		}
+		
+		@Override
+		public String getAsText() {
+			return this.getValue().toString();
+		}
+		
+		@Override
+		public Object convertValue(Object value) {
+			if(value instanceof Image.Type) {
+				Image.Type type = (Image.Type) value;
+				return type.ordinal();		// Image.Type在数据库中存储为smallint类型
+			}
+			return null;
+		}
 	}
 	
 }

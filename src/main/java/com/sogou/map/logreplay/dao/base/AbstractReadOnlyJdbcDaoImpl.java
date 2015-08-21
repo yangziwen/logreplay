@@ -21,7 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.RowMapperResultSetExtractor;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
 import com.sogou.map.logreplay.bean.base.AbstractBean;
 import com.sogou.map.logreplay.util.ClassUtil;
@@ -33,10 +35,14 @@ public class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 	
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	protected BeanMapping<E> beanMapping = new BeanMapping(ClassUtil.getSuperClassGenericType(this.getClass(), 0));
+	@SuppressWarnings("unchecked")
+	protected BeanMapping<E> beanMapping = createBeanMapping(ClassUtil.getSuperClassGenericType(this.getClass(), 0));
 	
 	protected NamedParameterJdbcTemplate jdbcTemplate;
+	
+	protected BeanMapping<E> createBeanMapping(Class<E> entityClass) {
+		return new BeanMapping<E>(entityClass);
+	}
 	
 	@Autowired
 	public void setDataSource(DataSource dataSource) {
@@ -70,9 +76,9 @@ public class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 	
 	protected List<E> doList(String sql, Map<String, Object> params, ResultSetExtractor<List<E>> rse) {
 		if(SQL_DEBUG) {
-			return outputLogInfoWithTimespan(now(), jdbcTemplate.query(sql, params, rse), now(), sql);
+			return outputLogInfoWithTimespan(now(), jdbcTemplate.query(sql, createSqlParameterSource(params), rse), now(), sql);
 		}
-		return jdbcTemplate.query(sql, params, rse);
+		return jdbcTemplate.query(sql, createSqlParameterSource(params), rse);
 	}
 
 	public int count(Map<String, Object> params) {
@@ -123,6 +129,10 @@ public class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 	}
 	
 	//-------------- 以下为内部方法 ----------------//
+
+	protected SqlParameterSource createSqlParameterSource(Map<String, Object> params) {
+		return new MapSqlParameterSource(params);
+	}
 
 	protected String generateSqlByParam(Map<String, Object> params) {
 		return generateSqlByParam(0, 0, params);

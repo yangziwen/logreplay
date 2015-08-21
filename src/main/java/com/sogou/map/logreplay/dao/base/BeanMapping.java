@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanWrapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 
@@ -41,8 +42,24 @@ public class BeanMapping<E extends AbstractBean> {
 		this.entityFields = Collections.unmodifiableList(getFieldsWithColumnAnnotation(entityClass));
 		this.idFieldName = getIdField(entityFields).getName();
 		this.fieldColumnMapping = Collections.unmodifiableMap(generateFieldColumnMapping(entityFields));
-		this.rowMapper = ParameterizedBeanPropertyRowMapper.newInstance(entityClass);
+		this.rowMapper = createRowMapper(entityClass);
 		this.emptyArray = (E[])Array.newInstance(entityClass, 0);
+	}
+	
+	protected RowMapper<E> createRowMapper(Class<E> entityClass) {
+		ParameterizedBeanPropertyRowMapper<E> newInstance = new ParameterizedBeanPropertyRowMapper<E>() {
+			@Override
+			protected void initBeanWrapper(BeanWrapper bw) {
+				super.initBeanWrapper(bw);
+				afterInitBeanWrapper(bw);
+			}
+		};
+		newInstance.setMappedClass(entityClass);
+		return newInstance;
+	}
+	
+	protected void afterInitBeanWrapper(BeanWrapper bw) {
+		// defaultly do nothing
 	}
 	
 	public static String getTableNameFromAnnotation(Class<?> clazz) {

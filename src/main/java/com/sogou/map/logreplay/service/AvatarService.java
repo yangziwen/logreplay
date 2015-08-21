@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.sogou.map.logreplay.bean.Avatar;
+import com.sogou.map.logreplay.bean.Image;
 import com.sogou.map.logreplay.dao.AvatarDao;
 import com.sogou.map.logreplay.dao.base.QueryParamMap;
 
@@ -31,7 +32,7 @@ public class AvatarService {
 	}
 	
 	
-	public Avatar getAvatarByUserIdAndType(Long userId, String type) {
+	public Avatar getAvatarByUserIdAndType(Long userId, Image.Type type) {
 		return avatarDao.first(new QueryParamMap().addParam("userId", userId).addParam("type", type));
 	}
 }
