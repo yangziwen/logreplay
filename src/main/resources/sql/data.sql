@@ -10,6 +10,39 @@ VALUES ('user', 'view'), ('user', 'modify'), ('role', 'view'), ('role', 'modify'
 ('operation_record', 'view'), ('operation_record', 'modify'),
 ('inspection_record', 'view'), ('inspection_record', 'modify'); 
 
+-- 角色与权限的关联
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('1','1');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('1','2');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('1','3');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('1','4');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('1','5');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('1','6');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('1','7');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('1','8');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('1','9');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('1','10');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('1','11');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('1','12');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('2','3');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('2','5');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('2','7');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('2','9');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('2','10');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('2','11');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('2','12');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('3','3');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('3','5');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('3','7');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('3','9');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('3','10');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('3','11');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('3','12');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('4','3');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('4','5');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('4','7');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('4','9');
+insert into `role_rel_permission` (`role_id`, `permission_id`) values('4','11');
+
 -- 用户
 INSERT INTO `user` (`id`, `username`, `password`, `screen_name`, `create_time`, `enabled`) VALUES (1, 'admin', '7b18f9e91f009c2473b5ed3513549c08', '管理员', NOW(), 1);
 INSERT INTO `user_rel_role` (`user_id`, `role_id`) VALUES (1, 1);
