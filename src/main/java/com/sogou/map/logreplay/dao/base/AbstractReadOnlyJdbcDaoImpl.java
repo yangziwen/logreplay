@@ -28,7 +28,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import com.sogou.map.logreplay.bean.base.AbstractBean;
 import com.sogou.map.logreplay.util.ClassUtil;
 
-public class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
+public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 
 	/** SQL_DEBUG == true时，会打印所有查询的sql **/
 	protected static final boolean SQL_DEBUG = BooleanUtils.toBoolean(System.getProperty("jdbc.sql.debug"));

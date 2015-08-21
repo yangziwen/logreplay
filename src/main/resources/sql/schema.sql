@@ -82,6 +82,7 @@ CREATE TABLE `tag_param` (
 ) ENGINE = INNODB DEFAULT CHARSET = GBK ;
 
 -- tag的参数信息
+DROP TABLE IF EXISTS `param_info`;
 CREATE TABLE `param_info` (
   `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   `tag_param_id` INT UNSIGNED,

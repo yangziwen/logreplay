@@ -19,7 +19,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import com.sogou.map.logreplay.bean.base.AbstractBean;
 
-public class AbstractJdbcDaoImpl<E extends AbstractBean>  extends AbstractReadOnlyJdbcDaoImpl<E> {
+public abstract class AbstractJdbcDaoImpl<E extends AbstractBean>  extends AbstractReadOnlyJdbcDaoImpl<E> {
 	
 	protected final String updateSql = generateUpdateSql(beanMapping.getTableName(), beanMapping.getIdField(), beanMapping.getFieldColumnMapping());
 	

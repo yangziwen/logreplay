@@ -1,6 +1,10 @@
 package com.sogou.map.logreplay.bean;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -9,6 +13,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -260,25 +265,27 @@ public class Image extends AbstractBean {
 			if(value == null) {
 				return null;
 			}
-			if(value instanceof String) {
-				return from((String) value);
+			Type type = null;
+			String str = value.toString();
+			if(type == null) {
+				type = from(NumberUtils.toInt(str, -1));
 			}
-			if(value instanceof Number) {
-				return from((Number) value);
+			if(type == null) {
+				type = from(str);
 			}
-			return null;
+			return type;
 		}
 		
 		public static Type from(String value) {
 			try {
-				return Type.valueOf((String)value);
+				return from(NumberUtils.toInt(value, -1));
 			} catch (Exception e) {
 				return null;
 			}
 		}
 		
 		public static Type from(Number value) {
-			int i = ((Number) value).intValue();
+			int i = value.intValue();
 			if(i < 0 || i >= LEN) {
 				return null;
 			}
@@ -295,12 +302,31 @@ public class Image extends AbstractBean {
 		}
 		
 		@Override
+		public void setAsText(String value) {
+			super.setValue(Type.from(value));
+		}
+		
+		@Override
 		public String getAsText() {
 			return this.getValue().toString();
 		}
 		
 		@Override
+		@SuppressWarnings("unchecked")
 		public Object convertValue(Object value) {
+			if(value instanceof Image.Type[]) {
+				return convertValue(Arrays.asList((Image.Type[]) value));
+			}
+			if(value instanceof Collection) {
+				Collection<?> coll = (Collection<?>) value;
+				if(coll.size() > 0 && coll.iterator().next() instanceof Image.Type) {
+					List<Object> list = new ArrayList<Object>();
+					for(Image.Type type: (Collection<Image.Type>)coll) {
+						list.add(convertValue(type));
+					}
+					return list;
+				}
+			}
 			if(value instanceof Image.Type) {
 				Image.Type type = (Image.Type) value;
 				return type.ordinal();		// Image.Type在数据库中存储为smallint类型
