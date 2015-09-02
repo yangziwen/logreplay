@@ -1,8 +1,10 @@
 package com.sogou.map.logreplay.dao.base;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -21,7 +23,23 @@ public abstract class AbstractEditPropertyJdbcDaoImpl<E extends AbstractBean> ex
 	 * 输入参数的类型为程序中字段的类型
 	 * 返回值的类型为数据库中字段对应的类型
 	 */
-	protected abstract Object processValueForPersistence(Object value);
+	protected Object processValueBeforeQuery(Object value) {
+		Map<Class<?>, CustomPropertyEditor> editorMap = getPropertyEditorMap();
+		if(MapUtils.isEmpty(editorMap)) {
+			return value;
+		}
+		Object newValue = null;
+		Object oldValue = value;
+		if(value instanceof Collection<?>) {
+			value = ((Collection<?>) value).toArray();
+		}
+		for(CustomPropertyEditor editor: editorMap.values()) {
+			if((newValue = editor.convertValue(value)) != null) {
+				break;
+			}
+		}
+		return newValue != null? newValue: oldValue;
+	}
 
 	// 处理查询的返回结果时用
 	@Override
@@ -43,7 +61,7 @@ public abstract class AbstractEditPropertyJdbcDaoImpl<E extends AbstractBean> ex
 			@Override
 			public Object getValue(String paramName) {
 				Object value = super.getValue(paramName);
-				return processValueForPersistence(value);
+				return processValueBeforeQuery(value);
 			}
 		};
 	}
@@ -55,7 +73,7 @@ public abstract class AbstractEditPropertyJdbcDaoImpl<E extends AbstractBean> ex
 			@Override
 			public Object getValue(String paramName) { 
 				Object value = super.getValue(paramName);
-				return processValueForPersistence(value);
+				return processValueBeforeQuery(value);
 			}
 		};
 	}

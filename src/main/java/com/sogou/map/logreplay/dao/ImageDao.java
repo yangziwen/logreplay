@@ -22,10 +22,4 @@ public class ImageDao extends AbstractEditPropertyJdbcDaoImpl<Image> {
 		return propertyEditorMap;
 	}
 
-	@Override
-	protected Object processValueForPersistence(Object value) {
-		Object newValue = getPropertyEditorMap().get(Image.Type.class).convertValue(value);
-		return newValue != null? newValue: value;
-	}
-	
 }

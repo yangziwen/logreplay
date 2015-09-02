@@ -24,12 +24,6 @@ public class AvatarDao extends AbstractEditPropertyJdbcDaoImpl<Avatar> {
 		return propertyEditorMap;
 	}
 
-	@Override
-	protected Object processValueForPersistence(Object value) {
-		Object newValue = getPropertyEditorMap().get(Image.Type.class).convertValue(value);
-		return newValue != null? newValue: value;
-	}
-	
 	public int deleteByUserId(Long userId) {
 		String sql = "delete from avatar where user_id = :userId";
 		return jdbcTemplate.update(sql, new QueryParamMap().addParam("userId", userId));

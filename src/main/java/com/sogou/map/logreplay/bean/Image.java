@@ -1,10 +1,6 @@
 package com.sogou.map.logreplay.bean;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -13,13 +9,13 @@ import javax.persistence.Transient;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sogou.map.logreplay.bean.base.AbstractBean;
-import com.sogou.map.logreplay.dao.base.CustomPropertyEditor;
+import com.sogou.map.logreplay.dao.base.EnumPropertyEditor;
 import com.sogou.map.logreplay.util.ChecksumUtil;
+import com.sogou.map.logreplay.util.EnumUtil.EnumConverter;
 import com.sogou.map.logreplay.util.JndiUtil;
 
 @Table(name = "image")
@@ -261,78 +257,14 @@ public class Image extends AbstractBean {
 			return height;
 		}
 		
-		public static Type from(Object value) {
-			if(value == null) {
-				return null;
-			}
-			Type type = null;
-			String str = value.toString();
-			if(type == null) {
-				type = from(NumberUtils.toInt(str, -1));
-			}
-			if(type == null) {
-				type = from(str);
-			}
-			return type;
-		}
-		
-		public static Type from(String value) {
-			try {
-				return from(NumberUtils.toInt(value, -1));
-			} catch (Exception e) {
-				return null;
-			}
-		}
-		
-		public static Type from(Number value) {
-			int i = value.intValue();
-			if(i < 0 || i >= LEN) {
-				return null;
-			}
-			return Type.values()[i];
-		}
-		
 	}
 	
-	public static class TypePropertyEditor extends CustomPropertyEditor {
+	public static class TypePropertyEditor extends EnumPropertyEditor<Type> {
 
-		@Override
-		public void setValue(Object value) {
-			super.setValue(Type.from(value));
+		public TypePropertyEditor() {
+			super(Image.Type.class, EnumConverter.ORDINAL_CONVERTER);
 		}
-		
-		@Override
-		public void setAsText(String value) {
-			super.setValue(Type.from(value));
-		}
-		
-		@Override
-		public String getAsText() {
-			return this.getValue().toString();
-		}
-		
-		@Override
-		@SuppressWarnings("unchecked")
-		public Object convertValue(Object value) {
-			if(value instanceof Image.Type[]) {
-				return convertValue(Arrays.asList((Image.Type[]) value));
-			}
-			if(value instanceof Collection) {
-				Collection<?> coll = (Collection<?>) value;
-				if(coll.size() > 0 && coll.iterator().next() instanceof Image.Type) {
-					List<Object> list = new ArrayList<Object>();
-					for(Image.Type type: (Collection<Image.Type>)coll) {
-						list.add(convertValue(type));
-					}
-					return list;
-				}
-			}
-			if(value instanceof Image.Type) {
-				Image.Type type = (Image.Type) value;
-				return type.ordinal();		// Image.Type在数据库中存储为smallint类型
-			}
-			return null;
-		}
+
 	}
 	
 }

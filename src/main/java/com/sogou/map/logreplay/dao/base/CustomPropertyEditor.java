@@ -29,7 +29,7 @@ public class CustomPropertyEditor extends PropertyEditorSupport {
 	@Override
 	public void setValue(Object value) {
 		valueHolder.set(value);
-        firePropertyChange();
+        //firePropertyChange();
 	}
 	
 	/**
