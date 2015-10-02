@@ -194,6 +194,13 @@
 			<version>1.4.2</version>
 		</dependency>
 		
+		<!-- 监控 -->
+		<dependency>
+			<groupId>net.bull.javamelody</groupId>
+			<artifactId>javamelody-core</artifactId>
+			<version>1.57.0</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

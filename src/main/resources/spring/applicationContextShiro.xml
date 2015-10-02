@@ -66,6 +66,7 @@
 				/login.htm = authc
 				/logout.htm = logout
 				/admin/** = authc, roles[admin]
+				/monitoring** = roles[admin]
 				/** = user
 			</value>
 		</property>
