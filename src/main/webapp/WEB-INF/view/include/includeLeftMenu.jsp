@@ -55,6 +55,9 @@
 							<li><a href="${ctx_path}/role/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> 角色管理</a></li>
 						</shiro:hasPermission>
 						<li><a href="${ctx_path}/user/detail.htm"><i class="glyphicon glyphicon-chevron-right"></i> 帐户管理</a></li>
+						<shiro:hasRole name="admin">
+							<li><a href="${ctx_path}/monitoring"><i class="glyphicon glyphicon-chevron-right"></i> 系统监控</a></li>
+						</shiro:hasRole>
 					</ul>
 				</li>
 			</ul>

@@ -27,6 +27,12 @@
 	</bean>
 	 
 	<tx:annotation-driven transaction-manager="txManager"/>
+	
+	<bean id="springDataSourceBeanPostProcessor" class="net.bull.javamelody.SpringDataSourceBeanPostProcessor" />
+	
+	<bean id="wrappedDataSource" class="net.bull.javamelody.SpringDataSourceFactoryBean">
+		<property name="targetName" value="dataSource" />
+	</bean>
 		
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
 		<constructor-arg name="dataSource" ref="dataSource"></constructor-arg>
