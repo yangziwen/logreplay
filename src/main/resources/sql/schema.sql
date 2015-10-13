@@ -156,7 +156,7 @@ CREATE TABLE `image` (
   `creator_id` INT UNSIGNED NOT NULL,
   `checksum` VARCHAR (28) NOT NULL,
   `format` VARCHAR (10) NOT NULL,
-  `type` SMALLINT, NOT NULL,
+  `type` SMALLINT NOT NULL,
   `width` INT NOT NULL,
   `height` INT NOT NULL,
   `size` INT NOT NULL,

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd"
+	default-lazy-init="false" default-autowire="byName">
+
+    <!-- <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/dataSource"/> -->
+	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/dataSource"/>
+	
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	 
+	<tx:annotation-driven transaction-manager="txManager"/>
+		
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+		<constructor-arg name="dataSource" ref="dataSource"></constructor-arg>
+	</bean>
+	
+	<mybatis:scan base-package="com.sogou.map.logreplay.mappers"/>
+	
+   	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+  		<property name="dataSource" ref="dataSource" />
+  		<property name="typeAliasesPackage" value="com.sogou.map.logreplay.bean"/>
+  		<property name="mapperLocations" value="classpath*:com/sogou/map/logreplay/mappers/**/*.xml" />
+  		<property name="configLocation" value="classpath:mybatis/mybatis-config.xml" />
+	</bean>
+	
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+
+</beans>
