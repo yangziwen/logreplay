@@ -55,11 +55,22 @@
 							<li><a href="${ctx_path}/role/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> 角色管理</a></li>
 						</shiro:hasPermission>
 						<li><a href="${ctx_path}/user/detail.htm"><i class="glyphicon glyphicon-chevron-right"></i> 帐户管理</a></li>
-						<shiro:hasRole name="admin">
-							<li><a href="${ctx_path}/monitoring"><i class="glyphicon glyphicon-chevron-right"></i> 系统监控</a></li>
-						</shiro:hasRole>
 					</ul>
 				</li>
+				<shiro:hasRole name="admin">
+				<li class="active">
+					<a class="has-submenu" data-toggle="collapse" href="#J_systemMonitorSubmenu">
+						<i class="glyphicon glyphicon-plus"></i>
+						<span>系统监控</span>
+						<span class="pull-right glyphicon glyphicon-chevron-down"></span>
+					</a>
+					<ul id="J_systemMonitorSubmenu" class="nav submenu in" >
+						<li><a href="${ctx_path}/monitor/system.htm"><i class="glyphicon glyphicon-chevron-right"></i> 系统状态</a></li>
+						<li><a href="${ctx_path}/monitor/application.htm"><i class="glyphicon glyphicon-chevron-right"></i> 应用状态</a></li>
+						<li><a href="${ctx_path}/monitoring" target="_blank"><i class="glyphicon glyphicon-chevron-right"></i> Java Melody</a></li>
+					</ul>
+				</li>
+				</shiro:hasRole>
 			</ul>
 	</div>
 </div>
