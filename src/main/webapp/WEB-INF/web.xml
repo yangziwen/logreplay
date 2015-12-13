@@ -42,12 +42,27 @@
 	</servlet-mapping>
 	
 	<filter>
-		<filter-name>monitoring</filter-name>
+		<filter-name>javamelody</filter-name>
 		<filter-class>net.bull.javamelody.MonitoringFilter</filter-class>
+		<async-supported>true</async-supported>
+		<init-param>
+			<param-name>url-exclude-pattern</param-name>
+			<param-value>/(js|css|fonts|img)/.*</param-value>
+		</init-param>
+		<init-param>	<!-- hotspots related -->
+			<param-name>sampling-seconds</param-name>
+			<param-value>10</param-value>
+		</init-param>
+		<init-param>	<!-- hotspots related -->
+			<param-name>sampling-included-packages</param-name>
+			<param-value>com.sogou.map.logreplay</param-value>
+		</init-param>
 	</filter>
 	<filter-mapping>
-		<filter-name>monitoring</filter-name>
+		<filter-name>javamelody</filter-name>
 		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
 	</filter-mapping>
 	
 	<!-- Shiro Filter -->
