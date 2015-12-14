@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.poi.util.IOUtils;
 
@@ -115,12 +116,12 @@ public class SystemInfoUtil {
 			// and can be "2.6.32-358.23.2.el6.x86_64" for os.name "Linux"
 			sb.append(version).append(' ');
 		}
-		if (!"unknown".equals(patchLevel)) {
+		if (StringUtils.isNotBlank(patchLevel) && !"unknown".equals(patchLevel)) {
 			// patchLevel is "unknown" and useless on Linux,
 			// and can be "Service Pack 1" on Windows
-			sb.append(patchLevel);
+			sb.append(patchLevel).append(", ");
 		}
-		sb.append(", ").append(arch).append('/').append(bits);
+		sb.append(arch).append('/').append(bits);
 		return sb.toString();
 	}
 	

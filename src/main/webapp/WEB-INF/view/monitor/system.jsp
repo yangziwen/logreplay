@@ -37,7 +37,7 @@
 			<div class="row"><!-- row2 -->
 			    <div class="col-sm-12">
 			     	<div class="panel panel-default">
-			     		<table class="table table-bordered table-condensed table-hover">
+			     		<table class="table table-bordered table-condensed">
 			     			<tbody id="J_systemInfoTbody">
 			     			</tbody>
 			     			<script type="text/x-jquery-tmpl" id="J_systemInfoTmpl">
@@ -45,7 +45,7 @@
 			     					<td style="width: 110px;"><strong>操作系统</strong></td>
 			     					<td>
 										<img src="${ctx_path}/monitoring?resource=servers/${'${'}osIcon}" />
-										${'${'}osInfo}
+										${'${'}osInfo} (${'${'}availableProcessors}核心)
 									</td>
 			     				</tr>
 			     				<tr>

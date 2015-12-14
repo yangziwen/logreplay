@@ -13,6 +13,7 @@
 		<springframework.version>3.2.13.RELEASE</springframework.version>
 		<jackson.version>2.1.5</jackson.version>
 		<shiro.version>1.2.3</shiro.version>
+		<poi.version>3.9</poi.version>
 	</properties>
 
 	<dependencies>
@@ -174,7 +175,12 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
-			<version>3.8</version>
+			<version>${poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${poi.version}</version>
 		</dependency>
 		
 		<!-- 日志相关 -->
@@ -256,6 +262,7 @@
 	<build>
 		<finalName>logreplay</finalName>
 		<plugins>
+		
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -266,14 +273,22 @@
 					<encoding>GBK</encoding>
 				</configuration>
 			</plugin>
+			
+			<!-- 
+				please see following links for more details about jetty configuration
+				http://www.eclipse.org/jetty/documentation/current/jetty-maven-plugin.html
+				http://wiki.eclipse.org/Jetty/Howto/Configure_JNDI_Datasource
+			-->
 			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>maven-jetty-plugin</artifactId>
-				<version>6.1.22</version>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.2.10.v20150310</version>
 				<configuration>
-					<contextPath>/logreplay</contextPath>
+					<webApp>
+						<contextPath>/logreplay</contextPath>
+						<jettyEnvXml>${project.basedir}/conf/jetty-env-dev.xml</jettyEnvXml>
+					</webApp>
 					<scanIntervalSeconds>10</scanIntervalSeconds>
-					<jettyEnvXml>${basedir}/conf/jetty-env-dev.xml</jettyEnvXml>
 					<scanTargetPatterns>
 						<scanTargetPattern>
 							<directory>src/main/webapp</directory>
@@ -283,14 +298,13 @@
 							</includes>
 						</scanTargetPattern>
 					</scanTargetPatterns>
-					<connectors>
-						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-							<port>8075</port>
-							<maxIdleTime>60000</maxIdleTime>
-						</connector>
-					</connectors>
+					<httpConnector>
+						<port>8075</port>
+						<idleTimeout>60000</idleTimeout>
+					</httpConnector>
 				</configuration>
 			</plugin>
+			
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
@@ -302,6 +316,7 @@
 					<contextFile>${basedir}/conf/tomcat-context-dev.xml</contextFile>
 				</configuration>
 			</plugin>
+			
 		</plugins>
 	</build>
 </project>

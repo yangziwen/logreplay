@@ -24,6 +24,7 @@ public class ForwardToJSPFilter extends OncePerRequestFilter {
 			request.getRequestDispatcher("/WEB-INF/view/home.jsp").forward(request, response);
 			return;
 		}
+
 		if(!uri.endsWith(".htm")) {
 			filterChain.doFilter(request, response);
 			return;
