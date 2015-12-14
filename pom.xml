@@ -13,6 +13,8 @@
 		<springframework.version>3.2.13.RELEASE</springframework.version>
 		<jackson.version>2.1.5</jackson.version>
 		<shiro.version>1.2.3</shiro.version>
+		<poi.version>3.9</poi.version>
+		<aspectj.version>1.6.8</aspectj.version>
 	</properties>
 
 	<dependencies>
@@ -90,12 +92,12 @@
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
-			<version>1.6.8</version>
+			<version>${aspectj.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
-			<version>1.6.8</version>
+			<version>${aspectj.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>cglib</groupId>
@@ -213,7 +215,12 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
-			<version>3.8</version>
+			<version>${poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${poi.version}</version>
 		</dependency>
 		
 		<!-- 日志相关 -->
