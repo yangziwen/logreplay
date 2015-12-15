@@ -40,10 +40,10 @@ define(function(require, exports, module) {
 		textStyle: {
 			color: '#666'
 		}
-	}
+	};
 	
 	var defaultGridOption = {
-		y: 25,
+		y: 30,
 		x: 50,
 		x2: 50
 	};
@@ -68,6 +68,10 @@ define(function(require, exports, module) {
 					].join('<br/>');
 				}
 			}, defaultToolTipOption),
+			title: {
+				text: '程序内存使用情况',
+				x: 'center'
+			},
 			legend: {
 				y: 'bottom',
 				data: ['used memory', 'used non-heap memory']
@@ -123,6 +127,10 @@ define(function(require, exports, module) {
 					].join('<br/>');
 				}
 			}, defaultToolTipOption),
+			title: {
+				text: '系统内存使用情况',
+				x: 'center'
+			},
 			legend: {
 				y: 'bottom',
 				data: ['used physical memory', 'used swap space']

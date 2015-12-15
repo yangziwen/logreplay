@@ -35,7 +35,7 @@ define(function(require, exports, module) {
 	};
 	
 	var defaultGridOption = {
-		y: 25,
+		y: 30,
 		x: 50,
 		x2: 50
 	};
@@ -58,6 +58,10 @@ define(function(require, exports, module) {
 					].join('<br/>');
 				}
 			}, defaultToolTipOption),
+			title: {
+				text: '线程状态',
+				x: 'center'
+			},
 			legend: {
 				data: ['线程数'],
 				y: 'bottom'
@@ -110,6 +114,10 @@ define(function(require, exports, module) {
 					].join('<br/>');
 				}
 			}, defaultToolTipOption),
+			title: {
+				text: 'http状态',
+				x: 'center'
+			},
 			legend: {
 				data: ['http会话数'],
 				y: 'bottom'
@@ -156,6 +164,10 @@ define(function(require, exports, module) {
 					].join('<br/>');
 				}
 			}, defaultToolTipOption),
+			title: {
+				text: '类加载状态',
+				x: 'center'
+			},
 			legend: {
 				data: ['类加载数'],
 				y: 'bottom'
@@ -203,6 +215,10 @@ define(function(require, exports, module) {
 					].join('<br/>');
 				}
 			}, defaultToolTipOption),
+			title: {
+				text: '数据库访问状态',
+				x: 'center'
+			},
 			legend: {
 				data: ['sql数', '事务数'],
 				y: 'bottom'
