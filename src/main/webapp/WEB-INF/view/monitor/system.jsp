@@ -35,6 +35,14 @@
 			    </ul>
 			</div>
 			<div class="row"><!-- row2 -->
+				<div class="col-sm-6">
+					<div id="J_jvmMemoryChart" style="height:300px;"></div>
+				</div>
+				<div class="col-sm-6">
+					<div id="J_systemMemoryChart" style="height: 300px;"></div>
+				</div>
+			</div>
+			<div class="row"><!-- row3 -->
 			    <div class="col-sm-12">
 			     	<div class="panel panel-default">
 			     		<table class="table table-bordered table-condensed">
@@ -79,15 +87,16 @@
 			     		</table>
 			     	</div>
 				</div>
-			</div><!--/row2-->
+			</div><!--/row3-->
 		</div>
 	</div><!-- /row1 -->
 </div>
 
 <%@ include file="../include/includeJs.jsp" %>
+<script src="${static_path}/js/echarts/echarts-all.js"></script>
 <script>
-seajs.use('app/monitor/system', function(detail) {
-	detail.init();
+seajs.use('app/monitor/system', function(system) {
+	system.init();
 });
 </script>
 </body>

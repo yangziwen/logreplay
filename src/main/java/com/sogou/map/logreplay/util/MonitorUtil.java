@@ -14,7 +14,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import org.jrobin.core.Util;
 import org.jrobin.data.DataProcessor;
 
 import com.google.common.collect.Lists;
@@ -41,9 +40,9 @@ public class MonitorUtil {
 			if(dsName.length() > 20) {	// 貌似是melody中的机制
 				dsName = dsName.substring(0, 20);
 			}
-			DataProcessor processor = new DataProcessor(Util.getTimestamp() - 10 * 60, Util.getTimestamp());
+			DataProcessor processor = new DataProcessor(startTime / 1000, endTime / 1000);
 			processor.addDatasource("average", rrdFile.getAbsolutePath(), dsName, "AVERAGE");
-			processor.setStep(60);
+			processor.setStep(step);
 			// poolUsed设为true，会使用read_write模式，
 			// 只有这样，打开rrd文件和调用fileChannel.map方法时的读写模式才会前后一致
 			processor.setPoolUsed(true);

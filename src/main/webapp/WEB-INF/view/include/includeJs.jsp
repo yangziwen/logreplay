@@ -7,6 +7,7 @@ seajs.config({
 	paths: {
 		'jquery': STATIC_PATH + '/js/jquery',
 		'bootstrap': STATIC_PATH + '/js/bootstrap',
+		'moment': STATIC_PATH + '/js/moment',
 		'app': STATIC_PATH + '/js/app'
 	},
 	alias: {
@@ -19,7 +20,8 @@ seajs.config({
 		'bootstrap.pagebar': 'bootstrap/bootstrapPageBar.js',
 		'bootstrap.uploadfilebtn': 'bootstrap/bootstrapUploadFileBtn.js',
 		'bootstrap.browsefilebtn': 'bootstrap/bootstrapBrowseFileBtn.js',
-		'bootstrap.datetimepicker': 'bootstrap/bootstrap-datetimepicker.js'
+		'bootstrap.datetimepicker': 'bootstrap/bootstrap-datetimepicker.js',
+		'moment': 'moment/moment.js'
 	}, 
 	map: [[/^(.+\.js)/i, '$1?v=${static_version}' ]]
 });

@@ -53,14 +53,14 @@ public class MonitorController extends BaseController {
 	public ModelMap getMemoryData(
 			@RequestParam(defaultValue = "0") long startTime,
 			@RequestParam(defaultValue = "0") long endTime,
-			@RequestParam(defaultValue = "300") long step,
+			@RequestParam(defaultValue = "600") long step,	// 默认取样间隔为10分钟
 			HttpSession session) {
 		
-		if(startTime == 0) {
-			startTime = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(3);
+		if(startTime == 0) {	// 默认取一天前的时间
+			startTime = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(12);
 		}
 		
-		if(endTime == 0) {
+		if(endTime == 0) {		// 默认取当前时间
 			endTime = System.currentTimeMillis();
 		}
 		
