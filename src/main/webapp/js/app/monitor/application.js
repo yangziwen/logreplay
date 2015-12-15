@@ -18,7 +18,7 @@ define(function(require, exports, module) {
 		drawSqlChart(data);
 	}
 	
-	var defaultToolTip = {
+	var defaultToolTipOption = {
 		trigger: 'axis',
 		backgroundColor: 'rgba(255, 255, 255, 0.6)',
 		borderColor: '#ccc',
@@ -26,7 +26,13 @@ define(function(require, exports, module) {
 		textStyle: {
 			color: '#666'
 		}
-	}
+	};
+	
+	var defaultGridOption = {
+		y: 20,
+		x: 50,
+		x2: 50
+	};
 	
 	function drawThreadChart(data) {
 		var option = {
@@ -38,7 +44,7 @@ define(function(require, exports, module) {
 						'线程数：' + data[2]
 					].join('<br/>');
 				}
-			}, defaultToolTip),
+			}, defaultToolTipOption),
 			legend: {
 				data: ['线程数'],
 				y: 'bottom'
@@ -46,6 +52,7 @@ define(function(require, exports, module) {
 			toolbox: {
 				show: false
 			},
+			grid: defaultGridOption,
 			xAxis: [{
 				name: '时间',
 				type: 'category',
@@ -73,6 +80,13 @@ define(function(require, exports, module) {
 	}
 	
 	function drawHttpChart(data) {
+		var maxSessionCnt = 0;
+		var sessionCntList = $.map(data.httpSessionsDataList, function(data) {
+			var cnt = parseInt(data.value);
+			maxSessionCnt < cnt && (maxSessionCnt = cnt);
+			return cnt;
+		});
+		
 		var option = {
 			tooltip: $.extend({
 				formatter: function(params) {
@@ -82,7 +96,7 @@ define(function(require, exports, module) {
 						'会话数：' + data[2]
 					].join('<br/>');
 				}
-			}, defaultToolTip),
+			}, defaultToolTipOption),
 			legend: {
 				data: ['http会话数'],
 				y: 'bottom'
@@ -90,6 +104,7 @@ define(function(require, exports, module) {
 			toolbox: {
 				show: false
 			},
+			grid: defaultGridOption,
 			xAxis: [{
 				name: '时间',
 				type: 'category',
@@ -100,14 +115,14 @@ define(function(require, exports, module) {
 			}],
 			yAxis: [{
 				name: '会话数',
-				type: 'value'
+				type: 'value',
+				min: 0,
+				max: parseInt(maxSessionCnt / 4 * 5) + 1
 			}],
 			series: [{
 				name: 'http会话数',
 				type: 'line',
-				data: $.map(data.httpSessionsDataList, function(data) {
-					return parseInt(data.value);
-				})
+				data: sessionCntList
 			}]
 			
 		};
@@ -127,7 +142,7 @@ define(function(require, exports, module) {
 						'类加载数：' + data[2]
 					].join('<br/>');
 				}
-			}, defaultToolTip),
+			}, defaultToolTipOption),
 			legend: {
 				data: ['类加载数'],
 				y: 'bottom'
@@ -135,6 +150,7 @@ define(function(require, exports, module) {
 			toolbox: {
 				show: false
 			},
+			grid: defaultGridOption,
 			xAxis: [{
 				name: '时间',
 				type: 'category',
@@ -173,7 +189,7 @@ define(function(require, exports, module) {
 						'事务数：' + transactionsRate[2]
 					].join('<br/>');
 				}
-			}, defaultToolTip),
+			}, defaultToolTipOption),
 			legend: {
 				data: ['sql数', '事务数'],
 				y: 'bottom'
@@ -181,6 +197,7 @@ define(function(require, exports, module) {
 			toolbox: {
 				show: false
 			},
+			grid: defaultGridOption,
 			xAxis: [{
 				name: '时间',
 				type: 'category',

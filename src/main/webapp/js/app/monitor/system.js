@@ -26,7 +26,7 @@ define(function(require, exports, module) {
 		drawSystemMemoryChart(data);
 	}
 	
-	var defaultToolTip = {
+	var defaultToolTipOption = {
 		trigger: 'axis',
 		backgroundColor: 'rgba(255, 255, 255, 0.6)',
 		borderColor: '#ccc',
@@ -35,6 +35,12 @@ define(function(require, exports, module) {
 			color: '#666'
 		}
 	}
+	
+	var defaultGridOption = {
+		y: 20,
+		x: 50,
+		x2: 50
+	};
 	
 	function drawJvmMemoryChart(data) {
 		var option = {
@@ -48,13 +54,18 @@ define(function(require, exports, module) {
 						'非堆内存：' + usedNonHeapMemory[2] + ' MB'
 					].join('<br/>');
 				}
-			}, defaultToolTip),
+			}, defaultToolTipOption),
 			legend: {
 				y: 'bottom',
 				data: ['used memory', 'used non-heap memory']
 			},
 			toolbox: {
 				show: false
+			},
+			grid: {
+				y: 20,
+				x: 50,
+				x2: 50
 			},
 			xAxis: [{
 				name: '时间',
@@ -102,13 +113,18 @@ define(function(require, exports, module) {
 						'交换空间：' + swapSpace[2] + ' GB'
 					].join('<br/>');
 				}
-			}, defaultToolTip),
+			}, defaultToolTipOption),
 			legend: {
 				y: 'bottom',
 				data: ['used physical memory', 'used swap space']
 			},
 			toolbox: {
 				show: false
+			},
+			grid: {
+				y: 20,
+				x: 50,
+				x2: 50
 			},
 			xAxis: [{
 				name: '时间',
