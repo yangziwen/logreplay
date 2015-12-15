@@ -17,6 +17,12 @@ define(function(require, exports, module) {
 		});
 	}
 	
+	function initShowTypeBtnGroup() {
+		$('#J_showTypeBtnGroup').on('change', 'label', function() {
+			refreshMemoryChart();
+		});
+	}
+	
 	function refreshMemoryChart() {
 		fetchMemoryData().done(drawMemoryChart);
 	}
@@ -37,9 +43,16 @@ define(function(require, exports, module) {
 	}
 	
 	var defaultGridOption = {
-		y: 20,
+		y: 25,
 		x: 50,
 		x2: 50
+	};
+	
+	var showTypeFormats = {
+		halfDay: 'HH:mm',
+		day: 'HH:mm',
+		week: 'ddd HH:mm',
+		month: 'Do HH:mm'
 	};
 	
 	function drawJvmMemoryChart(data) {
@@ -62,17 +75,13 @@ define(function(require, exports, module) {
 			toolbox: {
 				show: false
 			},
-			grid: {
-				y: 20,
-				x: 50,
-				x2: 50
-			},
+			grid: defaultGridOption,
 			xAxis: [{
 				name: '时间',
 				type: 'category',
 				boundaryGap: false,
-				data: $.map(data.usedMemoryDataList, function(data) {
-					return moment(data.key).format('HH:mm');
+				data: $.map(data.usedMemoryDataList, function(d) {
+					return moment(d.key).format(showTypeFormats[data.showType]);
 				})
 			}],
 			yAxis: [{
@@ -121,17 +130,13 @@ define(function(require, exports, module) {
 			toolbox: {
 				show: false
 			},
-			grid: {
-				y: 20,
-				x: 50,
-				x2: 50
-			},
+			grid: defaultGridOption,
 			xAxis: [{
 				name: '时间',
 				type: 'category',
 				boundaryGap: false,
-				data: $.map(data.usedMemoryDataList, function(data) {
-					return moment(data.key).format('HH:mm');
+				data: $.map(data.usedMemoryDataList, function(d) {
+					return moment(d.key).format(showTypeFormats[data.showType]);
 				})
 			}],
 			yAxis: [{
@@ -161,9 +166,39 @@ define(function(require, exports, module) {
 			.setOption(option);
 	}
 	
+	function getShowTypeParam(showType) {
+		var now = moment();
+		switch(showType) {
+			case 'halfDay': return {
+				startTime: moment(now).subtract(12, 'h').format('x'),
+				endTime: now.format('x'),
+				step: 600
+			}
+			case 'day': return {
+				startTime: moment(now).subtract(24, 'h').format('x'),
+				endTime: now.format('x'),
+				step: 1800
+			}
+			case 'week': return {
+				startTime: moment(now).subtract(7, 'd').format('x'),
+				endTime: now.format('x'),
+				step: 3600
+			}
+			case 'month': return {
+				startTime: moment(now).subtract(1, 'M').format('x'),
+				endTime: now.format('x'),
+				step: 3600
+			}
+			default: return {}
+		}
+	}
+	
 	function fetchMemoryData() {
+		var showType = $('#J_showTypeBtnGroup input:checked').val();
+		var showTypeParam = getShowTypeParam(showType);
+		showTypeParam.showType = showType;
 		var d = $.Deferred();
-		$.get(CTX_PATH + '/monitor/memoryData', function(data) {
+		$.get(CTX_PATH + '/monitor/memoryData', showTypeParam, function(data) {
 			if(data.code !== 0 || !data.response) {
 				d.reject(data);
 			} else {
@@ -175,6 +210,7 @@ define(function(require, exports, module) {
 	
 	function init() {
 		initSystemInfo();
+		initShowTypeBtnGroup();
 		refreshMemoryChart();
 	}
 	

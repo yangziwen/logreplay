@@ -7,6 +7,12 @@ define(function(require, exports, module) {
 		common = require('app/common'),
 		moment = require('moment');
 	
+	function initShowTypeBtnGroup() {
+		$('#J_showTypeBtnGroup').on('change', 'label', function() {
+			refreshCharts();
+		});
+	}
+	
 	function refreshCharts() {
 		fetchAppData().done(drawCharts);
 	}
@@ -29,9 +35,16 @@ define(function(require, exports, module) {
 	};
 	
 	var defaultGridOption = {
-		y: 20,
+		y: 25,
 		x: 50,
 		x2: 50
+	};
+	
+	var showTypeFormats = {
+		halfDay: 'HH:mm',
+		day: 'HH:mm',
+		week: 'ddd HH:mm',
+		month: 'Do HH:mm'
 	};
 	
 	function drawThreadChart(data) {
@@ -57,8 +70,8 @@ define(function(require, exports, module) {
 				name: '时间',
 				type: 'category',
 				boundaryGap: false,
-				data: $.map(data.threadCountDataList, function(data) {
-					return moment(data.key).format('HH:mm');
+				data: $.map(data.threadCountDataList, function(d) {
+					return moment(d.key).format(showTypeFormats[data.showType]);
 				})
 			}],
 			yAxis: [{
@@ -109,8 +122,8 @@ define(function(require, exports, module) {
 				name: '时间',
 				type: 'category',
 				boundaryGap: false,
-				data: $.map(data.httpSessionsDataList, function(data) {
-					return moment(data.key).format('HH:mm');
+				data: $.map(data.httpSessionsDataList, function(d) {
+					return moment(d.key).format(showTypeFormats[data.showType]);
 				})
 			}],
 			yAxis: [{
@@ -155,8 +168,8 @@ define(function(require, exports, module) {
 				name: '时间',
 				type: 'category',
 				boundaryGap: false,
-				data: $.map(data.loadedClassesCountDataList, function(data) {
-					return moment(data.key).format('HH:mm');
+				data: $.map(data.loadedClassesCountDataList, function(d) {
+					return moment(d.key).format(showTypeFormats[data.showType]);
 				})
 			}],
 			yAxis: [{
@@ -202,8 +215,8 @@ define(function(require, exports, module) {
 				name: '时间',
 				type: 'category',
 				boundaryGap: false,
-				data: $.map(data.threadCountDataList, function(data) {
-					return moment(data.key).format('HH:mm');
+				data: $.map(data.threadCountDataList, function(d) {
+					return moment(d.key).format(showTypeFormats[data.showType]);
 				})
 			}],
 			yAxis: [{
@@ -230,10 +243,39 @@ define(function(require, exports, module) {
 			.setOption(option);
 	}
 	
+	function getShowTypeParam(showType) {
+		var now = moment();
+		switch(showType) {
+			case 'halfDay': return {
+				startTime: moment(now).subtract(12, 'h').format('x'),
+				endTime: now.format('x'),
+				step: 600
+			}
+			case 'day': return {
+				startTime: moment(now).subtract(24, 'h').format('x'),
+				endTime: now.format('x'),
+				step: 1800
+			}
+			case 'week': return {
+				startTime: moment(now).subtract(7, 'd').format('x'),
+				endTime: now.format('x'),
+				step: 3600
+			}
+			case 'month': return {
+				startTime: moment(now).subtract(1, 'M').format('x'),
+				endTime: now.format('x'),
+				step: 3600
+			}
+			default: return {}
+		}
+	}
 	
 	function fetchAppData() {
+		var showType = $('#J_showTypeBtnGroup input:checked').val();
+		var showTypeParam = getShowTypeParam(showType);
+		showTypeParam.showType = showType;
 		var d = $.Deferred();
-		$.get(CTX_PATH + '/monitor/appData', function(data) {
+		$.get(CTX_PATH + '/monitor/appData', showTypeParam, function(data) {
 			if(data.code !== 0 || !data.response) {
 				d.reject(data);
 			} else {
@@ -244,6 +286,7 @@ define(function(require, exports, module) {
 	}
 	
 	function init() {
+		initShowTypeBtnGroup();
 		refreshCharts();
 	}
 	

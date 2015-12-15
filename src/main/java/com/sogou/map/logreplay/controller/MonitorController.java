@@ -60,6 +60,7 @@ public class MonitorController extends BaseController {
 			@RequestParam(defaultValue = DEFAULT_START_TIME) long startTime,
 			@RequestParam(defaultValue = DEFAULT_END_TIME) long endTime,
 			@RequestParam(defaultValue = DEFAULT_STEP) long step,	// 默认取样间隔为10分钟
+			String showType,
 			HttpSession session) {
 		
 		if(startTime == 0) {	// 默认取一天前的时间
@@ -81,6 +82,7 @@ public class MonitorController extends BaseController {
 		List<Data<Long, Double>> usedSwapSpaceDataList = MonitorUtil.getDataList(application, "usedSwapSpaceSize", startTime, endTime, step);
 		
 		ModelMap result = new ModelMap()
+				.addAttribute("showType", showType)
 				.addAttribute("usedMemoryDataList", usedMemoryDataList)
 				.addAttribute("usedNonHeapMemoryDataList", usedNonHeapMemoryDataList)
 				.addAttribute("usedPhysicalMemoryDataList", usedPhysicalMemoryDataList)
@@ -96,6 +98,7 @@ public class MonitorController extends BaseController {
 			@RequestParam(defaultValue = DEFAULT_START_TIME) long startTime,
 			@RequestParam(defaultValue = DEFAULT_END_TIME) long endTime,
 			@RequestParam(defaultValue = DEFAULT_STEP) long step,	// 默认取样间隔为10分钟
+			String showType,
 			HttpSession session) {
 
 		if(startTime == 0) {	// 默认取一天前的时间
@@ -119,6 +122,7 @@ public class MonitorController extends BaseController {
 		List<Data<Long, Double>> threadCountDataList = MonitorUtil.getDataList(application, "threadCount", startTime, endTime, step);
 		
 		ModelMap result = new ModelMap()
+				.addAttribute("showType", showType)
 				.addAttribute("loadedClassesCountDataList", loadedClassesCountDataList)
 				.addAttribute("httpSessionsDataList", httpSessionsDataList)
 				.addAttribute("sqlHitsRateDataList", sqlHitsRateDataList)

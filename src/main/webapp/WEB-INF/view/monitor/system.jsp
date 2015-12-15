@@ -34,6 +34,24 @@
 			        </li> 
 			    </ul>
 			</div>
+			<div class="row">
+				<div class="col-sm-12 text-center">
+					<div class="btn-group" data-toggle="buttons" id="J_showTypeBtnGroup">
+						<label class="btn btn-default active">
+							<input type="radio" name="showType" checked value="halfDay">半日
+						</label>
+						<label class="btn btn-default">
+							<input type="radio" name="showType" value="day">日
+						</label>
+						<label class="btn btn-default">
+							<input type="radio" name="showType" value="week">周
+						</label>
+						<label class="btn btn-default">
+							<input type="radio" name="showType" value="month">月
+						</label>
+					</div>
+				</div>
+			</div>
 			<div class="row"><!-- row2 -->
 				<div class="col-sm-6">
 					<div id="J_jvmMemoryChart" style="height:300px;"></div>
