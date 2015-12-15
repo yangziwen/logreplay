@@ -26,18 +26,38 @@ define(function(require, exports, module) {
 		drawSystemMemoryChart(data);
 	}
 	
+	var defaultToolTip = {
+		trigger: 'axis',
+		backgroundColor: 'rgba(255, 255, 255, 0.6)',
+		borderColor: '#ccc',
+		borderWidth: 1,
+		textStyle: {
+			color: '#666'
+		}
+	}
+	
 	function drawJvmMemoryChart(data) {
 		var option = {
-			tooltip: {
-				trigger: 'axis'
-			},
+			tooltip: $.extend({
+				formatter: function(params) {
+					var usedMemory = params[0],
+						usedNonHeapMemory = params[1];
+					return [
+						'时间：' + usedMemory[1],
+						'已用内存：' + usedMemory[2] + ' MB',
+						'非堆内存：' + usedNonHeapMemory[2] + ' MB'
+					].join('<br/>');
+				}
+			}, defaultToolTip),
 			legend: {
+				y: 'bottom',
 				data: ['used memory', 'used non-heap memory']
 			},
 			toolbox: {
 				show: false
 			},
 			xAxis: [{
+				name: '时间',
 				type: 'category',
 				boundaryGap: false,
 				data: $.map(data.usedMemoryDataList, function(data) {
@@ -45,6 +65,7 @@ define(function(require, exports, module) {
 				})
 			}],
 			yAxis: [{
+				name: '内存',
 				type: 'value',
 				axisLabel: {
 					formatter: '{value} MB'
@@ -72,16 +93,25 @@ define(function(require, exports, module) {
 	
 	function drawSystemMemoryChart(data) {
 		var option = {
-			tooltip: {
-				trigger: 'axis'
-			},
+			tooltip: $.extend({formatter: function(params) {
+					var physicalMemory = params[0],
+						swapSpace = params[1];
+					return [
+						'时间：' + physicalMemory[1],
+						'物理内存：' + physicalMemory[2] + ' GB',
+						'交换空间：' + swapSpace[2] + ' GB'
+					].join('<br/>');
+				}
+			}, defaultToolTip),
 			legend: {
+				y: 'bottom',
 				data: ['used physical memory', 'used swap space']
 			},
 			toolbox: {
 				show: false
 			},
 			xAxis: [{
+				name: '时间',
 				type: 'category',
 				boundaryGap: false,
 				data: $.map(data.usedMemoryDataList, function(data) {
@@ -89,6 +119,7 @@ define(function(require, exports, module) {
 				})
 			}],
 			yAxis: [{
+				name: '内存',
 				type: 'value',
 				axisLabel: {
 					formatter: '{value} GB'

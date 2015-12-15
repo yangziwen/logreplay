@@ -9,7 +9,7 @@
 			<div class="col-sm-4"></div>
 			<div class="col-sm-4">
 				<ul class="nav navbar-left text-center" style="margin-top:6px; width: 100%;">
-					<li class="title"><strong>Sogou客户端日志埋点校验系统</strong></li>
+					<li class="title"><strong>客户端日志埋点校验系统</strong></li>
 				</ul>
 			</div>
 			<shiro:user>

@@ -288,7 +288,7 @@
 						<contextPath>/logreplay</contextPath>
 						<jettyEnvXml>${project.basedir}/conf/jetty-env-dev.xml</jettyEnvXml>
 					</webApp>
-					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<!-- <scanIntervalSeconds>10</scanIntervalSeconds> -->
 					<scanTargetPatterns>
 						<scanTargetPattern>
 							<directory>src/main/webapp</directory>

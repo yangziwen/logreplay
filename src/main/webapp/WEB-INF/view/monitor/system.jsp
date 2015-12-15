@@ -30,7 +30,7 @@
 			    <ul class="breadcrumb">
 			        <li>
 						当前位置: <a data-toggle="collapse" href="#J_systemManageSubmenu">系统监控</a>
-						 &gt; <a href="${ctx_path}/user/detail.htm">系统状态</a>
+						 &gt; <a href="${ctx_path}/monitor/system.htm">系统状态</a>
 			        </li> 
 			    </ul>
 			</div>
@@ -42,7 +42,7 @@
 					<div id="J_systemMemoryChart" style="height: 300px;"></div>
 				</div>
 			</div>
-			<div class="row"><!-- row3 -->
+			<div class="row" style="margin-top: 30px;"><!-- row3 -->
 			    <div class="col-sm-12">
 			     	<div class="panel panel-default">
 			     		<table class="table table-bordered table-condensed">

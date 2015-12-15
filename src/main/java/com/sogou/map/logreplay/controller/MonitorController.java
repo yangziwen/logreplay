@@ -20,6 +20,12 @@ import com.sogou.map.logreplay.util.SystemInfoUtil;
 @RequestMapping("/monitor")
 public class MonitorController extends BaseController {
 	
+	private static final String DEFAULT_START_TIME = "0";
+	
+	private static final String DEFAULT_END_TIME = "0";
+	
+	private static final String DEFAULT_STEP = "600";
+	
 	/**
 	 * 获取系统相关参数
 	 */
@@ -51,9 +57,9 @@ public class MonitorController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/memoryData")
 	public ModelMap getMemoryData(
-			@RequestParam(defaultValue = "0") long startTime,
-			@RequestParam(defaultValue = "0") long endTime,
-			@RequestParam(defaultValue = "600") long step,	// 默认取样间隔为10分钟
+			@RequestParam(defaultValue = DEFAULT_START_TIME) long startTime,
+			@RequestParam(defaultValue = DEFAULT_END_TIME) long endTime,
+			@RequestParam(defaultValue = DEFAULT_STEP) long step,	// 默认取样间隔为10分钟
 			HttpSession session) {
 		
 		if(startTime == 0) {	// 默认取一天前的时间
@@ -79,6 +85,45 @@ public class MonitorController extends BaseController {
 				.addAttribute("usedNonHeapMemoryDataList", usedNonHeapMemoryDataList)
 				.addAttribute("usedPhysicalMemoryDataList", usedPhysicalMemoryDataList)
 				.addAttribute("usedSwapSpaceDataList", usedSwapSpaceDataList)
+		;
+		
+		return successResult(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/appData")
+	public ModelMap getAppData(
+			@RequestParam(defaultValue = DEFAULT_START_TIME) long startTime,
+			@RequestParam(defaultValue = DEFAULT_END_TIME) long endTime,
+			@RequestParam(defaultValue = DEFAULT_STEP) long step,	// 默认取样间隔为10分钟
+			HttpSession session) {
+
+		if(startTime == 0) {	// 默认取一天前的时间
+			startTime = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(12);
+		}
+		
+		if(endTime == 0) {		// 默认取当前时间
+			endTime = System.currentTimeMillis();
+		}
+		
+		String application = MonitorUtil.getCurrentApplication(session.getServletContext());
+		
+		List<Data<Long, Double>> loadedClassesCountDataList = MonitorUtil.getDataList(application, "loadedClassesCount", startTime, endTime, step);
+		
+		List<Data<Long, Double>> httpSessionsDataList = MonitorUtil.getDataList(application, "httpSessions", startTime, endTime, step);
+		
+		List<Data<Long, Double>> sqlHitsRateDataList = MonitorUtil.getDataList(application, "sqlHitsRate", startTime, endTime, step);
+		
+		List<Data<Long, Double>> transactionsRateDataList = MonitorUtil.getDataList(application, "transactionsRate", startTime, endTime, step);
+		
+		List<Data<Long, Double>> threadCountDataList = MonitorUtil.getDataList(application, "threadCount", startTime, endTime, step);
+		
+		ModelMap result = new ModelMap()
+				.addAttribute("loadedClassesCountDataList", loadedClassesCountDataList)
+				.addAttribute("httpSessionsDataList", httpSessionsDataList)
+				.addAttribute("sqlHitsRateDataList", sqlHitsRateDataList)
+				.addAttribute("transactionsRateDataList", transactionsRateDataList)
+				.addAttribute("threadCountDataList", threadCountDataList)
 		;
 		
 		return successResult(result);
