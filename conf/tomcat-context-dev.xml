@@ -5,7 +5,7 @@
 	<!-- 图片文件根目录 -->
 	<Environment name="imageBasePath" type="java.lang.String" value="/mytest/images"/>
 	<!-- 图片服务器根路径 -->
-	<Environment name="imageBaseUrl" type="java.lang.String" value="http://localhost:8075/logreplay/image"/>
+	<Environment name="imageBaseUrl" type="java.lang.String" value="/image"/>
 
 	<Resource name="jdbc/dataSource"
 		factory="org.apache.naming.factory.BeanFactory"

@@ -9,7 +9,7 @@
 	<New class="org.eclipse.jetty.plus.jndi.EnvEntry">
 		<Arg></Arg>
 		<Arg>imageBaseUrl</Arg>
-		<Arg type="java.lang.String">http://localhost:8075/logreplay/image</Arg>
+		<Arg type="java.lang.String">/image</Arg>
 		<Arg type="boolean">true</Arg>
 	</New>
     <New id="dataSource" class="org.eclipse.jetty.plus.jndi.Resource">  
