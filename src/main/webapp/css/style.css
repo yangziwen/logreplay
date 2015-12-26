@@ -64,5 +64,5 @@ ul.submenu {
 .left-handler.bottom-handler { cursor: sw-resize; }
 .right-handler.top-handler { cursor: ne-resize; }
 .right-handler.bottom-handler { cursor: se-resize; }
-.img-mask { cursor: crosshair; } 
+.img-mask { cursor: move; } 
 /** imageTailor end **/
