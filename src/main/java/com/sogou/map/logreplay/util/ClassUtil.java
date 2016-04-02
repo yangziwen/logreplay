@@ -16,13 +16,13 @@ public class ClassUtil {
 		return ((ParameterizedType)genType).getActualTypeArguments();
 	}
 	
-	@SuppressWarnings("rawtypes")
-	public static Class getSuperClassGenericType(Class clazz, int index){
+	@SuppressWarnings("unchecked")
+	public static <T> Class<T> getSuperClassGenericType(Class<?> clazz, int index){
 		Type[] params = getSuperClassGenericTypes(clazz);
 		if(index < 0 || index >= params.length){
 			throw new IllegalStateException("Seems no valid ParameterizedType exist at the position of " + index + "!");
 		}
-		return (Class)params[index];
+		return (Class<T>)params[index];
 	}
 	
 }

@@ -11,6 +11,7 @@ public abstract class AbstractBean {
 	
 	public abstract void setId(Long id);
 	
+	@Override
 	public String toString() {
 		return toString(ToStringStyle.MULTI_LINE_STYLE);
 	}

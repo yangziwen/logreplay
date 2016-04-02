@@ -35,8 +35,7 @@ public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 	
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@SuppressWarnings("unchecked")
-	protected BeanMapping<E> beanMapping = createBeanMapping(ClassUtil.getSuperClassGenericType(this.getClass(), 0));
+	protected BeanMapping<E> beanMapping = createBeanMapping(ClassUtil.<E>getSuperClassGenericType(this.getClass(), 0));
 	
 	protected NamedParameterJdbcTemplate jdbcTemplate;
 	

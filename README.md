@@ -38,6 +38,7 @@ flush privileges;
 ```
 &ensp;&ensp;此后在logreplay数据库中执行src/main/resources/sql路径下的schema.sql和data.sql中的sql
 ```
+use logreplay;
 set autocommit=0;
 source src/main/resources/sql/schema.sql; commit;
 source src/main/resources/sql/data.sql; commit;
