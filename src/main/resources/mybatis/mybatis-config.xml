@@ -14,6 +14,10 @@
 			javaType="com.sogou.map.logreplay.bean.Image$Type"/>
 	</typeHandlers>
 	
+	<plugins>
+		<plugin interceptor="com.sogou.map.logreplay.dao.base.PaginationInterceptor" />
+	</plugins>
+	
 	<mappers>
 		<mapper resource="mybatis/CommonMapper.xml"/>
 	</mappers>
