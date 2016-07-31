@@ -216,9 +216,9 @@ public class SystemInfoUtil {
 			} finally {
 				if (process != null) {
 					// ¨¦vitons http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6462165
-					process.getInputStream().close();
-					process.getOutputStream().close();
-					process.getErrorStream().close();
+					IOUtils.closeQuietly(process.getInputStream());
+					IOUtils.closeQuietly(process.getOutputStream());
+					IOUtils.closeQuietly(process.getErrorStream());
 					process.destroy();
 				}
 				if (tempFile != null && !tempFile.delete()) {
@@ -233,19 +233,16 @@ public class SystemInfoUtil {
 		return pid;
 	}
 	
-	private static void pump(InputStream is, OutputStream os, boolean closeIn, boolean closeOut)
+	private static void pump(InputStream input, OutputStream output, boolean closeIn, boolean closeOut)
 			throws IOException {
 		try {
-			IOUtils.copy(is, os);
+			IOUtils.copy(input, output);
 		} finally {
-			try {
-				if (closeIn) {
-					is.close();
-				}
-			} finally {
-				if (closeOut) {
-					os.close();
-				}
+			if (closeIn) {
+				IOUtils.closeQuietly(input);
+			}
+			if (closeOut) {
+				IOUtils.closeQuietly(output);
 			}
 		}
 	}
