@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
+	default-lazy-init="false" default-autowire="byName">
+
+    <context:component-scan base-package="com.sogou.map">
+    	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+	<!-- 
+	<jee:jndi-lookup id="imageBasePath" jndi-name="java:comp/env/imageBasePath"/>
+	<jee:jndi-lookup id="imageBasePath" jndi-name="java:comp/env/imageBaseUrl"/>
+	 -->
+
+	<import resource="spring-audit.xml"/>
+	<import resource="spring-db.xml"/>
+	<import resource="spring-mvc.xml"/>
+	<import resource="spring-shiro.xml"/>
+
+</beans>

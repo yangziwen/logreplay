@@ -10,7 +10,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>GBK</project.build.sourceEncoding>
-		<springframework.version>3.2.13.RELEASE</springframework.version>
+		<springframework.version>4.1.4.RELEASE</springframework.version>
+		<aspectj.version>1.8.4</aspectj.version>
 		<jackson.version>2.1.5</jackson.version>
 		<shiro.version>1.2.3</shiro.version>
 		<poi.version>3.9</poi.version>
@@ -77,12 +78,25 @@
 			<version>1.1.0.RELEASE</version>
 		</dependency>
 		
+		<!-- aspectj -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectj.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
 		<!-- commons工具类 -->
 		<dependency>
-	    	<groupId>commons-lang</groupId>
-	    	<artifactId>commons-lang</artifactId>
-	    	<version>2.6</version>
-	    </dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
@@ -138,7 +152,7 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.1.41</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>persistence-api</artifactId>
@@ -170,7 +184,7 @@
 			<artifactId>shiro-ehcache</artifactId>
 			<version>${shiro.version}</version>
 		</dependency>
-		
+
 		<!-- EXCEL -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
@@ -182,7 +196,7 @@
 			<artifactId>poi-ooxml</artifactId>
 			<version>${poi.version}</version>
 		</dependency>
-		
+
 		<!-- 日志相关 -->
 		<dependency>
 			<groupId>log4j</groupId>
@@ -199,14 +213,31 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.4.2</version>
 		</dependency>
-		
+
+		<!-- 审计 -->
+		<dependency>
+			<groupId>org.audit4j</groupId>
+			<artifactId>audit4j-core</artifactId>
+			<version>2.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.audit4j</groupId>
+			<artifactId>audit4j-spring</artifactId>
+			<version>2.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.audit4j</groupId>
+			<artifactId>audit4j-db</artifactId>
+			<version>2.4.1</version>
+		</dependency>
+
 		<!-- 监控 -->
 		<dependency>
 			<groupId>net.bull.javamelody</groupId>
 			<artifactId>javamelody-core</artifactId>
 			<version>1.58.0</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -258,23 +289,23 @@
 			</build>
 		</profile>
 	</profiles>
-	
+
 	<build>
 		<finalName>logreplay</finalName>
 		<plugins>
-		
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.7</source>
+					<target>1.7</target>
 					<encoding>GBK</encoding>
 				</configuration>
 			</plugin>
-			
-			<!-- 
+
+			<!--
 				please see following links for more details about jetty configuration
 				http://www.eclipse.org/jetty/documentation/current/jetty-maven-plugin.html
 				http://wiki.eclipse.org/Jetty/Howto/Configure_JNDI_Datasource
@@ -304,7 +335,7 @@
 					</httpConnector>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
@@ -316,7 +347,7 @@
 					<contextFile>${basedir}/conf/tomcat-context-dev.xml</contextFile>
 				</configuration>
 			</plugin>
-			
+
 		</plugins>
 	</build>
 </project>
