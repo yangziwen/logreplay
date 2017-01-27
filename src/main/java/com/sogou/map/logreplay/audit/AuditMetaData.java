@@ -11,8 +11,6 @@ import com.sogou.map.logreplay.util.AuthUtil;
 import com.sogou.map.logreplay.util.IPUtil;
 
 public class AuditMetaData implements MetaData {
-
-	private static final long serialVersionUID = 3113581221556423029L;
 	
 	private static final String UNKNOWN_IP = "unknown";
 
@@ -31,7 +29,6 @@ public class AuditMetaData implements MetaData {
 			HttpServletRequest request = ((ServletRequestAttributes) attribute).getRequest();
 			return IPUtil.getIpAddr(request);
         }catch(Exception e){
-            e.printStackTrace();
             return UNKNOWN_IP;
         }
 	}

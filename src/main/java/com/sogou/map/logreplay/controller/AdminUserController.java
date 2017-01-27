@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.audit4j.core.annotation.Audit;
+import org.audit4j.core.annotation.AuditField;
+import org.audit4j.core.annotation.DeIdentify;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -60,13 +63,20 @@ public class AdminUserController extends BaseController {
 		return successResult(user);
 	}
 	
+	@Audit(action = "admin.create_user")
 	@ResponseBody
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public ModelMap create (
+			@AuditField(field = "username")
 			@RequestParam String username,
+			@DeIdentify(fromRight = 2)
+			@AuditField(field = "password")
 			@RequestParam String password,
+			@AuditField(field = "screenName")
 			@RequestParam String screenName,
+			@AuditField(field = "roleNames")
 			@RequestParam String roleNames,
+			@AuditField(field = "enabled")
 			@RequestParam Boolean enabled) {
 		if(StringUtils.isBlank(username) || StringUtils.isBlank(roleNames)) {
 			throw LogReplayException.invalidParameterException("Either Username or roleNames should not be null!");
@@ -90,12 +100,17 @@ public class AdminUserController extends BaseController {
 		}
 	}
 	
+	@Audit(action = "admin.update_user")
 	@ResponseBody
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
 	public ModelMap update (
+			@AuditField(field = "id")
 			@PathVariable("id") Long id,
+			@AuditField(field = "screenName")
 			@RequestParam String screenName,
+			@AuditField(field = "roleNames")
 			@RequestParam String roleNames,
+			@AuditField(field = "enabled")
 			@RequestParam Boolean enabled) {
 		if(id == null) {
 			throw LogReplayException.invalidParameterException("Id of user should not be null!");
@@ -125,10 +140,14 @@ public class AdminUserController extends BaseController {
 	/**
 	 * 管理员重置密码
 	 */
+	@Audit(action = "admin.reset_password")
 	@ResponseBody
 	@RequestMapping(value = "/password/update/{id}", method = RequestMethod.POST)
 	public ModelMap updatePassword(
+			@AuditField(field = "id")
 			@PathVariable("id") Long id,
+			@DeIdentify(fromRight = 2)
+			@AuditField(field = "password")
 			@RequestParam String password) {
 		User user = null;
 		if(StringUtils.isBlank(password) || (password = password.trim()).length() < User.PASSWORD_MIN_LENGTH) {

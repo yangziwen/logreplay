@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.alibaba.fastjson.JSON;
 import com.sogou.map.logreplay.bean.Image.Type;
 import com.sogou.map.logreplay.bean.base.AbstractBean;
 
@@ -82,7 +83,5 @@ public class Avatar extends AbstractBean {
 	public void setCreateTime(Timestamp createTime) {
 		this.createTime = createTime;
 	}
-	
-	
 	
 }

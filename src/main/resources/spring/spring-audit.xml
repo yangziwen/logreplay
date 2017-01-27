@@ -10,8 +10,14 @@
 	default-lazy-init="false" default-autowire="byName">
 
 	<bean id="metaData" class="com.sogou.map.logreplay.audit.AuditMetaData" />
-	<bean id="layout" class="org.audit4j.core.layout.SimpleLayout" />
-	<bean id="databaseAuditHandler" class="org.audit4j.handler.db.DatabaseAuditJsonFormatHandler">
+	<bean id="layout" class="org.audit4j.core.layout.CustomizableLayout">
+		<property name="dateFormat" value="yyyy-MM-dd HH:mm:ss" />
+		<property name="template">
+			<value>${eventDate} AuditLog |${actor}|${action}|${origin}|{${foreach fields field ,}${field.name}:${field.value}${end}}</value>
+		</property>
+	</bean>
+	<bean id="consoleAuditHandler" class="org.audit4j.core.handler.ConsoleAuditHandler"></bean>
+	<bean id="databaseAuditHandler" class="org.audit4j.handler.db.DatabaseAuditHandler">
 		<property name="embedded" value="false" />
 		<property name="db_connection_type" value="jndi" />
 		<property name="db_jndi_datasource" value="java:comp/env/jdbc/dataSource" />
@@ -19,8 +25,12 @@
 	<bean id="auditconfig" class="org.audit4j.integration.spring.SpringAudit4jConfig">
 		<property name="layout" ref="layout" />
 		<property name="metaData" ref="metaData" />
+		<property name="commands">
+			<value>-objectSerializer=com.sogou.map.logreplay.audit.ObjectToJsonSerializer</value>
+		</property>
 		<property name="handlers">
 			<list>
+				<ref bean="consoleAuditHandler"/>
 				<ref bean="databaseAuditHandler"/>
 			</list>
 		</property>

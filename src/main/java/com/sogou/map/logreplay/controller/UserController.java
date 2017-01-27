@@ -1,6 +1,9 @@
 package com.sogou.map.logreplay.controller;
 
 import org.apache.commons.lang.StringUtils;
+import org.audit4j.core.annotation.Audit;
+import org.audit4j.core.annotation.AuditField;
+import org.audit4j.core.annotation.DeIdentify;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,9 +32,12 @@ public class UserController extends BaseController {
 		return successResult(user);
 	}
 	
+	@Audit(action = "user.update_profile")
 	@ResponseBody
 	@RequestMapping(value = "/profile/update", method = RequestMethod.POST)
-	public ModelMap updateProfile(@RequestParam String screenName) { 
+	public ModelMap updateProfile(
+			@AuditField(field = "screenName")
+			@RequestParam String screenName) {
 		if(StringUtils.isBlank(screenName)) {
 			throw LogReplayException.invalidParameterException("ScreenName should not be null!");
 		}
@@ -47,10 +53,15 @@ public class UserController extends BaseController {
 		}
 	}
 	
+	@Audit(action = "user.update_password")
 	@ResponseBody
 	@RequestMapping(value = "/password/update", method = RequestMethod.POST)
 	public ModelMap updatePassword(
+			@DeIdentify(fromRight = 2)
+			@AuditField(field = "oldPassword")
 			@RequestParam String oldPassword,
+			@DeIdentify(fromRight = 2)
+			@AuditField(field = "newPassword")
 			@RequestParam String newPassword) {
 		if(StringUtils.isBlank(oldPassword) || StringUtils.isBlank(newPassword)) {
 			throw LogReplayException.invalidParameterException("Neither oldPassword nor newPassword should be null!");
