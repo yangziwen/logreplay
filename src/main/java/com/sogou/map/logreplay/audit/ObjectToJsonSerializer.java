@@ -20,18 +20,13 @@ public class ObjectToJsonSerializer implements ObjectSerializer {
 
 	public final static String toJson(Object object, DeIdentify deidentify) {
 		if (isPrimitive(object)) {
-			String primitiveValue = String.valueOf(object);
-			if (deidentify != null) {
-				primitiveValue = DeIdentifyUtil.deidentify(primitiveValue,
-						deidentify.left(), deidentify.right(),
-						deidentify.fromLeft(), deidentify.fromRight());
-			}
+			String primitiveValue = String.valueOf(deidentifyValue(object, deidentify));
 			if (object instanceof String) {
 				primitiveValue = '"' + primitiveValue + '"';
 			}
 			return primitiveValue;
 		}
-		return JSON.toJSONString(object);
+		return JSON.toJSONString(object, AuditFastjsonFilter.instance());
 	}
 	
     public final static boolean isPrimitive(Object object) {
@@ -41,5 +36,14 @@ public class ObjectToJsonSerializer implements ObjectSerializer {
         }
         return false;
     }
+    
+	public final static Object deidentifyValue(Object value, DeIdentify deIdentify) {
+		if (value == null || deIdentify == null) {
+			return value;
+		}
+		return DeIdentifyUtil.deidentify(String.valueOf(value),
+				deIdentify.left(), deIdentify.right(),
+				deIdentify.fromLeft(), deIdentify.fromRight());
+	}
 
 }
