@@ -17,7 +17,7 @@
 		</property>
 	</bean>
 	<bean id="consoleAuditHandler" class="org.audit4j.core.handler.ConsoleAuditHandler"></bean>
-	<bean id="databaseAuditHandler" class="org.audit4j.handler.db.DatabaseAuditHandler">
+	<bean id="databaseAuditHandler" class="org.audit4j.handler.db.DatabaseAuditJsonFormatHandler">
 		<property name="embedded" value="false" />
 		<property name="db_connection_type" value="jndi" />
 		<property name="db_jndi_datasource" value="java:comp/env/jdbc/dataSource" />

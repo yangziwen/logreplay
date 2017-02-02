@@ -15,7 +15,7 @@ public class ObjectToJsonSerializer implements ObjectSerializer {
 	public void serialize(List<Field> auditFields,
 			Object object, String objectName, DeIdentify deidentify) {
 		String json = toJson(object, deidentify);
-		auditFields.add(new Field('"' + objectName + '"', json, "\b"));
+		auditFields.add(new Field('"' + objectName + '"', json, object.getClass().getName()));
 	}
 
 	public final static String toJson(Object object, DeIdentify deidentify) {
