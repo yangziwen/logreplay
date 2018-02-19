@@ -26,7 +26,7 @@
 		<property name="layout" ref="layout" />
 		<property name="metaData" ref="metaData" />
 		<property name="commands">
-			<value>-objectSerializer=com.sogou.map.logreplay.audit.ObjectToJsonSerializer</value>
+			<value>-objectSerializer=com.sogou.map.logreplay.audit.CustomObjectToJsonSerializer</value>
 		</property>
 		<property name="handlers">
 			<list>

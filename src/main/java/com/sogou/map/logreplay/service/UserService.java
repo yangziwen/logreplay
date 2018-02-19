@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.audit4j.core.annotation.Audit;
-import org.audit4j.core.annotation.AuditField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,39 +25,39 @@ import com.sogou.map.logreplay.dao.base.QueryParamMap;
 
 @Service
 public class UserService {
-	
+
 	@Autowired
 	private UserDao userDao;
-	
+
 	@Autowired
 	private UserRelRoleDao userRelRoleDao;
-	
+
 	@Autowired
 	private UserWithRolesDao userWithRolesDao;
-	
+
 	public User getUserById(Long id) {
 		return userDao.getById(id);
 	}
 
 	public User getUserByUsername(String username) {
-		return userDao.first(new QueryParamMap().addParam("username", username)); 
+		return userDao.first(new QueryParamMap().addParam("username", username));
 	}
-	
+
 	public UserWithRoles getUserWithRolesById(Long id) {
 		if(id == null) {
 			return null;
 		}
 		return userWithRolesDao.getById(id);
 	}
-	
+
 	public Page<User> getUserPaginateResult(int start, int limit, Map<String, Object> params) {
 		return userDao.paginate(start, limit, params);
 	}
-	
+
 	public Page<UserWithRoles> getUserWithRolesPaginateResult(int start, int limit, Map<String, Object> params) {
 		return userWithRolesDao.paginate(start, limit, params);
 	}
-	
+
 	/**
 	 * 根据username或screenName来查找用户
 	 */
@@ -71,7 +69,7 @@ public class UserService {
 			)
 		);
 	}
-	
+
 	public List<Long> getUserIdListResultByName(String name) {
 		if(StringUtils.isBlank(name)) {
 			return Collections.emptyList();
@@ -83,7 +81,7 @@ public class UserService {
 			}
 		});
 	}
-	
+
 	@Transactional
 	public void createUser(User user, List<Role> roleList) {
 		user.setCreateTime(new Timestamp(System.currentTimeMillis()));
@@ -100,12 +98,12 @@ public class UserService {
 		}
 		userRelRoleDao.batchSave(userRelRoleList, 20);
 	}
-	
+
 	public void updateUser(User user) {
 		user.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 		userDao.update(user);
 	}
-	
+
 	@Transactional
 	public void updateUser(User user, List<Role> roleList) {
 		user.setUpdateTime(new Timestamp(System.currentTimeMillis()));
@@ -118,5 +116,5 @@ public class UserService {
 		}
 		userRelRoleDao.batchSave(userRelRoleList);
 	}
-	
+
 }
