@@ -12,7 +12,10 @@
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 
-	<mvc:annotation-driven />
+	<mvc:annotation-driven>
+		<mvc:path-matching suffix-pattern="false"/>
+	</mvc:annotation-driven>
+
 	<mvc:resources mapping="/js/**" location="/js/" cache-period="28800"/>
 	<mvc:resources mapping="/css/**" location="/css/" cache-period="28800"/>
 	<mvc:resources mapping="/img/**" location="/img/" cache-period="28800"/>

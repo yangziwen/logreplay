@@ -27,7 +27,7 @@ define(function(require, exports, module) {
 			}
 			$('#J_roleNames, #U_roleNames').empty().append($.map(data.response, function(role) {
 				return $('<option value="' + role.name + '">' + role.displayName + '</option>');
-			})).eq(0).prepend('<option value="">全部</option>');
+			})).eq(0).prepend('<option value="">全部</option>').val('');
 		});
 	}
 	
