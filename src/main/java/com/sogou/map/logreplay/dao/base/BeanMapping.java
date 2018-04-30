@@ -14,27 +14,27 @@ import javax.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanWrapper;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 
 import com.sogou.map.logreplay.bean.base.AbstractBean;
 
 public class BeanMapping<E extends AbstractBean> {
 
 	protected Class<E> entityClass;
-	
+
 	protected final String tableName ;
-	
+
 	protected final List<Field> entityFields;
-	
+
 	protected final String idFieldName;
-	
+
 	protected final Map<String, String> fieldColumnMapping;
-	
+
 	protected final RowMapper<E> rowMapper;
-	
+
 	public final E[] emptyArray;
-	
+
 	@SuppressWarnings("unchecked")
 	public BeanMapping(Class<E> entityClass) {
 		this.entityClass = entityClass;
@@ -45,9 +45,9 @@ public class BeanMapping<E extends AbstractBean> {
 		this.rowMapper = createRowMapper(entityClass);
 		this.emptyArray = (E[])Array.newInstance(entityClass, 0);
 	}
-	
+
 	protected RowMapper<E> createRowMapper(Class<E> entityClass) {
-		ParameterizedBeanPropertyRowMapper<E> newInstance = new ParameterizedBeanPropertyRowMapper<E>() {
+		BeanPropertyRowMapper<E> newInstance = new BeanPropertyRowMapper<E>() {
 			@Override
 			protected void initBeanWrapper(BeanWrapper bw) {
 				super.initBeanWrapper(bw);
@@ -57,11 +57,11 @@ public class BeanMapping<E extends AbstractBean> {
 		newInstance.setMappedClass(entityClass);
 		return newInstance;
 	}
-	
+
 	protected void afterInitBeanWrapper(BeanWrapper bw) {
 		// defaultly do nothing
 	}
-	
+
 	public static String getTableNameFromAnnotation(Class<?> clazz) {
 		Table table = clazz.getAnnotation(Table.class);
 		if(table != null && StringUtils.isNotBlank(table.name())) {
@@ -69,7 +69,7 @@ public class BeanMapping<E extends AbstractBean> {
 		}
 		return convertCamelToUnderscore(clazz.getSimpleName());
 	}
-	
+
 	public static List<Field> getFieldsWithColumnAnnotation(Class<?> clazz) {
 		List<Field> list = new ArrayList<Field>();
 		if(clazz.getSuperclass() != Object.class) {
@@ -83,7 +83,7 @@ public class BeanMapping<E extends AbstractBean> {
 		}
 		return list;
 	}
-	
+
 	/**
 	 * 寻找主键所对应的field时，
 	 * 优先使用@Id，
@@ -104,7 +104,7 @@ public class BeanMapping<E extends AbstractBean> {
 		}
 		return idNamedField;
 	}
-	
+
 	public static Map<String, String> generateFieldColumnMapping(List<Field> fields) {
 		Map<String, String> mapping = new LinkedHashMap<String, String>();
 		for(Field field: fields) {
@@ -119,19 +119,19 @@ public class BeanMapping<E extends AbstractBean> {
 		}
 		return mapping;
 	}
-	
+
 	public static String convertCamelToUnderscore(String str) {
 		return StringUtils.isBlank(str)? "": str.replaceAll("([^\\sA-Z])([A-Z])", "$1_$2").toLowerCase();
 	}
-	
+
 	public String getIdField() {
 		return idFieldName;
 	}
-	
+
 	public String getIdColumn() {
 		return getColumnByField(getIdField());
 	}
-	
+
 	public String getColumnByField(String field) {
 		String column = fieldColumnMapping.get(field);
 		if(StringUtils.isBlank(column)) {
@@ -139,25 +139,25 @@ public class BeanMapping<E extends AbstractBean> {
 		}
 		return column;
 	}
-	
+
 	public Map<String, String> getFieldColumnMapping() {
 		return fieldColumnMapping;
 	}
-	
+
 	public String getTableName() {
 		return tableName;
 	}
-	
+
 	public String getTableName(Map<String, Object> params) {
 		return getTableName();
 	}
-	
+
 	public RowMapper<E> getRowMapper() {
 		return rowMapper;
 	}
-	
+
 	public E[] emptyArray() {
 		return emptyArray;
 	}
-	
+
 }

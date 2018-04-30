@@ -18,35 +18,41 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 
 public class ExcelUtil {
 
 	private static final int MAX_DATAROW_PER_SHEET = 65000;
-	
+
 	private ExcelUtil() {}
-	
+
 	// ------------ 导入相关 -------------- //
 	public static List<Map<String, String>> importMapList(InputStream in) {
+		Workbook workbook = null;
 		try {
-			Workbook workbook = new HSSFWorkbook(in);
+			workbook = new HSSFWorkbook(in);
 			Sheet sheet = workbook.getSheetAt(0);
 			return readMapListFromSheet(sheet);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Collections.emptyList();
 		} finally {
+			IOUtils.closeQuietly(workbook);
 			IOUtils.closeQuietly(in);
 		}
 	}
-	
+
 	private static List<Map<String, String>> readMapListFromSheet(Sheet sheet) {
 		if(sheet == null) {
 			return Collections.emptyList();
@@ -61,9 +67,9 @@ public class ExcelUtil {
 			headerList.add(headerIter.next().toString());
 		}
 		int len = headerList.size();
-		
+
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-		
+
 		while(rowIter.hasNext()) {
 			Row row = rowIter.next();
 			Map<String, String> map = new HashMap<String, String>();
@@ -77,16 +83,16 @@ public class ExcelUtil {
 		}
 		return list;
 	}
-	
+
 	// ------------ 导出相关 -------------- //
 	public static void outputExcelToResponse(Workbook workbook, String filename, HttpServletResponse response) {
 		try {
 			filename = new String(filename.getBytes("GBK"),"iso-8859-1");
 		} catch (UnsupportedEncodingException e) {}
-		
+
 		response.setContentType("application/vnd.ms-excel; charset=UTF-8");
 		response.setHeader("Cache-Control", "no-cache");
-		response.setHeader("Pragma", "public"); 
+		response.setHeader("Pragma", "public");
 		response.setHeader("Content-Disposition", String.format("attachment; filename = \"%s\"", filename));
 		try {
 			workbook.write(response.getOutputStream());
@@ -94,14 +100,14 @@ public class ExcelUtil {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static Workbook exportDataList(List<Column> columnList, List<? extends DataContainer> dataList) {
 		if(dataList == null) {
 			dataList = Collections.emptyList();
 		}
 		final Workbook workbook = new HSSFWorkbook();
 		CellStyle headerStyle = buildHeaderStyle(workbook);
-		
+
 		int sheetIndex = -1;
 		int rowIndex = 0;
 		String sheetName = "sheet";
@@ -119,7 +125,7 @@ public class ExcelUtil {
 				}
 				DataContainer dc = dataList.get(i);
 				Row row = sheet.createRow(rowIndex);
-				
+
 				for(int j = 0, m = columnList.size(); j < m; j++) {
 					Column column = columnList.get(j);
 					String columnKey = column.getKey();
@@ -136,7 +142,7 @@ public class ExcelUtil {
 		}
 		return workbook;
 	}
-	
+
 	public static Workbook exportMapList(List<Column> columnList, List<Map<String, Object>> dataList) {
 		if(dataList == null) {
 			dataList = Collections.emptyList();
@@ -147,7 +153,7 @@ public class ExcelUtil {
 		}
 		return exportDataList(columnList, list);
 	}
-	
+
 	private static void createNewSheet(Workbook workbook, int sheetIndex, String sheetName, List<Column> columnList, CellStyle headerStyle) {
 		Sheet sheet = workbook.createSheet(sheetName);
 		workbook.setSheetName(sheetIndex, sheetName);
@@ -162,41 +168,41 @@ public class ExcelUtil {
 			cell.setCellValue(column.getTitle());
 		}
 	}
-	
+
 	private static CellStyle buildHeaderStyle(Workbook workbook) {
-		Font font = workbook.createFont(); 
-		font.setBoldweight(Font.BOLDWEIGHT_BOLD); 
-		font.setFontName("宋体"); 
-		font.setFontHeightInPoints((short) 10); 
-		
+		Font font = workbook.createFont();
+		font.setBold(true);
+		font.setFontName("宋体");
+		font.setFontHeightInPoints((short) 10);
+
 		CellStyle headerStyle = workbook.createCellStyle();
-		headerStyle.setAlignment(CellStyle.ALIGN_CENTER);
-		headerStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-		headerStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-		headerStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+		headerStyle.setAlignment(HorizontalAlignment.CENTER);
+		headerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+		headerStyle.setFillForegroundColor(HSSFColorPredefined.GREY_25_PERCENT.getIndex());
+		headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 		headerStyle.setFont(font);
 		setCellBorder(headerStyle);
-		
+
 		return headerStyle;
 	}
-	
+
 	private static void setCellBorder(CellStyle cellStyle){
-		cellStyle.setBorderBottom(CellStyle.BORDER_THIN);
-		cellStyle.setBorderLeft(CellStyle.BORDER_THIN);
-		cellStyle.setBorderRight(CellStyle.BORDER_THIN);
-		cellStyle.setBorderTop(CellStyle.BORDER_THIN);
+		cellStyle.setBorderBottom(BorderStyle.THIN);
+		cellStyle.setBorderLeft(BorderStyle.THIN);
+		cellStyle.setBorderRight(BorderStyle.THIN);
+		cellStyle.setBorderTop(BorderStyle.THIN);
 	}
-	
+
 	public static Column column(String title, String key, int width, CellType type) {
 		return new Column(title, key, width, type);
 	}
-	
+
 	public static class Column {
 		private String title;
 		private String key;
 		private int width;
 		private CellType type;
-		
+
 		public Column(String title, String key, int width, CellType type) {
 			this.title = title;
 			this.key = key;
@@ -229,12 +235,12 @@ public class ExcelUtil {
 			this.type = type;
 		}
 	}
-	
-	public static enum CellType{
+
+	public static enum CellType {
 		currency_cny() {
 			@Override
 			public void handle(Workbook workbook, Cell cell, Object value, Map<String, Object> context) {
-				cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+				cell.setCellType(org.apache.poi.ss.usermodel.CellType.NUMERIC);
 				CellStyle currencyCnyStyle = (CellStyle) context.get(KEY_OF_CURRENCY_CNY_STYLE);
 				if(currencyCnyStyle == null) {
 					DataFormat format = workbook.createDataFormat();
@@ -249,7 +255,7 @@ public class ExcelUtil {
 		currency_usd() {
 			@Override
 			public void handle(Workbook workbook,Cell cell, Object value, Map<String, Object> context) {
-				cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+				cell.setCellType(org.apache.poi.ss.usermodel.CellType.NUMERIC);
 				CellStyle currencyUsdStyle = (CellStyle) context.get(KEY_OF_CURRENCY_USD_STYLE);
 				if(currencyUsdStyle == null) {
 					DataFormat format =  workbook.createDataFormat();
@@ -264,21 +270,21 @@ public class ExcelUtil {
 		text() {
 			@Override
 			public void handle(Workbook workbook, Cell cell, Object value, Map<String, Object> context) {
-				cell.setCellType(Cell.CELL_TYPE_STRING);
+				cell.setCellType(org.apache.poi.ss.usermodel.CellType.STRING);
 				cell.setCellValue(value == null? "": value.toString());
 			}
 		},
 		datetime() {
 			@Override
 			public void handle(Workbook workbook, Cell cell, Object value, Map<String, Object> context) {
-				cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+				cell.setCellType(org.apache.poi.ss.usermodel.CellType.NUMERIC);
 				cell.setCellValue(value == null? "": value.toString());
 			}
 		},
 		bool() {
 			@Override
 			public void handle(Workbook workbook, Cell cell, Object value, Map<String, Object> context) {
-				cell.setCellType(Cell.CELL_TYPE_BOOLEAN);
+				cell.setCellType(org.apache.poi.ss.usermodel.CellType.BOOLEAN);
 				cell.setCellValue(BooleanUtils.toBoolean(value == null? "": value.toString()));
 			}
 		},
@@ -292,7 +298,7 @@ public class ExcelUtil {
 					numberStyle.setDataFormat(format.getFormat("#,##0"));
 					context.put(KEY_OF_FORMATTED_NUMBER_STYLE, numberStyle);
 				}
-				cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+				cell.setCellType(org.apache.poi.ss.usermodel.CellType.NUMERIC);
 				cell.setCellStyle(numberStyle);	// 注意，同一个workbook中不能产生过多的style
 				cell.setCellValue(NumberUtils.toInt(value == null? "": value.toString()));
 			}
@@ -305,7 +311,7 @@ public class ExcelUtil {
 					numberStyle = workbook.createCellStyle();
 					context.put(KEY_OF_NUMBER_STYLE, numberStyle);
 				}
-				cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+				cell.setCellType(org.apache.poi.ss.usermodel.CellType.NUMERIC);
 				cell.setCellStyle(numberStyle);	// 注意，同一个workbook中不能产生过多的style
 				cell.setCellValue(NumberUtils.toInt(value == null? "": value.toString()));
 			}
@@ -320,32 +326,32 @@ public class ExcelUtil {
 					percentStyle.setDataFormat(format.getFormat("0.00%"));
 					context.put(KEY_OF_PERCENT_STYLE, percentStyle);
 				}
-				cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+				cell.setCellType(org.apache.poi.ss.usermodel.CellType.NUMERIC);
 				cell.setCellStyle(percentStyle);
 				cell.setCellValue(NumberUtils.toDouble(value == null? "": value.toString()));
 			}
-			
+
 		};
-		
+
 		private static final String KEY_OF_CURRENCY_CNY_STYLE = "workbook_currency_cny_style";
 		private static final String KEY_OF_CURRENCY_USD_STYLE = "workbook_currency_usd_style";
 		private static final String KEY_OF_PERCENT_STYLE = "workbook_percent_style";
 		private static final String KEY_OF_NUMBER_STYLE="workbook_number_style";
 		private static final String KEY_OF_FORMATTED_NUMBER_STYLE = "workbook_formatted_number_style";
-		
+
 		public abstract void handle(Workbook workbook, Cell cell, Object value, Map<String, Object> context);
 	}
-	
+
 	public static interface DataContainer {
-		
+
 		public Object getColumnValue(String columnKey);
-		
+
 	}
-	
+
 	public static class MapDataContainer implements DataContainer {
-		
+
 		private Map<String, Object> dataMap;
-		
+
 		private MapDataContainer(Map<String, Object> dataMap) {
 			this.dataMap = MapUtils.isNotEmpty(dataMap)? dataMap: Collections.<String, Object>emptyMap();
 		}
@@ -354,11 +360,11 @@ public class ExcelUtil {
 		public Object getColumnValue(String columnKey) {
 			return dataMap.get(columnKey);
 		}
-		
+
 		public static DataContainer newInstance(Map<String, Object> dataMap) {
 			return new MapDataContainer(dataMap);
 		}
-		
+
 	}
-	
+
 }
