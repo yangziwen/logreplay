@@ -4,7 +4,8 @@ define(function(require, exports, module) {
 
 	require('jquery.tmpl');
 	var $ = require('jquery'),
-		common = require('app/common');
+		common = require('app/common'),
+		Stomp = require('stomp').Stomp;
 	var submitErrorValidator = require('app/replay/submitErrorValidator').validate('#J_submitErrorModal form');
 	
 	$('#J_submitErrorModal').on('hide.bs.modal', function() {
@@ -13,6 +14,8 @@ define(function(require, exports, module) {
 
 	var replaying = false, lockScroll = false;
 	
+	var stomp = null;
+
 	var tagActionDict = {}, tagTargetDict = {};
 	
 	function refreshTagActionDict() {
@@ -53,26 +56,65 @@ define(function(require, exports, module) {
 		});
 	}
 	
+	function collectQueryParams() {
+		var params = common.collectParams('#J_queryArea input[type!=button]');
+		params['originVersionSince'] = common.parseAppVersion(params['originVersionSince']);
+		params['originVersionUntil'] = common.parseAppVersion(params['originVersionUntil']);
+		return params;
+	}
+
 	function switchButtonStatus(replaying) {
 		if(replaying) {
 			$replaySwitchBtn.html('停止校验');
-			var params = common.collectParams('#J_queryArea input[type!=button]');
-			params['originVersionSince'] = common.parseAppVersion(params['originVersionSince']);
-			params['originVersionUntil'] = common.parseAppVersion(params['originVersionUntil']);
-			$.get(CTX_PATH + "/operationRecord/latest").done(function(data) {
-				var latestRecordId = 0;
-				if(data && data.response) {
-					var latestRecord = data.response;
-					latestRecordId = latestRecord.id || 0;
-				}
-				params.idSince = latestRecordId;
-				doReplay(params, 1000);
-			})
+			var params = collectQueryParams();
+			startReplay(params);
 		} else {
 			$replaySwitchBtn.html('开始校验');
+			stopReplay();
 		}
 	}
 	
+	function _startReplay(params) {
+		$.get(CTX_PATH + "/operationRecord/latest").done(function(data) {
+			var latestRecordId = 0;
+			if(data && data.response) {
+				var latestRecord = data.response;
+				latestRecordId = latestRecord.id || 0;
+			}
+			params.idSince = latestRecordId;
+			doReplay(params, 1000);
+		})
+	}
+
+	function _stopReplay() {
+		// do nothing
+	}
+
+	function startReplay(params) {
+		if (!replaying) {
+			return;
+		}
+		if (!stomp) {
+			stomp = Stomp.over(SockJS(CTX_PATH + '/stomp/socket'));
+		}
+		window.stomp = stomp;
+		stomp.connect('', '', function() {
+			stomp.send('/app/replay', {}, JSON.stringify(params));
+			stomp.subscribe('/user/queue/replay', function(frame) {
+				var record = JSON.parse(frame.body);
+				renderOperationRecords([record]);
+			})
+		});
+	}
+
+	function stopReplay() {
+		if (replaying) {
+			return;
+		}
+		stomp.disconnect();
+		stomp = null;
+	}
+
 	function doReplay(params, queryInterval) {
 		queryOperationRecords(params).done(function(data) {
 			var recordList = data.response;
@@ -96,64 +138,68 @@ define(function(require, exports, module) {
 			}
 			var recordList = data.response;
 			if(recordList && recordList.length > 0) {
-				$replayTbody.append($replayTmpl.tmpl(recordList, {
-					formatTime: function(t) {
-						if(!t) {
-							return '--';
-						}
-						var ts = t + '';
-						return new Date(t).format('yyyy-MM-dd hh:mm:ss') + '.' + ts.substring(ts.length - 3, ts.length);
-					}, 
-					bgClass: function(record) {
-						//return (!record.pageName || !record.tagName )? 'danger': '';
-						if (!record.pageName || !record.tagName) {
-							return 'danger';
-						}
-						if($.isArray(record.paramParsedResultList)) {
-							for(var i = 0, l = record.paramParsedResultList.length; i < l; i++) {
-								if(record.paramParsedResultList[i].valid == false) {
-									return 'warning';
-								}
-							}
-						}
-						return '';
-					},
-					describe: function(record) {
-//						return [record.pageName, record.tagName, tagTargetDict[record.targetId], tagActionDict[record.actionId]].join(' => ');
-						var contents = [[record.pageName, record.tagName].join(' => ')];
-						if($.isArray(record.paramParsedResultList)) {
-							for(var i = 0, l = record.paramParsedResultList.length; i < l; i++) {
-								var parsedResult = record.paramParsedResultList[i];
-								var content = [
-								    parsedResult.paramName, 
-								    parsedResult.paramValue, 
-								    parsedResult.description,
-								    !parsedResult.required? '多余': parsedResult.valid? '正常': '异常'].join(' : ');
-								if(!parsedResult.required) {
-									content = '<span style="color: #269abc; font-weight: bold;">' + content + '</span>';
-								} else if (!parsedResult.valid) {
-									content = '<span style="color: #c9302c; font-weight: bold;">' + content + '</span>';
-								}
-								contents.push(content);
-							}
-						}
-						return contents.join('<br/>');
-					},
-					displayInspectStatus: function(inspectStatus) {
-						switch(inspectStatus) {
-							case 0: return '<span class="label label-default">未校验</span>';
-							case 1: return ''; //'<span class="label label-success">校验正确</span>';
-							case 2: return '<span class="label label-danger">校验错误</span>';
-							default: return '--';
-						}
-					}
-				}));
-				$replayTbody.append('<tr class="info"><td colspan="6"></td></tr><tr class="hide"><td colspan="6"></td></tr>'); // 分隔行
-				if(!lockScroll) {
-					$replayArea.scrollTop($replayArea[0].scrollHeight - $replayArea.height());
-				}
+				renderOperationRecords(recordList);
 			}
 		});
+	}
+
+	function renderOperationRecords(recordList) {
+		$replayTbody.append($replayTmpl.tmpl(recordList, {
+			formatTime: function(t) {
+				if(!t) {
+					return '--';
+				}
+				var ts = t + '';
+				return new Date(t).format('yyyy-MM-dd hh:mm:ss') + '.' + ts.substring(ts.length - 3, ts.length);
+			},
+			bgClass: function(record) {
+				//return (!record.pageName || !record.tagName )? 'danger': '';
+				if (!record.pageName || !record.tagName) {
+					return 'danger';
+				}
+				if($.isArray(record.paramParsedResultList)) {
+					for(var i = 0, l = record.paramParsedResultList.length; i < l; i++) {
+						if(record.paramParsedResultList[i].valid == false) {
+							return 'warning';
+						}
+					}
+				}
+				return '';
+			},
+			describe: function(record) {
+//				return [record.pageName, record.tagName, tagTargetDict[record.targetId], tagActionDict[record.actionId]].join(' => ');
+				var contents = [[record.pageName, record.tagName].join(' => ')];
+				if($.isArray(record.paramParsedResultList)) {
+					for(var i = 0, l = record.paramParsedResultList.length; i < l; i++) {
+						var parsedResult = record.paramParsedResultList[i];
+						var content = [
+						    parsedResult.paramName,
+						    parsedResult.paramValue,
+						    parsedResult.description,
+						    !parsedResult.required? '多余': parsedResult.valid? '正常': '异常'].join(' : ');
+						if(!parsedResult.required) {
+							content = '<span style="color: #269abc; font-weight: bold;">' + content + '</span>';
+						} else if (!parsedResult.valid) {
+							content = '<span style="color: #c9302c; font-weight: bold;">' + content + '</span>';
+						}
+						contents.push(content);
+					}
+				}
+				return contents.join('<br/>');
+			},
+			displayInspectStatus: function(inspectStatus) {
+				switch(inspectStatus) {
+					case 0: return '<span class="label label-default">未校验</span>';
+					case 1: return ''; //'<span class="label label-success">校验正确</span>';
+					case 2: return '<span class="label label-danger">校验错误</span>';
+					default: return '--';
+				}
+			}
+		}));
+		$replayTbody.append('<tr class="info"><td colspan="6"></td></tr><tr class="hide"><td colspan="6"></td></tr>'); // 分隔行
+		if(!lockScroll) {
+			$replayArea.scrollTop($replayArea[0].scrollHeight - $replayArea.height());
+		}
 	}
 	
 	/** 提交校验正确结果 开始 **/

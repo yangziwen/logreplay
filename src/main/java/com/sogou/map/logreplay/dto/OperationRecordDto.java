@@ -9,6 +9,7 @@ import com.sogou.map.logreplay.bean.TagInfo;
 public class OperationRecordDto {
 
 	private Long id;
+	private Long productId;
 	private String ip;
 	private String deviceId;
 	private String uvid;
@@ -25,17 +26,25 @@ public class OperationRecordDto {
 	private String params;
 	private Integer inspectStatus;
 	private Integer devInspectStatus;
-	
+
 	private List<TagParamParsedResult> paramParsedResultList = new ArrayList<TagParamParsedResult>();
-	
+
 	public OperationRecordDto() {}
-	
+
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Long productId) {
+		this.productId = productId;
 	}
 
 	public String getIp() {
@@ -141,7 +150,7 @@ public class OperationRecordDto {
 	public void setTargetId(Long targetId) {
 		this.targetId = targetId;
 	}
-	
+
 	public String getParams() {
 		return params;
 	}
@@ -157,7 +166,7 @@ public class OperationRecordDto {
 	public void setInspectStatus(Integer inspectStatus) {
 		this.inspectStatus = inspectStatus;
 	}
-	
+
 	public Integer getDevInspectStatus() {
 		return devInspectStatus;
 	}
@@ -173,7 +182,7 @@ public class OperationRecordDto {
 	public void setParamParsedResultList(List<TagParamParsedResult> paramsParsedResultList) {
 		this.paramParsedResultList = paramsParsedResultList;
 	}
-	
+
 	public void addParamParsedResult(TagParamParsedResult result) {
 		if(result != null) {
 			paramParsedResultList.add(result);
@@ -191,6 +200,7 @@ public class OperationRecordDto {
 		}
 		OperationRecordDto dto = new OperationRecordDto();
 		dto.id = record.getId();
+		dto.productId = record.getProductId();
 		dto.ip = record.getIp();
 		dto.deviceId = record.getDeviceId();
 		dto.uvid = record.getUvid();
@@ -211,17 +221,17 @@ public class OperationRecordDto {
 		}
 		return dto;
 	}
-	
+
 	public static class TagParamParsedResult {
-		
+
 		private boolean valid;
-		
+
 		private boolean required;
-		
+
 		private String paramName;
-		
+
 		private String paramValue;
-		
+
 		private String description;
 
 		public boolean isValid() {
@@ -243,31 +253,31 @@ public class OperationRecordDto {
 		public String getDescription() {
 			return description;
 		}
-		
+
 		public TagParamParsedResult valid(boolean valid) {
 			this.valid = valid;
 			return this;
 		}
-		
+
 		public TagParamParsedResult required(boolean required) {
 			this.required = required;
 			return this;
 		}
-		
+
 		public TagParamParsedResult paramName(String paramName) {
 			this.paramName = paramName;
 			return this;
 		}
-		
+
 		public TagParamParsedResult paramValue(String paramValue) {
 			this.paramValue = paramValue;
 			return this;
 		}
-		
+
 		public TagParamParsedResult description(String description) {
 			this.description = description;
 			return this;
 		}
-		
+
 	}
 }

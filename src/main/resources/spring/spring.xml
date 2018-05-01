@@ -19,9 +19,21 @@
 	<jee:jndi-lookup id="imageBasePath" jndi-name="java:comp/env/imageBaseUrl"/>
 	 -->
 
+	<bean id="executor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="20" />
+		<property name="maxPoolSize" value="150" />
+		<property name="queueCapacity" value="1000" />
+		<property name="keepAliveSeconds" value="30" />
+	</bean>
+
+	<bean id="eventBus" class="com.google.common.eventbus.AsyncEventBus">
+		<constructor-arg name="executor" ref="executor" />
+	</bean>
+
 	<import resource="spring-audit.xml"/>
 	<import resource="spring-db.xml"/>
 	<import resource="spring-mvc.xml"/>
 	<import resource="spring-shiro.xml"/>
+	<import resource="spring-socket.xml"/>
 
 </beans>

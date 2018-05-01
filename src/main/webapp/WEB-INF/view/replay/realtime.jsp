@@ -188,6 +188,9 @@
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <%@ include file="../include/includeJs.jsp" %>
+
+<!-- It's hard to import sockjs via sea.js due to the complex dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script>
 seajs.use('app/replay/realtime', function(realtime) {
 	realtime.init();

@@ -33,6 +33,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.eventbus.AsyncEventBus;
 import com.sogou.map.logreplay.bean.OperationRecord;
 import com.sogou.map.logreplay.bean.PageInfo;
 import com.sogou.map.logreplay.bean.ParamInfo;
@@ -60,21 +61,24 @@ import com.sogou.map.logreplay.util.TagParamParser.ParamInfoHolder;
 @Controller
 @RequestMapping("/operationRecord")
 public class OperationRecordController extends BaseController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(OperationRecordController.class);
 
 	@Autowired
 	private OperationRecordService operationRecordService;
-	
+
 	@Autowired
 	private PageInfoService pageInfoService;
-	
+
 	@Autowired
 	private TagInfoService tagInfoService;
-	
+
 	@Autowired
 	private TagParamService tagParamService;
-	
+
+	@Autowired
+	private AsyncEventBus eventBus;
+
 	/**
 	 * 获取数据库中最新的一条操作记录
 	 * 用于在实时校验(回放)开始时确定第一次轮询的idSince的值
@@ -84,7 +88,7 @@ public class OperationRecordController extends BaseController {
 	public ModelMap getLatestRecord() {
 		return successResult(operationRecordService.getLatestOperationRecord());
 	}
-	
+
 	/**
 	 * 获取操作记录
 	 * 用于实时校验(回放)
@@ -121,7 +125,7 @@ public class OperationRecordController extends BaseController {
 		fillTagParamParsedResult(dtoList);
 		return successResult(dtoList);
 	}
-	
+
 	/**
 	 * 填充tagNo在10000以上的tagInfo信息
 	 * 这种tag不关联pageInfo
@@ -173,9 +177,9 @@ public class OperationRecordController extends BaseController {
 				dto.setInspectStatus(tagInfo.getInspectStatus());
 			}
 		}
-		
+
 	}
-	
+
 	private List<OperationRecordDto> convertToDtoList(List<OperationRecord> list) {
 		if(CollectionUtils.isEmpty(list)) {
 			return Collections.emptyList();
@@ -202,7 +206,7 @@ public class OperationRecordController extends BaseController {
 		}
 		return dtoList;
 	}
-	
+
 	private Set<Long> collectTagInfoId(List<OperationRecord> list) {
 		if(CollectionUtils.isEmpty(list)) {
 			return Collections.emptySet();
@@ -213,7 +217,7 @@ public class OperationRecordController extends BaseController {
 		}
 		return tagInfoIdSet;
 	}
-	
+
 	public void fillTagParamParsedResult(List<OperationRecordDto> dtoList) {
 		if(CollectionUtils.isEmpty(dtoList)) {
 			return;
@@ -262,7 +266,7 @@ public class OperationRecordController extends BaseController {
 			}
 		}
 	}
-	
+
 	/**
 	 * 接收操作数据的接口
 	 * 请求串格式如下
@@ -276,7 +280,7 @@ public class OperationRecordController extends BaseController {
 			HttpServletRequest request) {
 		return doReceiveData(moblogStr, infoStr, request);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/receive", method = RequestMethod.POST)
 	public ModelMap receiveDataViaPost (
@@ -285,7 +289,7 @@ public class OperationRecordController extends BaseController {
 			HttpServletRequest request) {
 		return doReceiveData(moblogStr, infoStr, request);
 	}
-	
+
 	private ModelMap doReceiveData(String moblogStr, String infoStr, HttpServletRequest request) {
 		MobLog moblog = new MobLogProcessor().process(moblogStr);
 		if(StringUtils.isEmpty(moblog.getDeviceId()) || StringUtils.isEmpty(moblog.getVersion())) {
@@ -310,13 +314,24 @@ public class OperationRecordController extends BaseController {
 				.params(info)
 				.build();
 			operationRecordService.saveOrUpdateOperationRecord(record);
+			postOperationRecord(record);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw LogReplayException.operationFailedException("Failed to save %s", record);
 		}
 		return successResult(new ModelMap("success", true));
 	}
-	
+
+	private void postOperationRecord(OperationRecord record) {
+		ProductUtil.setProductId(record.getProductId());
+		List<OperationRecord> list = operationRecordService.getOperationRecordListResult(0, 1, new QueryParamMap()
+				.addParam("id", record.getId()));
+		List<OperationRecordDto> dtoList = convertToDtoList(list);
+		findAndFillCommonTagInfo(dtoList);
+		fillTagParamParsedResult(dtoList);
+		eventBus.post(dtoList.get(0));
+	}
+
 	@ResponseBody
 	@RequestMapping(value = "/upload/nginx", method = RequestMethod.POST)
 	public ModelMap uploadNginxLog(MultipartFile file) {
@@ -357,5 +372,5 @@ public class OperationRecordController extends BaseController {
 		}
 		return successResult(new ModelMap("count", count));
 	}
-	
+
 }

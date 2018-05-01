@@ -62,6 +62,8 @@
 				/fonts/** = anon
 				/register** = anon
 				/register/** = anon
+				/stomp/** = anon
+				/socket/** = anon
 				/operationRecord/receive = anon
 				/login.htm = authc
 				/logout.htm = logout
