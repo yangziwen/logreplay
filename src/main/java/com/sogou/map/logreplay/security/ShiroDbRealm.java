@@ -35,10 +35,10 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		this.permissionService = permissionService;
 	}
 	
-	/* spring¿ÉÍ¨¹ı¸¸ÀàµÄsetCredentialsMatcher×¢ÈëcredentialsMatcher¶ÔÏó */
+	/* springå¯é€šè¿‡çˆ¶ç±»çš„setCredentialsMatcheræ³¨å…¥credentialsMatcherå¯¹è±¡ */
 	
 	/**
-	 * ÈÏÖ¤»Øµ÷º¯Êı,µÇÂ¼Ê±µ÷ÓÃ.
+	 * è®¤è¯å›è°ƒå‡½æ•°,ç™»å½•æ—¶è°ƒç”¨.
 	 */
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
@@ -55,7 +55,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	}
 
 	/**
-	 * ÊÚÈ¨²éÑ¯»Øµ÷º¯Êı, ½øĞĞ¼øÈ¨µ«»º´æÖĞÎŞÓÃ»§ÊÚÈ¨ĞÅÏ¢Ê±µ÷ÓÃ.
+	 * æˆæƒæŸ¥è¯¢å›è°ƒå‡½æ•°, è¿›è¡Œé‰´æƒä½†ç¼“å­˜ä¸­æ— ç”¨æˆ·æˆæƒä¿¡æ¯æ—¶è°ƒç”¨.
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -78,9 +78,9 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	}
 	
 	/**
-	 * ½«´Ë·½·¨µÄ¿É¼ûĞÔÌáÉıÎªpublic
-	 * ´Ë·½·¨ÔÚ´ó¶àÊıÇé¿öÏÂ¿ÉÒÔÍ¨¹ıshiroµÄ»º´æÀ´»ñÈ¡½ÇÉ«ĞÅÏ¢
-	 * ´Ó¶ø¼õÉÙ¶ÔÊı¾İ¿âµÄÇëÇó
+	 * å°†æ­¤æ–¹æ³•çš„å¯è§æ€§æå‡ä¸ºpublic
+	 * æ­¤æ–¹æ³•åœ¨å¤§å¤šæ•°æƒ…å†µä¸‹å¯ä»¥é€šè¿‡shiroçš„ç¼“å­˜æ¥è·å–è§’è‰²ä¿¡æ¯
+	 * ä»è€Œå‡å°‘å¯¹æ•°æ®åº“çš„è¯·æ±‚
 	 */
 	@Override
 	public AuthorizationInfo getAuthorizationInfo(PrincipalCollection principals) {

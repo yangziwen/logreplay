@@ -27,7 +27,7 @@ public class MonitorController extends BaseController {
 	private static final String DEFAULT_STEP = "600";
 	
 	/**
-	 * »ñÈ¡ÏµÍ³Ïà¹Ø²ÎÊı
+	 * è·å–ç³»ç»Ÿç›¸å…³å‚æ•°
 	 */
 	@ResponseBody
 	@RequestMapping("/systemInfo")
@@ -49,25 +49,25 @@ public class MonitorController extends BaseController {
 	}
 	
 	/**
-	 * »ñÈ¡ÄÚ´æ¼à¿ØÊı¾İ
-	 * @param startTime	¿ªÊ¼Ê±¼ä(ºÁÃëÊ±¼ä´Á)
-	 * @param endTime	½áÊøÊ±¼ä(ºÁÃëÊ±¼ä´Á)
-	 * @param step		È¡Ñù¼ä¸ô(Ãë)
+	 * è·å–å†…å­˜ç›‘æ§æ•°æ®
+	 * @param startTime	å¼€å§‹æ—¶é—´(æ¯«ç§’æ—¶é—´æˆ³)
+	 * @param endTime	ç»“æŸæ—¶é—´(æ¯«ç§’æ—¶é—´æˆ³)
+	 * @param step		å–æ ·é—´éš”(ç§’)
 	 */
 	@ResponseBody
 	@RequestMapping("/memoryData")
 	public ModelMap getMemoryData(
 			@RequestParam(defaultValue = DEFAULT_START_TIME) long startTime,
 			@RequestParam(defaultValue = DEFAULT_END_TIME) long endTime,
-			@RequestParam(defaultValue = DEFAULT_STEP) long step,	// Ä¬ÈÏÈ¡Ñù¼ä¸ôÎª10·ÖÖÓ
+			@RequestParam(defaultValue = DEFAULT_STEP) long step,	// é»˜è®¤å–æ ·é—´éš”ä¸º10åˆ†é’Ÿ
 			String showType,
 			HttpSession session) {
 		
-		if(startTime == 0) {	// Ä¬ÈÏÈ¡Ò»ÌìÇ°µÄÊ±¼ä
+		if(startTime == 0) {	// é»˜è®¤å–ä¸€å¤©å‰çš„æ—¶é—´
 			startTime = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(12);
 		}
 		
-		if(endTime == 0) {		// Ä¬ÈÏÈ¡µ±Ç°Ê±¼ä
+		if(endTime == 0) {		// é»˜è®¤å–å½“å‰æ—¶é—´
 			endTime = System.currentTimeMillis();
 		}
 		
@@ -97,15 +97,15 @@ public class MonitorController extends BaseController {
 	public ModelMap getAppData(
 			@RequestParam(defaultValue = DEFAULT_START_TIME) long startTime,
 			@RequestParam(defaultValue = DEFAULT_END_TIME) long endTime,
-			@RequestParam(defaultValue = DEFAULT_STEP) long step,	// Ä¬ÈÏÈ¡Ñù¼ä¸ôÎª10·ÖÖÓ
+			@RequestParam(defaultValue = DEFAULT_STEP) long step,	// é»˜è®¤å–æ ·é—´éš”ä¸º10åˆ†é’Ÿ
 			String showType,
 			HttpSession session) {
 
-		if(startTime == 0) {	// Ä¬ÈÏÈ¡Ò»ÌìÇ°µÄÊ±¼ä
+		if(startTime == 0) {	// é»˜è®¤å–ä¸€å¤©å‰çš„æ—¶é—´
 			startTime = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(12);
 		}
 		
-		if(endTime == 0) {		// Ä¬ÈÏÈ¡µ±Ç°Ê±¼ä
+		if(endTime == 0) {		// é»˜è®¤å–å½“å‰æ—¶é—´
 			endTime = System.currentTimeMillis();
 		}
 		

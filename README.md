@@ -32,7 +32,7 @@
  &ensp;&ensp;**2.初始化数据库**
  
 ```
-create database logreplay default charset gbk;
+create database logreplay default charset utf8;
 grant all on logreplay.* to 'mobile'@localhost identified by 'mobile';
 flush privileges;
 ```

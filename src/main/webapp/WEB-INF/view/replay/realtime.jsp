@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../include/include.jsp" %>
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>
-    <title>ʵʱУ��</title>
+    <title>实时校验</title>
 	<%@ include file="../include/includeCss.jsp" %>
 	<style>
 		#J_replayArea {
@@ -38,8 +38,8 @@
 			<div>
 			    <ul class="breadcrumb">
 			        <li>
-						��ǰλ��: <a data-toggle="collapse" href="#J_logReplaySubmenu">�����ϢУ��</a>
-						 &gt; <a href="${ctx_path}/replay/realtime.htm">ʵʱУ��</a>
+						当前位置: <a data-toggle="collapse" href="#J_logReplaySubmenu">埋点信息校验</a>
+						 &gt; <a href="${ctx_path}/replay/realtime.htm">实时校验</a>
 			        </li> 
 			    </ul>
 			</div>
@@ -49,40 +49,40 @@
 			     		<input type="hidden" name="limit" value="10"/>
 			     		<form class="form-horizontal col-md-offset-1 col-md-10" role="form">
 							<div class="form-group">
-								<label for="J_deviceId" class="col-sm-2 control-label">�豸id��</label>
+								<label for="J_deviceId" class="col-sm-2 control-label">设备id：</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_deviceId" name="deviceId" placeholder="�������豸id" />
+									<input type="text" class="form-control" id="J_deviceId" name="deviceId" placeholder="请输入设备id" />
 								</div>
-								<label for="J_uvid" class="col-sm-2 control-label">�û�id��</label>
+								<label for="J_uvid" class="col-sm-2 control-label">用户id：</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_uvid" name="uvid" placeholder="�������û�id" />
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="J_pageNo" class="col-sm-2 control-label">ҳ���ţ�</label>
-								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_pageNo" name="pageNo" placeholder="������ҳ����" />
-								</div>
-								<label for="J_tagNo" class="col-sm-2 control-label">������ţ�</label>
-								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_tagNo" name="tagNo" placeholder="������������" />
+									<input type="text" class="form-control" id="J_uvid" name="uvid" placeholder="请输入用户id" />
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="J_originVersionSince" class="col-sm-2 control-label">��ʼ�汾��</label>
+								<label for="J_pageNo" class="col-sm-2 control-label">页面编号：</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_originVersionSince" name="originVersionSince" placeholder="��������ʼ�汾" />
+									<input type="text" class="form-control" id="J_pageNo" name="pageNo" placeholder="请输入页面编号" />
 								</div>
-								<label for="J_originVersionUntil" class="col-sm-2 control-label">��ֹ�汾��</label>
+								<label for="J_tagNo" class="col-sm-2 control-label">操作编号：</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_originVersionUntil" name="originVersionUntil" placeholder="��������ֹ�汾" />
+									<input type="text" class="form-control" id="J_tagNo" name="tagNo" placeholder="请输入操作编号" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="J_originVersionSince" class="col-sm-2 control-label">起始版本：</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="J_originVersionSince" name="originVersionSince" placeholder="请输入起始版本" />
+								</div>
+								<label for="J_originVersionUntil" class="col-sm-2 control-label">终止版本：</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="J_originVersionUntil" name="originVersionUntil" placeholder="请输入终止版本" />
 								</div>
 							</div>
 							<div class="form-group" style="margin-bottom: 0px;">
 								<div class="col-sm-12" style="margin-top: 10px;">
-									<button id="J_replaySwitchBtn" type="button" class="btn btn-primary btn-lg-font">��ʼУ��</button>
-									<button id="J_lockScrollBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">��������</button>
-									<button id="J_clearBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">��&nbsp;&nbsp;��</button>
+									<button id="J_replaySwitchBtn" type="button" class="btn btn-primary btn-lg-font">开始校验</button>
+									<button id="J_lockScrollBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">锁定滚动</button>
+									<button id="J_clearBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">清&nbsp;&nbsp;除</button>
 								</div>
 							</div>
 						</form>
@@ -96,13 +96,13 @@
 				     	<table id="J_replayTbl" class="table table-bordered table-striped table-condensed table-hover" >
 				     		<thead>
 				     			<tr>
-				     				<th style="width: 100px;">��־���</th>
-				     				<th>��־����</th>
-				     				<th style="width: 220px;">��־����</th>
-				     				<th style="width:85px">�Բ���</th>
-				     				<th style="width:85px">���Խ��</th>
+				     				<th style="width: 100px;">日志编号</th>
+				     				<th>日志描述</th>
+				     				<th style="width: 220px;">日志内容</th>
+				     				<th style="width:85px">自测结果</th>
+				     				<th style="width:85px">测试结果</th>
 				     				<shiro:hasPermission name="operation_record:modify">
-				     					<th style="width: 90px;">����</th>
+				     					<th style="width: 90px;">管理</th>
 				     				</shiro:hasPermission>
 				     			</tr>
 				     		</thead>
@@ -136,13 +136,13 @@
 	</div><!-- /row1 -->
 </div>
 
-<!-- �ύ������Ϣ�ĵ����� -->
+<!-- 提交错误信息的弹出层 -->
 <div class="modal" id="J_submitErrorModal" tabindex="-1">
     <div class="modal-dialog">
     	<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title"><strong>�ύУ�����Ľ��</strong></h4>
+				<h4 class="modal-title"><strong>提交校验错误的结果</strong></h4>
 			</div>
 			<div class="modal-body">
 				<div class="panel panel-default">
@@ -151,27 +151,27 @@
 						<tbody>
 						</tbody>
 						<tr>
-							<td style="width: 150px;"><strong>ҳ����:</strong></td>
+							<td style="width: 150px;"><strong>页面编号:</strong></td>
 							<td style="width: 250px;">
 								<div class="form-group">
 									<input type="text" class="form-control" id="S_pageNo" name="pageNo"/>
 								</div>
 							</td>
-							<td style="width: 150px;"><strong>ҳ������:</strong></td>
+							<td style="width: 150px;"><strong>页面名称:</strong></td>
 							<td style="width: 250px;" id="S_pageName"></td>
 						</tr>
 						<tr>
-							<td><strong>�������:</strong></td>
+							<td><strong>操作编号:</strong></td>
 							<td>
 								<div class="form-group">
 									<input type="text" class="form-control" id="S_tagNo" name="tagNo"/> 
 								</div>
 							</td>
-							<td><strong>��������:</strong></td>
+							<td><strong>操作名称:</strong></td>
 							<td id="S_tagName"></td>
 						</tr>
 						<tr>
-							<td><strong>��ע:</strong></td>
+							<td><strong>备注:</strong></td>
 							<td colspan="3">
 							<textarea class="form-control" id="S_comment" style="height: 150px;"></textarea>
 							</td>
@@ -181,8 +181,8 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" id="J_submitErrorBtn">�ύ</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">�ر�</button>
+				<button type="button" class="btn btn-primary" id="J_submitErrorBtn">提交</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->

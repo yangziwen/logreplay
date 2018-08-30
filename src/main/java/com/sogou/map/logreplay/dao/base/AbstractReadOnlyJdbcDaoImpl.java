@@ -30,7 +30,7 @@ import com.sogou.map.logreplay.util.ClassUtil;
 
 public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 
-	/** SQL_DEBUG == trueÊ±£¬»á´òÓ¡ËùÓĞ²éÑ¯µÄsql **/
+	/** SQL_DEBUG == trueæ—¶ï¼Œä¼šæ‰“å°æ‰€æœ‰æŸ¥è¯¢çš„sql **/
 	protected static final boolean SQL_DEBUG = BooleanUtils.toBoolean(System.getProperty("jdbc.sql.debug"));
 	
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -86,7 +86,7 @@ public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 	}
 	
 	/**
-	 * Èç¹ûsqlÖĞ´æÔÚÈÎºÎ×Ó²éÑ¯£¬ÇëÔÚ×Ó²éÑ¯ÖĞÊ¹ÓÃ´óĞ´µÄ¹Ø¼ü×Ö
+	 * å¦‚æœsqlä¸­å­˜åœ¨ä»»ä½•å­æŸ¥è¯¢ï¼Œè¯·åœ¨å­æŸ¥è¯¢ä¸­ä½¿ç”¨å¤§å†™çš„å…³é”®å­—
 	 */
 	protected int doCount(String sql, Map<String, Object> params) {
 		int beginPos = sql.indexOf("from");
@@ -127,7 +127,7 @@ public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 		return len > 0? list.get(0): null;
 	}
 	
-	//-------------- ÒÔÏÂÎªÄÚ²¿·½·¨ ----------------//
+	//-------------- ä»¥ä¸‹ä¸ºå†…éƒ¨æ–¹æ³• ----------------//
 
 	protected SqlParameterSource createSqlParameterSource(Map<String, Object> params) {
 		return new MapSqlParameterSource(params);
@@ -204,7 +204,7 @@ public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 			if(DaoConstant.GROUP_BY.equals(entry.getKey())) {
 				continue;
 			}
-			// jdbcTemplate¶ÔÊı×é²»Ìá¹©inµÄÖ§³Ö£¬ËùÒÔĞèÒªÏÈ½«Êı×é×ª»»³ÉList
+			// jdbcTemplateå¯¹æ•°ç»„ä¸æä¾›inçš„æ”¯æŒï¼Œæ‰€ä»¥éœ€è¦å…ˆå°†æ•°ç»„è½¬æ¢æˆList
 			if(entry.getValue() instanceof Object[]) {
 				entry.setValue(Arrays.asList((Object[]) entry.getValue()));
 			}
@@ -226,7 +226,7 @@ public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 			if(DaoConstant.GROUP_BY.equals(entry.getKey())) {
 				continue;
 			}
-			// jdbcTemplate¶ÔÊı×é²»Ìá¹©inµÄÖ§³Ö£¬ËùÒÔĞèÒªÏÈ½«Êı×é×ª»»³ÉList
+			// jdbcTemplateå¯¹æ•°ç»„ä¸æä¾›inçš„æ”¯æŒï¼Œæ‰€ä»¥éœ€è¦å…ˆå°†æ•°ç»„è½¬æ¢æˆList
 			if(entry.getValue() instanceof Object[]) {
 				entry.setValue(Arrays.asList((Object[]) entry.getValue()));
 			}
@@ -275,7 +275,7 @@ public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 		if(orderBy == null) {
 			return "";
 		}
-		if(orderBy instanceof String) {	// ÕâÖÖ×Ö·û´®ÀàĞÍµÄorderBy±È½ÏÈõ
+		if(orderBy instanceof String) {	// è¿™ç§å­—ç¬¦ä¸²ç±»å‹çš„orderByæ¯”è¾ƒå¼±
 			return generateOrderBy((String) orderBy);
 		}
 		if(orderBy instanceof Map) {

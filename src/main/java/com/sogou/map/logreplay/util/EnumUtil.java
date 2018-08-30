@@ -41,14 +41,14 @@ public class EnumUtil {
 	}
 	
 	/**
-	 * ½«Ã¶¾ÙÀàĞÍ×ª»»³ÉÒ»Ğ©»ù±¾ÀàĞÍ
-	 * @param value		Ã¶¾ÙÀàĞÍÏà¹ØµÄÊµÀı£¬¿ÉÄÜÊÇµ¥¸öÊµÀı£¬Ò²¿ÉÄÜÊÇÊı×é»òÕßCollection¶ÔÏó
+	 * å°†æšä¸¾ç±»å‹è½¬æ¢æˆä¸€äº›åŸºæœ¬ç±»å‹
+	 * @param value		æšä¸¾ç±»å‹ç›¸å…³çš„å®ä¾‹ï¼Œå¯èƒ½æ˜¯å•ä¸ªå®ä¾‹ï¼Œä¹Ÿå¯èƒ½æ˜¯æ•°ç»„æˆ–è€…Collectionå¯¹è±¡
 	 * @param enumType
 	 * @param converter
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E extends Enum<E>> Object convertValue(Object value, Class<E> enumType, EnumConverter converter) {
-		if(value instanceof Collection) {	// ¾¡Á¿±ÜÃâ½øÈëÕâ¸öifÖĞ
+		if(value instanceof Collection) {	// å°½é‡é¿å…è¿›å…¥è¿™ä¸ªifä¸­
 			Collection<?> coll = (Collection<?>) value;
 			if(coll.size() > 0) {
 				return convertValue(coll.toArray(), enumType, converter);

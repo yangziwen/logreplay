@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../include/include.jsp" %>
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>
-    <title>�����ط�</title>
+    <title>批量回放</title>
 	<%@ include file="../include/includeCss.jsp" %>
 	<link rel="stylesheet" href="${static_path}/css/bootstrap-datetimepicker.min.css"/>
 	<style>
@@ -27,8 +27,8 @@
 			<div>
 			    <ul class="breadcrumb">
 			        <li>
-						��ǰλ��: <a data-toggle="collapse" href="#J_logReplaySubmenu">�����ϢУ��</a>
-						 &gt; <a href="${ctx_path}/replay/sequence.htm">�����ط�</a>
+						当前位置: <a data-toggle="collapse" href="#J_logReplaySubmenu">埋点信息校验</a>
+						 &gt; <a href="${ctx_path}/replay/sequence.htm">批量回放</a>
 			        </li> 
 			    </ul>
 			</div>
@@ -38,39 +38,39 @@
 			     		<input type="hidden" name="limit" value="50"/>
 			     		<form class="form-horizontal col-md-offset-1 col-md-10" role="form">
 							<div class="form-group">
-								<label for="J_deviceId" class="col-sm-2 control-label">�豸id��</label>
+								<label for="J_deviceId" class="col-sm-2 control-label">设备id：</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_deviceId" name="deviceId" placeholder="�������豸id" />
+									<input type="text" class="form-control" id="J_deviceId" name="deviceId" placeholder="请输入设备id" />
 								</div>
-								<label for="J_uvid" class="col-sm-2 control-label">�û�id��</label>
+								<label for="J_uvid" class="col-sm-2 control-label">用户id：</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_uvid" name="uvid" placeholder="�������û�id" />
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="J_pageNo" class="col-sm-2 control-label">ҳ���ţ�</label>
-								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_pageNo" name="pageNo" placeholder="������ҳ����" />
-								</div>
-								<label for="J_tagNo" class="col-sm-2 control-label">������ţ�</label>
-								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_tagNo" name="tagNo" placeholder="������������" />
+									<input type="text" class="form-control" id="J_uvid" name="uvid" placeholder="请输入用户id" />
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="J_replayTimeSince" class="col-sm-2 control-label">��ʼʱ�䣺</label>
+								<label for="J_pageNo" class="col-sm-2 control-label">页面编号：</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="J_pageNo" name="pageNo" placeholder="请输入页面编号" />
+								</div>
+								<label for="J_tagNo" class="col-sm-2 control-label">操作编号：</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="J_tagNo" name="tagNo" placeholder="请输入操作编号" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="J_replayTimeSince" class="col-sm-2 control-label">开始时间：</label>
 								<div class="col-sm-4">
 									<div class="input-group date form_datetime" data-date-format="yyyy-MM-dd" data-link-field="J_replayTimeSince">
-										<input id="J_replayTimeSince" name="replayTimeSince" class="form-control" type="text" value="" style="cursor: pointer;" placeholder="��ѡ��ʼʱ��" />
+										<input id="J_replayTimeSince" name="replayTimeSince" class="form-control" type="text" value="" style="cursor: pointer;" placeholder="请选择开始时间" />
 										<span class="input-group-addon">
 											<span class="glyphicon glyphicon-th"></span>
 										</span>
 									</div>
 								</div>
-								<label for="J_replayTimeUntil" class="col-sm-2 control-label">����ʱ�䣺</label>
+								<label for="J_replayTimeUntil" class="col-sm-2 control-label">结束时间：</label>
 								<div class="col-sm-4">
 									<div class="input-group date form_datetime" data-date-format="yyyy-MM-dd" data-link-field="J_replayTimeUntil">
-										<input id="J_replayTimeUntil" name="replayTimeUntil" class="form-control" type="text" value="" style="cursor: pointer;" placeholder="��ѡ�����ʱ��" />
+										<input id="J_replayTimeUntil" name="replayTimeUntil" class="form-control" type="text" value="" style="cursor: pointer;" placeholder="请选择结束时间" />
 										<span class="input-group-addon">
 											<span class="glyphicon glyphicon-th"></span>
 										</span>
@@ -79,10 +79,10 @@
 							</div>
 							<div class="form-group" style="_margin-bottom: 0px;">
 								<div class="col-sm-12" style="margin-top: 10px;">
-									<button id="J_openUploadLogModalBtn" type="button" class="btn btn-primary btn-lg-font">�ϴ���־</button>
-									<button id="J_replaySwitchBtn" type="button" class="btn btn-primary btn-lg-font">��ʼ�ط�</button>
-									<button id="J_lockScrollBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">��������</button>
-									<button id="J_clearBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">��&nbsp;&nbsp;��</button>
+									<button id="J_openUploadLogModalBtn" type="button" class="btn btn-primary btn-lg-font">上传日志</button>
+									<button id="J_replaySwitchBtn" type="button" class="btn btn-primary btn-lg-font">开始回放</button>
+									<button id="J_lockScrollBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">锁定滚动</button>
+									<button id="J_clearBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">清&nbsp;&nbsp;除</button>
 								</div>
 							</div>
 						</form>
@@ -96,11 +96,11 @@
 				     	<table id="J_replayTbl" class="table table-bordered table-striped table-condensed table-hover" >
 				     		<thead>
 				     			<tr>
-				     				<th style="width: 125px;">ƽ̨</th>
-				     				<th style="width: 100px;">��־���</th>
-				     				<th>��־����</th>
-				     				<th style="width: 280px;">��־����</th>
-				     				<!-- <th style="width: 125px;">����</th> -->
+				     				<th style="width: 125px;">平台</th>
+				     				<th style="width: 100px;">日志编号</th>
+				     				<th>日志描述</th>
+				     				<th style="width: 280px;">日志内容</th>
+				     				<!-- <th style="width: 125px;">管理</th> -->
 				     			</tr>
 				     		</thead>
 				     		<tbody id="J_replayTbody" style="max-height: 500px;" >
@@ -123,18 +123,18 @@
 		</div>
 	</div><!-- /row1 -->
 </div>
-<!-- �ϴ���־�ĵ����� -->
+<!-- 上传日志的弹出层 -->
 <div class="modal" id="J_uploadLogModal" tabindex="-1">
     <div class="modal-dialog">
     	<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title"><strong>�ϴ�nginx��־</strong></h4>
+				<h4 class="modal-title"><strong>上传nginx日志</strong></h4>
 			</div>
 			<div class="modal-body">
 				<form class="form-horizontal" role="form">
 					<div class="form-group">
-						<label class="col-sm-3 control-label">��־�ļ���</label>
+						<label class="col-sm-3 control-label">日志文件：</label>
 						<div class="col-sm-9">
 							<input id="J_uploadLogFilePath" type="text" class="form-control" disabled="disabled"/>
 						</div>
@@ -145,9 +145,9 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" id="J_browseLogFileBtn" >���</button>
-				<button type="button" class="btn btn-primary" id="J_uploadLogFileBtn" style="margin-left:5px;">�ϴ�</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">�ر�</button>
+				<button type="button" class="btn btn-primary" id="J_browseLogFileBtn" >浏览</button>
+				<button type="button" class="btn btn-primary" id="J_uploadLogFileBtn" style="margin-left:5px;">上传</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->

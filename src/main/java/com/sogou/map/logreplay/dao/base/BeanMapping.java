@@ -85,9 +85,9 @@ public class BeanMapping<E extends AbstractBean> {
 	}
 
 	/**
-	 * Ñ°ÕÒÖ÷¼üËù¶ÔÓ¦µÄfieldÊ±£¬
-	 * ÓÅÏÈÊ¹ÓÃ@Id£¬
-	 * ÍË¶øÊ¹ÓÃfieldName
+	 * å¯»æ‰¾ä¸»é”®æ‰€å¯¹åº”çš„fieldæ—¶ï¼Œ
+	 * ä¼˜å…ˆä½¿ç”¨@Idï¼Œ
+	 * é€€è€Œä½¿ç”¨fieldName
 	 */
 	public static Field getIdField(List<Field> fields) {
 		Field idNamedField = null;

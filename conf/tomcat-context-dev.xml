@@ -11,7 +11,7 @@
 		factory="org.apache.naming.factory.BeanFactory"
 		driverClass="com.mysql.jdbc.Driver"
 		type="com.jolbox.bonecp.BoneCPDataSource"
-		jdbcUrl="jdbc:mysql://localhost:3306/logreplay?useUnicode=true&amp;characterEncoding=GBK" 
+		jdbcUrl="jdbc:mysql://localhost:3306/logreplay?useUnicode=true&amp;characterEncoding=UTF-8" 
 		username="mobile"
 		password="mobile"
 		idleConnectionTestPeriodInMinutes="60" 

@@ -72,7 +72,7 @@ public class InspectionRecordService {
 				? InspectStatus.SUCCESS.getIntValue()
 				: InspectStatus.ERROR.getIntValue();
 		
-		// Ğ£ÑéÄ£Ê½·ÖÎª¡°¿ª·¢Ä£Ê½¡±ºÍ¡°²âÊÔÄ£Ê½¡±
+		// æ ¡éªŒæ¨¡å¼åˆ†ä¸ºâ€œå¼€å‘æ¨¡å¼â€å’Œâ€œæµ‹è¯•æ¨¡å¼â€
 		if(AuthUtil.hasRole(Role.DEV)) {
 			tagInfo.setDevInspectStatus(status);
 		} else {

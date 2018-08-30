@@ -11,8 +11,8 @@ import javax.persistence.Transient;
 import com.sogou.map.logreplay.bean.base.AbstractBean;
 
 /**
- * ²Ù×÷ÏîÓë²ÎÊıµÄ¹ØÁª
- * Ò»¸ö²Ù×÷Ïî(TagInfo)¿É¹ØÁª¶à¸ö²ÎÊıĞÅÏ¢(ParamInfo)
+ * æ“ä½œé¡¹ä¸å‚æ•°çš„å…³è”
+ * ä¸€ä¸ªæ“ä½œé¡¹(TagInfo)å¯å…³è”å¤šä¸ªå‚æ•°ä¿¡æ¯(ParamInfo)
  */
 @Table(name = "tag_param")
 public class TagParam extends AbstractBean {
@@ -21,15 +21,15 @@ public class TagParam extends AbstractBean {
 	@Column
 	private Long id;
 	
-	/** ²Ù×÷Ïîid **/
+	/** æ“ä½œé¡¹id **/
 	@Column(name = "tag_info_id")
 	private Long tagInfoId;
 	
-	/** ¹ØÁªµÄ²Ù×÷ĞÅÏ¢ÁĞ±í **/
+	/** å…³è”çš„æ“ä½œä¿¡æ¯åˆ—è¡¨ **/
 	@Transient
 	private List<ParamInfo> paramInfoList = new ArrayList<ParamInfo>();
 	
-	/** Ïà¹ØµÄ×¢ÊÍ **/
+	/** ç›¸å…³çš„æ³¨é‡Š **/
 	@Column
 	private String comment;
 	

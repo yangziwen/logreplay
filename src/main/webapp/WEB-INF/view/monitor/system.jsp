@@ -1,10 +1,10 @@
 <%@page import="com.sogou.map.logreplay.util.AuthUtil"%>
-<%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../include/include.jsp" %>
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>
-    <title>ÏµÍ³×´Ì¬</title>
+    <title>ç³»ç»ŸçŠ¶æ€</title>
 	<%@ include file="../include/includeCss.jsp" %>
 	<style>
 		.panel-heading > .title {
@@ -29,8 +29,8 @@
 			<div>
 			    <ul class="breadcrumb">
 			        <li>
-						µ±Ç°Î»ÖÃ: <a data-toggle="collapse" href="#J_systemManageSubmenu">ÏµÍ³¼à¿Ø</a>
-						 &gt; <a href="${ctx_path}/monitor/system.htm">ÏµÍ³×´Ì¬</a>
+						å½“å‰ä½ç½®: <a data-toggle="collapse" href="#J_systemManageSubmenu">ç³»ç»Ÿç›‘æ§</a>
+						 &gt; <a href="${ctx_path}/monitor/system.htm">ç³»ç»ŸçŠ¶æ€</a>
 			        </li> 
 			    </ul>
 			</div>
@@ -38,16 +38,16 @@
 				<div class="col-sm-12 text-center">
 					<div class="btn-group" data-toggle="buttons" id="J_showTypeBtnGroup">
 						<label class="btn btn-default active">
-							<input type="radio" name="showType" checked value="halfDay">°ëÈÕ
+							<input type="radio" name="showType" checked value="halfDay">åŠæ—¥
 						</label>
 						<label class="btn btn-default">
-							<input type="radio" name="showType" value="day">ÈÕ
+							<input type="radio" name="showType" value="day">æ—¥
 						</label>
 						<label class="btn btn-default">
-							<input type="radio" name="showType" value="week">ÖÜ
+							<input type="radio" name="showType" value="week">å‘¨
 						</label>
 						<label class="btn btn-default">
-							<input type="radio" name="showType" value="month">ÔÂ
+							<input type="radio" name="showType" value="month">æœˆ
 						</label>
 					</div>
 				</div>
@@ -68,18 +68,18 @@
 			     			</tbody>
 			     			<script type="text/x-jquery-tmpl" id="J_systemInfoTmpl">
 								<tr>
-			     					<td style="width: 110px;"><strong>²Ù×÷ÏµÍ³</strong></td>
+			     					<td style="width: 110px;"><strong>æ“ä½œç³»ç»Ÿ</strong></td>
 			     					<td>
 										<img src="${ctx_path}/monitoring?resource=servers/${'${'}osIcon}" />
-										${'${'}osInfo} (${'${'}availableProcessors}ºËĞÄ)
+										${'${'}osInfo} (${'${'}availableProcessors}æ ¸å¿ƒ)
 									</td>
 			     				</tr>
 			     				<tr>
-			     					<td><strong>Java°æ±¾</strong></td>
+			     					<td><strong>Javaç‰ˆæœ¬</strong></td>
 			     					<td>${'${'}javaVersion}</td>
 			     				</tr>
 			     				<tr>
-			     					<td><strong>JVM°æ±¾</strong></td>
+			     					<td><strong>JVMç‰ˆæœ¬</strong></td>
 			     					<td>${'${'}jvmVersion}</td>
 			     				</tr>
 			     				<tr>
@@ -87,18 +87,18 @@
 			     					<td>${'${'}pid}</td>
 			     				</tr>
 			     				<tr>
-			     					<td><strong>·şÎñÆ÷</strong></td>
+			     					<td><strong>æœåŠ¡å™¨</strong></td>
 			     					<td>
 										<img src="${ctx_path}/monitoring?resource=servers/${'${'}serverIcon}" />
 										${'${'}serverInfo}
 									</td>
 			     				</tr>
 			     				<tr>
-			     					<td><strong>Æô¶¯Ê±¼ä</strong></td>
+			     					<td><strong>å¯åŠ¨æ—¶é—´</strong></td>
 			     					<td>${'${'}startTime}</td>
 			     				</tr>
 			     				<tr>
-			     					<td><strong>JVM²ÎÊı</strong></td>
+			     					<td><strong>JVMå‚æ•°</strong></td>
 			     					<td>${'${'}jvmArguments}</td>
 			     				</tr>
 							</script>

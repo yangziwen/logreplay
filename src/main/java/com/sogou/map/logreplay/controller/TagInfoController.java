@@ -100,7 +100,7 @@ public class TagInfoController extends BaseController {
 	}
 	
 	/**
-	 * ÎªtagInfoÌí¼ÓÊÇ·ñÓĞ²ÎÊı(tagParam)µÄ±êÊ¶
+	 * ä¸ºtagInfoæ·»åŠ æ˜¯å¦æœ‰å‚æ•°(tagParam)çš„æ ‡è¯†
 	 */
 	private void fillHasParamsFlag(List<TagInfo> tagInfoList) {
 		if(CollectionUtils.isEmpty(tagInfoList)) {
@@ -333,12 +333,12 @@ public class TagInfoController extends BaseController {
 				: TAG_INFO_COLUMN_LIST;
 		Workbook workbook = ExcelUtil.exportDataList(columnList, dtoList);
 		String filename = ProductUtil.getCurrentProduct().getName() 
-				+ (isCommonTag? "_¹«¹²²Ù×÷ÏêÇé.xls": "_²Ù×÷ÏêÇé.xls");
+				+ (isCommonTag? "_å…¬å…±æ“ä½œè¯¦æƒ….xls": "_æ“ä½œè¯¦æƒ….xls");
 		ExcelUtil.outputExcelToResponse(workbook, filename, response);
 	}
 	
 	/**
-	 * ²éÑ¯½Ó¿ÚºÍexcelµ¼³ö½Ó¿Ú¶¼»áÓÃµ½Õâ¸ö×éÖ¯²ÎÊımapµÄ·½·¨
+	 * æŸ¥è¯¢æ¥å£å’Œexcelå¯¼å‡ºæ¥å£éƒ½ä¼šç”¨åˆ°è¿™ä¸ªç»„ç»‡å‚æ•°mapçš„æ–¹æ³•
 	 */
 	private Map<String, Object> buildQueryParamMap(
 			Integer pageNo,
@@ -350,8 +350,8 @@ public class TagInfoController extends BaseController {
 			Boolean isCommonTag,
 			Integer originVersionSince,
 			Integer originVersionUntil,
-			String inspectStatusStr,		// ²âÊÔ½á¹û
-			String devInspectStatusStr		// ×Ô²â½á¹û
+			String inspectStatusStr,		// æµ‹è¯•ç»“æœ
+			String devInspectStatusStr		// è‡ªæµ‹ç»“æœ
 			) {
 		InspectStatus inspectStatus = InspectStatus.from(NumberUtils.toInt(inspectStatusStr, -1));
 		InspectStatus devInspectStatus = InspectStatus.from(NumberUtils.toInt(devInspectStatusStr, -1));
@@ -421,8 +421,8 @@ public class TagInfoController extends BaseController {
 	
 	public int importTagInfoByDtoList(List<TagInfoDto> dtoList) {
 		Map<Integer, PageInfo> pageInfoMap = Maps.newHashMap();
-		pageInfoMap.put(0, new PageInfo());			// Óöµ½¡°¹«¹²²Ù×÷Ïî¡±Ê±£¬pageNo»á±»½âÎöÎª0
-		pageInfoMap.put(null, new PageInfo());		// ²åÈë¸ö¿Õkey£¬ÒÔ·ÀÍòÒ»
+		pageInfoMap.put(0, new PageInfo());			// é‡åˆ°â€œå…¬å…±æ“ä½œé¡¹â€æ—¶ï¼ŒpageNoä¼šè¢«è§£æä¸º0
+		pageInfoMap.put(null, new PageInfo());		// æ’å…¥ä¸ªç©ºkeyï¼Œä»¥é˜²ä¸‡ä¸€
 		
 		Map<String, TagAction> actionMap = Maps.newHashMap();
 		List<TagAction> actionList = tagActionService.getTagActionListResult();

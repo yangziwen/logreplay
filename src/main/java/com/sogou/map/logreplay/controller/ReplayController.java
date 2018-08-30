@@ -43,7 +43,7 @@ public class ReplayController implements ApplicationListener<SessionDisconnectEv
 	}
 
 	/**
-	 * ¿ªÆô¿Í»§¶ËµÄÈÕÖ¾ÊµÊ±²¥·Å
+	 * å¼€å¯å®¢æˆ·ç«¯çš„æ—¥å¿—å®žæ—¶æ’­æ”¾
 	 */
 	@MessageMapping("/replay")
 	public void replay(MessageHeaders headers, Principal user, String content) {
@@ -55,7 +55,7 @@ public class ReplayController implements ApplicationListener<SessionDisconnectEv
 	}
 
 	/**
-	 * ¹ã²¥²Ù×÷¼ÇÂ¼
+	 * å¹¿æ’­æ“ä½œè®°å½•
 	 */
 	@Subscribe
 	public void broadcast(OperationRecordDto record) {

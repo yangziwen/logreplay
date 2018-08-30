@@ -12,7 +12,7 @@ import com.sogou.map.logreplay.bean.base.AbstractBean;
 import com.sogou.map.logreplay.util.ExcelUtil.DataContainer;
 
 /**
- * Ò³ÃæĞÅÏ¢
+ * é¡µé¢ä¿¡æ¯
  */
 @Table(name = "page_info")
 public class PageInfo extends AbstractBean implements DataContainer {
@@ -24,11 +24,11 @@ public class PageInfo extends AbstractBean implements DataContainer {
 	@Column(name = "product_id")
 	private Long productId;
 	
-	/** Ò³Ãæ±àºÅ **/
+	/** é¡µé¢ç¼–å· **/
 	@Column
 	private Integer pageNo;
 	
-	/** Ò³ÃæÃû³Æ **/
+	/** é¡µé¢åç§° **/
 	@Column
 	private String name;
 	

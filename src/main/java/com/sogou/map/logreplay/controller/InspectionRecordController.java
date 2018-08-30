@@ -48,7 +48,7 @@ public class InspectionRecordController extends BaseController {
 	private InspectionRecordService inspectionRecordService;
 	
 	/**
-	 * »ñÈ¡Ğ£Ñé½á¹ûµÄÁĞ±í
+	 * è·å–æ ¡éªŒç»“æœçš„åˆ—è¡¨
 	 */
 	@ResponseBody
 	@RequestMapping("/list")
@@ -106,7 +106,7 @@ public class InspectionRecordController extends BaseController {
 	}
 	
 	/**
-	 * Ìá½»Ğ£Ñé½á¹û£¬Ïàµ±ÓÚ´´½¨
+	 * æäº¤æ ¡éªŒç»“æœï¼Œç›¸å½“äºåˆ›å»º
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/submit", method = RequestMethod.POST)
@@ -144,7 +144,7 @@ public class InspectionRecordController extends BaseController {
 	}
 	
 	/**
-	 * ½«Ğ£Ñé½á¹û±ê¼ÇÎª¡°ÒÑ´¦Àí¡±
+	 * å°†æ ¡éªŒç»“æœæ ‡è®°ä¸ºâ€œå·²å¤„ç†â€
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/resolve/{id}", method = RequestMethod.POST)

@@ -13,9 +13,9 @@ public class QueryParamMap extends HashMap<String, Object> {
 	private AtomicInteger seqHolder = new AtomicInteger(101);
 	
 	/**
-	 * ÓÉÓÚÆ´½ÓsqlµÄ»úÖÆËùÏŞ£¬±í´ïorµÄparamMapÖĞ²»ÄÜÔÙÇ¶Ì×±í´ïorµÄparamMap
-	 * µ«ÕûÌ×daoµÄ³éÏó£¬¶¼ÊÇÎªÁËÓ¦¶Ô´ó¶àÊı¼òµ¥Çé¿ö
-	 * ¶øÇÒorÇ¶Ì×orµÄ¸´ÔÓsql±¾²»Ó¦±»ÍÆ¼öÊ¹ÓÃ
+	 * ç”±äºæ‹¼æ¥sqlçš„æœºåˆ¶æ‰€é™ï¼Œè¡¨è¾¾orçš„paramMapä¸­ä¸èƒ½å†åµŒå¥—è¡¨è¾¾orçš„paramMap
+	 * ä½†æ•´å¥—daoçš„æŠ½è±¡ï¼Œéƒ½æ˜¯ä¸ºäº†åº”å¯¹å¤§å¤šæ•°ç®€å•æƒ…å†µ
+	 * è€Œä¸”oråµŒå¥—orçš„å¤æ‚sqlæœ¬ä¸åº”è¢«æ¨èä½¿ç”¨
 	 */
 	private boolean isOrMap = false;
 	

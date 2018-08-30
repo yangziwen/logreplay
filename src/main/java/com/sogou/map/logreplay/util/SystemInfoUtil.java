@@ -50,35 +50,35 @@ public class SystemInfoUtil {
 	private SystemInfoUtil() {}
 	
 	/**
-	 * »ñÈ¡µ±Ç°Ó¦ÓÃÆô¶¯Ê±¼ä
+	 * è·å–å½“å‰åº”ç”¨å¯åŠ¨æ—¶é—´
 	 */
 	public static String getStartTime() {
 		return DateFormatUtils.format(START_TIME, "yyyy-MM-dd HH:mm:ss");
 	}
 	
 	/**
-	 * »ñÈ¡java°æ±¾ĞÅÏ¢
+	 * è·å–javaç‰ˆæœ¬ä¿¡æ¯
 	 */
 	public static String getJavaVersion() {
 		return JAVA_VERSION;
 	}
 	
 	/**
-	 * »ñÈ¡JVM°æ±¾ĞÅÏ¢
+	 * è·å–JVMç‰ˆæœ¬ä¿¡æ¯
 	 */
 	public static String getJvmVersion() {
 		return JVM_VERSION;
 	}
 	
 	/**
-	 * »ñÈ¡cpuÄÚºËÊı
+	 * è·å–cpuå†…æ ¸æ•°
 	 */
 	public static int getAvailableProcessors() {
 		return AVAILABLE_PROCESSORS;
 	}
 	
 	/**
-	 * »ñÈ¡jvm²ÎÊı
+	 * è·å–jvmå‚æ•°
 	 */
 	public static String getJvmArguments() {
 		return JVM_ARGUMENTS;
@@ -96,7 +96,7 @@ public class SystemInfoUtil {
 	}
 	
 	/**
-	 * »ñÈ¡µ±Ç°²Ù×÷ÏµÍ³ĞÅÏ¢
+	 * è·å–å½“å‰æ“ä½œç³»ç»Ÿä¿¡æ¯
 	 */
 	public static String getOsInfo() {
 		return OS_INFO;
@@ -126,7 +126,7 @@ public class SystemInfoUtil {
 	}
 	
 	/**
-	 * »ñÈ¡µ±Ç°²Ù×÷ÏµÍ³µÄÍ¼±ê
+	 * è·å–å½“å‰æ“ä½œç³»ç»Ÿçš„å›¾æ ‡
 	 */
 	public static String getOsIcon() {
 		final String tmp = OS_INFO.toLowerCase(Locale.ENGLISH);
@@ -139,7 +139,7 @@ public class SystemInfoUtil {
 	}
 	
 	/**
-	 * »ñÈ¡µ±Ç°web·şÎñÆ÷Í¼±ê
+	 * è·å–å½“å‰webæœåŠ¡å™¨å›¾æ ‡
 	 */
 	public static String getServerIcon(String serverInfo) {
 		final String tmp = serverInfo.toLowerCase(Locale.ENGLISH);
@@ -152,7 +152,7 @@ public class SystemInfoUtil {
 	}
 	
 	/**
-	 * »ñÈ¡µ±Ç°Ó¦ÓÃµÄ½ø³ÌºÅ
+	 * è·å–å½“å‰åº”ç”¨çš„è¿›ç¨‹å·
 	 */
 	public static String getPID() {
 		return PID;
@@ -210,12 +210,12 @@ public class SystemInfoUtil {
 				stok.nextToken(); // this is pid of the process we spanned
 				pid = stok.nextToken();
 
-				// waitFor n¨¦cessaire sous windows server 2003
-				// (sinon le fichier temporaire getpidsxxx.exe n'est pas effac¨¦)
+				// waitFor nÃ©cessaire sous windows server 2003
+				// (sinon le fichier temporaire getpidsxxx.exe n'est pas effacÃ©)
 				process.waitFor();
 			} finally {
 				if (process != null) {
-					// ¨¦vitons http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6462165
+					// Ã©vitons http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6462165
 					IOUtils.closeQuietly(process.getInputStream());
 					IOUtils.closeQuietly(process.getOutputStream());
 					IOUtils.closeQuietly(process.getErrorStream());

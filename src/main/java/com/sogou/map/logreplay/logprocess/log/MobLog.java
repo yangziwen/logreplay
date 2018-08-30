@@ -27,7 +27,7 @@ public class MobLog {
 	}
 	
 	/**
-	 * ios使用kd作为设备编号
+	 * ios浣跨敤kd浣滀负璁惧缂栧彿
 	 */
 	public String getDeviceId() {
 		String deviceId = infoMap.get("d");

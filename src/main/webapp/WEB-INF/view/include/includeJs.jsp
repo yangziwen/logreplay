@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <script src="${static_path}/js/sea-modules/sea.js"></script>
 <script>
 var CTX_PATH = '${ctx_path}', STATIC_PATH = '${static_path}';

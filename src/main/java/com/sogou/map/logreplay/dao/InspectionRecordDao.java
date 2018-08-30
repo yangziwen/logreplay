@@ -11,9 +11,9 @@ import com.sogou.map.logreplay.dao.base.AbstractJdbcDaoImpl;
 public class InspectionRecordDao extends AbstractJdbcDaoImpl<InspectionRecord> {
 
 	/**
-	 * Çë×¢Òâ£¬ÓÉÓÚÓĞ¡°¹«¹²²Ù×÷Ïî¡±µÄ´æÔÚ
-	 * ËùÒÔÕë¶ÔpageNoºÍtagNoµÄ²éÑ¯Ó¦¸ÃÒÔtagInfoIdÎª×¼
-	 * Ö»ÓĞÔÚÎª¡°¹«¹²²Ù×÷Ïî¡±Ìî³äpageInfoµÄÊ±ºò£¬²Å»áÈ¥²Î¿¼pageInfoIdµÄÖµ
+	 * è¯·æ³¨æ„ï¼Œç”±äºæœ‰â€œå…¬å…±æ“ä½œé¡¹â€çš„å­˜åœ¨
+	 * æ‰€ä»¥é’ˆå¯¹pageNoå’ŒtagNoçš„æŸ¥è¯¢åº”è¯¥ä»¥tagInfoIdä¸ºå‡†
+	 * åªæœ‰åœ¨ä¸ºâ€œå…¬å…±æ“ä½œé¡¹â€å¡«å……pageInfoçš„æ—¶å€™ï¼Œæ‰ä¼šå»å‚è€ƒpageInfoIdçš„å€¼
 	 */
 	@Override
 	protected String generateSqlByParam(int start, int limit, Map<String, Object> params) {

@@ -33,9 +33,9 @@ import com.sogou.map.logreplay.util.ProductUtil;
 @Controller
 @RequestMapping("/pageInfo")
 public class PageInfoController extends BaseController {
-	
+
 	private static final List<Column> PAGE_INFO_COLUMN_LIST = buildPageInfoColumnList();
-	
+
 	@Autowired
 	private PageInfoService pageInfoService;
 
@@ -59,7 +59,7 @@ public class PageInfoController extends BaseController {
 		);
 		return successResult(page);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/export", method = RequestMethod.GET)
 	public void export(
@@ -78,24 +78,24 @@ public class PageInfoController extends BaseController {
 			.orderByAsc("pageNo")
 		);
 		Workbook workbook = ExcelUtil.exportDataList(PAGE_INFO_COLUMN_LIST, list);
-		String filename = ProductUtil.getCurrentProduct().getName() + "_“≥√ÊœÍ«È.xls";
+		String filename = ProductUtil.getCurrentProduct().getName() + "_È°µÈù¢ËØ¶ÊÉÖ.xls";
 		ExcelUtil.outputExcelToResponse(workbook, filename, response);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
 	public Map<String, Object> detail(@PathVariable("id") Long id) {
 		PageInfo info = pageInfoService.getPageInfoById(id);
 		return successResult(info);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/detailByPageNo/{pageNo}", method = RequestMethod.GET)
 	public Map<String, Object> detailByPageNo(@PathVariable("pageNo") Integer pageNo) {
 		PageInfo info = pageInfoService.getPageInfoByPageNoAndProductId(pageNo, ProductUtil.getProductId());
 		return successResult(info);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
 	public Map<String, Object> update(@PathVariable("id") Long id,
@@ -141,7 +141,7 @@ public class PageInfoController extends BaseController {
 			throw LogReplayException.operationFailedException("Failed to create PageInfo!");
 		}
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/checkDuplication")
 	public boolean checkDuplication(Long id, Integer pageNo) {
@@ -161,7 +161,7 @@ public class PageInfoController extends BaseController {
 		}
 		return true;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/checkExist")
 	public boolean checkExist(Integer pageNo) {
@@ -173,13 +173,13 @@ public class PageInfoController extends BaseController {
 		}
 		return true;
 	}
-	
+
 	private static List<Column> buildPageInfoColumnList() {
 		List<ExcelUtil.Column> columnList = Lists.newArrayList(
-				ExcelUtil.column("“≥√Ê±‡∫≈", "pageNo", 3000, ExcelUtil.CellType.number),
-				ExcelUtil.column("“≥√Ê√˚≥∆", "name", 8000, ExcelUtil.CellType.text)
+				ExcelUtil.column("È°µÈù¢ÁºñÂè∑", "pageNo", 3000, ExcelUtil.CellType.number),
+				ExcelUtil.column("È°µÈù¢ÂêçÁß∞", "name", 8000, ExcelUtil.CellType.text)
 		);
 		return columnList;
 	}
-	
+
 }

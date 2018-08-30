@@ -7,7 +7,7 @@ import javax.persistence.Table;
 import com.sogou.map.logreplay.bean.base.AbstractBean;
 
 /**
- * 操作项关联的动作
+ * 鎿嶄綔椤瑰叧鑱旂殑鍔ㄤ綔
  */
 @Table(name = "tag_action")
 public class TagAction extends AbstractBean {

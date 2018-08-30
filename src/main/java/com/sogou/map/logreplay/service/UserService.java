@@ -59,7 +59,7 @@ public class UserService {
 	}
 
 	/**
-	 * ¸ù¾İusername»òscreenNameÀ´²éÕÒÓÃ»§
+	 * æ ¹æ®usernameæˆ–screenNameæ¥æŸ¥æ‰¾ç”¨æˆ·
 	 */
 	public List<User> getUserListResultByName(String name) {
 		return userDao.list(new QueryParamMap()

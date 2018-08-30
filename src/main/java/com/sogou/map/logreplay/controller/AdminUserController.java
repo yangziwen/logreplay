@@ -30,13 +30,13 @@ import com.sogou.map.logreplay.util.AuthUtil;
 @Controller
 @RequestMapping("/admin/user")
 public class AdminUserController extends BaseController {
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private RoleService roleService;
-	
+
 	@ResponseBody
 	@RequestMapping("/list")
 	public ModelMap list(
@@ -55,14 +55,14 @@ public class AdminUserController extends BaseController {
 		);
 		return successResult(page);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/detail/{id}")
 	public ModelMap detail(@PathVariable("id") Long id) {
 		UserWithRoles user = userService.getUserWithRolesById(id);
 		return successResult(user);
 	}
-	
+
 	@Audit(action = "admin.create_user")
 	@ResponseBody
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -92,14 +92,14 @@ public class AdminUserController extends BaseController {
 			throw LogReplayException.invalidParameterException("Duplicated username!");
 		}
 		try {
-			User user = new User(username, screenName, AuthUtil.hashPassword(username, password), enabled); 
+			User user = new User(username, screenName, AuthUtil.hashPassword(username, password), enabled);
 			userService.createUser(user, roleList);
 			return successResult("User[%d] is created successfully!", user.getId());
 		} catch (Exception e) {
 			throw LogReplayException.operationFailedException("Failed to create user!");
 		}
 	}
-	
+
 	@Audit(action = "admin.update_user")
 	@ResponseBody
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
@@ -136,9 +136,9 @@ public class AdminUserController extends BaseController {
 			throw LogReplayException.operationFailedException("Failed to update user[%d]!", id);
 		}
 	}
-	
+
 	/**
-	 * π‹¿Ì‘±÷ÿ÷√√‹¬Î
+	 * ÁÆ°ÁêÜÂëòÈáçÁΩÆÂØÜÁ†Å
 	 */
 	@Audit(action = "admin.reset_password")
 	@ResponseBody
@@ -164,7 +164,7 @@ public class AdminUserController extends BaseController {
 			throw LogReplayException.operationFailedException("Failed to update password of user[%d]!", id);
 		}
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/checkDuplication")
 	public boolean checkDuplication(Long id, String username) {

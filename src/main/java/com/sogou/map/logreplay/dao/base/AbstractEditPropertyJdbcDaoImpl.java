@@ -13,15 +13,15 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import com.sogou.map.logreplay.bean.base.AbstractBean;
 
 /**
- * Õë¶ÔÒ»Ğ©ÌØÊâÀàĞÍ(ÈçÃ¶¾Ù)£¬ÔÚ³ÌĞòÓëÊı¾İ¿âÖ®¼ä×öÀàĞÍ×ª»»
+ * é’ˆå¯¹ä¸€äº›ç‰¹æ®Šç±»å‹(å¦‚æšä¸¾)ï¼Œåœ¨ç¨‹åºä¸æ•°æ®åº“ä¹‹é—´åšç±»å‹è½¬æ¢
  */
 public abstract class AbstractEditPropertyJdbcDaoImpl<E extends AbstractBean> extends AbstractJdbcDaoImpl<E> {
 	
 	protected abstract Map<Class<?>, CustomPropertyEditor> getPropertyEditorMap();
 	
 	/**
-	 * ÊäÈë²ÎÊıµÄÀàĞÍÎª³ÌĞòÖĞ×Ö¶ÎµÄÀàĞÍ
-	 * ·µ»ØÖµµÄÀàĞÍÎªÊı¾İ¿âÖĞ×Ö¶Î¶ÔÓ¦µÄÀàĞÍ
+	 * è¾“å…¥å‚æ•°çš„ç±»å‹ä¸ºç¨‹åºä¸­å­—æ®µçš„ç±»å‹
+	 * è¿”å›å€¼çš„ç±»å‹ä¸ºæ•°æ®åº“ä¸­å­—æ®µå¯¹åº”çš„ç±»å‹
 	 */
 	protected Object processValueBeforeQuery(Object value) {
 		Map<Class<?>, CustomPropertyEditor> editorMap = getPropertyEditorMap();
@@ -41,7 +41,7 @@ public abstract class AbstractEditPropertyJdbcDaoImpl<E extends AbstractBean> ex
 		return newValue != null? newValue: oldValue;
 	}
 
-	// ´¦Àí²éÑ¯µÄ·µ»Ø½á¹ûÊ±ÓÃ
+	// å¤„ç†æŸ¥è¯¢çš„è¿”å›ç»“æœæ—¶ç”¨
 	@Override
 	protected BeanMapping<E> createBeanMapping(Class<E> entityClass) {
 		return new BeanMapping<E>(entityClass) {
@@ -54,7 +54,7 @@ public abstract class AbstractEditPropertyJdbcDaoImpl<E extends AbstractBean> ex
 		};
 	}
 	
-	// ·¢ËÍ²éÑ¯ÇëÇóÊ±ÓÃ
+	// å‘é€æŸ¥è¯¢è¯·æ±‚æ—¶ç”¨
 	@Override
 	protected SqlParameterSource createSqlParameterSource(Map<String, Object> params) {
 		return new MapSqlParameterSource(params) {
@@ -66,7 +66,7 @@ public abstract class AbstractEditPropertyJdbcDaoImpl<E extends AbstractBean> ex
 		};
 	}
 	
-	// ½øĞĞ¸üĞÂ²Ù×÷Ê±ÓÃ
+	// è¿›è¡Œæ›´æ–°æ“ä½œæ—¶ç”¨
 	@Override
 	protected SqlParameterSource createSqlParameterSource(E entity) {
 		return new BeanPropertySqlParameterSource(entity) {

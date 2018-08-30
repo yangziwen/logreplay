@@ -33,7 +33,7 @@ public class CustomPropertyEditor extends PropertyEditorSupport {
 	}
 	
 	/**
-	 * 如果输入参数无法转换，则返回null
+	 * 濡傛灉杈撳叆鍙傛暟鏃犳硶杞崲锛屽垯杩斿洖null
 	 */
 	public Object convertValue(Object value) {
 		return value;

@@ -63,7 +63,7 @@ public abstract class AbstractJdbcDaoImpl<E extends AbstractBean>  extends Abstr
 		return batch;
 	}
 	
-	//------------- ÒÔÉÏÎªÒ»Ğ©¹¤¾ß·½·¨ -------------//
+	//------------- ä»¥ä¸Šä¸ºä¸€äº›å·¥å…·æ–¹æ³• -------------//
 	
 	public void save(E entity) {
 		Number id = jdbcInsert.executeAndReturnKey(createSqlParameterSource(entity));
@@ -92,7 +92,7 @@ public abstract class AbstractJdbcDaoImpl<E extends AbstractBean>  extends Abstr
 	}
 	
 	/**
-	 * ×¢Òâ£¬Êı×éÖĞµÄ¶ÔÏóÔÚbatchUpdateÖ®ºó£¬ÊÇÎŞ·¨»ñÈ¡idµÄ
+	 * æ³¨æ„ï¼Œæ•°ç»„ä¸­çš„å¯¹è±¡åœ¨batchUpdateä¹‹åï¼Œæ˜¯æ— æ³•è·å–idçš„
 	 */
 	public int batchSave(List<E> entityList) {
 		return batchSave(entityList, -1);

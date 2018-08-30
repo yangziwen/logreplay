@@ -23,12 +23,12 @@ public class MonitorUtil {
 	private MonitorUtil() {}
 	
 	/**
-	 * »ñÈ¡ÓënameÏà¶ÔÓ¦µÄÍ³¼ÆÊı¾İ
+	 * è·å–ä¸nameç›¸å¯¹åº”çš„ç»Ÿè®¡æ•°æ®
 	 * @param application
 	 * @param name
-	 * @param startTime ¿ªÊ¼Ê±¼ä(ºÁÃë)
-	 * @param endTime	½áÊøÊ±¼ä(ºÁÃë)
-	 * @param step		È¡Ñù¼ä¸ô(Ãë)
+	 * @param startTime å¼€å§‹æ—¶é—´(æ¯«ç§’)
+	 * @param endTime	ç»“æŸæ—¶é—´(æ¯«ç§’)
+	 * @param step		å–æ ·é—´éš”(ç§’)
 	 */
 	public static List<Data<Long, Double>> getDataList(String application, String name, long startTime, long endTime, long step) {
 		File rrdFile = getStorageRrdFile(application, name);
@@ -37,14 +37,14 @@ public class MonitorUtil {
 		}
 		try {
 			String dsName = name;
-			if(dsName.length() > 20) {	// Ã²ËÆÊÇmelodyÖĞµÄ»úÖÆ
+			if(dsName.length() > 20) {	// è²Œä¼¼æ˜¯melodyä¸­çš„æœºåˆ¶
 				dsName = dsName.substring(0, 20);
 			}
 			DataProcessor processor = new DataProcessor(startTime / 1000, endTime / 1000);
 			processor.addDatasource("average", rrdFile.getAbsolutePath(), dsName, "AVERAGE");
 			processor.setStep(step);
-			// poolUsedÉèÎªtrue£¬»áÊ¹ÓÃread_writeÄ£Ê½£¬
-			// Ö»ÓĞÕâÑù£¬´ò¿ªrrdÎÄ¼şºÍµ÷ÓÃfileChannel.map·½·¨Ê±µÄ¶ÁĞ´Ä£Ê½²Å»áÇ°ºóÒ»ÖÂ
+			// poolUsedè®¾ä¸ºtrueï¼Œä¼šä½¿ç”¨read_writeæ¨¡å¼ï¼Œ
+			// åªæœ‰è¿™æ ·ï¼Œæ‰“å¼€rrdæ–‡ä»¶å’Œè°ƒç”¨fileChannel.mapæ–¹æ³•æ—¶çš„è¯»å†™æ¨¡å¼æ‰ä¼šå‰åä¸€è‡´
 			processor.setPoolUsed(true);
 			processor.processData();
 			
@@ -69,14 +69,14 @@ public class MonitorUtil {
 	}
 	
 	/**
-	 * »ñÈ¡¼à¿ØÖ¸±êËù¶ÔÓ¦µÄrrdÎÄ¼ş
+	 * è·å–ç›‘æ§æŒ‡æ ‡æ‰€å¯¹åº”çš„rrdæ–‡ä»¶
 	 */
 	public static File getStorageRrdFile(String application, String name) {
 		return new File(getStorageDirectory(application), name + ".rrd");
 	}
 	
 	/**
-	 * »ñÈ¡´æ·Å¼à¿ØÖ¸±êµÄÄ¿Â¼
+	 * è·å–å­˜æ”¾ç›‘æ§æŒ‡æ ‡çš„ç›®å½•
 	 */
 	public static File getStorageDirectory(String application) {
 		String directoryPath = FilenameUtils.concat(SystemUtils.JAVA_IO_TMPDIR, "javamelody");
@@ -84,16 +84,16 @@ public class MonitorUtil {
 	}
 	
 	/**
-	 * »ñÈ¡Ó¦ÓÃÃû³Æ
+	 * è·å–åº”ç”¨åç§°
 	 */
 	public static String getCurrentApplication(ServletContext servletContext) {
 		return getContextPath(servletContext).substring(1) + '_' + getHostName();
 	}
 	
 	private static String getContextPath(ServletContext context) {
-		// cette mÃ©thode retourne le contextPath de la webapp
+		// cette mèŒ…thode retourne le contextPath de la webapp
 		// en utilisant ServletContext.getContextPath si servlet api 2.5
-		// ou en se dÃ©brouillant sinon
+		// ou en se dèŒ…brouillant sinon
 		// (on n'a pas encore pour l'instant de request pour appeler HttpServletRequest.getContextPath)
 		if (context.getMajorVersion() == 2 && context.getMinorVersion() >= 5
 				|| context.getMajorVersion() > 2) {
@@ -112,8 +112,8 @@ public class MonitorUtil {
 		if (indexOfWar > 0) {
 			contextPath = contextPath.substring(0, indexOfWar);
 		}
-		// tomcat peut renvoyer une url commenÃ§ant pas "jndi:/localhost"
-		// (v5.5.28, webapp dans un rÃ©pertoire)
+		// tomcat peut renvoyer une url commenè½ant pas "jndi:/localhost"
+		// (v5.5.28, webapp dans un rèŒ…pertoire)
 		if (contextPath.startsWith("jndi:/localhost")) {
 			contextPath = contextPath.substring("jndi:/localhost".length());
 		}

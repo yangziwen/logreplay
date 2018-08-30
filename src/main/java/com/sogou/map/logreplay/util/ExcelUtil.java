@@ -37,7 +37,7 @@ public class ExcelUtil {
 
 	private ExcelUtil() {}
 
-	// ------------ µ¼ÈëÏà¹Ø -------------- //
+	// ------------ å¯¼å…¥ç›¸å…³ -------------- //
 	public static List<Map<String, String>> importMapList(InputStream in) {
 		Workbook workbook = null;
 		try {
@@ -84,7 +84,7 @@ public class ExcelUtil {
 		return list;
 	}
 
-	// ------------ µ¼³öÏà¹Ø -------------- //
+	// ------------ å¯¼å‡ºç›¸å…³ -------------- //
 	public static void outputExcelToResponse(Workbook workbook, String filename, HttpServletResponse response) {
 		try {
 			filename = new String(filename.getBytes("GBK"),"iso-8859-1");
@@ -113,7 +113,7 @@ public class ExcelUtil {
 		String sheetName = "sheet";
 		Sheet sheet = null;
 		Map<String, Object> context = new HashMap<String, Object>();
-		if(CollectionUtils.isEmpty(dataList)) {	// Èç¹ûÃ»ÓĞÊı¾İ£¬ÔòÖÁÉÙ´´½¨Ò»¸ö¿ÕµÄsheet£¬²»È»excelÎÄ¼ş´ò¿ªÊ±»á³ö´í
+		if(CollectionUtils.isEmpty(dataList)) {	// å¦‚æœæ²¡æœ‰æ•°æ®ï¼Œåˆ™è‡³å°‘åˆ›å»ºä¸€ä¸ªç©ºçš„sheetï¼Œä¸ç„¶excelæ–‡ä»¶æ‰“å¼€æ—¶ä¼šå‡ºé”™
 			createNewSheet(workbook, ++ sheetIndex, sheetName + (sheetIndex + 1), columnList, headerStyle);
 		} else {
 			for(int i=0, l=dataList.size(); i<l; i++) {
@@ -172,7 +172,7 @@ public class ExcelUtil {
 	private static CellStyle buildHeaderStyle(Workbook workbook) {
 		Font font = workbook.createFont();
 		font.setBold(true);
-		font.setFontName("ËÎÌå");
+		font.setFontName("å®‹ä½“");
 		font.setFontHeightInPoints((short) 10);
 
 		CellStyle headerStyle = workbook.createCellStyle();
@@ -245,7 +245,7 @@ public class ExcelUtil {
 				if(currencyCnyStyle == null) {
 					DataFormat format = workbook.createDataFormat();
 					currencyCnyStyle = workbook.createCellStyle();
-					currencyCnyStyle.setDataFormat(format.getFormat("£¤#,##0.00"));
+					currencyCnyStyle.setDataFormat(format.getFormat("ï¿¥#,##0.00"));
 					context.put(KEY_OF_CURRENCY_CNY_STYLE, currencyCnyStyle);
 				}
 				cell.setCellStyle(currencyCnyStyle);
@@ -299,7 +299,7 @@ public class ExcelUtil {
 					context.put(KEY_OF_FORMATTED_NUMBER_STYLE, numberStyle);
 				}
 				cell.setCellType(org.apache.poi.ss.usermodel.CellType.NUMERIC);
-				cell.setCellStyle(numberStyle);	// ×¢Òâ£¬Í¬Ò»¸öworkbookÖĞ²»ÄÜ²úÉú¹ı¶àµÄstyle
+				cell.setCellStyle(numberStyle);	// æ³¨æ„ï¼ŒåŒä¸€ä¸ªworkbookä¸­ä¸èƒ½äº§ç”Ÿè¿‡å¤šçš„style
 				cell.setCellValue(NumberUtils.toInt(value == null? "": value.toString()));
 			}
 		},
@@ -312,7 +312,7 @@ public class ExcelUtil {
 					context.put(KEY_OF_NUMBER_STYLE, numberStyle);
 				}
 				cell.setCellType(org.apache.poi.ss.usermodel.CellType.NUMERIC);
-				cell.setCellStyle(numberStyle);	// ×¢Òâ£¬Í¬Ò»¸öworkbookÖĞ²»ÄÜ²úÉú¹ı¶àµÄstyle
+				cell.setCellStyle(numberStyle);	// æ³¨æ„ï¼ŒåŒä¸€ä¸ªworkbookä¸­ä¸èƒ½äº§ç”Ÿè¿‡å¤šçš„style
 				cell.setCellValue(NumberUtils.toInt(value == null? "": value.toString()));
 			}
 		},

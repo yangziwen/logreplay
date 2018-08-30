@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 
 	/**
-	 * ½«¸ùÂ·¾¶ÇëÇó×ª·¢µ½/home.htm
+	 * å°†æ ¹è·¯å¾„è¯·æ±‚è½¬å‘åˆ°/home.htm
 	 */
 	@RequestMapping("/")
 	public String toHome() {
@@ -17,7 +17,7 @@ public class HomeController {
 	}
 
 	/**
-	 * ½«Ò³ÃæÇëÇó×ª·¢¸øjsp
+	 * å°†é¡µé¢è¯·æ±‚è½¬å‘ç»™jsp
 	 */
 	@RequestMapping("/**/*.htm")
 	public String toJsp(HttpServletRequest request) {

@@ -1,10 +1,10 @@
 <%@page import="com.sogou.map.logreplay.util.AuthUtil"%>
-<%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../include/include.jsp" %>
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>
-    <title>Ğ£Ñé½á¹û</title>
+    <title>æ ¡éªŒç»“æœ</title>
 	<%@ include file="../include/includeCss.jsp" %>
 	<link rel="stylesheet" href="${static_path}/css/bootstrap-datetimepicker.min.css"/>
 	<style>
@@ -24,8 +24,8 @@
 			<div>
 			    <ul class="breadcrumb">
 			        <li>
-						µ±Ç°Î»ÖÃ: <a data-toggle="collapse" href="#J_logReplaySubmenu">ÂñµãĞÅÏ¢Ğ£Ñé</a>
-						 &gt; <a href="${ctx_path}/inspectionRecord/list.htm">Ğ£Ñé½á¹û</a>
+						å½“å‰ä½ç½®: <a data-toggle="collapse" href="#J_logReplaySubmenu">åŸ‹ç‚¹ä¿¡æ¯æ ¡éªŒ</a>
+						 &gt; <a href="${ctx_path}/inspectionRecord/list.htm">æ ¡éªŒç»“æœ</a>
 			        </li> 
 			    </ul>
 			</div>
@@ -34,13 +34,13 @@
 			     	<div id="J_queryArea" style="text-align: center;">
 			     		<form class="form-horizontal col-md-offset-1 col-md-10" role="form">
 							<div class="form-group">
-								<label for="J_submitterName" class="col-sm-2 control-label">Ìá½»Õß£º</label>
+								<label for="J_submitterName" class="col-sm-2 control-label">æäº¤è€…ï¼š</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_submitterName" name="submitterName" placeholder="ÇëÊäÈëÌá½»ÕßÓÃ»§Ãû»òêÇ³Æ" />
+									<input type="text" class="form-control" id="J_submitterName" name="submitterName" placeholder="è¯·è¾“å…¥æäº¤è€…ç”¨æˆ·åæˆ–æ˜µç§°" />
 								</div>
-								<label for="J_sovlerName" class="col-sm-2 control-label">´¦ÀíÕß£º</label>
+								<label for="J_sovlerName" class="col-sm-2 control-label">å¤„ç†è€…ï¼š</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_sovlerName" name="solverName" placeholder="ÇëÊäÈë´¦ÀíÕßÓÃ»§Ãû»òêÇ³Æ" />
+									<input type="text" class="form-control" id="J_sovlerName" name="solverName" placeholder="è¯·è¾“å…¥å¤„ç†è€…ç”¨æˆ·åæˆ–æ˜µç§°" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -49,10 +49,10 @@
 									request.setAttribute("currentRoleId", AuthUtil.getCurrentRoleId());
 								%>
 								<input type="hidden" id="J_currentRoleId" value="${currentRoleId}" />
-								<label for="J_submitterRoleId" class="col-sm-2 control-label">Ìá½»Õß½ÇÉ«£º</label>
+								<label for="J_submitterRoleId" class="col-sm-2 control-label">æäº¤è€…è§’è‰²ï¼š</label>
 								<div class="col-sm-4">
 									<select id="J_submitterRoleId" name="submitterRoleId" class="form-control">
-										<option value="">È«²¿</option>
+										<option value="">å…¨éƒ¨</option>
 										<c:forEach var="role" items="${roleList}">
 											<c:if test="${role.name ne 'visitor'}">
 											<option value="${role.id}" <c:if test="${currentRoleId eq role.id}">selected</c:if>>${role.displayName}</option>
@@ -60,10 +60,10 @@
 										</c:forEach>
 									</select>
 								</div>
-								<label for="J_solverRoleId" class="col-sm-2 control-label">´¦ÀíÕß½ÇÉ«£º</label>
+								<label for="J_solverRoleId" class="col-sm-2 control-label">å¤„ç†è€…è§’è‰²ï¼š</label>
 								<div class="col-sm-4">
 									<select id="J_solverRoleId" name="solverRoleId" class="form-control">
-										<option value="">È«²¿</option>
+										<option value="">å…¨éƒ¨</option>
 										<c:forEach var="role" items="${roleList}">
 											<c:if test="${role.name ne 'visitor'}">
 											<option value="${role.id}">${role.displayName}</option>
@@ -73,47 +73,47 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="J_pageNo" class="col-sm-2 control-label">Ò³Ãæ±àºÅ£º</label>
+								<label for="J_pageNo" class="col-sm-2 control-label">é¡µé¢ç¼–å·ï¼š</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_pageNo" name="pageNo" placeholder="ÇëÊäÈëÒ³Ãæ±àºÅ" />
+									<input type="text" class="form-control" id="J_pageNo" name="pageNo" placeholder="è¯·è¾“å…¥é¡µé¢ç¼–å·" />
 								</div>
-								<label for="J_tagNo" class="col-sm-2 control-label">²Ù×÷±àºÅ£º</label>
+								<label for="J_tagNo" class="col-sm-2 control-label">æ“ä½œç¼–å·ï¼š</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_tagNo" name="tagNo" placeholder="ÇëÊäÈë²Ù×÷±àºÅ" />
+									<input type="text" class="form-control" id="J_tagNo" name="tagNo" placeholder="è¯·è¾“å…¥æ“ä½œç¼–å·" />
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="J_valid" class="col-sm-2 control-label">Ğ£Ñé½á¹û£º</label>
+								<label for="J_valid" class="col-sm-2 control-label">æ ¡éªŒç»“æœï¼š</label>
 								<div class="col-sm-4">
 									<select id="J_valid" name="valid" class="form-control">
-										<option value="">È«²¿</option>
-										<option value="true">ÕıÈ·</option>
-										<option value="false">´íÎó</option>
+										<option value="">å…¨éƒ¨</option>
+										<option value="true">æ­£ç¡®</option>
+										<option value="false">é”™è¯¯</option>
 									</select>
 								</div>
-								<label for="J_solved" class="col-sm-2 control-label">´¦Àí×´Ì¬£º</label>
+								<label for="J_solved" class="col-sm-2 control-label">å¤„ç†çŠ¶æ€ï¼š</label>
 								<div class="col-sm-4">
 									<select id="J_solved" name="solved" class="form-control">
-										<option value="">È«²¿</option>
-										<option value="true">ÒÑ´¦Àí</option>
-										<option value="false">Î´´¦Àí</option>
+										<option value="">å…¨éƒ¨</option>
+										<option value="true">å·²å¤„ç†</option>
+										<option value="false">æœªå¤„ç†</option>
 									</select>
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="J_submitTimeSince" class="col-sm-2 control-label">¿ªÊ¼Ê±¼ä£º</label>
+								<label for="J_submitTimeSince" class="col-sm-2 control-label">å¼€å§‹æ—¶é—´ï¼š</label>
 								<div class="col-sm-4">
 									<div class="input-group date form_datetime" data-date-format="yyyy-MM-dd" data-link-field="J_submitTimeSince">
-										<input id="J_submitTimeSince" name="submitTimeSince" class="form-control" type="text" value="" style="cursor: pointer;" placeholder="ÇëÑ¡Ôñ¿ªÊ¼Ê±¼ä" />
+										<input id="J_submitTimeSince" name="submitTimeSince" class="form-control" type="text" value="" style="cursor: pointer;" placeholder="è¯·é€‰æ‹©å¼€å§‹æ—¶é—´" />
 										<span class="input-group-addon">
 											<span class="glyphicon glyphicon-th"></span>
 										</span>
 									</div>
 								</div>
-								<label for="J_submitTimeUntil" class="col-sm-2 control-label">½áÊøÊ±¼ä£º</label>
+								<label for="J_submitTimeUntil" class="col-sm-2 control-label">ç»“æŸæ—¶é—´ï¼š</label>
 								<div class="col-sm-4">
 									<div class="input-group date form_datetime" data-date-format="yyyy-MM-dd" data-link-field="J_submitTimeUntil">
-										<input id="J_submitTimeUntil" name="submitTimeUntil" class="form-control" type="text" value="" style="cursor: pointer;" placeholder="ÇëÑ¡Ôñ½áÊøÊ±¼ä" />
+										<input id="J_submitTimeUntil" name="submitTimeUntil" class="form-control" type="text" value="" style="cursor: pointer;" placeholder="è¯·é€‰æ‹©ç»“æŸæ—¶é—´" />
 										<span class="input-group-addon">
 											<span class="glyphicon glyphicon-th"></span>
 										</span>
@@ -122,8 +122,8 @@
 							</div>
 							<div class="form-group" style="margin-bottom: 0px;">
 								<div class="col-sm-12" style="margin-top: 10px;">
-									<button id="J_queryBtn" type="button" class="btn btn-primary btn-lg-font" style="width: 90px;">²é&nbsp;&nbsp;Ñ¯</button>
-									<button id="J_clearBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">Çå³ıÌõ¼ş</button>
+									<button id="J_queryBtn" type="button" class="btn btn-primary btn-lg-font" style="width: 90px;">æŸ¥&nbsp;&nbsp;è¯¢</button>
+									<button id="J_clearBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">æ¸…é™¤æ¡ä»¶</button>
 								</div>
 							</div>
 						</form>
@@ -138,17 +138,17 @@
 				     	<table class="table table-bordered table-striped table-condensed table-hover ">
 				     		<thead>
 				     			<tr>
-				     				<th style="width: 85px;">Ò³Ãæ±àºÅ</th>
-				     				<th style="width: 150px">Ò³ÃæÃû³Æ</th>
-				     				<th style="width: 85px;">²Ù×÷±àºÅ</th>
-				     				<th style="width: 150px;">²Ù×÷Ãû³Æ</th>
-				     				<!-- <th style="width: 150px;">Ìá½»Ê±¼ä</th> -->
-				     				<th style="width: 90px;">Ìá½»Õß</th>
-				     				<th style="width: 90px;">½â¾öÕß</th>
-				     				<th style="width: 90px;">Ğ£Ñé½á¹û</th>
-				     				<th style="width: 90px;">´¦Àí×´Ì¬</th>
+				     				<th style="width: 85px;">é¡µé¢ç¼–å·</th>
+				     				<th style="width: 150px">é¡µé¢åç§°</th>
+				     				<th style="width: 85px;">æ“ä½œç¼–å·</th>
+				     				<th style="width: 150px;">æ“ä½œåç§°</th>
+				     				<!-- <th style="width: 150px;">æäº¤æ—¶é—´</th> -->
+				     				<th style="width: 90px;">æäº¤è€…</th>
+				     				<th style="width: 90px;">è§£å†³è€…</th>
+				     				<th style="width: 90px;">æ ¡éªŒç»“æœ</th>
+				     				<th style="width: 90px;">å¤„ç†çŠ¶æ€</th>
 				     				<%-- <shiro:hasAnyRoles name="admin,test"> --%>
-				     				<th>¹ÜÀí</th>
+				     				<th>ç®¡ç†</th>
 				     				<%-- </shiro:hasAnyRoles> --%>
 				     			</tr>
 				     		</thead>
@@ -167,7 +167,7 @@
 									<td>{{html $item.displaySolvedStatus($data) }}</td>
 									<%-- <shiro:hasAnyRoles name="admin,test"> --%>
 				     				<td>
-										<button class="btn btn-primary btn-xs open-detail-modal">ÏêÇé</button>
+										<button class="btn btn-primary btn-xs open-detail-modal">è¯¦æƒ…</button>
 									</td>
 									<%-- </shiro:hasAnyRoles> --%>
 				     			</tr>
@@ -180,13 +180,13 @@
 	</div><!-- /row1 -->
 </div>
 
-<!-- inspectionRecordÏêÇéµÄµ¯³ö²ã -->
+<!-- inspectionRecordè¯¦æƒ…çš„å¼¹å‡ºå±‚ -->
 <div class="modal" id="J_detailModal" tabindex="-1">
     <div class="modal-dialog">
     	<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title"><strong>Ğ£Ñé½á¹ûÏêÇé</strong></h4>
+				<h4 class="modal-title"><strong>æ ¡éªŒç»“æœè¯¦æƒ…</strong></h4>
 			</div>
 			<div class="modal-body">
 				<div class="panel panel-default">
@@ -195,37 +195,37 @@
 						</tbody>
 						<script type="text/x-jquery-tmpl" id="J_inspectionRecordDetailTmpl">
 						<tr>
-							<td style="width: 150px;"><strong>Ò³Ãæ±àºÅ</strong></td>
+							<td style="width: 150px;"><strong>é¡µé¢ç¼–å·</strong></td>
 							<td style="width: 250px;">${'${'}pageNo}</td>
-							<td style="width: 150px;"><strong>Ò³ÃæÃû³Æ</strong></td>
+							<td style="width: 150px;"><strong>é¡µé¢åç§°</strong></td>
 							<td style="width: 250px;">${'${'}pageName}</td>
 						</tr>
 						<tr>
-							<td><strong>²Ù×÷±àºÅ</strong></td>
+							<td><strong>æ“ä½œç¼–å·</strong></td>
 							<td>${'${'}tagNo}</td>
-							<td><strong>²Ù×÷Ãû³Æ</strong></td>
+							<td><strong>æ“ä½œåç§°</strong></td>
 							<td>${'${'}tagName}</td>
 						</tr>
 						<tr>
-							<td><strong>Ğ£Ñé½á¹û</strong></td>
+							<td><strong>æ ¡éªŒç»“æœ</strong></td>
 							<td>{{html $item.displayValidStatus($data) }}</td>
-							<td><strong>´¦Àí×´Ì¬</strong></td>
+							<td><strong>å¤„ç†çŠ¶æ€</strong></td>
 							<td>{{html $item.displaySolvedStatus($data) }}</td>
 						</tr>
 						<tr>
-							<td><strong>Ìá½»Õß</strong></td>
+							<td><strong>æäº¤è€…</strong></td>
 							<td>${'${'}$item.displaySubmitterName($data)}</td>
-							<td><strong>Ìá½»Ê±¼ä</strong></td>
+							<td><strong>æäº¤æ—¶é—´</strong></td>
 							<td>${'${'}createTime? new Date(createTime).format('yyyy-MM-dd hh:mm:ss'): '--'}</td>
 						</tr>
 						<tr>
-							<td><strong>´¦ÀíÕß</strong></td>
+							<td><strong>å¤„ç†è€…</strong></td>
 							<td>${'${'}$item.displaySolverName($data)}</td>
-							<td><strong>´¦ÀíÊ±¼ä</strong></td>
+							<td><strong>å¤„ç†æ—¶é—´</strong></td>
 							<td>${'${'}updateTime? new Date(updateTime).format('yyyy-MM-dd hh:mm:ss'): '--'}</td>
 						</tr>
 						<tr>
-							<td><strong>±¸×¢</strong></td>
+							<td><strong>å¤‡æ³¨</strong></td>
 							<td colspan="3">
 							${'${'}comment || '--'}
 							</td>
@@ -236,9 +236,9 @@
 			</div>
 			<div class="modal-footer">
 				<shiro:hasPermission name="inspection_record:modify">
-					<button type="button" class="btn btn-primary resolve-inspection-record" id="J_resolveBtn">ÒÑ´¦Àí</button>
+					<button type="button" class="btn btn-primary resolve-inspection-record" id="J_resolveBtn">å·²å¤„ç†</button>
 				</shiro:hasPermission>
-				<button type="button" class="btn btn-default" data-dismiss="modal">¹Ø±Õ</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">å…³é—­</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->

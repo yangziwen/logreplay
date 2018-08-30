@@ -17,24 +17,24 @@ import com.sogou.map.logreplay.bean.TagParam;
 import com.sogou.map.logreplay.dto.TagInfoDto;
 
 /**
- * TagInfoµ¼³öexcelÊ±£¬¸÷ÁĞµÄÃû³Æ
+ * TagInfoå¯¼å‡ºexcelæ—¶ï¼Œå„åˆ—çš„åç§°
  */
 public class TagFields {
 	
 	private TagFields() {}
 
-	public static String pageNo = "Ò³Ãæ±àºÅ";
-	public static String pageName = "Ò³ÃæÃû³Æ";
-	public static String tagNo = "²Ù×÷±àºÅ";
-	public static String tagName = "²Ù×÷ÏîÃû³Æ";
-	public static String actionName = "²Ù×÷¶¯×÷";
-	public static String targetName = "²Ù×÷Ä¿±ê";
-	public static String originVersionDisplay = "³õÊ¼°æ±¾";
-	public static String devInspectStatus = "×Ô²â½á¹û";
-	public static String inspectStatus = "²âÊÔ½á¹û";
-	public static String comment = "²Ù×÷Ïî±¸×¢";
-	public static String tagParamDisplay = "²Ù×÷²ÎÊı";
-	public static String tagParamComment = "²Ù×÷²ÎÊı±¸×¢";
+	public static String pageNo = "é¡µé¢ç¼–å·";
+	public static String pageName = "é¡µé¢åç§°";
+	public static String tagNo = "æ“ä½œç¼–å·";
+	public static String tagName = "æ“ä½œé¡¹åç§°";
+	public static String actionName = "æ“ä½œåŠ¨ä½œ";
+	public static String targetName = "æ“ä½œç›®æ ‡";
+	public static String originVersionDisplay = "åˆå§‹ç‰ˆæœ¬";
+	public static String devInspectStatus = "è‡ªæµ‹ç»“æœ";
+	public static String inspectStatus = "æµ‹è¯•ç»“æœ";
+	public static String comment = "æ“ä½œé¡¹å¤‡æ³¨";
+	public static String tagParamDisplay = "æ“ä½œå‚æ•°";
+	public static String tagParamComment = "æ“ä½œå‚æ•°å¤‡æ³¨";
 	
 	private static final Pattern PARAM_INFO_PATTERN = Pattern.compile("^(.+)\\{(.+)\\}=(.*)$");
 	
