@@ -1,6 +1,8 @@
 .metadata/
 target/
 bin/
+logs/
+res
 src/main/webapp/WEB-INF/classes/
 .project
 .classpath

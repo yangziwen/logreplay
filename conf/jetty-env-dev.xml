@@ -3,7 +3,7 @@
 	<New class="org.eclipse.jetty.plus.jndi.EnvEntry">
 		<Arg></Arg>
 		<Arg>imageBasePath</Arg>
-		<Arg type="java.lang.String">/mytest/images</Arg>
+		<Arg type="java.lang.String">res/images</Arg>
 		<Arg type="boolean">true</Arg>
 	</New>
 	<New class="org.eclipse.jetty.plus.jndi.EnvEntry">
