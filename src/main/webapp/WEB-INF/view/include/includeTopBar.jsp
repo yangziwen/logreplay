@@ -1,8 +1,8 @@
-<%@page import="com.sogou.map.logreplay.util.ProductUtil"%>
+<%@page import="io.github.yangziwen.logreplay.util.ProductUtil"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
-<c:set var="typeUser" value="com.sogou.map.logreplay.bean.User" />
+<c:set var="typeUser" value="io.github.yangziwen.logreplay.bean.User" />
 <nav class="navbar navbar-default navbar-fixed-top top-bar" role="navigation">
 	<div class="container-fluit">
 		<div class="collapse navbar-collapse">

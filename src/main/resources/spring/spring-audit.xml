@@ -9,7 +9,7 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd "
 	default-lazy-init="false" default-autowire="byName">
 
-	<bean id="metaData" class="com.sogou.map.logreplay.audit.AuditMetaData" />
+	<bean id="metaData" class="io.github.yangziwen.logreplay.audit.AuditMetaData" />
 	<bean id="layout" class="org.audit4j.core.layout.CustomizableLayout">
 		<property name="dateFormat" value="yyyy-MM-dd HH:mm:ss" />
 		<property name="template">
@@ -26,7 +26,7 @@
 		<property name="layout" ref="layout" />
 		<property name="metaData" ref="metaData" />
 		<property name="commands">
-			<value>-objectSerializer=com.sogou.map.logreplay.audit.CustomObjectToJsonSerializer</value>
+			<value>-objectSerializer=io.github.yangziwen.logreplay.audit.CustomObjectToJsonSerializer</value>
 		</property>
 		<property name="handlers">
 			<list>
