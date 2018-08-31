@@ -9,50 +9,53 @@ import javax.persistence.Table;
 
 import io.github.yangziwen.logreplay.bean.base.AbstractBean;
 
-@SuppressWarnings("serial")
 @Table(name="user")
 public class User extends AbstractBean implements Serializable {
-	
+
+	private static final long serialVersionUID = -8180471953224415677L;
+
 	public static final int PASSWORD_MIN_LENGTH = 4;
 
 	@Id
 	@Column
 	private Long id;
-	
+
 	@Column
 	private String username;
-	
+
 	@Column(name = "screen_name")
 	private String screenName;
-	
+
 	@Column
 	private String password;
-	
+
 	@Column(name = "create_time")
 	private Timestamp createTime;
-	
+
 	@Column(name = "update_time")
 	private Timestamp updateTime;
-	
+
 	@Column
 	private Boolean enabled = true;
-	
+
 	public User() {}
-	
+
 	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
 	}
-	
+
 	public User(String username, String screenName, String password, Boolean enabled) {
 		this(username, password);
 		this.screenName = screenName;
 		this.enabled = enabled;
 	}
-	
+
+	@Override
 	public Long getId() {
 		return id;
 	}
+	@Override
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -92,5 +95,5 @@ public class User extends AbstractBean implements Serializable {
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
-	
+
 }
