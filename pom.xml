@@ -1,15 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.sogou.map</groupId>
+	<groupId>io.github.yangziwen</groupId>
 	<artifactId>logreplay</artifactId>
 	<packaging>war</packaging>
-	<version>1.0</version>
+	<version>1.1</version>
 	<name>logreplay</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<project.build.sourceEncoding>GBK</project.build.sourceEncoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<springframework.version>4.3.16.RELEASE</springframework.version>
 		<springframework.data.version>1.1.0.RELEASE</springframework.data.version>
 		<aspectj.version>1.9.1</aspectj.version>
@@ -54,6 +54,7 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>${javax.servlet.jstl.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 
 		<!-- spring 相关 -->
@@ -75,11 +76,6 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
-			<version>${springframework.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
 			<version>${springframework.version}</version>
 		</dependency>
 		<dependency>
@@ -329,9 +325,9 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-					<encoding>GBK</encoding>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 
@@ -346,7 +342,7 @@
 				<version>9.2.10.v20150310</version>
 				<configuration>
 					<webApp>
-						<contextPath>/logreplay</contextPath>
+						<contextPath>/</contextPath>
 						<jettyEnvXml>${project.basedir}/conf/jetty-env-dev.xml</jettyEnvXml>
 					</webApp>
 					<!-- <scanIntervalSeconds>10</scanIntervalSeconds> -->
@@ -371,7 +367,7 @@
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.2</version>
 				<configuration>
-					<path>/logreplay</path>
+					<path>/</path>
 					<port>8075</port>
 					<uriEncoding>UTF-8</uriEncoding>
 					<contextFile>${basedir}/conf/tomcat-context-dev.xml</contextFile>

@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="./include/include.jsp" %>
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>
-    <title>ц╩спх╗оч</title>
+    <title>Ф╡║Ф°┴Ф²┐И≥░</title>
 	<%@ include file="./include/includeCss.jsp" %>
 </head>
 <body>
@@ -11,7 +11,7 @@
 
 <div class="container">
 	<div style="text-align: center; font-family: 'Microsoft Yahei'; margin-top: 200px;">
-		<h2><strong>╤т╡╩фПё╛╣╠г╟сц╩╖ц╩спх╗оч! <a href="javascript: history.back();">гК╥╣╩ь</a></strong></h2>
+		<h2><strong>Е╞╧Д╦█Х╣╥О╪▄Е╫⌠Е┴█Г■╗Ф┬╥Ф╡║Ф°┴Ф²┐И≥░! <a href="javascript: history.back();">Х╞╥Х©■Е⌡·</a></strong></h2>
 	</div>
 </div>
 </body>

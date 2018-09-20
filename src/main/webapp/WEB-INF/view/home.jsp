@@ -1,10 +1,10 @@
-<%@page import="com.sogou.map.logreplay.util.AuthUtil"%>
-<%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
+<%@page import="io.github.yangziwen.logreplay.util.AuthUtil"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="./include/include.jsp" %>
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>
-    <title>÷˜“≥</title>
+    <title>‰∏ªÈ°µ</title>
 	<%@ include file="./include/includeCss.jsp" %>
 </head>
 <body>
@@ -19,7 +19,7 @@
 			<div>
 			    <ul class="breadcrumb">
 			        <li>
-						µ±«∞Œª÷√: <a href="${ctx_path}/home.htm">÷˜“≥</a>
+						ÂΩìÂâç‰ΩçÁΩÆ: <a href="${ctx_path}/home.htm">‰∏ªÈ°µ</a>
 			        </li> 
 			    </ul>
 			</div>
@@ -27,7 +27,7 @@
 			<div class="row">
 			    <div class="box col-md-12">
 			    	<div style="font-family: 'Microsoft Yahei'; text-align: center; margin-top: 50px;">
-				    	<h2><strong>ƒ„∫√£¨<%=AuthUtil.getScreenName()%>£°</strong></h2>
+				    	<h2><strong>‰Ω†Â•ΩÔºå<%=AuthUtil.getScreenName()%>ÔºÅ</strong></h2>
 			    	</div>
 			    </div>
 			</div><!--/row-->

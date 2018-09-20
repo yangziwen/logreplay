@@ -1,10 +1,10 @@
-<%@page import="com.sogou.map.logreplay.util.AuthUtil"%>
-<%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
+<%@page import="io.github.yangziwen.logreplay.util.AuthUtil"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../include/include.jsp" %>
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>
-    <title>У��״̬��ѯ</title>
+    <title>校验状态查询</title>
 	<%@ include file="../include/includeCss.jsp" %>
 	<style>
 		table.inner-table {
@@ -29,8 +29,8 @@
 			<div>
 			    <ul class="breadcrumb">
 			        <li>
-						��ǰλ��: <a data-toggle="collapse" href="#J_logReplaySubmenu">�����ϢУ��</a> 
-						&gt; <a href="${ctx_path}/inspectionRecord/statusList.htm">У��״̬��ѯ</a>
+						当前位置: <a data-toggle="collapse" href="#J_logReplaySubmenu">埋点信息校验</a> 
+						&gt; <a href="${ctx_path}/inspectionRecord/statusList.htm">校验状态查询</a>
 			        </li> 
 			    </ul>
 			</div>
@@ -39,59 +39,59 @@
 			     	<div id="J_queryArea" style="text-align: center;">
 			     		<form class="form-horizontal col-md-offset-1 col-md-10" role="form">
 							<div class="form-group">
-								<label for="J_pageNo" class="col-sm-2 control-label">ҳ���ţ�</label>
+								<label for="J_pageNo" class="col-sm-2 control-label">页面编号：</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_pageNo" name="pageNo" placeholder="������ҳ����" />
+									<input type="text" class="form-control" id="J_pageNo" name="pageNo" placeholder="请输入页面编号" />
 								</div>
-								<label for="J_tagNo" class="col-sm-2 control-label">������ţ�</label>
+								<label for="J_tagNo" class="col-sm-2 control-label">操作编号：</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_tagNo" name="tagNo" placeholder="������������" />
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="J_pageName" class="col-sm-2 control-label">ҳ�����ƣ�</label>
-								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_pageName" name="pageName" placeholder="������ҳ������" />
-								</div>
-								<label for="J_tagName" class="col-sm-2 control-label">�������ƣ�</label>
-								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_tagName" name="tagName" placeholder="�������������" />
+									<input type="text" class="form-control" id="J_tagNo" name="tagNo" placeholder="请输入操作编号" />
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="J_devInspectStatus" class="col-sm-2 control-label">�Բ�����</label>
+								<label for="J_pageName" class="col-sm-2 control-label">页面名称：</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="J_pageName" name="pageName" placeholder="请输入页面名称" />
+								</div>
+								<label for="J_tagName" class="col-sm-2 control-label">操作名称：</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="J_tagName" name="tagName" placeholder="请输入操作名称" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="J_devInspectStatus" class="col-sm-2 control-label">自测结果：</label>
 								<div class="col-sm-4">
 									<select id="J_devInspectStatus" name="devInspectStatus" class="form-control">
-										<option value="">ȫ��</option>
-										<option value="0">δУ��</option>
-										<option value="1">У����ȷ</option>
-										<option value="2">У�����</option>
+										<option value="">全部</option>
+										<option value="0">未校验</option>
+										<option value="1">校验正确</option>
+										<option value="2">校验错误</option>
 									</select>
 								</div>
-								<label for="J_inspectStatus" class="col-sm-2 control-label">���Խ����</label>
+								<label for="J_inspectStatus" class="col-sm-2 control-label">测试结果：</label>
 								<div class="col-sm-4">
 									<select id="J_inspectStatus" name="inspectStatus" class="form-control">
-										<option value="">ȫ��</option>
-										<option value="0">δУ��</option>
-										<option value="1">У����ȷ</option>
-										<option value="2">У�����</option>
+										<option value="">全部</option>
+										<option value="0">未校验</option>
+										<option value="1">校验正确</option>
+										<option value="2">校验错误</option>
 									</select>
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="J_originVersionSince" class="col-sm-2 control-label">��ʼ�汾��</label>
+								<label for="J_originVersionSince" class="col-sm-2 control-label">起始版本：</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_originVersionSince" name="originVersionSince" placeholder="��������ʼ�汾" />
+									<input type="text" class="form-control" id="J_originVersionSince" name="originVersionSince" placeholder="请输入起始版本" />
 								</div>
-								<label for="J_originVersionUntil" class="col-sm-2 control-label">��ֹ�汾��</label>
+								<label for="J_originVersionUntil" class="col-sm-2 control-label">终止版本：</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_originVersionUntil" name="originVersionUntil" placeholder="��������ֹ�汾" />
+									<input type="text" class="form-control" id="J_originVersionUntil" name="originVersionUntil" placeholder="请输入终止版本" />
 								</div>
 							</div>
 							<div class="form-group" style="margin-bottom: 0px;">
 								<div class="col-sm-12" style="margin-top: 10px;">
-									<button id="J_queryBtn" type="button" class="btn btn-primary btn-lg-font" style="width: 90px;">��&nbsp;&nbsp;ѯ</button>
-									<button id="J_clearBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">�������</button>
+									<button id="J_queryBtn" type="button" class="btn btn-primary btn-lg-font" style="width: 90px;">查&nbsp;&nbsp;询</button>
+									<button id="J_clearBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">清除条件</button>
 								</div>
 							</div>
 						</form>
@@ -106,15 +106,15 @@
 				     	<table class="table table-bordered table-striped table-condensed table-hover ">
 				     		<thead>
 				     			<tr>
-				     				<th style="width: 85px;">ҳ����</th>
-				     				<th style="width: 100px;">ҳ������</th>
-				     				<th style="width: 85px;">�������</th>
-				     				<th>��������</th>
-				     				<th style="width: 85px;">��������</th>
-				     				<th style="width: 85px;">����Ŀ��</th>
-				     				<th style="width: 85px;">��ʼ�汾</th>
-				     				<th style="width: 85px;">�Բ���</th>
-				     				<th style="width: 85px;">���Խ��</th>
+				     				<th style="width: 85px;">页面编号</th>
+				     				<th style="width: 100px;">页面名称</th>
+				     				<th style="width: 85px;">操作编号</th>
+				     				<th>操作名称</th>
+				     				<th style="width: 85px;">操作动作</th>
+				     				<th style="width: 85px;">操作目标</th>
+				     				<th style="width: 85px;">初始版本</th>
+				     				<th style="width: 85px;">自测结果</th>
+				     				<th style="width: 85px;">测试结果</th>
 				     			</tr>
 				     		</thead>
 				     		<tbody id="J_tagInfoTbody">

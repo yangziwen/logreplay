@@ -1,10 +1,10 @@
-<%@page import="com.sogou.map.logreplay.util.AuthUtil"%>
-<%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
+<%@page import="io.github.yangziwen.logreplay.util.AuthUtil"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../include/include.jsp" %>
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>
-    <title>Ӧ��״̬</title>
+    <title>应用状态</title>
 	<%@ include file="../include/includeCss.jsp" %>
 	<style>
 		.panel-heading > .title {
@@ -29,8 +29,8 @@
 			<div>
 			    <ul class="breadcrumb">
 			        <li>
-						��ǰλ��: <a data-toggle="collapse" href="#J_systemManageSubmenu">ϵͳ���</a>
-						 &gt; <a href="${ctx_path}/monitor/application.htm">Ӧ��״̬</a>
+						当前位置: <a data-toggle="collapse" href="#J_systemManageSubmenu">系统监控</a>
+						 &gt; <a href="${ctx_path}/monitor/application.htm">应用状态</a>
 			        </li> 
 			    </ul>
 			</div>
@@ -38,16 +38,16 @@
 				<div class="col-sm-12 text-center">
 					<div class="btn-group" data-toggle="buttons" id="J_showTypeBtnGroup">
 						<label class="btn btn-default active">
-							<input type="radio" name="showType" checked value="halfDay">����
+							<input type="radio" name="showType" checked value="halfDay">半日
 						</label>
 						<label class="btn btn-default">
-							<input type="radio" name="showType" value="day">��
+							<input type="radio" name="showType" value="day">日
 						</label>
 						<label class="btn btn-default">
-							<input type="radio" name="showType" value="week">��
+							<input type="radio" name="showType" value="week">周
 						</label>
 						<label class="btn btn-default">
-							<input type="radio" name="showType" value="month">��
+							<input type="radio" name="showType" value="month">月
 						</label>
 					</div>
 				</div>

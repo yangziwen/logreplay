@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="GBK"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
@@ -81,7 +81,7 @@
 		</init-param>
 		<init-param>	<!-- hotspots related -->
 			<param-name>sampling-included-packages</param-name>
-			<param-value>com.sogou.map.logreplay</param-value>
+			<param-value>io.github.yangziwen.logreplay</param-value>
 		</init-param>
 	</filter>
 	<filter-mapping>
@@ -93,7 +93,7 @@
 
 	<filter>
 		<filter-name>productFilter</filter-name>
-		<filter-class>com.sogou.map.logreplay.filter.ProductFilter</filter-class>
+		<filter-class>io.github.yangziwen.logreplay.filter.ProductFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>productFilter</filter-name>

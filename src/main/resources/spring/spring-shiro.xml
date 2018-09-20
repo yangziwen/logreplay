@@ -38,7 +38,7 @@
 		<property name="hashIterations" value="3" />
 	</bean>
 	
-	<bean id="shiroDbRealm" class="com.sogou.map.logreplay.security.ShiroDbRealm" >
+	<bean id="shiroDbRealm" class="io.github.yangziwen.logreplay.security.ShiroDbRealm" >
 		<property name="userService" ref="userService" />
 		<property name="permissionService" ref="permissionService" />
 		<property name="credentialsMatcher" ref="credentialsMatcher" />

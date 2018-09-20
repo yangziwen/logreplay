@@ -32,7 +32,7 @@
  &ensp;&ensp;**2.初始化数据库**
  
 ```
-create database logreplay default charset gbk;
+create database logreplay default charset utf8;
 grant all on logreplay.* to 'mobile'@localhost identified by 'mobile';
 flush privileges;
 ```
@@ -47,4 +47,4 @@ set autocommit=1;
 
  &ensp;&ensp;**3.运行工程**  `mvn tomcat7:run`或`mvn jetty:run`
 
- &ensp;&ensp;**4.访问工程** [http://localhost:8075/logreplay](http://localhost:8075/logreplay) ( 用户名:admin / 密码: 1234 )
+ &ensp;&ensp;**4.访问工程** [http://localhost:8075](http://localhost:8075) ( 用户名:admin / 密码: 1234 )

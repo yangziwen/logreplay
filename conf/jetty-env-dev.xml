@@ -3,7 +3,7 @@
 	<New class="org.eclipse.jetty.plus.jndi.EnvEntry">
 		<Arg></Arg>
 		<Arg>imageBasePath</Arg>
-		<Arg type="java.lang.String">/mytest/images</Arg>
+		<Arg type="java.lang.String">res/images</Arg>
 		<Arg type="boolean">true</Arg>
 	</New>
 	<New class="org.eclipse.jetty.plus.jndi.EnvEntry">
@@ -16,7 +16,7 @@
         <Arg>jdbc/dataSource</Arg>  
         <Arg>  
             <New class="com.jolbox.bonecp.BoneCPDataSource">
-                <Set name="jdbcUrl">jdbc:mysql://localhost:3306/logreplay?useUnicode=true&amp;characterEncoding=GBK</Set>
+                <Set name="jdbcUrl">jdbc:mysql://localhost:3306/logreplay?useUnicode=true&amp;characterEncoding=UTF-8</Set>
                 <Set name="username">mobile</Set>
                 <Set name="password">mobile</Set>
                 <Set name="idleConnectionTestPeriodInMinutes">60</Set>

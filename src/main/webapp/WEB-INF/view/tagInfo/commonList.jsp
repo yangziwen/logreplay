@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../include/include.jsp" %>
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>
-    <title>¹«¹²²Ù×÷Ïî¹ÜÀí</title>
+    <title>å…¬å…±æ“ä½œé¡¹ç®¡ç†</title>
 	<%@ include file="../include/includeCss.jsp" %>
 	<style>
 		table.inner-table {
@@ -28,8 +28,8 @@
 			<div>
 			    <ul class="breadcrumb">
 			        <li>
-						µ±Ç°Î»ÖÃ: <a data-toggle="collapse" href="#J_logConfigSubmenu">ÂñµãÐÅÏ¢¹ÜÀí</a> 
-						&gt; <a href="${ctx_path}/tagInfo/list.htm">¹«¹²²Ù×÷Ïî¹ÜÀí</a>
+						å½“å‰ä½ç½®: <a data-toggle="collapse" href="#J_logConfigSubmenu">åŸ‹ç‚¹ä¿¡æ¯ç®¡ç†</a> 
+						&gt; <a href="${ctx_path}/tagInfo/list.htm">å…¬å…±æ“ä½œé¡¹ç®¡ç†</a>
 			        </li> 
 			    </ul>
 			</div>
@@ -38,29 +38,29 @@
 			     	<div id="J_queryArea" style="text-align: center;">
 			     		<form class="form-horizontal col-md-offset-1 col-md-10" role="form">
 							<div class="form-group">
-								<label for="J_tagNo" class="col-sm-2 control-label">²Ù×÷±àºÅ£º</label>
+								<label for="J_tagNo" class="col-sm-2 control-label">æ“ä½œç¼–å·ï¼š</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_tagNo" name="tagNo" placeholder="ÇëÊäÈë²Ù×÷±àºÅ" />
+									<input type="text" class="form-control" id="J_tagNo" name="tagNo" placeholder="è¯·è¾“å…¥æ“ä½œç¼–å·" />
 								</div>
-								<label for="J_tagName" class="col-sm-2 control-label">²Ù×÷Ãû³Æ£º</label>
+								<label for="J_tagName" class="col-sm-2 control-label">æ“ä½œåç§°ï¼š</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_tagName" name="tagName" placeholder="ÇëÊäÈë²Ù×÷Ãû³Æ" />
+									<input type="text" class="form-control" id="J_tagName" name="tagName" placeholder="è¯·è¾“å…¥æ“ä½œåç§°" />
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="J_originVersionSince" class="col-sm-2 control-label">ÆðÊ¼°æ±¾£º</label>
+								<label for="J_originVersionSince" class="col-sm-2 control-label">èµ·å§‹ç‰ˆæœ¬ï¼š</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_originVersionSince" name="originVersionSince" placeholder="ÇëÊäÈëÆðÊ¼°æ±¾" />
+									<input type="text" class="form-control" id="J_originVersionSince" name="originVersionSince" placeholder="è¯·è¾“å…¥èµ·å§‹ç‰ˆæœ¬" />
 								</div>
-								<label for="J_originVersionUntil" class="col-sm-2 control-label">ÖÕÖ¹°æ±¾£º</label>
+								<label for="J_originVersionUntil" class="col-sm-2 control-label">ç»ˆæ­¢ç‰ˆæœ¬ï¼š</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_originVersionUntil" name="originVersionUntil" placeholder="ÇëÊäÈëÖÕÖ¹°æ±¾" />
+									<input type="text" class="form-control" id="J_originVersionUntil" name="originVersionUntil" placeholder="è¯·è¾“å…¥ç»ˆæ­¢ç‰ˆæœ¬" />
 								</div>
 							</div>
 							<div class="form-group" style="margin-bottom: 0px;">
 								<div class="col-sm-12" style="margin-top: 10px;">
-									<button id="J_queryBtn" type="button" class="btn btn-primary btn-lg-font" style="width: 90px;">²é&nbsp;&nbsp;Ñ¯</button>
-									<button id="J_clearBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">Çå³ýÌõ¼þ</button>
+									<button id="J_queryBtn" type="button" class="btn btn-primary btn-lg-font" style="width: 90px;">æŸ¥&nbsp;&nbsp;è¯¢</button>
+									<button id="J_clearBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">æ¸…é™¤æ¡ä»¶</button>
 								</div>
 							</div>
 						</form>
@@ -71,10 +71,10 @@
 			     	<div class="row">
 			     		<div class="col-sm-4">
 			     			<shiro:hasPermission name="tag_info:modify">
-			     				<button class="btn btn-primary btn-lg-font" id="J_openCreateTagModalBtn" title="ÐÂÔö¹«¹²²Ù×÷Ïî">ÐÂÔö</button>
-			     				<button class="btn btn-primary btn-lg-font" id="J_openUploadExcelModalBtn" title="µ¼Èëexcel">µ¼Èë</button>
+			     				<button class="btn btn-primary btn-lg-font" id="J_openCreateTagModalBtn" title="æ–°å¢žå…¬å…±æ“ä½œé¡¹">æ–°å¢ž</button>
+			     				<button class="btn btn-primary btn-lg-font" id="J_openUploadExcelModalBtn" title="å¯¼å…¥excel">å¯¼å…¥</button>
 			     			</shiro:hasPermission>
-		     				<button class="btn btn-primary btn-lg-font" id="J_exportTagInfoBtn" title="µ¼³öexcel">µ¼³ö</button>
+		     				<button class="btn btn-primary btn-lg-font" id="J_exportTagInfoBtn" title="å¯¼å‡ºexcel">å¯¼å‡º</button>
 			     		</div>
 			     		<div id="J_pagebar" class="col-sm-8"></div>
 			     	</div>
@@ -82,13 +82,13 @@
 				     	<table class="table table-bordered table-striped table-condensed table-hover ">
 				     		<thead>
 				     			<tr>
-				     				<th style="width: 100px;">²Ù×÷±àºÅ</th>
-				     				<th>²Ù×÷Ãû³Æ</th>
-				     				<th style="width: 100px;">²Ù×÷¶¯×÷</th>
-				     				<th style="width: 100px;">²Ù×÷Ä¿±ê</th>
-				     				<th style="width: 100px;">³õÊ¼°æ±¾</th>
+				     				<th style="width: 100px;">æ“ä½œç¼–å·</th>
+				     				<th>æ“ä½œåç§°</th>
+				     				<th style="width: 100px;">æ“ä½œåŠ¨ä½œ</th>
+				     				<th style="width: 100px;">æ“ä½œç›®æ ‡</th>
+				     				<th style="width: 100px;">åˆå§‹ç‰ˆæœ¬</th>
 				     				<shiro:hasPermission name="tag_info:modify">
-				     				<th style="width: 130px;">¹ÜÀí</th>
+				     				<th style="width: 130px;">ç®¡ç†</th>
 				     				</shiro:hasPermission>
 				     			</tr>
 				     		</thead>
@@ -103,9 +103,9 @@
 									<td>${'${'}$item.displayOriginVersion(originVersion)}</td>
 									<shiro:hasPermission name="tag_info:modify">
 				     				<td>
-				     					<button class="btn btn-primary btn-xs open-update-tag-modal">ÐÞ¸Ä</button>
-										<button class="btn btn-primary btn-xs delete-tag-btn">É¾³ý</button>
-				     					<button class="btn btn-xs open-update-tag-param-modal ${'${'}$item.getParamBtnClass(hasParams)}">²ÎÊý</button>
+				     					<button class="btn btn-primary btn-xs open-update-tag-modal">ä¿®æ”¹</button>
+										<button class="btn btn-primary btn-xs delete-tag-btn">åˆ é™¤</button>
+				     					<button class="btn btn-xs open-update-tag-param-modal ${'${'}$item.getParamBtnClass(hasParams)}">å‚æ•°</button>
 				     				</td>
 									</shiro:hasPermission>
 				     			</tr>
@@ -118,99 +118,99 @@
 	</div><!-- /row1 -->
 </div>
 
-<!-- ÐÞ¸ÄtagInfoµÄµ¯³ö²ã -->
+<!-- ä¿®æ”¹tagInfoçš„å¼¹å‡ºå±‚ -->
 <div class="modal" id="J_tagInfoModal" tabindex="-1">
     <div class="modal-dialog">
     	<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title"><strong>±êÌâ</strong></h4>
+				<h4 class="modal-title"><strong>æ ‡é¢˜</strong></h4>
 			</div>
 			<div class="modal-body">
 					<form class="form-horizontal" role="form">
 						<input type="hidden" id="T_id" name="id" />
 						<div class="form-group">
-							<label for="T_tagNo" class="col-sm-4 control-label">²Ù×÷±àºÅ£º</label>
+							<label for="T_tagNo" class="col-sm-4 control-label">æ“ä½œç¼–å·ï¼š</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" id="T_tagNo" name="tagNo" placeholder="ÇëÊäÈë²Ù×÷±àºÅ" />
+								<input type="text" class="form-control" id="T_tagNo" name="tagNo" placeholder="è¯·è¾“å…¥æ“ä½œç¼–å·" />
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="T_name" class="col-sm-4 control-label">²Ù×÷Ãû³Æ£º</label>
+							<label for="T_name" class="col-sm-4 control-label">æ“ä½œåç§°ï¼š</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" id="T_name" name="name" placeholder="ÇëÊäÈë²Ù×÷Ãû³Æ" />
+								<input type="text" class="form-control" id="T_name" name="name" placeholder="è¯·è¾“å…¥æ“ä½œåç§°" />
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="T_actionId" class="col-sm-4 control-label">²Ù×÷¶¯×÷£º</label>
+							<label for="T_actionId" class="col-sm-4 control-label">æ“ä½œåŠ¨ä½œï¼š</label>
 							<div class="col-sm-8">
 								<select id="T_actionId" name="actionId" class="form-control">
 								</select>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="T_targetId" class="col-sm-4 control-label">²Ù×÷Ä¿±ê£º</label>
+							<label for="T_targetId" class="col-sm-4 control-label">æ“ä½œç›®æ ‡ï¼š</label>
 							<div class="col-sm-8">
 								<select id="T_targetId" name="targetId" class="form-control">
 								</select>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="T_originVersion" class="col-sm-4 control-label">³õÊ¼°æ±¾£º</label>
+							<label for="T_originVersion" class="col-sm-4 control-label">åˆå§‹ç‰ˆæœ¬ï¼š</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" id="T_originVersion" name="originVersion" placeholder="ÇëÊäÈë³õÊ¼°æ±¾" />
+								<input type="text" class="form-control" id="T_originVersion" name="originVersion" placeholder="è¯·è¾“å…¥åˆå§‹ç‰ˆæœ¬" />
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="T_comment" class="col-sm-4 control-label">±¸×¢£º</label>
+							<label for="T_comment" class="col-sm-4 control-label">å¤‡æ³¨ï¼š</label>
 							<div class="col-sm-8">
-								<textarea id="T_comment" name="comment" class="form-control" rows="5" placeholder="ÇëÊäÈë±¸×¢£¬100×ÖÒÔÄÚ"></textarea>
+								<textarea id="T_comment" name="comment" class="form-control" rows="5" placeholder="è¯·è¾“å…¥å¤‡æ³¨ï¼Œ100å­—ä»¥å†…"></textarea>
 							</div>
 						</div>
 					</form>
 				</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary create-tag-info" id="J_createTagInfoBtn" >´´½¨</button>
-				<button type="button" class="btn btn-primary update-tag-info" id="J_updateTagInfoBtn" >¸üÐÂ</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">¹Ø±Õ</button>
+				<button type="button" class="btn btn-primary create-tag-info" id="J_createTagInfoBtn" >åˆ›å»º</button>
+				<button type="button" class="btn btn-primary update-tag-info" id="J_updateTagInfoBtn" >æ›´æ–°</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">å…³é—­</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<!-- ÐÞ¸ÄtagParamµÄµ¯³ö²ã -->
+<!-- ä¿®æ”¹tagParamçš„å¼¹å‡ºå±‚ -->
 <div class="modal" id="J_tagParamModal" tabindex="-1">
     <div class="modal-dialog">
     	<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title"><strong>¸üÐÂ²ÎÊý</strong></h4>
+				<h4 class="modal-title"><strong>æ›´æ–°å‚æ•°</strong></h4>
 			</div>
 			<div class="modal-body">
 					<form class="form-horizontal" role="form">
 						<!-- <input type="hidden" id="TP_id" name="id" /> -->
 						<input type="hidden" id="TP_tagInfoId" name="tagInfoId" />
 						<div class="form-group">
-							<label for="TP_tagNo" class="col-sm-2 control-label">²Ù×÷±àºÅ£º</label>
+							<label for="TP_tagNo" class="col-sm-2 control-label">æ“ä½œç¼–å·ï¼š</label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" id="TP_tagNo" name="tagNo" placeholder="ÇëÊäÈë²Ù×÷±àºÅ" />
+								<input type="text" class="form-control" id="TP_tagNo" name="tagNo" placeholder="è¯·è¾“å…¥æ“ä½œç¼–å·" />
 							</div>
-							<label for="TP_tagName" class="col-sm-2 control-label">²Ù×÷Ãû³Æ£º</label>
+							<label for="TP_tagName" class="col-sm-2 control-label">æ“ä½œåç§°ï¼š</label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" id="TP_tagName" name="tagName" placeholder="ÇëÊäÈë²Ù×÷Ãû³Æ" />
+								<input type="text" class="form-control" id="TP_tagName" name="tagName" placeholder="è¯·è¾“å…¥æ“ä½œåç§°" />
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">²ÎÊýÉèÖÃ£º</label>
+							<label class="col-sm-2 control-label">å‚æ•°è®¾ç½®ï¼š</label>
 							<div class="col-sm-10">
 								<table class="inner-table">
 									<thead>
 										<tr>
-											<th width="20%">²ÎÊýÃû</th>
-											<th width="20%">²ÎÊýÖµ</th>
-											<th width="50%">ÃèÊö</th>
+											<th width="20%">å‚æ•°å</th>
+											<th width="20%">å‚æ•°å€¼</th>
+											<th width="50%">æè¿°</th>
 											<th width="10%" style="line-height: 0px;">
-												<a id="TP_addNewTagParam" href="###" style="font-size: 20px;" title="Ìí¼Ó²ÎÊý">
+												<a id="TP_addNewTagParam" href="###" style="font-size: 20px;" title="æ·»åŠ å‚æ•°">
 													<i class="glyphicon glyphicon-plus-sign"></i>
 												</a>
 											</th>
@@ -228,7 +228,7 @@
 				     						<td><input type="text" class="input-sm form-control param-info-value" value="${'${'}value}" /></td>
 				     						<td><input type="text" class="input-sm form-control param-info-description" value="${'${'}description}" /></td>
 				     						<td style="line-height: 0px;">
-												<a tabindex="-1" href="###" style="font-size:20px;" title="É¾³ý²ÎÊý" class="remove-param-info-btn">
+												<a tabindex="-1" href="###" style="font-size:20px;" title="åˆ é™¤å‚æ•°" class="remove-param-info-btn">
 													<i class="glyphicon glyphicon-minus-sign"></i>
 												</a>
 											</td>
@@ -238,33 +238,33 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="TP_comment" class="col-sm-2 control-label">±¸×¢£º</label>
+							<label for="TP_comment" class="col-sm-2 control-label">å¤‡æ³¨ï¼š</label>
 							<div class="col-sm-10">
-								<textarea id="TP_comment" name="comment" class="form-control" rows="5" placeholder="ÇëÊäÈë±¸×¢£¬100×ÖÒÔÄÚ"></textarea>
+								<textarea id="TP_comment" name="comment" class="form-control" rows="5" placeholder="è¯·è¾“å…¥å¤‡æ³¨ï¼Œ100å­—ä»¥å†…"></textarea>
 							</div>
 						</div>
 					</form>
 				</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary update-tag-param" id="J_updateTagParamBtn" >¸üÐÂ</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">¹Ø±Õ</button>
+				<button type="button" class="btn btn-primary update-tag-param" id="J_updateTagParamBtn" >æ›´æ–°</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">å…³é—­</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<!-- ÉÏ´«ExcelµÄµ¯³ö²ã -->
+<!-- ä¸Šä¼ Excelçš„å¼¹å‡ºå±‚ -->
 <div class="modal" id="J_uploadExcelModal" tabindex="-1">
     <div class="modal-dialog">
     	<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title"><strong>µ¼Èë²Ù×÷Ïî</strong></h4>
+				<h4 class="modal-title"><strong>å¯¼å…¥æ“ä½œé¡¹</strong></h4>
 			</div>
 			<div class="modal-body">
 				<form class="form-horizontal" role="form">
 					<div class="form-group">
-						<label class="col-sm-3 control-label">ExcelÎÄ¼þ£º</label>
+						<label class="col-sm-3 control-label">Excelæ–‡ä»¶ï¼š</label>
 						<div class="col-sm-9">
 							<input id="J_uploadExcelPath" type="text" class="form-control" disabled="disabled"/>
 						</div>
@@ -275,9 +275,9 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" id="J_browseExcelBtn" >ä¯ÀÀ</button>
-				<button type="button" class="btn btn-primary" id="J_uploadExcelBtn" style="margin-left:5px;">ÉÏ´«</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">¹Ø±Õ</button>
+				<button type="button" class="btn btn-primary" id="J_browseExcelBtn" >æµè§ˆ</button>
+				<button type="button" class="btn btn-primary" id="J_uploadExcelBtn" style="margin-left:5px;">ä¸Šä¼ </button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">å…³é—­</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->

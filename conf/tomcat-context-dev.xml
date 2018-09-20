@@ -3,7 +3,7 @@
 	<WatchedResource>WEB-INF/web.xml</WatchedResource>
 	
 	<!-- 图片文件根目录 -->
-	<Environment name="imageBasePath" type="java.lang.String" value="/mytest/images"/>
+	<Environment name="imageBasePath" type="java.lang.String" value="res/images"/>
 	<!-- 图片服务器根路径 -->
 	<Environment name="imageBaseUrl" type="java.lang.String" value="/image"/>
 
@@ -11,7 +11,7 @@
 		factory="org.apache.naming.factory.BeanFactory"
 		driverClass="com.mysql.jdbc.Driver"
 		type="com.jolbox.bonecp.BoneCPDataSource"
-		jdbcUrl="jdbc:mysql://localhost:3306/logreplay?useUnicode=true&amp;characterEncoding=GBK" 
+		jdbcUrl="jdbc:mysql://localhost:3306/logreplay?useUnicode=true&amp;characterEncoding=UTF-8" 
 		username="mobile"
 		password="mobile"
 		idleConnectionTestPeriodInMinutes="60" 
