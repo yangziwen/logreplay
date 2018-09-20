@@ -40,7 +40,7 @@
 			     			<tbody>
 			     				<tr>
 			     					<td rowspan="4" style="width: 128px; border-right: 1px solid #ddd; padding: 0px;">
-			     						<img src="${ctx_path}/image/avatar/<shiro:principal  property="id" type="${typeUser}"/>?type=large" style="width:128px;" />
+										<img src="${ctx_path}/image/avatar/<shiro:principal  property="id" type="${typeUser}"/>?type=large&version=<shiro:principal property="imageVersion" type="${typeUser}"/>" style="width:128px;" />
 			     					</td>
 			     				</tr>
 			     				<tr>

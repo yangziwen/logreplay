@@ -53,23 +53,23 @@ import io.github.yangziwen.logreplay.util.ImageUtil;
 @Controller
 @RequestMapping("/image")
 public class ImageController extends BaseController {
-	
+
 	public static final String DEFAULT_IMAGE_FORMAT = "jpg";
-	
+
 	public static final int DEFAULT_CACHE_SECONDS = 28800;
-	
+
 	private static final String HEADER_CACHE_CONTROL = "Cache-Control";
-	
+
 	private static final String HEADER_EXPIRES = "Expires";
-	
+
 	private static final String HEADER_LAST_MODIFIED = "Last-Modified";
-	
+
 	@Autowired
 	private ImageService imageService;
-	
+
 	@Autowired
 	private AvatarService avatarService;
-	
+
 	/**
 	 * 按id获取图片
 	 */
@@ -81,16 +81,16 @@ public class ImageController extends BaseController {
 		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 		Image image = null;
 		File imageFile = null;
-		if(id == null 
+		if(id == null
 				|| (image = imageService.getImageById(id)) == null
 				|| !(imageFile = new File(image.getFilepath())).exists()) {
 			throw new NoSuchRequestHandlingMethodException(request);
 		}
-		
+
 		outputImage(imageFile, webRequest, response);
-		
+
 	}
-	
+
 	/**
 	 * 按路径获取图片
 	 * 正式情况下可使用独立的图片服务器提供服务
@@ -111,18 +111,18 @@ public class ImageController extends BaseController {
 		if(!imageFile.exists()) {
 			throw new NoSuchRequestHandlingMethodException(request);
 		}
-		
+
 		outputImage(imageFile, webRequest, response);
-		
+
 	}
-	
+
 	private void setContentHeaders(String mimeType, int length, HttpServletResponse response) {
 		if(StringUtils.isNotBlank(mimeType)) {
 			response.setContentType(mimeType);
 		}
 		response.setContentLength(length);
 	}
-	
+
 	private void setCacheHeaders(HttpServletResponse response, int seconds, boolean mustRevalidate) {
 		response.setDateHeader(HEADER_EXPIRES, System.currentTimeMillis() + seconds * 1000L);
 		String headerValue = "max-age=" + seconds;
@@ -131,7 +131,7 @@ public class ImageController extends BaseController {
 		}
 		response.setHeader(HEADER_CACHE_CONTROL,  headerValue);
 	}
-	
+
 	private void outputImage(File imageFile, NativeWebRequest webRequest, HttpServletResponse response) {
 		long lastModified = imageFile.lastModified();
 		if(webRequest.checkNotModified(lastModified)) {
@@ -144,7 +144,7 @@ public class ImageController extends BaseController {
 		String mimeType = servletContext.getMimeType(imageFile.getName());
 		setContentHeaders(mimeType, Long.valueOf(imageFile.length()).intValue(), response);
 		setCacheHeaders(response, DEFAULT_CACHE_SECONDS, false);
-		
+
 		InputStream input = null;
 		OutputStream output = null;
 		try {
@@ -159,7 +159,7 @@ public class ImageController extends BaseController {
 			IOUtils.closeQuietly(output);
 		}
 	}
-	
+
 	/**
 	 * 获取用户头像
 	 */
@@ -178,20 +178,20 @@ public class ImageController extends BaseController {
 			response.sendRedirect(request.getContextPath() + Avatar.DEFAULT_AVATAR);
 			return;
 		}
-		
+
 		outputImage(imageFile, webRequest, response);
 	}
-	
+
 	/**
 	 * 基于rawImage剪裁后提交新头像
 	 */
 	@ResponseBody
 	@RequestMapping(value = "avatar", method = RequestMethod.POST)
 	public ModelMap submitAvatar(
-			@RequestParam Long imageId, 
-			@RequestParam int left, 
-			@RequestParam int top, 
-			@RequestParam int width, 
+			@RequestParam Long imageId,
+			@RequestParam int left,
+			@RequestParam int top,
+			@RequestParam int width,
 			@RequestParam int height,
 			@RequestParam int imgWidth,
 			@RequestParam int imgHeight) throws IOException {
@@ -211,7 +211,7 @@ public class ImageController extends BaseController {
 		BufferedImage cuttedImage = ImageIO.read(imageFile)
 				.getSubimage(toInt(left * ratio), toInt(top * ratio), toInt(width * ratio), toInt(height * ratio));
 		List<Image> avatarImageList = buildAvatarImages(cuttedImage, DEFAULT_IMAGE_FORMAT);
-		
+
 		// 按校验和检查并丢弃已存在的图片
 		List<String> checksumList = Lists.transform(avatarImageList, new Function<Image, String>() {
 			@Override
@@ -227,14 +227,14 @@ public class ImageController extends BaseController {
 				return image.getChecksum();
 			}
 		});
-		
+
 		Iterator<Image> avatarImageIter = avatarImageList.iterator();
 		while(avatarImageIter.hasNext()) {
 			if(prevImageMap.containsKey(avatarImageIter.next().getChecksum())) {
 				avatarImageIter.remove();
 			}
 		}
-		
+
 		try {
 			for(Image avatarImage: avatarImageList) {
 				persistImage(avatarImage);
@@ -243,17 +243,18 @@ public class ImageController extends BaseController {
 			for(Image avatarImage: avatarImageList) {
 				imageService.createImage(avatarImage);
 			}
-			
+
 			avatarImageList.addAll(prevImageList);
 			List<Avatar> avatarList = buildAvatarList(avatarImageList);
 			avatarService.renewAvatars(avatarList, AuthUtil.getCurrentUserId());
+			AuthUtil.getCurrentUser().updateImageVersion();
 			return successResult("Avatars are updated successfully!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw LogReplayException.operationFailedException("Failed to update avatars!");
 		}
 	}
-	
+
 	private List<Avatar> buildAvatarList(List<Image> avatarImageList) {
 		List<Avatar> avatarList = new ArrayList<Avatar>();
 		Long userId = AuthUtil.getCurrentUser().getId();
@@ -262,7 +263,7 @@ public class ImageController extends BaseController {
 		}
 		return avatarList;
 	}
-	
+
 	private List<Image> buildAvatarImages(BufferedImage image, String format) throws IOException {
 		if(StringUtils.isBlank(format)) {
 			format = DEFAULT_IMAGE_FORMAT;
@@ -275,7 +276,7 @@ public class ImageController extends BaseController {
 			double scaleY = avatarType.height() * 1D / height;
 			BufferedImage zoomedImage = ImageUtil.zoomImage(image, scaleX, scaleY);
 			byte[] bytes = ImageUtil.toByteArray(zoomedImage, format);
-			
+
 			Image avatar = new Image.Builder()
 				.creatorId(creatorId)
 				.format(format)
@@ -311,14 +312,14 @@ public class ImageController extends BaseController {
 			throw LogReplayException.operationFailedException("Failed to persist image[%s]", file.getName());
 		}
 	}
-	
+
 	private Image buildRawImage(MultipartFile file, String format) throws IOException {
 		if(StringUtils.isBlank(format)) {
 			format = FilenameUtils.getExtension(file.getName());
 		}
 		BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(file.getBytes()));
 		byte[] bytes = ImageUtil.toByteArray(bufferedImage, format);
-		
+
 		return new Image.Builder()
 			.creatorId(AuthUtil.getCurrentUser().getId())
 			.format(format)
@@ -328,14 +329,14 @@ public class ImageController extends BaseController {
 			.type(Image.Type.raw)
 			.build();
 	}
-	
+
 	private void persistImage(Image image) throws IOException {
 		File imageFile = new File(image.getFilepath());
 		FileUtils.writeByteArrayToFile(imageFile, image.getBytes());
 	}
-	
+
 	private int toInt(double value) {
 		return Double.valueOf(value).intValue();
 	}
-	
+
 }

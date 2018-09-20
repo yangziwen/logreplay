@@ -31,7 +31,7 @@
 					<%-- <li><a href="${ctx_path}/home.htm">主页</a></li> --%>
 					<li>
 						<a href="${ctx_path}/user/detail.htm#avatar" target="_self" style="padding: 0px;">
-							<img src="${ctx_path}/image/avatar/<shiro:principal  property="id" type="${typeUser}"/>?type=small" 
+							<img src="${ctx_path}/image/avatar/<shiro:principal property="id" type="${typeUser}"/>?type=small&version=<shiro:principal property="imageVersion" type="${typeUser}"/>"
 								style="width: 32px; height: 32px; margin-top: 10px;"/>
 						</a>
 					</li>

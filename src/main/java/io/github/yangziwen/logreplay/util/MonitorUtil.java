@@ -11,6 +11,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -21,7 +22,7 @@ import com.google.common.collect.Lists;
 public class MonitorUtil {
 
 	private MonitorUtil() {}
-	
+
 	/**
 	 * 获取与name相对应的统计数据
 	 * @param application
@@ -47,12 +48,12 @@ public class MonitorUtil {
 			// 只有这样，打开rrd文件和调用fileChannel.map方法时的读写模式才会前后一致
 			processor.setPoolUsed(true);
 			processor.processData();
-			
-			
+
+
 			double[] values = processor.getValues("average");
 			long[] timestamps = processor.getTimestamps();
 			assert values.length == timestamps.length;
-			
+
 			List<Data<Long, Double>> dataList = Lists.newArrayList();
 			for(int i = 0, l = timestamps.length; i < l; i++) {
 				dataList.add(new Data<Long, Double>()
@@ -65,16 +66,16 @@ public class MonitorUtil {
 			e.printStackTrace();
 			return Collections.emptyList();
 		}
-		
+
 	}
-	
+
 	/**
 	 * 获取监控指标所对应的rrd文件
 	 */
 	public static File getStorageRrdFile(String application, String name) {
 		return new File(getStorageDirectory(application), name + ".rrd");
 	}
-	
+
 	/**
 	 * 获取存放监控指标的目录
 	 */
@@ -82,14 +83,15 @@ public class MonitorUtil {
 		String directoryPath = FilenameUtils.concat(SystemUtils.JAVA_IO_TMPDIR, "javamelody");
 		return new File(FilenameUtils.concat(directoryPath, application));
 	}
-	
+
 	/**
 	 * 获取应用名称
 	 */
 	public static String getCurrentApplication(ServletContext servletContext) {
-		return getContextPath(servletContext).substring(1) + '_' + getHostName();
+		String contextPath = getContextPath(servletContext);
+		return StringUtils.defaultIfBlank(contextPath, "/").substring(1) + '_' + getHostName();
 	}
-	
+
 	private static String getContextPath(ServletContext context) {
 		// cette m茅thode retourne le contextPath de la webapp
 		// en utilisant ServletContext.getContextPath si servlet api 2.5
@@ -123,7 +125,7 @@ public class MonitorUtil {
 		}
 		return contextPath;
 	}
-	
+
 	public static String getHostName() {
 		try {
 			return InetAddress.getLocalHost().getHostName();
@@ -131,12 +133,12 @@ public class MonitorUtil {
 			return "localhost";
 		}
 	}
-	
+
 	public static class Data<K, V> {
-		
+
 		private K key;
 		private V value;
-		
+
 		public K getKey() {
 			return key;
 		}
@@ -151,7 +153,7 @@ public class MonitorUtil {
 			this.value = value;
 			return this;
 		}
-		
+
 		@Override
 		public String toString() {
 			return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);

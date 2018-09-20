@@ -38,6 +38,8 @@ public class User extends AbstractBean implements Serializable {
 	@Column
 	private Boolean enabled = true;
 
+	private transient long imageVersion = System.currentTimeMillis();
+
 	public User() {}
 
 	public User(String username, String password) {
@@ -94,6 +96,15 @@ public class User extends AbstractBean implements Serializable {
 	}
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
+	}
+	public long getImageVersion() {
+		return imageVersion;
+	}
+	public void setImageVersion(long imageVersion) {
+		this.imageVersion = imageVersion;
+	}
+	public void updateImageVersion() {
+		setImageVersion(System.currentTimeMillis());
 	}
 
 }

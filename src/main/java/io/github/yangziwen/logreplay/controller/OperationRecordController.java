@@ -271,7 +271,7 @@ public class OperationRecordController extends BaseController {
 	/**
 	 * 接收操作数据的接口
 	 * 请求串格式如下
-	 * http://127.0.0.1:8075/logreplay//operationRecord/receive?moblog=sid:,os:Android4%252e1%252e2,d:A00000408A5798,op:460%252d03,density:240,loginid:,net:wifi,vn:6%252e2%252e0,pd:1,v:60200000,u:1420989208035172,md:SCH%252dI829,bsns:807,openid:,mf:samsung,apn:&info={"key":"菜市场","tag":1,"p":4,"t":1421656262063}
+	 * http://127.0.0.1:8075/operationRecord/receive?moblog=sid:,os:Android4%252e1%252e2,d:A00000408A5798,op:460%252d03,density:240,loginid:,net:wifi,vn:6%252e2%252e0,pd:1,v:60200000,u:1420989208035172,md:SCH%252dI829,bsns:807,openid:,mf:samsung,apn:&info={"key":"菜市场","tag":1,"p":4,"t":1421656262063}
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/receive", method = RequestMethod.GET)
