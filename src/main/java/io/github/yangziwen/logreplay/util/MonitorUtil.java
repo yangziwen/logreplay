@@ -16,10 +16,14 @@ import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.jrobin.data.DataProcessor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 
 public class MonitorUtil {
+
+	private static final Logger logger = LoggerFactory.getLogger(MonitorUtil.class);
 
 	private MonitorUtil() {}
 
@@ -63,7 +67,7 @@ public class MonitorUtil {
 			}
 			return dataList;
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("error happens when get monitor data[{}] for application[{}]", name, application, e);
 			return Collections.emptyList();
 		}
 

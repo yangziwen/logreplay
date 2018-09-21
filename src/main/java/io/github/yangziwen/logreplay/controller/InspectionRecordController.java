@@ -34,19 +34,19 @@ import io.github.yangziwen.logreplay.util.ProductUtil;
 @Controller
 @RequestMapping("/inspectionRecord")
 public class InspectionRecordController extends BaseController {
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private PageInfoService pageInfoService;
-	
+
 	@Autowired
 	private TagInfoService tagInfoService;
-	
+
 	@Autowired
 	private InspectionRecordService inspectionRecordService;
-	
+
 	/**
 	 * 获取校验结果的列表
 	 */
@@ -97,14 +97,14 @@ public class InspectionRecordController extends BaseController {
 		Page<InspectionRecordDto> page = InspectionRecordDto.from(inspectionRecordService.getInspectionRecordPaginateResultWithTransientFields(start, limit, params));
 		return successResult(page);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/detail/{id}")
 	public ModelMap detail(@PathVariable("id") Long id) {
 		InspectionRecord record = inspectionRecordService.getInspectionRecordById(id);
 		return successResult(new InspectionRecordDto().from(record));
 	}
-	
+
 	/**
 	 * 提交校验结果，相当于创建
 	 */
@@ -116,7 +116,7 @@ public class InspectionRecordController extends BaseController {
 			@RequestParam Boolean valid,
 			@RequestParam(required = false) String comment
 			) {
-		if(!AuthUtil.isPermitted(Target.Inspection_Record.modify())) { 
+		if(!AuthUtil.isPermitted(Target.Inspection_Record.modify())) {
 			throw LogReplayException.unauthorizedException("Role of 'admin' or 'test' or 'dev' is required!");
 		}
 		if(pageNo == null || tagNo == null || valid == null) {
@@ -138,11 +138,11 @@ public class InspectionRecordController extends BaseController {
 			inspectionRecordService.createInspectionRecord(record);
 			return successResult("InspectionRecord is created successfully!");
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("error happens when submit inspection record with pageNo[{}] and tagNo[{}]", pageNo, tagNo, e);
 			throw LogReplayException.operationFailedException("Failed to create InspectionRecord!");
 		}
 	}
-	
+
 	/**
 	 * 将校验结果标记为“已处理”
 	 */
@@ -164,10 +164,10 @@ public class InspectionRecordController extends BaseController {
 			inspectionRecordService.updateInspectionRecord(record);
 			return successResult("InspectionRecord is updated successfully!");
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("failed to resolve inspection record[{}]", id, e);
 			throw LogReplayException.operationFailedException("Failed to update InspectionRecord[%d]", record.getId());
 		}
-		
+
 	}
 
 }

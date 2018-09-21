@@ -17,8 +17,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -38,8 +36,8 @@ import com.google.common.eventbus.AsyncEventBus;
 import io.github.yangziwen.logreplay.bean.OperationRecord;
 import io.github.yangziwen.logreplay.bean.PageInfo;
 import io.github.yangziwen.logreplay.bean.ParamInfo;
-import io.github.yangziwen.logreplay.bean.TagInfo;
 import io.github.yangziwen.logreplay.bean.Permission.Target;
+import io.github.yangziwen.logreplay.bean.TagInfo;
 import io.github.yangziwen.logreplay.controller.base.BaseController;
 import io.github.yangziwen.logreplay.dao.base.Page;
 import io.github.yangziwen.logreplay.dao.base.QueryParamMap;
@@ -62,8 +60,6 @@ import io.github.yangziwen.logreplay.util.TagParamParser.ParamInfoHolder;
 @Controller
 @RequestMapping("/operationRecord")
 public class OperationRecordController extends BaseController {
-
-	private static final Logger logger = LoggerFactory.getLogger(OperationRecordController.class);
 
 	@Autowired
 	private OperationRecordService operationRecordService;
@@ -317,7 +313,7 @@ public class OperationRecordController extends BaseController {
 			operationRecordService.saveOrUpdateOperationRecord(record);
 			postOperationRecord(record);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("error happens when receive data", e);
 			throw LogReplayException.operationFailedException("Failed to save %s", record);
 		}
 		return successResult(new ModelMap("success", true));
@@ -366,7 +362,7 @@ public class OperationRecordController extends BaseController {
 				count += operationRecordService.batchSaveOperationRecord(recordList);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("error happens when upload nginx log", e);
 			throw LogReplayException.operationFailedException("Operation Failed while uploading log data!");
 		} finally {
 			IOUtils.closeQuietly(reader);

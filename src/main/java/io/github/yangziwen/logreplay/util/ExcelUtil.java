@@ -30,8 +30,12 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ExcelUtil {
+
+	private static final Logger logger = LoggerFactory.getLogger(ExcelUtil.class);
 
 	private static final int MAX_DATAROW_PER_SHEET = 65000;
 
@@ -45,7 +49,7 @@ public class ExcelUtil {
 			Sheet sheet = workbook.getSheetAt(0);
 			return readMapListFromSheet(sheet);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("error happens when import data via excel", e);
 			return Collections.emptyList();
 		} finally {
 			IOUtils.closeQuietly(workbook);
@@ -97,7 +101,7 @@ public class ExcelUtil {
 		try {
 			workbook.write(response.getOutputStream());
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("error happens when export data to excel", e);
 		}
 	}
 

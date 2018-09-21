@@ -11,6 +11,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.github.yangziwen.logreplay.bean.ParamInfo;
 import io.github.yangziwen.logreplay.bean.TagAction;
@@ -24,36 +26,38 @@ import io.github.yangziwen.logreplay.util.ExcelUtil.DataContainer;
 /**
  * 仅用于excel导出
  */
-public class TagInfoDto implements DataContainer{
+public class TagInfoDto implements DataContainer {
+
+	private static final Logger logger = LoggerFactory.getLogger(TagInfoDto.class);
 
 	private Long id;
 	private Long productId;
 	private String productName;
-	
+
 	private Integer pageNo;
 	private String pageName;
 	private Integer tagNo;
 	private String tagName;
-	
+
 	private Long actionId;
 	private String actionName;
 	private Long targetId;
 	private String targetName;
-	
+
 	private Integer originVersion;
 	private String originVersionDisplay;
 	private String comment;
-	
+
 	private String inspectStatus;
 	private String devInspectStatus;
-	
+
 	private Timestamp createTime;
 	private Timestamp updateTime;
-	
+
 	private TagParam tagParam;
 	private String tagParamDisplay;
 	private String tagParamComment;
-	
+
 	public TagInfoDto() {}
 
 	public Long getId() {
@@ -215,7 +219,7 @@ public class TagInfoDto implements DataContainer{
 	public void setTagParamDisplay(String tagParamDisplay) {
 		this.tagParamDisplay = tagParamDisplay;
 	}
-	
+
 	public String getTagParamComment() {
 		return tagParamComment;
 	}
@@ -223,7 +227,8 @@ public class TagInfoDto implements DataContainer{
 	public void setTagParamComment(String tagParamComment) {
 		this.tagParamComment = tagParamComment;
 	}
-	
+
+	@Override
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
@@ -233,49 +238,49 @@ public class TagInfoDto implements DataContainer{
 		try {
 			return PropertyUtils.getProperty(this, columnKey);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("failed to get value of {} from TagInfo[{}]", columnKey, this, e);
 		}
 		return null;
 	}
-	
-	public TagInfoDto from(TagInfo info, 
+
+	public TagInfoDto from(TagInfo info,
 			Map<Long, TagAction> actionMap, // Map<tagAction.id, tagAction>
 			Map<Long, TagTarget> targetMap, // Map<tagTarget.id, tagTarget>
 			Map<Long, TagParam> tagParamMap // Map<tagInfoId, tagParam>
 			) {
-		
+
 		TagAction action = actionMap.get(info.getActionId());
 		TagTarget target = targetMap.get(info.getTargetId());
-		
+
 		this.id = info.getId();
 		this.productId = info.getProductId();
 		this.productName = ProductUtil.getProductById(this.productId).getName();
-		
+
 		this.pageNo = info.getPageNo();
 		if(info.getPageInfo() != null) {
 			this.pageName = info.getPageInfo().getName();
 		}
 		this.tagNo = info.getTagNo();
 		this.tagName = info.getName();
-		
+
 		this.actionId = info.getActionId();
 		this.actionName = action != null? action.getName(): null;
 		this.targetId = info.getTargetId();
 		this.targetName = target != null? target.getName(): null;
-		
+
 		this.originVersion = info.getOriginVersion();
 		if(this.originVersion != null) {
 			this.originVersionDisplay = ProductUtil.formatAppVersion(this.originVersion);
 		}
 		this.comment = info.getComment();
-		
+
 		this.inspectStatus = InspectStatus.toDescription(info.getInspectStatus());
 		this.devInspectStatus = InspectStatus.toDescription(info.getDevInspectStatus());
-		
+
 		this.createTime = info.getCreateTime();
 		this.updateTime = info.getUpdateTime();
 		this.comment = info.getComment();
-		
+
 		this.tagParam = tagParamMap.get(info.getId());
 		if(tagParam != null && CollectionUtils.isNotEmpty(tagParam.getParamInfoList())) {
 			this.tagParamComment = tagParam.getComment();
@@ -298,11 +303,11 @@ public class TagInfoDto implements DataContainer{
 			}
 			tagParamDisplay = buff.toString();
 		}
-		
+
 		return this;
 	}
-	
-	public static List<TagInfoDto> from(List<TagInfo> list, 
+
+	public static List<TagInfoDto> from(List<TagInfo> list,
 			Map<Long, TagAction> actionMap, // Map<tagAction.id, tagAction>
 			Map<Long, TagTarget> targetMap, // Map<tagTarget.id, tagTarget>
 			Map<Long, TagParam> tagParamMap // Map<tagInfoId, tagParam>
@@ -313,5 +318,5 @@ public class TagInfoDto implements DataContainer{
 		}
 		return dtoList;
 	}
-	
+
 }

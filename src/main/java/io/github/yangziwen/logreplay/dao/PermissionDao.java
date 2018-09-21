@@ -8,5 +8,4 @@ import io.github.yangziwen.logreplay.dao.base.AbstractJdbcDaoImpl;
 @Repository
 public class PermissionDao extends AbstractJdbcDaoImpl<Permission> {
 
-	
 }

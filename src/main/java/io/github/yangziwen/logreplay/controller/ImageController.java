@@ -153,7 +153,7 @@ public class ImageController extends BaseController {
 			IOUtils.copy(input, output);
 			output.flush();
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("error happens when output image", e);
 		} finally {
 			IOUtils.closeQuietly(input);
 			IOUtils.closeQuietly(output);
@@ -250,7 +250,7 @@ public class ImageController extends BaseController {
 			AuthUtil.getCurrentUser().updateImageVersion();
 			return successResult("Avatars are updated successfully!");
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("error happens when submit avatar with image id[{}]", imageId, e);
 			throw LogReplayException.operationFailedException("Failed to update avatars!");
 		}
 	}
@@ -308,7 +308,7 @@ public class ImageController extends BaseController {
 		} catch (LogReplayException lre) {
 			throw lre;
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("error happens when upload row image", e);
 			throw LogReplayException.operationFailedException("Failed to persist image[%s]", file.getName());
 		}
 	}

@@ -20,35 +20,37 @@ public class PageInfo extends AbstractBean implements DataContainer {
 	@Id
 	@Column
 	private Long id;
-	
+
 	@Column(name = "product_id")
 	private Long productId;
-	
+
 	/** 页面编号 **/
 	@Column
 	private Integer pageNo;
-	
+
 	/** 页面名称 **/
 	@Column
 	private String name;
-	
+
 	@Column(name = "create_time")
 	private Timestamp createTime;
-	
+
 	@Column(name = "update_time")
 	private Timestamp updateTime;
 
 	public PageInfo() {}
-	
+
 	public PageInfo(Integer pageNo, String name) {
 		this.pageNo = pageNo;
 		this.name = name;
 	}
-	
+
+	@Override
 	public Long getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -98,9 +100,9 @@ public class PageInfo extends AbstractBean implements DataContainer {
 		try {
 			return PropertyUtils.getProperty(this, columnKey);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("failed to get value of {} from PageInfo[{}]", columnKey, this, e);
 		}
 		return null;
 	}
-	
+
 }

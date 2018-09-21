@@ -2,8 +2,12 @@ package io.github.yangziwen.logreplay.bean.base;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractBean {
+
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	public abstract Long getId();
 

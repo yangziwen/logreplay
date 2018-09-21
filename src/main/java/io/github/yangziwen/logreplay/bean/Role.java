@@ -8,7 +8,7 @@ import io.github.yangziwen.logreplay.bean.base.AbstractBean;
 
 @Table(name = "role")
 public class Role extends AbstractBean implements Cloneable {
-	
+
 	public static final String ADMIN = "admin";
 	public static final String TEST = "test";
 	public static final String DEV = "dev";
@@ -17,22 +17,24 @@ public class Role extends AbstractBean implements Cloneable {
 	@Id
 	@Column
 	private Long id;
-	
+
 	@Column
 	private String name;
-	
+
 	@Column(name = "display_name")
 	private String displayName;
-	
+
 	@Column
 	private String comment;
-	
+
 	public Role() {}
 
+	@Override
 	public Long getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -60,15 +62,15 @@ public class Role extends AbstractBean implements Cloneable {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	
+
 	@Override
 	public Role clone() {
 		try {
 			return (Role) super.clone();
 		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
+			logger.error("error happens when clone Product[{}]", this, e);
 			return null;
 		}
 	}
-	
+
 }

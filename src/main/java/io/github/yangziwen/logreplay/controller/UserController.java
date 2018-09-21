@@ -24,14 +24,14 @@ public class UserController extends BaseController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@ResponseBody
 	@RequestMapping("/detail")
 	public ModelMap detail() {
 		User user = userService.getUserByUsername(AuthUtil.getUsername());
 		return successResult(user);
 	}
-	
+
 	@Audit(action = "user.update_profile")
 	@ResponseBody
 	@RequestMapping(value = "/profile/update", method = RequestMethod.POST)
@@ -48,11 +48,11 @@ public class UserController extends BaseController {
 			userService.updateUser(user);
 			return successResult("User[%s] is successfully updated", username);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("failed to update profile of user[{}]", username, e);
 			throw LogReplayException.operationFailedException("Failed to update User[%s]", username);
 		}
 	}
-	
+
 	@Audit(action = "user.update_password")
 	@ResponseBody
 	@RequestMapping(value = "/password/update", method = RequestMethod.POST)
@@ -79,11 +79,11 @@ public class UserController extends BaseController {
 			userService.updateUser(user);
 			return successResult("The password of User[%s] is successfully updated", username);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("failed to update password of user[{}]", username, e);
 			throw LogReplayException.operationFailedException("Failed to update the password of User[%s]", username);
 		}
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/checkPassword")
 	public boolean checkPassword(String password) {
@@ -91,7 +91,7 @@ public class UserController extends BaseController {
 			return false;
 		}
 		User user = userService.getUserByUsername(AuthUtil.getUsername());
-		if(!AuthUtil.hashPassword(user.getUsername(), password).equals(user.getPassword())) { 
+		if(!AuthUtil.hashPassword(user.getUsername(), password).equals(user.getPassword())) {
 			return false;
 		}
 		return true;
