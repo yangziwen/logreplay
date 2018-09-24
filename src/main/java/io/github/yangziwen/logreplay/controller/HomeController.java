@@ -21,7 +21,9 @@ public class HomeController {
 	 */
 	@RequestMapping("/**/*.htm")
 	public String toJsp(HttpServletRequest request) {
-		return request.getRequestURI().replace(request.getContextPath(), "").replaceAll("\\.htm$", "");
+		return request.getRequestURI().replace(request.getContextPath(), "")
+				.replaceFirst("^/", "")
+				.replaceAll("\\.htm$", "");
 	}
 
 }

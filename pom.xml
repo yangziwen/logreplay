@@ -365,6 +365,12 @@
 						<port>8075</port>
 						<idleTimeout>60000</idleTimeout>
 					</httpConnector>
+					<systemProperties>
+						<systemProperty>
+							<key>jetty.base</key>
+							<value>${project.build.directory}/jetty</value>
+						</systemProperty>
+					</systemProperties>
 				</configuration>
 			</plugin>
 			<plugin>

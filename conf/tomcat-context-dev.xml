@@ -3,7 +3,7 @@
 	<WatchedResource>WEB-INF/web.xml</WatchedResource>
 	
 	<!-- 图片文件根目录 -->
-	<Environment name="imageBasePath" type="java.lang.String" value="res/images"/>
+	<Environment name="imageBasePath" type="java.lang.String" value="${catalina.base}/res/images"/>
 	<!-- 图片服务器根路径 -->
 	<Environment name="imageBaseUrl" type="java.lang.String" value="/image"/>
 
