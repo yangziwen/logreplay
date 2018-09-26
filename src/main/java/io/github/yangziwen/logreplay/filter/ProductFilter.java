@@ -4,12 +4,14 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.logging.log4j.core.config.Order;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.github.yangziwen.logreplay.util.ProductUtil;
@@ -18,12 +20,14 @@ import io.github.yangziwen.logreplay.util.ProductUtil;
  * 从请求的cookie中获取当前product_id的值
  * 并与当前线程进行绑定
  */
+@Order(12)
+@WebFilter(filterName = "productFilter", urlPatterns = "/*")
 public class ProductFilter extends OncePerRequestFilter {
-	
+
 	private static final Long DEFAULT_PRODUCT_ID = 1L;
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) 
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		String uri = request.getRequestURI();
 		if(uri.contains(".") && !uri.endsWith(".htm")) {

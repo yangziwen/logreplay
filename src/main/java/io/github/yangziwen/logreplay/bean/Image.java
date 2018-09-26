@@ -16,67 +16,67 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.yangziwen.logreplay.bean.base.AbstractBean;
 import io.github.yangziwen.logreplay.dao.base.EnumPropertyEditor;
 import io.github.yangziwen.logreplay.util.ChecksumUtil;
-import io.github.yangziwen.logreplay.util.JndiUtil;
 import io.github.yangziwen.logreplay.util.EnumUtil.EnumConverter;
 
 @Table(name = "image")
 public class Image extends AbstractBean {
-	
-	/** 图片根路径通过jndi进行配置 **/
-	public static final String IMAGE_BASE_PATH = JndiUtil.lookup("java:comp/env/imageBasePath");
-	
-	public static final String IMAGE_BASE_URL = JndiUtil.lookup("java:comp/env/imageBaseUrl");
-	
+
+	public static final String IMAGE_BASE_PATH = "res/images";
+
+	public static final String IMAGE_BASE_URL = "/image";
+
 	@Id
 	@Column
 	private Long id;
-	
+
 	/** 使用sha1算法产生校验和 **/
 	@Column
 	private String checksum;
-	
+
 	/** 图片文件类型 **/
 	@Column(name = "format")
 	private String format;
-	
+
 	/** 图片业务类型 **/
 	@Column
 	private Type type;
-	
+
 	/** 图片宽度 **/
 	@Column
 	private Integer width;
-	
+
 	/** 图片长度 **/
 	@Column
 	private Integer height;
-	
+
 	/** 图片文件大小 **/
 	@Column
 	private Integer size;
-	
+
 	/** 创建者id **/
 	@Column(name = "creator_id")
 	private Long creatorId;
-	
+
 	/** 创建时间 **/
 	@Column(name = "create_time")
 	private Timestamp createTime;
-	
+
 	/** 用于数据在程序内部的中转 **/
 	@Transient
 	private byte[] bytes;
-	
+
 	public Image() {}
 
+	@Override
 	public Long getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public String getChecksum() {
 		return checksum;
 	}
@@ -140,7 +140,7 @@ public class Image extends AbstractBean {
 	public void setCreateTime(Timestamp createTime) {
 		this.createTime = createTime;
 	}
-	
+
 	@JsonIgnore
 	public byte[] getBytes() {
 		return bytes;
@@ -154,7 +154,7 @@ public class Image extends AbstractBean {
 	public String getFilename() {
 		return getChecksum() + "." + getFormat();
 	}
-	
+
 	/**
 	 * 文件路径通过生成日期，校验和以及文件类型拼装得到
 	 */
@@ -162,54 +162,54 @@ public class Image extends AbstractBean {
 	public String getFilepath() {
 		return FilenameUtils.concat(IMAGE_BASE_PATH, getDateSubDir() + getFilename());
 	}
-	
+
 	public String getUrl() {
 		return StringUtils.join(new String[]{IMAGE_BASE_URL, getDateSubDir() + getFilename()}, "/");
 	}
-	
+
 	private String getDateSubDir() {
 		return DateFormatUtils.format(createTime, "yyyy/MM/dd/");
 	}
-	
+
 	public static class Builder {
-		
+
 		private String format;
 		private byte[] bytes;
 		private Long creatorId;
 		private int width;
 		private int height;
 		private Type type;
-		
+
 		public Builder format(String format) {
 			this.format = format;
 			return this;
 		}
-		
+
 		public Builder bytes(byte[] bytes) {
 			this.bytes = bytes;
 			return this;
 		}
-		
+
 		public Builder creatorId(Long creatorId) {
 			this.creatorId = creatorId;
 			return this;
 		}
-		
+
 		public Builder width(int width) {
 			this.width = width;
 			return this;
 		}
-		
+
 		public Builder height(int height) {
 			this.height = height;
 			return this;
 		}
-		
+
 		public Builder type(Type type) {
 			this.type = type;
 			return this;
 		}
-		
+
 		public Image build() {
 			Image image = new Image();
 			image.setCreatorId(creatorId);
@@ -225,29 +225,29 @@ public class Image extends AbstractBean {
 			}
 			return image;
 		}
-		
+
 	}
-	
+
 	/** 上传头像时产生的图片尺寸类型 **/
 	public enum Type {
-		
+
 		raw(0, 0),
 		small(32, 32),
 		middle(64, 64),
 		large(128, 128)
 		;
-		
+
 		public static final String DEFAULT_VALUE = "middle";
-		
+
 		public static final int LEN = Type.values().length;
-		
+
 		private Type(int width, int height) {
 			this.width = width;
 			this.height = height;
 		}
-		
+
 		private int width;
-		
+
 		private int height;
 
 		public int width() {
@@ -257,9 +257,9 @@ public class Image extends AbstractBean {
 		public int height() {
 			return height;
 		}
-		
+
 	}
-	
+
 	public static class TypePropertyEditor extends EnumPropertyEditor<Type> {
 
 		public TypePropertyEditor() {
@@ -267,5 +267,5 @@ public class Image extends AbstractBean {
 		}
 
 	}
-	
+
 }

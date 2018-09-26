@@ -15,19 +15,13 @@
 
 - **前端框架:**&ensp;&ensp;jQuery, Bootstrap3, Sea.js
 
-- **后端框架:**&ensp;&ensp;Spring-MVC, Spring, Shiro
+- **后端框架:**&ensp;&ensp;Spring Boot, Spring Framework, Shiro
 
 - **数据库:**&ensp;&ensp;&ensp;&ensp;MySQL
- 
-- **服务器:**&ensp;&ensp;&ensp;&ensp;Tomcat
-
-- **项目管理:**&ensp;&ensp;Maven
-
-- **版本控制:**&ensp;&ensp;Git
 
 ### 开发环境运行方法
 
- &ensp;&ensp;**1.下载工程**  `git clone https://github.com/yangziwen/logreplay.git`
+ &ensp;&ensp;**1.下载项目**  `git clone https://github.com/yangziwen/logreplay.git`
 
  &ensp;&ensp;**2.初始化数据库**
  
@@ -45,6 +39,13 @@ source src/main/resources/sql/data.sql; commit;
 set autocommit=1;
 ```
 
- &ensp;&ensp;**3.运行工程**  `mvn tomcat7:run`或`mvn jetty:run`
+ &ensp;&ensp;**3.运行项目**  `mvn spring-boot:run`
 
- &ensp;&ensp;**4.访问工程** [http://localhost:8075](http://localhost:8075) ( 用户名:admin / 密码: 1234 )
+ &ensp;&ensp;**4.访问项目** [http://localhost:8075](http://localhost:8075) ( 用户名:admin / 密码: 1234 )
+
+### 生产环境运行方法
+ &ensp;&ensp;**1.打包项目** `mvn clean package`
+
+ &ensp;&ensp;**2.运行项目** `java -jar -Dspring.config.location=${your_application_properties_file} logreplay.war`
+
+ &ensp;&ensp;注意，虽然项目的打包产出是war包，但是只能基于内嵌tomcat直接运行，无法部署到独立的tomcat中
