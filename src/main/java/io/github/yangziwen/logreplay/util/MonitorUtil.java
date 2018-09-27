@@ -35,7 +35,8 @@ public class MonitorUtil {
 	 * @param endTime	结束时间(毫秒)
 	 * @param step		取样间隔(秒)
 	 */
-	public static List<Data<Long, Double>> getDataList(String application, String name, long startTime, long endTime, long step) {
+	public static List<Data<Long, Double>> getDataList(
+			String application, String name, long startTime, long endTime, long step, ConsolFunc func) {
 		File rrdFile = getStorageRrdFile(application, name);
 		if(!rrdFile.exists()) {
 			return Collections.emptyList();
@@ -46,7 +47,7 @@ public class MonitorUtil {
 				dsName = dsName.substring(0, 20);
 			}
 			DataProcessor processor = new DataProcessor(startTime / 1000, endTime / 1000);
-			processor.addDatasource("average", rrdFile.getAbsolutePath(), dsName, "AVERAGE");
+			processor.addDatasource("data", rrdFile.getAbsolutePath(), dsName, func.name());
 			processor.setStep(step);
 			// poolUsed设为true，会使用read_write模式，
 			// 只有这样，打开rrd文件和调用fileChannel.map方法时的读写模式才会前后一致
@@ -54,7 +55,7 @@ public class MonitorUtil {
 			processor.processData();
 
 
-			double[] values = processor.getValues("average");
+			double[] values = processor.getValues("data");
 			long[] timestamps = processor.getTimestamps();
 			assert values.length == timestamps.length;
 
@@ -162,5 +163,9 @@ public class MonitorUtil {
 		public String toString() {
 			return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 		}
+	}
+
+	public static enum ConsolFunc {
+		MIN, MAX, AVERAGE, LAST;
 	}
 }

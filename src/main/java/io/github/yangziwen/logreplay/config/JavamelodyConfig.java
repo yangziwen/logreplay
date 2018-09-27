@@ -1,5 +1,7 @@
 package io.github.yangziwen.logreplay.config;
 
+import java.util.EventListener;
+
 import javax.servlet.DispatcherType;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -34,8 +36,8 @@ public class JavamelodyConfig {
 	}
 
 	@Bean
-	public ServletListenerRegistrationBean<?> sessionListener() {
-		return new ServletListenerRegistrationBean<SessionListener>(new SessionListener());
+	public ServletListenerRegistrationBean<EventListener> sessionListener() {
+		return new ServletListenerRegistrationBean<EventListener>(new SessionListener());
 	}
 
 	@Bean

@@ -97,10 +97,10 @@ define(function(require, exports, module) {
 	}
 	
 	function drawHttpChart(data) {
-		var maxSessionCnt = 0;
-		var sessionCntList = $.map(data.httpSessionsDataList, function(data) {
+		var maxCnt = 0;
+		var httpCntList = $.map(data.httpHitsRateDataList, function(data) {
 			var cnt = parseInt(data.value);
-			maxSessionCnt < cnt && (maxSessionCnt = cnt);
+			maxCnt < cnt && (maxCnt = cnt);
 			return cnt;
 		});
 		
@@ -110,7 +110,7 @@ define(function(require, exports, module) {
 					var data = params[0]
 					return [
 						'时间：' + data[1],
-						'会话数：' + data[2]
+						'平均请求数：' + data[2]
 					].join('<br/>');
 				}
 			}, defaultToolTipOption),
@@ -119,7 +119,7 @@ define(function(require, exports, module) {
 				x: 'center'
 			},
 			legend: {
-				data: ['http会话数'],
+				data: ['http请求数'],
 				y: 'bottom'
 			},
 			toolbox: {
@@ -135,15 +135,15 @@ define(function(require, exports, module) {
 				})
 			}],
 			yAxis: [{
-				name: '会话数',
+				name: '请求数',
 				type: 'value',
 				min: 0,
-				max: parseInt(maxSessionCnt / 4 * 5) + 1
+				max: parseInt(maxCnt / 4 * 5) + 1
 			}],
 			series: [{
-				name: 'http会话数',
+				name: 'http请求数',
 				type: 'line',
-				data: sessionCntList
+				data: httpCntList
 			}]
 			
 		};
@@ -265,7 +265,7 @@ define(function(require, exports, module) {
 			case 'halfDay': return {
 				startTime: moment(now).subtract(12, 'h').format('x'),
 				endTime: now.format('x'),
-				step: 600
+				step: 300
 			}
 			case 'day': return {
 				startTime: moment(now).subtract(24, 'h').format('x'),

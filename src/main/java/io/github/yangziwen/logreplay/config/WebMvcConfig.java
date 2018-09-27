@@ -32,7 +32,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		registry.addResourceHandler("/js/**").addResourceLocations("/static/js/").setCachePeriod(cachePeriod);
 		registry.addResourceHandler("/css/**").addResourceLocations("/static/css/").setCachePeriod(cachePeriod);
 		registry.addResourceHandler("/img/**").addResourceLocations("/static/img/").setCachePeriod(cachePeriod);
-		registry.addResourceHandler("/fonts/**").addResourceLocations("/static/fonts").setCachePeriod(cachePeriod);
+		registry.addResourceHandler("/fonts/**").addResourceLocations("/static/fonts/").setCachePeriod(cachePeriod);
 	}
 
 	@Bean
