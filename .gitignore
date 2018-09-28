@@ -2,6 +2,7 @@
 target/
 bin/
 logs/
+work/
 res
 src/main/webapp/WEB-INF/classes/
 .project

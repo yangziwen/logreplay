@@ -1,9 +1,8 @@
 package io.github.yangziwen.logreplay;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner.Mode;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -35,7 +34,7 @@ public class LogreplayApplication {
 
 	public static void main(String[] args) {
 		System.setProperty("tomcat.util.http.parser.HttpParser.requestTargetAllow","|{}");
-		new SpringApplicationBuilder(LogreplayApplication.class).bannerMode(Mode.OFF).run(args);
+		SpringApplication.run(LogreplayApplication.class, args);
 	}
 
 }

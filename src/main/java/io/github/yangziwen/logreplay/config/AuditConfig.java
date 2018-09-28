@@ -20,7 +20,7 @@ public class AuditConfig {
 
 	private CustomizableLayout layout() {
 		CustomizableLayout layout = new CustomizableLayout();
-		layout.setDateFormat("yyyy-MM-dd HH:mm:ss");
+		layout.setDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");
 		layout.setTemplate("${eventDate} AuditLog |${actor}|${action}|${origin}|{${foreach fields field ,}${field.name}:${field.value}${end}}");
 		return layout;
 	}
