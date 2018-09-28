@@ -5,6 +5,7 @@ logs/
 work/
 res
 src/main/webapp/WEB-INF/classes/
+*.pid
 .project
 .classpath
 .settings/

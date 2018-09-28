@@ -100,6 +100,7 @@ public class ShiroConfig {
 				.put("/admin/**", "authc, roles[admin]")
 				.put("/monitoring**", "roles[admin]")
 				.put("/monitor/**", "roles[admin]")
+				.put("/manage/**", "roles[admin]")
 				.put("/**", "user")
 				.build());
 		return factoryBean;
