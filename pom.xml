@@ -22,7 +22,6 @@
 		<shiro.version>1.4.0</shiro.version>
 		<poi.version>3.16</poi.version>
 		<audit4j.version>2.5.0</audit4j.version>
-		<slf4j.version>1.7.21</slf4j.version>
 		<javamelody.version>1.58.0</javamelody.version>
 		<commons.lang.version>2.6</commons.lang.version>
 		<commons.io.version>2.4</commons.io.version>
@@ -31,7 +30,6 @@
 		<guava.version>18.0</guava.version>
 		<fastjson.version>1.1.41</fastjson.version>
 		<javax.persistence.version>1.0.2</javax.persistence.version>
-		<javax.servlet.jstl.version>1.2</javax.servlet.jstl.version>
 		<mysql.connector.version>5.1.22</mysql.connector.version>
 	</properties>
 

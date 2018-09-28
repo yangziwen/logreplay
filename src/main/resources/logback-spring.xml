@@ -2,6 +2,9 @@
 
 <configuration scan="true" scanPeriod="30 seconds">
 
+	<springProperty name="maxHistory" source="logging.rolling.max-history" defaultValue="60"/>
+	<springProperty name="maxFileSize" source="logging.rolling.max-file-size" defaultValue="10MB"/>
+
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
 			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
@@ -12,10 +15,10 @@
 	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>${LOG_PATH}/${LOG_FILE}</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>log/logreplay.%d.%i.log</fileNamePattern>
-			<maxHistory>30</maxHistory>
+			<fileNamePattern>${LOG_PATH}/${LOG_FILE}.%d{yyyy-MM-dd}.%i</fileNamePattern>
+			<maxHistory>${maxHistory}</maxHistory>
 			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-				<maxFileSize>10MB</maxFileSize>
+				<maxFileSize>${maxFileSize}</maxFileSize>
 			</timeBasedFileNamingAndTriggeringPolicy>
 		</rollingPolicy>
 		<encoder>
@@ -27,7 +30,9 @@
 	<root>
 		<level value="${LOG_LEVEL_PATTERN}" />
 		<appender-ref ref="STDOUT" />
-		<appender-ref ref="FILE" />
 	</root>
+	<logger name="io.github.yangziwen.logreplay" level="${LOG_LEVEL_PATTERN}" additivity="false">
+		<appender-ref ref="FILE" />
+	</logger>
 
 </configuration>
