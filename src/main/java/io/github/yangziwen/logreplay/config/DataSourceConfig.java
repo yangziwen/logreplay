@@ -17,10 +17,11 @@ public class DataSourceConfig {
 
 	@Primary
 	@Bean("dataSource")
-	@ConfigurationProperties("hiraki.datasource")
+	@ConfigurationProperties("spring.datasource.hikari")
 	public HikariDataSource dataSource() {
 		return (HikariDataSource) DataSourceBuilder
 				.create()
+				.driverClassName("com.mysql.jdbc.Driver")
 				.type(HikariDataSource.class)
 				.build();
 	}

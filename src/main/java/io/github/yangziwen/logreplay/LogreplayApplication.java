@@ -3,8 +3,10 @@ package io.github.yangziwen.logreplay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.system.ApplicationPidFileWriter;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -16,7 +18,7 @@ import com.google.common.eventbus.AsyncEventBus;
 @EnableTransactionManagement
 @EnableWebSocketMessageBroker
 @SpringBootApplication
-public class LogreplayApplication {
+public class LogreplayApplication extends SpringBootServletInitializer {
 
 	@Bean("executor")
 	public ThreadPoolTaskExecutor executor() {
@@ -31,6 +33,11 @@ public class LogreplayApplication {
 	@Bean("eventBus")
 	public AsyncEventBus eventBus(@Autowired ThreadPoolTaskExecutor executor) {
 		return new AsyncEventBus(executor);
+	}
+
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(LogreplayApplication.class);
 	}
 
 	public static void main(String[] args) {

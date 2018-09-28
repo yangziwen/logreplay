@@ -17,7 +17,7 @@
 
 - **后端框架:**&ensp;&ensp;Spring Boot, Spring Framework, Shiro
 
-- **数据库:**&ensp;&ensp;&ensp;&ensp;MySQL
+- **数&nbsp;&nbsp;据&nbsp;&nbsp;库:**&ensp;&ensp;MySQL
 
 ### 开发环境运行方法
 
@@ -46,6 +46,4 @@ set autocommit=1;
 ### 生产环境运行方法
  &ensp;&ensp;**1.打包项目** `mvn clean package`
 
- &ensp;&ensp;**2.运行项目** `java -jar -Dspring.config.location=${your_application_properties_file} logreplay.war`
-
- &ensp;&ensp;注意，虽然项目的打包产出是war包，但是只能基于内嵌tomcat直接运行，无法部署到独立的tomcat中
+ &ensp;&ensp;**2.运行项目** `java -jar -Dspring.config.location=${your_application_properties_file} logreplay.war`或将war包部署到独立的tomcat(8.5)中
