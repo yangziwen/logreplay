@@ -5,7 +5,7 @@
 	<springProperty name="maxHistory" source="logging.rolling.max-history" defaultValue="60"/>
 	<springProperty name="maxFileSize" source="logging.rolling.max-file-size" defaultValue="10MB"/>
 
-	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
 			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
 			<charset>UTF-8</charset>
@@ -29,10 +29,13 @@
 
 	<root>
 		<level value="${LOG_LEVEL_PATTERN}" />
-		<appender-ref ref="STDOUT" />
+		<appender-ref ref="CONSOLE" />
 	</root>
 	<logger name="io.github.yangziwen.logreplay" level="${LOG_LEVEL_PATTERN}" additivity="false">
 		<appender-ref ref="FILE" />
+	</logger>
+	<logger name="io.github.yangziwen.logreplay.config" level="{LOG_LEVEL_PATTERN}" additivity="false">
+		<appender-ref ref="CONSOLE" />
 	</logger>
 
 </configuration>
