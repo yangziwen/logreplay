@@ -7,6 +7,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.system.ApplicationPidFileWriter;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -14,6 +15,7 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 
 import com.google.common.eventbus.AsyncEventBus;
 
+@EnableCaching
 @ServletComponentScan
 @EnableTransactionManagement
 @EnableWebSocketMessageBroker

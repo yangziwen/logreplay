@@ -100,7 +100,7 @@ public class PageInfo extends AbstractBean implements DataContainer {
 		try {
 			return PropertyUtils.getProperty(this, columnKey);
 		} catch (Exception e) {
-			logger.error("failed to get value of {} from PageInfo[{}]", columnKey, this, e);
+			logger().error("failed to get value of {} from PageInfo[{}]", columnKey, this, e);
 		}
 		return null;
 	}

@@ -68,7 +68,7 @@ public class Role extends AbstractBean implements Cloneable {
 		try {
 			return (Role) super.clone();
 		} catch (CloneNotSupportedException e) {
-			logger.error("error happens when clone Product[{}]", this, e);
+			logger().error("error happens when clone Product[{}]", this, e);
 			return null;
 		}
 	}

@@ -7,8 +7,6 @@ import org.slf4j.LoggerFactory;
 
 public abstract class AbstractBean {
 
-	protected Logger logger = LoggerFactory.getLogger(this.getClass());
-
 	public abstract Long getId();
 
 	public abstract void setId(Long id);
@@ -20,6 +18,10 @@ public abstract class AbstractBean {
 
 	public String toString(ToStringStyle style) {
 		return ToStringBuilder.reflectionToString(this, style);
+	}
+
+	protected Logger logger() {
+		return LoggerFactory.getLogger(this.getClass());
 	}
 
 }

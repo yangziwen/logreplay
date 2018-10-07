@@ -53,26 +53,26 @@ import io.github.yangziwen.logreplay.util.ExcelUtil.Column;
 @Controller
 @RequestMapping("/tagInfo")
 public class TagInfoController extends BaseController {
-	
+
 	private static List<Column> TAG_INFO_COLUMN_LIST = buildTagInfoColumnList(false);
-	
+
 	private static List<Column> COMMON_TAG_INFO_COLUMN_LIST = buildTagInfoColumnList(true);
-	
+
 	@Autowired
 	private PageInfoService pageInfoService;
 
 	@Autowired
 	private TagInfoService tagInfoService;
-	
+
 	@Autowired
 	private TagActionService tagActionService;
-	
+
 	@Autowired
 	private TagTargetService tagTargetService;
-	
+
 	@Autowired
 	private TagParamService tagParamService;
-	
+
 	@ResponseBody
 	@RequestMapping("/list")
 	public ModelMap list(
@@ -87,19 +87,19 @@ public class TagInfoController extends BaseController {
 			Boolean isCommonTag,
 			Integer originVersionSince,
 			Integer originVersionUntil,
-			@RequestParam(value = "inspectStatus", required = false) 
+			@RequestParam(value = "inspectStatus", required = false)
 			String inspectStatusStr,
-			@RequestParam(value = "devInspectStatus", required = false) 
+			@RequestParam(value = "devInspectStatus", required = false)
 			String devInspectStatusStr
 			) {
 		Page<TagInfo> page = tagInfoService.getTagInfoPageResult(start, limit, buildQueryParamMap(
-				pageNo, tagNo, pageName, tagName, updateBeginTime, updateEndTime, 
+				pageNo, tagNo, pageName, tagName, updateBeginTime, updateEndTime,
 				isCommonTag, originVersionSince, originVersionUntil, inspectStatusStr, devInspectStatusStr)
 		);
 		fillHasParamsFlag(page.getList());
 		return successResult(page);
 	}
-	
+
 	/**
 	 * 为tagInfo添加是否有参数(tagParam)的标识
 	 */
@@ -123,16 +123,16 @@ public class TagInfoController extends BaseController {
 		for(TagInfo tagInfo: tagInfoList) {
 			tagInfo.setHasParams(tagInfoIdsWithParam.contains(tagInfo.getId()));
 		}
-		
+
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/detail/{id}")
 	public ModelMap detail(@PathVariable("id") Long id) {
 		TagInfo tagInfo = tagInfoService.getTagInfoById(id);
 		return successResult(tagInfo);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/detailByPageNoAndTagNo/{pageNo}/{tagNo}")
 	public ModelMap detailByPageNoAndTagNo(
@@ -141,7 +141,7 @@ public class TagInfoController extends BaseController {
 		TagInfo tagInfo = tagInfoService.getTagInfoByPageNoTagNoAndProductId(pageNo, tagNo, ProductUtil.getProductId());
 		return successResult(tagInfo);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/update")
 	public ModelMap update(
@@ -188,9 +188,9 @@ public class TagInfoController extends BaseController {
 		} catch (Exception e) {
 			throw LogReplayException.operationFailedException("Failed to update TagInfo[%d]", id);
 		}
-		
+
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public ModelMap create(
@@ -235,9 +235,9 @@ public class TagInfoController extends BaseController {
 		} catch (Exception e) {
 			throw LogReplayException.operationFailedException("Failed to create TagInfo!");
 		}
-		
+
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public ModelMap delete(@RequestParam("id") Long id) {
@@ -254,7 +254,7 @@ public class TagInfoController extends BaseController {
 			throw LogReplayException.operationFailedException("Failed to delete TagInfo[%d]!", id);
 		}
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/checkDuplication")
 	public boolean checkDuplication(Long id, Integer tagNo, Long pageInfoId) {
@@ -276,7 +276,7 @@ public class TagInfoController extends BaseController {
 		}
 		return true;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/checkExist")
 	public boolean checkExist(Integer pageNo, Integer tagNo) {
@@ -288,7 +288,7 @@ public class TagInfoController extends BaseController {
 		}
 		return true;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/export")
 	public void exportTagInfos(
@@ -306,7 +306,7 @@ public class TagInfoController extends BaseController {
 			HttpServletResponse response
 			) {
 		List<TagInfo> list = tagInfoService.getTagInfoListResult(buildQueryParamMap(
-				pageNo, tagNo, pageName, tagName, updateBeginTime, updateEndTime, 
+				pageNo, tagNo, pageName, tagName, updateBeginTime, updateEndTime,
 				isCommonTag, originVersionSince, originVersionUntil, inspectStatusStr, devInspectStatusStr)
 		);
 		Map<Long, TagAction> actionMap = Maps.uniqueIndex(tagActionService.getTagActionListResult(), new Function<TagAction, Long>() {
@@ -315,7 +315,7 @@ public class TagInfoController extends BaseController {
 				return action.getId();
 			}
 		});
-		
+
 		Map<Long, TagTarget> targetMap = Maps.uniqueIndex(tagTargetService.getTagTargetListResult(), new Function<TagTarget, Long>() {
 			@Override
 			public Long apply(TagTarget target) {
@@ -333,11 +333,11 @@ public class TagInfoController extends BaseController {
 				? COMMON_TAG_INFO_COLUMN_LIST
 				: TAG_INFO_COLUMN_LIST;
 		Workbook workbook = ExcelUtil.exportDataList(columnList, dtoList);
-		String filename = ProductUtil.getCurrentProduct().getName() 
+		String filename = ProductUtil.getCurrentProduct().getName()
 				+ (isCommonTag? "_公共操作详情.xls": "_操作详情.xls");
 		ExcelUtil.outputExcelToResponse(workbook, filename, response);
 	}
-	
+
 	/**
 	 * 查询接口和excel导出接口都会用到这个组织参数map的方法
 	 */
@@ -375,15 +375,15 @@ public class TagInfoController extends BaseController {
 			.addParam(StringUtils.isNotBlank(pageName), "page_info.name__contain", pageName)
 			.addParam(StringUtils.isNotBlank(updateBeginTime), "updateTime__ge", updateBeginTime)
 			.addParam(StringUtils.isNotBlank(updateEndTime), "updateTime__le", updateEndTime)
-			.addParam(Boolean.FALSE.equals(isCommonTag), "page_info.id__is_not_null")
-			.addParam(Boolean.TRUE.equals(isCommonTag), "page_info.id__is_null")
+			.addParam(Boolean.FALSE.equals(isCommonTag), "page_info_id__is_not_null")
+			.addParam(Boolean.TRUE.equals(isCommonTag), "page_info_id__is_null")
 			.addParam(originVersionSince != null && originVersionSince > 0, "originVersion__ge", originVersionSince)
 			.addParam(originVersionUntil != null && originVersionUntil > 0 , "originVersion__le", originVersionUntil)
 			.addParam(inspectStatus != InspectStatus.UNKNOWN, "inspectStatus", inspectStatus.getIntValue())
 			.addParam(devInspectStatus != InspectStatus.UNKNOWN, "devInspectStatus", devInspectStatus.getIntValue())
 			.orderByAsc("page_info.page_no").orderByAsc("tagNo");
 	}
-	
+
 	private static List<Column> buildTagInfoColumnList(boolean isCommonTag) {
 		List<Column> columnList = new ArrayList<Column>();
 		if(!isCommonTag) {
@@ -392,22 +392,22 @@ public class TagInfoController extends BaseController {
 		}
 		columnList.add(ExcelUtil.column(TagFields.tagNo, "tagNo", 3000, CellType.number));
 		columnList.add(ExcelUtil.column(TagFields.tagName, "tagName", 10000, CellType.text));
-		
+
 		columnList.add(ExcelUtil.column(TagFields.actionName, "actionName", 3000, CellType.text));
 		columnList.add(ExcelUtil.column(TagFields.targetName, "targetName", 3000, CellType.text));
-		
+
 		columnList.add(ExcelUtil.column(TagFields.originVersionDisplay, "originVersionDisplay", 3000, CellType.text));
 		columnList.add(ExcelUtil.column(TagFields.devInspectStatus, "devInspectStatus", 4000, CellType.text));
 		columnList.add(ExcelUtil.column(TagFields.inspectStatus, "inspectStatus", 4000, CellType.text));
-		
+
 		columnList.add(ExcelUtil.column(TagFields.comment, "comment", 6000, CellType.text));
-		
+
 		columnList.add(ExcelUtil.column(TagFields.tagParamDisplay, "tagParamDisplay", 10000, CellType.text));
 		columnList.add(ExcelUtil.column(TagFields.tagParamComment, "tagParamComment", 10000, CellType.text));
-		
+
 		return columnList;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/import", method = RequestMethod.POST)
 	public ModelMap importTagInfos(MultipartFile file) throws IOException {
@@ -419,24 +419,24 @@ public class TagInfoController extends BaseController {
 		int count = importTagInfoByDtoList(dtoList);
 		return successResult(new ModelMap("count", count));
 	}
-	
+
 	public int importTagInfoByDtoList(List<TagInfoDto> dtoList) {
 		Map<Integer, PageInfo> pageInfoMap = Maps.newHashMap();
 		pageInfoMap.put(0, new PageInfo());			// 遇到“公共操作项”时，pageNo会被解析为0
 		pageInfoMap.put(null, new PageInfo());		// 插入个空key，以防万一
-		
+
 		Map<String, TagAction> actionMap = Maps.newHashMap();
 		List<TagAction> actionList = tagActionService.getTagActionListResult();
 		for(TagAction action: actionList) {
 			actionMap.put(action.getName(), action);
 		}
-		
+
 		Map<String, TagTarget> targetMap = Maps.newHashMap();
 		List<TagTarget> targetList = tagTargetService.getTagTargetListResult();
 		for(TagTarget target: targetList) {
 			targetMap.put(target.getName(), target);
 		}
-		
+
 		int cnt = 0;
 		for(TagInfoDto tagInfoDto: dtoList) {
 			if(createTagInfoByDto(tagInfoDto, pageInfoMap, actionMap, targetMap)) {
@@ -445,7 +445,7 @@ public class TagInfoController extends BaseController {
 		}
 		return cnt;
 	}
-	
+
 	private PageInfo getOrCreatePageInfoIfNotExist(Integer pageNo, String pageName) {
 		if(pageNo <= 0) {
 			return null;
@@ -457,20 +457,20 @@ public class TagInfoController extends BaseController {
 		}
 		return pageInfo;
 	}
-	
+
 	private boolean createTagInfoByDto(
-			TagInfoDto tagInfoDto, 
+			TagInfoDto tagInfoDto,
 			Map<Integer, PageInfo> pageInfoMap,		// Map<PageNo, PageInfo>
 			Map<String, TagAction> actionMap,		// Map<TagAction.name, TagAction>
 			Map<String, TagTarget> targetMap) {		// Map<TagTarget.name, TagTarget>
-		
+
 		if(tagInfoService.getTagInfoByPageNoTagNoAndProductId(
-				tagInfoDto.getPageNo(), 
-				tagInfoDto.getTagNo(), 
+				tagInfoDto.getPageNo(),
+				tagInfoDto.getTagNo(),
 				ProductUtil.getProductId()) != null) {
 			return false;
 		}
-		
+
 		if(!pageInfoMap.containsKey(tagInfoDto.getPageNo())) {
 			PageInfo pageInfo = getOrCreatePageInfoIfNotExist(tagInfoDto.getPageNo(), tagInfoDto.getPageName());
 			if(pageInfo != null) {
@@ -478,7 +478,7 @@ public class TagInfoController extends BaseController {
 			}
 		}
 		PageInfo pageInfo = pageInfoMap.get(tagInfoDto.getPageNo());
-		
+
 		TagInfo tagInfo = new TagInfo();
 		tagInfo.setProductId(ProductUtil.getProductId());
 		tagInfo.setPageInfoId(pageInfo.getId());
@@ -496,14 +496,14 @@ public class TagInfoController extends BaseController {
 		tagInfo.setInspectStatus(InspectStatus.UNCHECKED.getIntValue());
 		tagInfo.setOriginVersion(tagInfoDto.getOriginVersion());
 		tagInfoService.createTagInfo(tagInfo);
-		
+
 		TagParam tagParam = tagInfoDto.getTagParam();
 		if(tagParam != null) {
 			tagParam.setTagInfoId(tagInfo.getId());
 			tagParamService.renewTagParamAndParamInfo(tagParam, tagParam.getParamInfoList());
 		}
-		
+
 		return true;
 	}
-	
+
 }

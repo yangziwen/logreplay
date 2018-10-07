@@ -13,6 +13,7 @@ import org.apache.shiro.web.mgt.WebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,6 +22,7 @@ import com.google.common.collect.ImmutableMap;
 import io.github.yangziwen.logreplay.security.ShiroDbRealm;
 import io.github.yangziwen.logreplay.service.PermissionService;
 import io.github.yangziwen.logreplay.service.UserService;
+import net.sf.ehcache.CacheManager;
 
 @Configuration
 public class ShiroConfig {
@@ -45,9 +47,9 @@ public class ShiroConfig {
 		return matcher;
 	}
 
-	private EhCacheManager shiroEhcacheManager() {
+	private EhCacheManager shiroEhcacheManager(CacheManager cacheManager) {
 		EhCacheManager manager = new EhCacheManager();
-		manager.setCacheManagerConfigFile("classpath:config/ehcache-shiro.xml");
+		manager.setCacheManager(cacheManager);
 		return manager;
 	}
 
@@ -63,11 +65,13 @@ public class ShiroConfig {
 	}
 
 	@Bean
-	public WebSecurityManager securityManager(@Autowired ShiroDbRealm shiroDbRealm) {
+	public WebSecurityManager securityManager(
+			@Autowired ShiroDbRealm shiroDbRealm,
+			@Autowired EhCacheCacheManager cacheManager) {
 		DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
 		manager.setRealm(shiroDbRealm);
 		manager.setRememberMeManager(rememberMeManager());
-		manager.setCacheManager(shiroEhcacheManager());
+		manager.setCacheManager(shiroEhcacheManager(cacheManager.getCacheManager()));
 		return manager;
 	}
 

@@ -41,7 +41,7 @@ public class Product extends AbstractBean implements Cloneable {
 		try {
 			return (Product) super.clone();
 		} catch (CloneNotSupportedException e) {
-			logger.error("error happens when clone Product[{}]", this, e);
+			logger().error("error happens when clone Product[{}]", this, e);
 			return null;
 		}
 	}

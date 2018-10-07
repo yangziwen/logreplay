@@ -10,6 +10,8 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,19 +26,21 @@ import io.github.yangziwen.logreplay.util.TagParamParser;
 @Service
 public class TagParamService {
 
+	private static final String TAG_PARAM_CACHE_NAME = "tagParamCache";
+
 	@Autowired
 	private TagParamDao tagParamDao;
-	
+
 	@Autowired
 	private ParamInfoDao paramInfoDao;
-	
+
 	@Autowired
 	private TagParamWithInfosDao tagParamWithInfosDao;
-	
+
 	public List<TagParam> getTagParamListResultWithInfos(Map<String, Object> params) {
 		return tagParamWithInfosDao.list(params);
 	}
-	
+
 	public TagParamParser getTagParamParserByTagInfoIdList(List<Long> tagInfoIdList) {
 		TagParamParser parser = new TagParamParser();
 		if(CollectionUtils.isEmpty(tagInfoIdList)) {
@@ -52,10 +56,11 @@ public class TagParamService {
 		}
 		return parser;
 	}
-	
+
 	/**
 	 * tagParamºÍparamInfoµÄÔöÉ¾¸Ä
 	 */
+	@CacheEvict(cacheNames = TAG_PARAM_CACHE_NAME, key = "#tagParam.tagInfoId")
 	@Transactional
 	public void renewTagParamAndParamInfo(TagParam tagParam, List<ParamInfo> paramInfoList) {
 		if(CollectionUtils.isEmpty(paramInfoList) && StringUtils.isBlank(tagParam.getComment())) {
@@ -76,7 +81,7 @@ public class TagParamService {
 		paramInfoDao.batchUpdate(toUpdateParamInfoList, 100);
 		paramInfoDao.batchDeleteByIds(collectParamInfoId(toDeleteParamInfoList));
 	}
-	
+
 	private List<ParamInfo> extractToSaveParamInfoList(List<ParamInfo> paramInfoList) {
 		if(CollectionUtils.isEmpty(paramInfoList)) {
 			return Collections.emptyList();
@@ -90,7 +95,7 @@ public class TagParamService {
 		}
 		return toSaveList;
 	}
-	
+
 	private List<ParamInfo> extractToUpdateParamInfoList(TagParam tagParam, List<ParamInfo> paramInfoList) {
 		if(CollectionUtils.isEmpty(tagParam.getParamInfoList())) {
 			return Collections.emptyList();
@@ -105,7 +110,7 @@ public class TagParamService {
 		}
 		return toUpdateList;
 	}
-	
+
 	private List<ParamInfo> extractToDeleteParamInfoList(TagParam tagParam, List<ParamInfo> paramInfoList) {
 		if(CollectionUtils.isEmpty(tagParam.getParamInfoList())) {
 			return Collections.emptyList();
@@ -123,7 +128,7 @@ public class TagParamService {
 		}
 		return toDeleteList;
 	}
-	
+
 	private Set<Long> collectParamInfoId(List<ParamInfo> paramInfoList) {
 		if(CollectionUtils.isEmpty(paramInfoList)) {
 			return Collections.emptySet();
@@ -137,11 +142,13 @@ public class TagParamService {
 		}
 		return existedIdSet;
 	}
-	
+
+	@CacheEvict(cacheNames = TAG_PARAM_CACHE_NAME, key = "#tagParam.tagInfoId")
 	public void saveOrUpdateTagParam(TagParam tagParam) {
 		tagParamDao.saveOrUpdate(tagParam);
 	}
-	
+
+	@Cacheable(cacheNames = TAG_PARAM_CACHE_NAME, key = "#tagInfoId")
 	public TagParam getTagParamByTagInfoId(Long tagInfoId) {
 		TagParam tagParam = tagParamDao.first(new QueryParamMap().addParam("tagInfoId", tagInfoId));
 		if(tagParam != null) {
@@ -149,12 +156,12 @@ public class TagParamService {
 		}
 		return tagParam;
 	}
-	
+
 	public List<TagParam> getTagParamListResult(Map<String, Object> params) {
 		return tagParamDao.list(params);
 	}
-	
+
 	public List<ParamInfo> getParamInfoListResultByTagParamId(Long tagParamId) {
-		return paramInfoDao.list(new QueryParamMap().addParam("tagParamId", tagParamId).orderByAsc("name").orderByAsc("value")); 
+		return paramInfoDao.list(new QueryParamMap().addParam("tagParamId", tagParamId).orderByAsc("name").orderByAsc("value"));
 	}
 }
