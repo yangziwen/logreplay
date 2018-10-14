@@ -12,13 +12,13 @@ import org.apache.commons.lang.StringUtils;
 import com.sogou.map.logreplay.bean.base.AbstractBean;
 
 /**
- * ²Ù×÷ÏîĞÅÏ¢£¬·ÖÎª¡°ÆÕÍ¨²Ù×÷Ïî¡±ºÍ¡°¹«¹²²Ù×÷Ïî¡±
- * ¡°¹«¹²²Ù×÷Ïî¡±²»¹ØÁªÌØ¶¨µÄÒ³ÃæĞÅÏ¢(PageInfo)£¬²Ù×÷±àºÅ>10000
+ * æ“ä½œé¡¹ä¿¡æ¯ï¼Œåˆ†ä¸ºâ€œæ™®é€šæ“ä½œé¡¹â€å’Œâ€œå…¬å…±æ“ä½œé¡¹â€
+ * â€œå…¬å…±æ“ä½œé¡¹â€ä¸å…³è”ç‰¹å®šçš„é¡µé¢ä¿¡æ¯(PageInfo)ï¼Œæ“ä½œç¼–å·>10000
  */
 @Table(name = "tag_info")
 public class TagInfo extends AbstractBean {
 	
-	/** ¹«¹²²Ù×÷ÏîµÄ²Ù×÷±àºÅ±ØĞë´óÓÚ´ËÖµ **/
+	/** å…¬å…±æ“ä½œé¡¹çš„æ“ä½œç¼–å·å¿…é¡»å¤§äºæ­¤å€¼ **/
 	public static final Integer COMMON_TAG_NO_MIN_VALUE = 10000;
 
 	@Id
@@ -28,47 +28,47 @@ public class TagInfo extends AbstractBean {
 	@Column(name = "product_id")
 	private Long productId;
 	
-	/**  ²Ù×÷Ïî±àºÅ **/
+	/**  æ“ä½œé¡¹ç¼–å· **/
 	@Column(name = "tag_no")
 	private Integer tagNo;
 
-	/** ²Ù×÷ÏîÃû³Æ **/
+	/** æ“ä½œé¡¹åç§° **/
 	@Column
 	private String name;
 	
-	/** ¶ÔÓ¦µÄÒ³ÃæĞÅÏ¢µÄid **/
+	/** å¯¹åº”çš„é¡µé¢ä¿¡æ¯çš„id **/
 	@Column(name = "page_info_id")
 	private Long pageInfoId;
 	
-	/** ¶ÔÓ¦µÄÒ³Ãæ±àºÅ **/
-	@Column(name = "page_no")	// ÈßÓà£¬ÎªÁË²éÑ¯·½±ã
+	/** å¯¹åº”çš„é¡µé¢ç¼–å· **/
+	@Column(name = "page_no")	// å†—ä½™ï¼Œä¸ºäº†æŸ¥è¯¢æ–¹ä¾¿
 	private Integer pageNo;
 	
-	/** Ò³ÃæĞÅÏ¢¶ÔÏó **/
+	/** é¡µé¢ä¿¡æ¯å¯¹è±¡ **/
 	@Transient
 	private PageInfo pageInfo;
 	
-	/** ²Ù×÷¶¯×÷id£¬Çë¼ûÀàTagAction **/
+	/** æ“ä½œåŠ¨ä½œidï¼Œè¯·è§ç±»TagAction **/
 	@Column(name = "action_id")
 	private Long actionId;
 	
-	/** ²Ù×÷Ä¿±êid£¬Çë¼ûÀàTagTarget **/
+	/** æ“ä½œç›®æ ‡idï¼Œè¯·è§ç±»TagTarget **/
 	@Column(name = "target_id")
 	private Long targetId;
 	
-	/** ×¢ÊÍĞÅÏ¢ **/
+	/** æ³¨é‡Šä¿¡æ¯ **/
 	@Column
 	private String comment;
 	
-	/** Ê×´ÎÔÚappÖĞÒıÈë´Ë²Ù×÷ÏîÊ±£¬appµÄ°æ±¾ºÅ **/
+	/** é¦–æ¬¡åœ¨appä¸­å¼•å…¥æ­¤æ“ä½œé¡¹æ—¶ï¼Œappçš„ç‰ˆæœ¬å· **/
 	@Column(name = "origin_version")
 	private Integer originVersion;
 	
-	/** Ğ£Ñé×´Ì¬£¬¸÷ÖÖ×´Ì¬Çë¼ûÃ¶¾ÙÀàInspectStatus **/
+	/** æ ¡éªŒçŠ¶æ€ï¼Œå„ç§çŠ¶æ€è¯·è§æšä¸¾ç±»InspectStatus **/
 	@Column(name = "inspect_status")
 	private Integer inspectStatus;
 	
-	/** ¿ª·¢ÈËÔ±Ğ£Ñé×´Ì¬£¬»úÖÆÍ¬inspectStatus **/
+	/** å¼€å‘äººå‘˜æ ¡éªŒçŠ¶æ€ï¼Œæœºåˆ¶åŒinspectStatus **/
 	@Column(name = "dev_inspect_status")
 	private Integer devInspectStatus;
 	
@@ -78,7 +78,7 @@ public class TagInfo extends AbstractBean {
 	@Column(name = "update_time")
 	private Timestamp updateTime;
 	
-	/** ´Ë²Ù×÷ÏîÊÇ·ñÓĞÏà¹ØµÄ²ÎÊıĞÅÏ¢(TagParam) **/
+	/** æ­¤æ“ä½œé¡¹æ˜¯å¦æœ‰ç›¸å…³çš„å‚æ•°ä¿¡æ¯(TagParam) **/
 	@Transient
 	private Boolean hasParams;
 	
@@ -212,10 +212,10 @@ public class TagInfo extends AbstractBean {
 		this.hasParams = hasParams;
 	}
 
-	/** ²Ù×÷ÏîĞ£Ñé½á¹ûÀàĞÍ **/
+	/** æ“ä½œé¡¹æ ¡éªŒç»“æœç±»å‹ **/
 	public enum InspectStatus {
 		
-		SUCCESS(1, "Ğ£ÑéÕıÈ·"), ERROR(2, "Ğ£Ñé´íÎó"), UNCHECKED(0, "Î´Ğ£Ñé"), UNKNOWN(-1, "Î´Öª×´Ì¬");
+		SUCCESS(1, "æ ¡éªŒæ­£ç¡®"), ERROR(2, "æ ¡éªŒé”™è¯¯"), UNCHECKED(0, "æœªæ ¡éªŒ"), UNKNOWN(-1, "æœªçŸ¥çŠ¶æ€");
 		
 		private int intValue;
 		private String description;

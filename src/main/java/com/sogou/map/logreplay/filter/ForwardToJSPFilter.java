@@ -11,8 +11,8 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
- * ´ËfilterÓÃÓÚ½«ÒÔ".htm"½áÎ²µÄÇëÇóforwardµ½¶ÔÓ¦µÄjspÉÏ
- * ÀıÈç/admin/user/list.htm¶ÔÓ¦µÄjspÎª/WEB-INF/view/admin/user/list.jsp
+ * æ­¤filterç”¨äºå°†ä»¥".htm"ç»“å°¾çš„è¯·æ±‚forwardåˆ°å¯¹åº”çš„jspä¸Š
+ * ä¾‹å¦‚/admin/user/list.htmå¯¹åº”çš„jspä¸º/WEB-INF/view/admin/user/list.jsp
  */
 public class ForwardToJSPFilter extends OncePerRequestFilter {
 
@@ -28,7 +28,7 @@ public class ForwardToJSPFilter extends OncePerRequestFilter {
 			filterChain.doFilter(request, response);
 			return;
 		}
-		// login.htmºÍlogout.htmÎ¯ÍĞ¸øshiro¹ÜÀí£¬²»ÊÊÓÃÕâÖÖÄ¬ÈÏµÄforward·½Ê½
+		// login.htmå’Œlogout.htmå§”æ‰˜ç»™shiroç®¡ç†ï¼Œä¸é€‚ç”¨è¿™ç§é»˜è®¤çš„forwardæ–¹å¼
 		if(uri.endsWith("login.htm") || uri.endsWith("logout.htm")) {
 			filterChain.doFilter(request, response);
 			return;

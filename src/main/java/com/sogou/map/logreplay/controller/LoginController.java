@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.sogou.map.logreplay.util.AuthUtil;
 
 /**
- * µÇÂ¼Ïà¹ØµÄÌø×ª½Ó¿Ú
+ * ç™»å½•ç›¸å…³çš„è·³è½¬æ¥å£
  * @author yangziwen
  */
 @Controller
@@ -37,8 +37,8 @@ public class LoginController {
 	}
 	
 	/**
-	 * ´Ë½Ó¿ÚÓÃÓÚ´¦ÀíµÇÂ¼´íÎóµÄÇéĞÎ
-	 * ÓÃ»§Ãû»òÕßÃÜÂë´íÎóÊ±£¬ÇëÇó²Å»á»÷´©shiroµÄ¹ıÂËÆ÷Á´£¬µÖ´ï´Ë·½·¨
+	 * æ­¤æ¥å£ç”¨äºå¤„ç†ç™»å½•é”™è¯¯çš„æƒ…å½¢
+	 * ç”¨æˆ·åæˆ–è€…å¯†ç é”™è¯¯æ—¶ï¼Œè¯·æ±‚æ‰ä¼šå‡»ç©¿shiroçš„è¿‡æ»¤å™¨é“¾ï¼ŒæŠµè¾¾æ­¤æ–¹æ³•
 	 */
 	@RequestMapping(value = "/login.htm", method = RequestMethod.POST)
 	public String afterLoginSubmission(
@@ -51,9 +51,9 @@ public class LoginController {
 			return null;
 		} 
 		if(AuthUtil.isRemembered()) {
-			redirectAttributes.addFlashAttribute("errorMessage", "ÃÜÂë´íÎó£¬ÇëÖØÊÔ!");
+			redirectAttributes.addFlashAttribute("errorMessage", "å¯†ç é”™è¯¯ï¼Œè¯·é‡è¯•!");
 		} else {
-			redirectAttributes.addFlashAttribute("errorMessage", "ÓÃ»§Ãû»òÃÜÂë´íÎó£¬ÇëÖØÊÔ!");
+			redirectAttributes.addFlashAttribute("errorMessage", "ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯ï¼Œè¯·é‡è¯•!");
 		}
 		return "redirect:/login.htm";
 	}

@@ -54,7 +54,7 @@ public class TagParamService {
 	}
 	
 	/**
-	 * tagParam和paramInfo的增删改
+	 * tagParam潞脥paramInfo碌脛脭枚脡戮赂脛
 	 */
 	@Transactional
 	public void renewTagParamAndParamInfo(TagParam tagParam, List<ParamInfo> paramInfoList) {

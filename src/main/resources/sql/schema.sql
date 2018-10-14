@@ -1,13 +1,13 @@
 USE logreplay;
 
--- ≤˙∆∑–≈œ¢
+-- ‰∫ßÂìÅ‰ø°ÊÅØ
 DROP TABLE IF EXISTS `product`;
 CREATE TABLE `product` (
   `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   `name` VARCHAR (30) NOT NULL
-) ENGINE = INNODB DEFAULT CHARSET = GBK ;
+) ENGINE = INNODB DEFAULT CHARSET = UTF8 ;
 
--- ≤Ÿ◊˜º«¬º
+-- Êìç‰ΩúËÆ∞ÂΩï
 DROP TABLE IF EXISTS `operation_record`;
 CREATE TABLE `operation_record` (
   `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -22,9 +22,9 @@ CREATE TABLE `operation_record` (
   `tag_no` INT,
   `params` TEXT,
   KEY `page_no_tag_no` (`page_no`,`tag_no`)
-) ENGINE = INNODB DEFAULT CHARSET = GBK;
+) ENGINE = INNODB DEFAULT CHARSET = UTF8;
 
--- “≥√Ê–≈œ¢
+-- È°µÈù¢‰ø°ÊÅØ
 DROP TABLE IF EXISTS `page_info`;
 CREATE TABLE `page_info` (
   `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -34,9 +34,9 @@ CREATE TABLE `page_info` (
   `create_time` DATETIME,
   `update_time` DATETIME,
   UNIQUE KEY `page_no_product_id` (`page_no`, `product_id`)
-) ENGINE=INNODB DEFAULT CHARSET=GBK;
+) ENGINE=INNODB DEFAULT CHARSET=UTF8;
 
--- tagµƒ–≈œ¢
+-- tagÁöÑ‰ø°ÊÅØ
 DROP TABLE IF EXISTS `tag_info`;
 CREATE TABLE `tag_info` (
   `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -55,42 +55,42 @@ CREATE TABLE `tag_info` (
   `update_time` DATETIME,
   UNIQUE KEY `page_info_id_tag_no_product_id` (`page_info_id`,`tag_no`, `product_id`),
   UNIQUE KEY `page_no_tag_no_product_id` (`page_no`, `tag_no`, `product_id`)
-) ENGINE = INNODB DEFAULT CHARSET = GBK ;
+) ENGINE = INNODB DEFAULT CHARSET = UTF8 ;
 
--- tagµƒ≤Ÿ◊˜
+-- tagÁöÑÊìç‰Ωú
 DROP TABLE IF EXISTS `tag_action`;
 CREATE TABLE `tag_action` (
   `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   `name` VARCHAR (50) NOT NULL,
   `enabled` TINYINT (1) DEFAULT 1
-) ENGINE = INNODB DEFAULT CHARSET = GBK ;
+) ENGINE = INNODB DEFAULT CHARSET = UTF8 ;
 
--- tagµƒƒø±Í
+-- tagÁöÑÁõÆÊ†á
 DROP TABLE IF EXISTS `tag_target`;
 CREATE TABLE `tag_target` (
   `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   `name` VARCHAR (50) NOT NULL,
   `enabled` TINYINT (1) DEFAULT 1
-) ENGINE = INNODB DEFAULT CHARSET = GBK ;
+) ENGINE = INNODB DEFAULT CHARSET = UTF8 ;
 
--- tagµƒ≤Œ ˝
+-- tagÁöÑÂèÇÊï∞
 DROP TABLE IF EXISTS `tag_param`;
 CREATE TABLE `tag_param` (
   `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   `tag_info_id` INT UNSIGNED,
   `comment` VARCHAR (100)
-) ENGINE = INNODB DEFAULT CHARSET = GBK ;
+) ENGINE = INNODB DEFAULT CHARSET = UTF8 ;
 
--- tagµƒ≤Œ ˝–≈œ¢
+-- tagÁöÑÂèÇÊï∞‰ø°ÊÅØ
 CREATE TABLE `param_info` (
   `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   `tag_param_id` INT UNSIGNED,
   `name` VARCHAR (40),
   `value` VARCHAR (40),
   `description` VARCHAR (100)
-) ENGINE = INNODB DEFAULT CHARSET = GBK ;
+) ENGINE = INNODB DEFAULT CHARSET = UTF8 ;
 
--- »’÷æœÓ–£—ÈΩ·π˚
+-- Êó•ÂøóÈ°πÊ†°È™åÁªìÊûú
 DROP TABLE IF EXISTS `inspection_record`;
 CREATE TABLE inspection_record (
   `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -106,7 +106,7 @@ CREATE TABLE inspection_record (
   `comment` VARCHAR (200),
   `create_time` DATETIME,
   `update_time` DATETIME
-) ENGINE = INNODB DEFAULT CHARSET = GBK ;
+) ENGINE = INNODB DEFAULT CHARSET = UTF8 ;
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -117,7 +117,7 @@ CREATE TABLE `user` (
   `create_time` DATETIME,
   `update_time` DATETIME,
   `enabled` TINYINT(1)
-) ENGINE=INNODB DEFAULT CHARSET=GBK;
+) ENGINE=INNODB DEFAULT CHARSET=UTF8;
 
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
@@ -125,7 +125,7 @@ CREATE TABLE `role` (
   `name` VARCHAR (45) UNIQUE NOT NULL,
   `display_name` VARCHAR (45) NOT NULL DEFAULT '',
   `comment` VARCHAR (100) NOT NULL DEFAULT ''
-) ENGINE=INNODB DEFAULT CHARSET=GBK;
+) ENGINE=INNODB DEFAULT CHARSET=UTF8;
 
 DROP TABLE IF EXISTS `user_rel_role`;
 CREATE TABLE `user_rel_role` (
@@ -133,14 +133,14 @@ CREATE TABLE `user_rel_role` (
   `user_id` INT UNSIGNED NOT NULL,
   `role_id` INT UNSIGNED NOT NULL,
   UNIQUE KEY `user_rel_role` (`user_id`, `role_id`)
-) ENGINE=INNODB DEFAULT CHARSET=GBK;
+) ENGINE=INNODB DEFAULT CHARSET=UTF8;
 
 DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission` (
   `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   `target` VARCHAR(20) NOT NULL,
   `action` VARCHAR(20) NOT NULL
-) ENGINE=INNODB DEFAULT CHARSET=GBK;
+) ENGINE=INNODB DEFAULT CHARSET=UTF8;
 
 DROP TABLE IF EXISTS `role_rel_permission`;
 CREATE TABLE `role_rel_permission` (
@@ -148,7 +148,7 @@ CREATE TABLE `role_rel_permission` (
   `role_id` INT UNSIGNED NOT NULL,
   `permission_id` INT UNSIGNED NOT NULL,
   UNIQUE KEY `role_rel_permission` (`role_id`, `permission_id`)
-) ENGINE=INNODB DEFAULT CHARSET=GBK;
+) ENGINE=INNODB DEFAULT CHARSET=UTF8;
 
 DROP TABLE IF EXISTS `image`;
 CREATE TABLE `image` (
@@ -162,9 +162,9 @@ CREATE TABLE `image` (
   `size` INT NOT NULL,
   `create_time` DATETIME NOT NULL,
   KEY `idx_checksum` (`checksum`(10))
-) ENGINE=INNODB DEFAULT CHARSET=GBK;
+) ENGINE=INNODB DEFAULT CHARSET=UTF8;
 
--- ”√ªßÕ∑œÒ
+-- Áî®Êà∑Â§¥ÂÉè
 DROP TABLE IF EXISTS `avatar`;
 CREATE TABLE `avatar` (
   `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -172,4 +172,4 @@ CREATE TABLE `avatar` (
   `image_id` INT UNSIGNED NOT NULL,
   `type` SMALLINT NOT NULL,
   `create_time` DATETIME NOT NULL
-) ENGINE = INNODB DEFAULT CHARSET = GBK ;
+) ENGINE = INNODB DEFAULT CHARSET = UTF8 ;

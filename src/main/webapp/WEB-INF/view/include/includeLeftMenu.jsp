@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
@@ -6,55 +6,55 @@
 	<div class="sidebar-nav row">
 			<ul class="nav nav-pills nav-stacked">
 				<li class="active">
-					<a href="${ctx_path}/home.htm"><i class="glyphicon glyphicon-home"></i><span> ึ๗าณ</span></a>
+					<a href="${ctx_path}/home.htm"><i class="glyphicon glyphicon-home"></i><span> ไธป้กต</span></a>
 				</li>
 				<li class="active">
 					<a class="has-submenu" data-toggle="collapse" href="#J_logConfigSubmenu">
 						<i class="glyphicon glyphicon-plus"></i>
-						<span> ย๑ตใะลฯขนÜภํ</span>
+						<span> ๅ็นไฟกๆฏ็ฎก็</span>
 						<span class="pull-right glyphicon glyphicon-chevron-down"></span>
 					</a>
 					<c:set var="showConfigSubmenu" value="${fn:contains(request_uri, '/pageInfo') or fn:contains(request_uri, '/tagInfo')}"></c:set>
 					<%-- <ul id="J_logConfigSubmenu" class="nav submenu ${showConfigSubmenu eq true? 'in': ''}" ${showConfigSubmenu eq false? 'style="height: 0px;"': ''}>  --%>
 					<ul id="J_logConfigSubmenu" class="nav submenu in" >
-						<li><a href="${ctx_path}/pageInfo/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> าณรๆะลฯขนÜภํ</a></li>
-						<li><a href="${ctx_path}/tagInfo/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> ฒูื๗ฯ๎นÜภํ</a></li>
-						<li><a href="${ctx_path}/tagInfo/commonList.htm"><i class="glyphicon glyphicon-chevron-right"></i> นซนฒฒูื๗ฯ๎นÜภํ</a></li>
+						<li><a href="${ctx_path}/pageInfo/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> ้กต้ขไฟกๆฏ็ฎก็</a></li>
+						<li><a href="${ctx_path}/tagInfo/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> ๆ“ไฝ้กน็ฎก็</a></li>
+						<li><a href="${ctx_path}/tagInfo/commonList.htm"><i class="glyphicon glyphicon-chevron-right"></i> ๅ…ฌๅ…ฑๆ“ไฝ้กน็ฎก็</a></li>
 					</ul>
 				</li>
 				<li class="active">
 					<a class="has-submenu" data-toggle="collapse" href="#J_logReplaySubmenu">
 						<i class="glyphicon glyphicon-plus"></i>
-						<span> ย๑ตใะลฯขะฃั้</span>
+						<span> ๅ็นไฟกๆฏๆ ก้ช</span>
 						<span class="pull-right glyphicon glyphicon-chevron-down"></span>
 					</a>
 					<c:set var="showReplaySubmenu" value="${fn:contains(request_uri, '/replay') or fn:contains(request_uri, '/inspectionRecord')}"></c:set>
 					<%-- <ul id="J_logReplaySubmenu" class="nav submenu ${showReplaySubmenu eq true? 'in': ''}" ${showReplaySubmenu eq false? 'style="height: 0px;"': ''}> --%>
 					<ul id="J_logReplaySubmenu" class="nav submenu in">
-						<li><a href="${ctx_path}/replay/realtime.htm"><i class="glyphicon glyphicon-chevron-right"></i> สตสฑะฃั้</a></li>
-						<%-- <li><a href="${ctx_path}/replay/sequence.htm"><i class="glyphicon glyphicon-chevron-right"></i> ล๚มฟปุทล</a></li> --%>
+						<li><a href="${ctx_path}/replay/realtime.htm"><i class="glyphicon glyphicon-chevron-right"></i> ๅฎๆ—ถๆ ก้ช</a></li>
+						<%-- <li><a href="${ctx_path}/replay/sequence.htm"><i class="glyphicon glyphicon-chevron-right"></i> ๆน้ๅๆ”พ</a></li> --%>
 						<shiro:hasPermission name="inspection_record:modify">
-							<li><a href="${ctx_path}/inspectionRecord/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> ะฃั้ฝแน๛</a></li>
+							<li><a href="${ctx_path}/inspectionRecord/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> ๆ ก้ช็ป“ๆ</a></li>
 						</shiro:hasPermission>
-						<li><a href="${ctx_path}/inspectionRecord/statusList.htm"><i class="glyphicon glyphicon-chevron-right"></i> ะฃั้ืดฬฌฒ้ัฏ</a></li>
+						<li><a href="${ctx_path}/inspectionRecord/statusList.htm"><i class="glyphicon glyphicon-chevron-right"></i> ๆ ก้ช็ถๆ€ๆฅ่ฏข</a></li>
 					</ul>
 				</li>
 				<li class="active">
 					<a class="has-submenu" data-toggle="collapse" href="#J_systemManageSubmenu">
 						<i class="glyphicon glyphicon-plus"></i>
-						<span> ฯตอณนÜภํ</span>
+						<span> ็ณป็ป็ฎก็</span>
 						<span class="pull-right glyphicon glyphicon-chevron-down"></span>
 					</a>
 					<c:set var="showSystemManageSubmenu" value="${fn:contains(request_uri, '/admin') or fn:contains(request_uri, '/user/detail.htm')}"></c:set>
 					<%-- <ul id="J_systemManageSubmenu" class="nav submenu ${showSystemManageSubmenu eq true? 'in': ''}" ${showSystemManageSubmenu eq false? 'style="height: 0px;"': ''}> --%>
 					<ul id="J_systemManageSubmenu" class="nav submenu in" >
 						<shiro:hasPermission name="user:modify">
-							<li><a href="${ctx_path}/admin/user/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> ำรปงนÜภํ</a></li>
+							<li><a href="${ctx_path}/admin/user/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> ็”จๆท็ฎก็</a></li>
 						</shiro:hasPermission>
 						<shiro:hasPermission name="role:modify">
-							<li><a href="${ctx_path}/role/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> ฝวษซนÜภํ</a></li>
+							<li><a href="${ctx_path}/role/list.htm"><i class="glyphicon glyphicon-chevron-right"></i> ่ง’่ฒ็ฎก็</a></li>
 						</shiro:hasPermission>
-						<li><a href="${ctx_path}/user/detail.htm"><i class="glyphicon glyphicon-chevron-right"></i> ีสปงนÜภํ</a></li>
+						<li><a href="${ctx_path}/user/detail.htm"><i class="glyphicon glyphicon-chevron-right"></i> ๅธๆท็ฎก็</a></li>
 					</ul>
 				</li>
 			</ul>

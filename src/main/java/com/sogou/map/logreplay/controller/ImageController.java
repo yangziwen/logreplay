@@ -70,7 +70,7 @@ public class ImageController extends BaseController {
 	private AvatarService avatarService;
 	
 	/**
-	 * °´id»ñÈ¡Í¼Æ¬
+	 * æŒ‰idè·å–å›¾ç‰‡
 	 */
 	@RequestMapping("{id:\\d+}")
 	public void getImageById(
@@ -91,9 +91,9 @@ public class ImageController extends BaseController {
 	}
 	
 	/**
-	 * °´Â·¾¶»ñÈ¡Í¼Æ¬
-	 * ÕıÊ½Çé¿öÏÂ¿ÉÊ¹ÓÃ¶ÀÁ¢µÄÍ¼Æ¬·şÎñÆ÷Ìá¹©·şÎñ
-	 * ĞŞ¸ÄjndiµÄÅäÖÃ¼´¿Éµ÷ÕûÍ¼Æ¬url¸ùÂ·¾¶
+	 * æŒ‰è·¯å¾„è·å–å›¾ç‰‡
+	 * æ­£å¼æƒ…å†µä¸‹å¯ä½¿ç”¨ç‹¬ç«‹çš„å›¾ç‰‡æœåŠ¡å™¨æä¾›æœåŠ¡
+	 * ä¿®æ”¹jndiçš„é…ç½®å³å¯è°ƒæ•´å›¾ç‰‡urlæ ¹è·¯å¾„
 	 */
 	@RequestMapping("/{year:\\d{4}}/{month:\\d{2}}/{date:\\d{2}}/{filename:[^.]{20,30}\\.\\w+}")
 	public void getImageByPath(
@@ -160,7 +160,7 @@ public class ImageController extends BaseController {
 	}
 	
 	/**
-	 * »ñÈ¡ÓÃ»§Í·Ïñ
+	 * è·å–ç”¨æˆ·å¤´åƒ
 	 */
 	@RequestMapping(value = "/avatar/{userId:\\d+}", method = RequestMethod.GET)
 	public void getAvatar(
@@ -173,7 +173,7 @@ public class ImageController extends BaseController {
 		Image image = avatar != null? imageService.getImageById(avatar.getImageId()): null;
 		File imageFile = null;
 		if(image == null || !(imageFile = new File(image.getFilepath())).exists()) {
-			// Ìæ»»³ÉÄ¬ÈÏÍ¼Æ¬
+			// æ›¿æ¢æˆé»˜è®¤å›¾ç‰‡
 			response.sendRedirect(request.getContextPath() + Avatar.DEFAULT_AVATAR);
 			return;
 		}
@@ -182,7 +182,7 @@ public class ImageController extends BaseController {
 	}
 	
 	/**
-	 * »ùÓÚrawImage¼ô²ÃºóÌá½»ĞÂÍ·Ïñ
+	 * åŸºäºrawImageå‰ªè£åæäº¤æ–°å¤´åƒ
 	 */
 	@ResponseBody
 	@RequestMapping(value = "avatar", method = RequestMethod.POST)
@@ -205,13 +205,13 @@ public class ImageController extends BaseController {
 		if(!imageFile.exists()) {
 			throw LogReplayException.notExistException("Failed to find file of Image[%d]", image.getId());
 		}
-		// ÇĞ³ö3ÖÖ³ß´çµÄÍ·Ïñ
+		// åˆ‡å‡º3ç§å°ºå¯¸çš„å¤´åƒ
 		double ratio = image.getWidth() * 1D / imgWidth;
 		BufferedImage cuttedImage = ImageIO.read(imageFile)
 				.getSubimage(toInt(left * ratio), toInt(top * ratio), toInt(width * ratio), toInt(height * ratio));
 		List<Image> avatarImageList = buildAvatarImages(cuttedImage, DEFAULT_IMAGE_FORMAT);
 		
-		// °´Ğ£ÑéºÍ¼ì²é²¢¶ªÆúÒÑ´æÔÚµÄÍ¼Æ¬
+		// æŒ‰æ ¡éªŒå’Œæ£€æŸ¥å¹¶ä¸¢å¼ƒå·²å­˜åœ¨çš„å›¾ç‰‡
 		List<String> checksumList = Lists.transform(avatarImageList, new Function<Image, String>() {
 			@Override
 			public String apply(Image image) {
@@ -289,7 +289,7 @@ public class ImageController extends BaseController {
 	}
 
 	/**
-	 * ÉÏ´«rawImage
+	 * ä¸Šä¼ rawImage
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/upload", method = RequestMethod.POST, params = "type=raw")

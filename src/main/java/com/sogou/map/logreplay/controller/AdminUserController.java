@@ -123,7 +123,7 @@ public class AdminUserController extends BaseController {
 	}
 	
 	/**
-	 * 管理员重置密码
+	 * 鈺ｂ杽鈹斞屝解枓芯锌芯鈹溾敎鈻勨敩胁
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/password/update/{id}", method = RequestMethod.POST)

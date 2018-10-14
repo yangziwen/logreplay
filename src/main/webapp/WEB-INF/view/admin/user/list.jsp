@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>
-    <title>ÓÃ»§¹ÜÀí</title>
+    <title>ç”¨æˆ·ç®¡ç†</title>
 	<%@ include file="../../include/includeCss.jsp" %>
 </head>
 <body>
@@ -17,8 +17,8 @@
 			<div>
 			    <ul class="breadcrumb">
 			        <li>
-						µ±Ç°Î»ÖÃ: <a data-toggle="collapse" href="#J_systemManageSubmenu">ÏµÍ³¹ÜÀí</a>
-						 &gt; <a href="${ctx_path}/admin/user/list.htm">ÓÃ»§¹ÜÀí</a>
+						å½“å‰ä½ç½®: <a data-toggle="collapse" href="#J_systemManageSubmenu">ç³»ç»Ÿç®¡ç†</a>
+						 &gt; <a href="${ctx_path}/admin/user/list.htm">ç”¨æˆ·ç®¡ç†</a>
 			        </li> 
 			    </ul>
 			</div>
@@ -27,34 +27,34 @@
 			     	<div id="J_queryArea" style="text-align: center;">
 			     		<form class="form-horizontal col-md-offset-1 col-md-10" role="form">
 							<div class="form-group">
-								<label for="J_username" class="col-sm-2 control-label">ÓÃ»§Ãû£º</label>
+								<label for="J_username" class="col-sm-2 control-label">ç”¨æˆ·åï¼š</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_username" name="username" placeholder="ÇëÊäÈëÓÃ»§Ãû" />
+									<input type="text" class="form-control" id="J_username" name="username" placeholder="è¯·è¾“å…¥ç”¨æˆ·å" />
 								</div>
-								<label for="J_screenName" class="col-sm-2 control-label">êÇ³Æ£º</label>
+								<label for="J_screenName" class="col-sm-2 control-label">æ˜µç§°ï¼š</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="J_screenName" name="screenName" placeholder="ÇëÊäÈëêÇ³Æ" />
+									<input type="text" class="form-control" id="J_screenName" name="screenName" placeholder="è¯·è¾“å…¥æ˜µç§°" />
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="J_roleNames" class="col-sm-2 control-label">½ÇÉ«£º</label>
+								<label for="J_roleNames" class="col-sm-2 control-label">è§’è‰²ï¼š</label>
 								<div class="col-sm-4">
 									<select id="J_roleNames" name="roleNames" class="form-control">
 									</select>
 								</div>
-								<label for="J_enabled" class="col-sm-2 control-label">×´Ì¬£º</label>
+								<label for="J_enabled" class="col-sm-2 control-label">çŠ¶æ€ï¼š</label>
 								<div class="col-sm-4">
 									<select id="J_enabled" name="enabled" class="form-control">
-										<option value="">È«²¿</option>
-										<option value="true">Õý³£</option>
-										<option value="false">½ûÓÃ</option>
+										<option value="">å…¨éƒ¨</option>
+										<option value="true">æ­£å¸¸</option>
+										<option value="false">ç¦ç”¨</option>
 									</select>
 								</div>
 							</div>
 							<div class="form-group" style="margin-bottom: 0px;">
 								<div class="col-sm-12" style="margin-top: 10px;">
-									<button id="J_queryBtn" type="button" class="btn btn-primary btn-lg-font" style="width: 90px;">²é&nbsp;&nbsp;Ñ¯</button>
-									<button id="J_clearBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">Çå³ýÌõ¼þ</button>
+									<button id="J_queryBtn" type="button" class="btn btn-primary btn-lg-font" style="width: 90px;">æŸ¥&nbsp;&nbsp;è¯¢</button>
+									<button id="J_clearBtn" type="button"  class="btn btn-primary btn-lg-font" style="width: 90px;">æ¸…é™¤æ¡ä»¶</button>
 								</div>
 							</div>
 						</form>
@@ -64,7 +64,7 @@
 			     <div class="col-sm-12">
 			     	<div class="row">
 			     		<div class="col-sm-2">
-			     			<button class="btn btn-primary btn-lg-font" id="J_openCreateModalBtn">ÐÂÔö</button>
+			     			<button class="btn btn-primary btn-lg-font" id="J_openCreateModalBtn">æ–°å¢ž</button>
 			     		</div>
 			     		<div id="J_pagebar" class="col-sm-10">
 			     			
@@ -74,11 +74,11 @@
 				     	<table class="table table-bordered table-striped table-condensed table-hover ">
 				     		<thead>
 				     			<tr>
-				     				<th style="width: 200px;">ÓÃ»§Ãû</th>
-				     				<th>êÇ³Æ</th>
-				     				<th style="width: 150px;">½ÇÉ«</th>
-				     				<th style="width: 120px">×´Ì¬</th>
-				     				<th style="width: 150px;">¹ÜÀí</th>
+				     				<th style="width: 200px;">ç”¨æˆ·å</th>
+				     				<th>æ˜µç§°</th>
+				     				<th style="width: 150px;">è§’è‰²</th>
+				     				<th style="width: 120px">çŠ¶æ€</th>
+				     				<th style="width: 150px;">ç®¡ç†</th>
 				     			</tr>
 				     		</thead>
 				     		<tbody id="J_userTbody">
@@ -88,10 +88,10 @@
 				     				<td>${'${'}username}</td>
 				     				<td>${'${'}screenName || '--'}</td>
 									<td>${'${'}roles ? roles[0].displayName : '--'}</td>
-									<td>${'${'}enabled === true? 'Õý³£': '½ûÓÃ'}</td>
+									<td>${'${'}enabled === true? 'æ­£å¸¸': 'ç¦ç”¨'}</td>
 				     				<td>
-				     					<button class="btn btn-primary btn-xs open-update-modal">ÐÞ¸Ä</button>
-				     					<button class="btn btn-primary btn-xs open-update-password-modal">ÖØÖÃÃÜÂë</button>
+				     					<button class="btn btn-primary btn-xs open-update-modal">ä¿®æ”¹</button>
+				     					<button class="btn btn-primary btn-xs open-update-password-modal">é‡ç½®å¯†ç </button>
 				     				</td>
 				     			</tr>
 							</script>
@@ -103,78 +103,78 @@
 	</div><!-- /row1 -->
 </div>
 
-<!-- ÐÂÔö/ÐÞ¸ÄuserµÄµ¯³ö²ã -->
+<!-- æ–°å¢ž/ä¿®æ”¹userçš„å¼¹å‡ºå±‚ -->
 <div class="modal" id="J_userModal" tabindex="-1">
     <div class="modal-dialog">
     	<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title"><strong>±êÌâ</strong></h4>
+				<h4 class="modal-title"><strong>æ ‡é¢˜</strong></h4>
 			</div>
 			<div class="modal-body">
 					<form class="form-horizontal" role="form">
 						<input type="hidden" id="U_id" name="id" />
 						<div class="form-group">
-							<label for="U_username" class="col-sm-4 control-label">ÓÃ»§Ãû£º</label>
+							<label for="U_username" class="col-sm-4 control-label">ç”¨æˆ·åï¼š</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" id="U_username" name="username" placeholder="ÇëÊäÈëÓÃ»§Ãû" />
+								<input type="text" class="form-control" id="U_username" name="username" placeholder="è¯·è¾“å…¥ç”¨æˆ·å" />
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="U_screenName" class="col-sm-4 control-label">êÇ³Æ£º</label>
+							<label for="U_screenName" class="col-sm-4 control-label">æ˜µç§°ï¼š</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" id="U_screenName" name="screenName" placeholder="ÇëÊäÈëêÇ³Æ" />
+								<input type="text" class="form-control" id="U_screenName" name="screenName" placeholder="è¯·è¾“å…¥æ˜µç§°" />
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="U_roleNames" class="col-sm-4 control-label">½ÇÉ«£º</label>
+							<label for="U_roleNames" class="col-sm-4 control-label">è§’è‰²ï¼š</label>
 							<div class="col-sm-8">
 								<select id="U_roleNames" name="roleNames" class="form-control">
 								</select>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="U_enabled" class="col-sm-4 control-label">×´Ì¬£º</label>
+							<label for="U_enabled" class="col-sm-4 control-label">çŠ¶æ€ï¼š</label>
 							<div class="col-sm-8">
 								<select id="U_enabled" name="enabled" class="form-control">
-									<option value="true">Õý³£</option>
-									<option value="false">½ûÓÃ</option>
+									<option value="true">æ­£å¸¸</option>
+									<option value="false">ç¦ç”¨</option>
 								</select>
 							</div>
 						</div>
 					</form>
 				</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary create-user-info" id="J_createUserBtn" >´´½¨</button>
-				<button type="button" class="btn btn-primary update-user-info" id="J_updateUserBtn" >¸üÐÂ</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">¹Ø±Õ</button>
+				<button type="button" class="btn btn-primary create-user-info" id="J_createUserBtn" >åˆ›å»º</button>
+				<button type="button" class="btn btn-primary update-user-info" id="J_updateUserBtn" >æ›´æ–°</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">å…³é—­</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<!-- ÖØÖÃÓÃ»§ÃÜÂëµÄµ¯³ö²ã -->
+<!-- é‡ç½®ç”¨æˆ·å¯†ç çš„å¼¹å‡ºå±‚ -->
 <div class="modal" id="J_passwordModal" tabindex="-1">
     <div class="modal-dialog">
     	<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title"><strong>±êÌâ</strong></h4>
+				<h4 class="modal-title"><strong>æ ‡é¢˜</strong></h4>
 			</div>
 			<div class="modal-body">
 					<form class="form-horizontal" role="form">
 						<input type="hidden" id="PW_id" name="id" />
 						<div class="form-group">
-							<label for="PW_password" class="col-sm-4 control-label">ÃÜÂë£º</label>
+							<label for="PW_password" class="col-sm-4 control-label">å¯†ç ï¼š</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" id="PW_password" name="password" placeholder="ÇëÊäÈëÃÜÂë" />
+								<input type="text" class="form-control" id="PW_password" name="password" placeholder="è¯·è¾“å…¥å¯†ç " />
 							</div>
 						</div>
 					</form>
 				</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary update-user-password" id="J_updatePasswordBtn" >ÖØÖÃ</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">¹Ø±Õ</button>
+				<button type="button" class="btn btn-primary update-user-password" id="J_updatePasswordBtn" >é‡ç½®</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">å…³é—­</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->

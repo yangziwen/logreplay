@@ -30,10 +30,10 @@ import org.apache.poi.ss.usermodel.Workbook;
 public class ExcelUtil {
 
 	private static final int MAX_DATAROW_PER_SHEET = 65000;
-	
+
 	private ExcelUtil() {}
-	
-	// ------------ µ¼ÈëÏà¹Ø -------------- //
+
+	// ------------ å¯¼å…¥ç›¸å…³ -------------- //
 	public static List<Map<String, String>> importMapList(InputStream in) {
 		try {
 			Workbook workbook = new HSSFWorkbook(in);
@@ -46,7 +46,7 @@ public class ExcelUtil {
 			IOUtils.closeQuietly(in);
 		}
 	}
-	
+
 	private static List<Map<String, String>> readMapListFromSheet(Sheet sheet) {
 		if(sheet == null) {
 			return Collections.emptyList();
@@ -61,9 +61,9 @@ public class ExcelUtil {
 			headerList.add(headerIter.next().toString());
 		}
 		int len = headerList.size();
-		
+
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-		
+
 		while(rowIter.hasNext()) {
 			Row row = rowIter.next();
 			Map<String, String> map = new HashMap<String, String>();
@@ -77,16 +77,16 @@ public class ExcelUtil {
 		}
 		return list;
 	}
-	
-	// ------------ µ¼³öÏà¹Ø -------------- //
+
+	// ------------ å¯¼å‡ºç›¸å…³ -------------- //
 	public static void outputExcelToResponse(Workbook workbook, String filename, HttpServletResponse response) {
 		try {
-			filename = new String(filename.getBytes("GBK"),"iso-8859-1");
+			filename = new String(filename.getBytes("UTF-8"),"iso-8859-1");
 		} catch (UnsupportedEncodingException e) {}
-		
+
 		response.setContentType("application/vnd.ms-excel; charset=UTF-8");
 		response.setHeader("Cache-Control", "no-cache");
-		response.setHeader("Pragma", "public"); 
+		response.setHeader("Pragma", "public");
 		response.setHeader("Content-Disposition", String.format("attachment; filename = \"%s\"", filename));
 		try {
 			workbook.write(response.getOutputStream());
@@ -94,20 +94,20 @@ public class ExcelUtil {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static Workbook exportDataList(List<Column> columnList, List<? extends DataContainer> dataList) {
 		if(dataList == null) {
 			dataList = Collections.emptyList();
 		}
 		final Workbook workbook = new HSSFWorkbook();
 		CellStyle headerStyle = buildHeaderStyle(workbook);
-		
+
 		int sheetIndex = -1;
 		int rowIndex = 0;
 		String sheetName = "sheet";
 		Sheet sheet = null;
 		Map<String, Object> context = new HashMap<String, Object>();
-		if(CollectionUtils.isEmpty(dataList)) {	// Èç¹ûÃ»ÓĞÊı¾İ£¬ÔòÖÁÉÙ´´½¨Ò»¸ö¿ÕµÄsheet£¬²»È»excelÎÄ¼ş´ò¿ªÊ±»á³ö´í
+		if(CollectionUtils.isEmpty(dataList)) {	// å¦‚æœæ²¡æœ‰æ•°æ®ï¼Œåˆ™è‡³å°‘åˆ›å»ºä¸€ä¸ªç©ºçš„sheetï¼Œä¸ç„¶excelæ–‡ä»¶æ‰“å¼€æ—¶ä¼šå‡ºé”™
 			createNewSheet(workbook, ++ sheetIndex, sheetName + (sheetIndex + 1), columnList, headerStyle);
 		} else {
 			for(int i=0, l=dataList.size(); i<l; i++) {
@@ -119,7 +119,7 @@ public class ExcelUtil {
 				}
 				DataContainer dc = dataList.get(i);
 				Row row = sheet.createRow(rowIndex);
-				
+
 				for(int j = 0, m = columnList.size(); j < m; j++) {
 					Column column = columnList.get(j);
 					String columnKey = column.getKey();
@@ -136,7 +136,7 @@ public class ExcelUtil {
 		}
 		return workbook;
 	}
-	
+
 	public static Workbook exportMapList(List<Column> columnList, List<Map<String, Object>> dataList) {
 		if(dataList == null) {
 			dataList = Collections.emptyList();
@@ -147,7 +147,7 @@ public class ExcelUtil {
 		}
 		return exportDataList(columnList, list);
 	}
-	
+
 	private static void createNewSheet(Workbook workbook, int sheetIndex, String sheetName, List<Column> columnList, CellStyle headerStyle) {
 		Sheet sheet = workbook.createSheet(sheetName);
 		workbook.setSheetName(sheetIndex, sheetName);
@@ -162,13 +162,13 @@ public class ExcelUtil {
 			cell.setCellValue(column.getTitle());
 		}
 	}
-	
+
 	private static CellStyle buildHeaderStyle(Workbook workbook) {
-		Font font = workbook.createFont(); 
-		font.setBoldweight(Font.BOLDWEIGHT_BOLD); 
-		font.setFontName("ËÎÌå"); 
-		font.setFontHeightInPoints((short) 10); 
-		
+		Font font = workbook.createFont();
+		font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		font.setFontName("å®‹ä½“");
+		font.setFontHeightInPoints((short) 10);
+
 		CellStyle headerStyle = workbook.createCellStyle();
 		headerStyle.setAlignment(CellStyle.ALIGN_CENTER);
 		headerStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
@@ -176,27 +176,27 @@ public class ExcelUtil {
 		headerStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
 		headerStyle.setFont(font);
 		setCellBorder(headerStyle);
-		
+
 		return headerStyle;
 	}
-	
+
 	private static void setCellBorder(CellStyle cellStyle){
 		cellStyle.setBorderBottom(CellStyle.BORDER_THIN);
 		cellStyle.setBorderLeft(CellStyle.BORDER_THIN);
 		cellStyle.setBorderRight(CellStyle.BORDER_THIN);
 		cellStyle.setBorderTop(CellStyle.BORDER_THIN);
 	}
-	
+
 	public static Column column(String title, String key, int width, CellType type) {
 		return new Column(title, key, width, type);
 	}
-	
+
 	public static class Column {
 		private String title;
 		private String key;
 		private int width;
 		private CellType type;
-		
+
 		public Column(String title, String key, int width, CellType type) {
 			this.title = title;
 			this.key = key;
@@ -229,7 +229,7 @@ public class ExcelUtil {
 			this.type = type;
 		}
 	}
-	
+
 	public static enum CellType{
 		currency_cny() {
 			@Override
@@ -239,7 +239,7 @@ public class ExcelUtil {
 				if(currencyCnyStyle == null) {
 					DataFormat format = workbook.createDataFormat();
 					currencyCnyStyle = workbook.createCellStyle();
-					currencyCnyStyle.setDataFormat(format.getFormat("£¤#,##0.00"));
+					currencyCnyStyle.setDataFormat(format.getFormat("ï¿¥#,##0.00"));
 					context.put(KEY_OF_CURRENCY_CNY_STYLE, currencyCnyStyle);
 				}
 				cell.setCellStyle(currencyCnyStyle);
@@ -293,7 +293,7 @@ public class ExcelUtil {
 					context.put(KEY_OF_FORMATTED_NUMBER_STYLE, numberStyle);
 				}
 				cell.setCellType(Cell.CELL_TYPE_NUMERIC);
-				cell.setCellStyle(numberStyle);	// ×¢Òâ£¬Í¬Ò»¸öworkbookÖĞ²»ÄÜ²úÉú¹ı¶àµÄstyle
+				cell.setCellStyle(numberStyle);	// æ³¨æ„ï¼ŒåŒä¸€ä¸ªworkbookä¸­ä¸èƒ½äº§ç”Ÿè¿‡å¤šçš„style
 				cell.setCellValue(NumberUtils.toInt(value == null? "": value.toString()));
 			}
 		},
@@ -306,7 +306,7 @@ public class ExcelUtil {
 					context.put(KEY_OF_NUMBER_STYLE, numberStyle);
 				}
 				cell.setCellType(Cell.CELL_TYPE_NUMERIC);
-				cell.setCellStyle(numberStyle);	// ×¢Òâ£¬Í¬Ò»¸öworkbookÖĞ²»ÄÜ²úÉú¹ı¶àµÄstyle
+				cell.setCellStyle(numberStyle);	// æ³¨æ„ï¼ŒåŒä¸€ä¸ªworkbookä¸­ä¸èƒ½äº§ç”Ÿè¿‡å¤šçš„style
 				cell.setCellValue(NumberUtils.toInt(value == null? "": value.toString()));
 			}
 		},
@@ -324,28 +324,28 @@ public class ExcelUtil {
 				cell.setCellStyle(percentStyle);
 				cell.setCellValue(NumberUtils.toDouble(value == null? "": value.toString()));
 			}
-			
+
 		};
-		
+
 		private static final String KEY_OF_CURRENCY_CNY_STYLE = "workbook_currency_cny_style";
 		private static final String KEY_OF_CURRENCY_USD_STYLE = "workbook_currency_usd_style";
 		private static final String KEY_OF_PERCENT_STYLE = "workbook_percent_style";
 		private static final String KEY_OF_NUMBER_STYLE="workbook_number_style";
 		private static final String KEY_OF_FORMATTED_NUMBER_STYLE = "workbook_formatted_number_style";
-		
+
 		public abstract void handle(Workbook workbook, Cell cell, Object value, Map<String, Object> context);
 	}
-	
+
 	public static interface DataContainer {
-		
+
 		public Object getColumnValue(String columnKey);
-		
+
 	}
-	
+
 	public static class MapDataContainer implements DataContainer {
-		
+
 		private Map<String, Object> dataMap;
-		
+
 		private MapDataContainer(Map<String, Object> dataMap) {
 			this.dataMap = MapUtils.isNotEmpty(dataMap)? dataMap: Collections.<String, Object>emptyMap();
 		}
@@ -354,11 +354,11 @@ public class ExcelUtil {
 		public Object getColumnValue(String columnKey) {
 			return dataMap.get(columnKey);
 		}
-		
+
 		public static DataContainer newInstance(Map<String, Object> dataMap) {
 			return new MapDataContainer(dataMap);
 		}
-		
+
 	}
-	
+
 }

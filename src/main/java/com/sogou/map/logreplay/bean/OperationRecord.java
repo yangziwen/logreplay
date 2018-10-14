@@ -14,8 +14,8 @@ import com.alibaba.fastjson.JSON;
 import com.sogou.map.logreplay.bean.base.AbstractBean;
 
 /**
- * ²Ù×÷¼ÇÂ¼
- * ¼´ÈÕÖ¾»Ø·Å¹ı³ÌÖĞµÄÃ¿Ò»¸ö²Ù×÷¶¯×÷
+ * æ“ä½œè®°å½•
+ * å³æ—¥å¿—å›æ”¾è¿‡ç¨‹ä¸­çš„æ¯ä¸€ä¸ªæ“ä½œåŠ¨ä½œ
  */
 @Table(name = "operation_record")
 public class OperationRecord extends AbstractBean {
@@ -31,43 +31,43 @@ public class OperationRecord extends AbstractBean {
 	private String ip;
 	
 	/**
-	 * Éè±¸±àºÅ
-	 * androidÎªdeviceId
-	 * iosÎªkd
+	 * è®¾å¤‡ç¼–å·
+	 * androidä¸ºdeviceId
+	 * iosä¸ºkd
 	 */
 	@Column(name = "device_id")
 	private String deviceId;
 
-	/** ÓÃ»§±àºÅ **/
+	/** ç”¨æˆ·ç¼–å· **/
 	@Column
 	private String uvid;
 	
-	/** Éè±¸»úĞÍ **/
+	/** è®¾å¤‡æœºå‹ **/
 	@Column
 	private String os;
 	
-	/** µ±Ç°²Ù×÷µÄappµÄ°æ±¾ **/
+	/** å½“å‰æ“ä½œçš„appçš„ç‰ˆæœ¬ **/
 	@Column
 	private Long version;
 	
 	@Column
 	private Long timestamp;
 	
-	/** Ò³Ãæ±àºÅ
-	 * Èç¹ûÊÇ¹«¹²²Ù×÷Ïî£¬Ôò´Ë±àºÅÎª¿Õ
+	/** é¡µé¢ç¼–å·
+	 * å¦‚æœæ˜¯å…¬å…±æ“ä½œé¡¹ï¼Œåˆ™æ­¤ç¼–å·ä¸ºç©º
 	 */
 	@Column(name = "page_no")
 	private Integer pageNo;
 	
-	/** ²Ù×÷Ïî±àºÅ **/
+	/** æ“ä½œé¡¹ç¼–å· **/
 	@Column(name = "tag_no")
 	private Integer tagNo;
 	
-	/** json¸ñÊ½µÄ²ÎÊıĞÅÏ¢ **/
+	/** jsonæ ¼å¼çš„å‚æ•°ä¿¡æ¯ **/
 	@Column(name = "params")
 	private String params;
 	
-	/** ²Ù×÷ÏîĞÅÏ¢µÄid **/
+	/** æ“ä½œé¡¹ä¿¡æ¯çš„id **/
 	@Transient
 	private Long tagInfoId;
 	

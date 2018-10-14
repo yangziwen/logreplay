@@ -21,10 +21,10 @@ import org.apache.ibatis.session.RowBounds;
 
 
 @Intercepts({
-	@Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class})
+	@Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})
 })
 public class PaginationInterceptor implements Interceptor {
-	
+
 	private static final ObjectFactory DEFAULT_OBJECT_FACTORY = new DefaultObjectFactory();
 	private static final ObjectWrapperFactory DEFAULT_OBJECT_WRAPPER_FACTORY = new DefaultObjectWrapperFactory();
 	private static final ReflectorFactory DEFAULT_REFLECTION_FACTORY = new DefaultReflectorFactory();
@@ -33,30 +33,30 @@ public class PaginationInterceptor implements Interceptor {
 	public Object intercept(Invocation invocation) throws Throwable {
 		StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
 		MetaObject metaStatementHandler = MetaObject.forObject(
-				statementHandler, 
+				statementHandler,
 				DEFAULT_OBJECT_FACTORY,
-				DEFAULT_OBJECT_WRAPPER_FACTORY, 
+				DEFAULT_OBJECT_WRAPPER_FACTORY,
 				DEFAULT_REFLECTION_FACTORY);
-		
-		// ·ÖÀë´úÀí¶ÔÏóÁ´(ÓÉÓÚÄ¿±êÀà¿ÉÄÜ±»¶à¸öÀ¹½ØÆ÷À¹½Ø£¬´Ó¶øĞÎ³É¶à´Î´úÀí£¬Í¨¹ıÏÂÃæµÄÁ½´ÎÑ­»·¿ÉÒÔ·ÖÀë³ö×îÔ­Ê¼µÄµÄÄ¿±êÀà)
+
+		// åˆ†ç¦»ä»£ç†å¯¹è±¡é“¾(ç”±äºç›®æ ‡ç±»å¯èƒ½è¢«å¤šä¸ªæ‹¦æˆªå™¨æ‹¦æˆªï¼Œä»è€Œå½¢æˆå¤šæ¬¡ä»£ç†ï¼Œé€šè¿‡ä¸‹é¢çš„ä¸¤æ¬¡å¾ªç¯å¯ä»¥åˆ†ç¦»å‡ºæœ€åŸå§‹çš„çš„ç›®æ ‡ç±»)
 		while (metaStatementHandler.hasGetter("h")) {
 			Object object = metaStatementHandler.getValue("h");
-			metaStatementHandler = MetaObject.forObject(object, 
-					DEFAULT_OBJECT_FACTORY, 
-					DEFAULT_OBJECT_WRAPPER_FACTORY, 
-					DEFAULT_REFLECTION_FACTORY);
-		}
-		
-		// ·ÖÀë×îºóÒ»¸ö´úÀí¶ÔÏóµÄÄ¿±êÀà
-		while (metaStatementHandler.hasGetter("target")) {
-			Object object = metaStatementHandler.getValue("target");
-			metaStatementHandler = MetaObject.forObject(object, 
-					DEFAULT_OBJECT_FACTORY, 
-					DEFAULT_OBJECT_WRAPPER_FACTORY, 
+			metaStatementHandler = MetaObject.forObject(object,
+					DEFAULT_OBJECT_FACTORY,
+					DEFAULT_OBJECT_WRAPPER_FACTORY,
 					DEFAULT_REFLECTION_FACTORY);
 		}
 
-		// Èç¹ûÓĞÉèÖÃrowBounds£¬Ôò½«rowBoundsµÄ²ÎÊı×·¼Óµ½sql×îºó£¬ÊµÏÖÎïÀí·ÖÒ³
+		// åˆ†ç¦»æœ€åä¸€ä¸ªä»£ç†å¯¹è±¡çš„ç›®æ ‡ç±»
+		while (metaStatementHandler.hasGetter("target")) {
+			Object object = metaStatementHandler.getValue("target");
+			metaStatementHandler = MetaObject.forObject(object,
+					DEFAULT_OBJECT_FACTORY,
+					DEFAULT_OBJECT_WRAPPER_FACTORY,
+					DEFAULT_REFLECTION_FACTORY);
+		}
+
+		// å¦‚æœæœ‰è®¾ç½®rowBoundsï¼Œåˆ™å°†rowBoundsçš„å‚æ•°è¿½åŠ åˆ°sqlæœ€åï¼Œå®ç°ç‰©ç†åˆ†é¡µ
 		RowBounds rowBounds = (RowBounds) metaStatementHandler.getValue("delegate.rowBounds");
 		if (rowBounds.getOffset() > 0 || rowBounds.getLimit() != RowBounds.NO_ROW_LIMIT) {
 			BoundSql boundSql = (BoundSql) metaStatementHandler.getValue("delegate.boundSql");
@@ -65,21 +65,21 @@ public class PaginationInterceptor implements Interceptor {
 				throw new NullPointerException("parameterObject is null!");
 			} else {
 				String sql = boundSql.getSql();
-				// ÖØĞ´sql
+				// é‡å†™sql
 				String pageSql = sql + " LIMIT " + rowBounds.getOffset() + "," + rowBounds.getLimit();
 				metaStatementHandler.setValue("delegate.boundSql.sql", pageSql);
-				// ²ÉÓÃÎïÀí·ÖÒ³ºó£¬¾Í²»ĞèÒªmybatisµÄÄÚ´æ·ÖÒ³ÁË£¬ËùÒÔÖØÖÃÏÂÃæµÄÁ½¸ö²ÎÊı
+				// é‡‡ç”¨ç‰©ç†åˆ†é¡µåï¼Œå°±ä¸éœ€è¦mybatisçš„å†…å­˜åˆ†é¡µäº†ï¼Œæ‰€ä»¥é‡ç½®ä¸‹é¢çš„ä¸¤ä¸ªå‚æ•°
 				metaStatementHandler.setValue("delegate.rowBounds.offset", RowBounds.NO_ROW_OFFSET);
 				metaStatementHandler.setValue("delegate.rowBounds.limit", RowBounds.NO_ROW_LIMIT);
 			}
 		}
-		// ½«Ö´ĞĞÈ¨½»¸øÏÂÒ»¸öÀ¹½ØÆ÷
+		// å°†æ‰§è¡Œæƒäº¤ç»™ä¸‹ä¸€ä¸ªæ‹¦æˆªå™¨
 		return invocation.proceed();
 	}
 
 	@Override
 	public Object plugin(Object target) {
-		// µ±Ä¿±êÀàÊÇStatementHandlerÀàĞÍÊ±£¬²Å°ü×°Ä¿±êÀà£¬·ñÕßÖ±½Ó·µ»ØÄ¿±ê±¾Éí,¼õÉÙÄ¿±ê±»´úÀíµÄ´ÎÊı
+		// å½“ç›®æ ‡ç±»æ˜¯StatementHandlerç±»å‹æ—¶ï¼Œæ‰åŒ…è£…ç›®æ ‡ç±»ï¼Œå¦è€…ç›´æ¥è¿”å›ç›®æ ‡æœ¬èº«,å‡å°‘ç›®æ ‡è¢«ä»£ç†çš„æ¬¡æ•°
 		if (target instanceof StatementHandler) {
 			return Plugin.wrap(target, this);
 		} else {

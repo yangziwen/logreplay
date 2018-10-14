@@ -1,6 +1,6 @@
 package com.sogou.map.logreplay.enums;
 
-/** 上传图片时产生的图片尺寸类型 **/
+/** 涓婁紶鍥剧墖鏃朵骇鐢熺殑鍥剧墖灏哄绫诲瀷 **/
 public enum ImageType {
 	raw(0, 0),
 	small(32, 32),

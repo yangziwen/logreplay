@@ -14,21 +14,21 @@ import com.sogou.map.logreplay.bean.Product;
 import com.sogou.map.logreplay.service.ProductService;
 
 /**
- * ÇëÇóµÄcookieÖÐËùÐ¯´øµÄproduct_id»áÍ¨¹ý
+ * è¯·æ±‚çš„cookieä¸­æ‰€æºå¸¦çš„product_idä¼šé€šè¿‡
  * com.sogou.map.logreplay.filter.ProductFilter
- * °ó¶¨µ½µ±Ç°Ïß³ÌµÄPRODUCT_ID_HOLDERÉÏ
- * ³ÌÐòÖÐ¿ÉÍ¨¹ý´Ë¹¤¾ßÀàµÄ·½·¨À´»ñÈ¡productId
- * ÐèÒª±ä¸ü²úÆ·ÀàÐÍÊ±£¬Ç°¶Ë¸Ä±äcookieÖÐproduct_idµÄÖµ¼´¿É
+ * ç»‘å®šåˆ°å½“å‰çº¿ç¨‹çš„PRODUCT_ID_HOLDERä¸Š
+ * ç¨‹åºä¸­å¯é€šè¿‡æ­¤å·¥å…·ç±»çš„æ–¹æ³•æ¥èŽ·å–productId
+ * éœ€è¦å˜æ›´äº§å“ç±»åž‹æ—¶ï¼Œå‰ç«¯æ”¹å˜cookieä¸­product_idçš„å€¼å³å¯
  */
 public class ProductUtil {
 	
-	/** appµÄÖ÷°æ±¾µ¥Î» **/
+	/** appçš„ä¸»ç‰ˆæœ¬å•ä½ **/
 	private static final int MAJOR_UNIT = 10000000;
 	
-	/** appµÄÐ¡°æ±¾µ¥Î» **/
+	/** appçš„å°ç‰ˆæœ¬å•ä½ **/
 	private static final int MINOR_UNIT = 100000;
 	
-	/** appµÄÐÞ¶©°æ±¾µ¥Î» **/
+	/** appçš„ä¿®è®¢ç‰ˆæœ¬å•ä½ **/
 	private static final int REVISION_UNIT = 1000;
 	
 	public static final String COOKIE_KEY = "product_id";
@@ -100,7 +100,7 @@ public class ProductUtil {
 		if(StringUtils.isBlank(version)) {
 			return 0;
 		}
-		try {	// versionÊÇ¿ÆÑ§¼ÇÊý·¨µÄÇéÐÎ
+		try {	// versionæ˜¯ç§‘å­¦è®°æ•°æ³•çš„æƒ…å½¢
 			int v = Double.valueOf(Double.parseDouble(version)).intValue();
 			if(v > MAJOR_UNIT) {
 				return v;

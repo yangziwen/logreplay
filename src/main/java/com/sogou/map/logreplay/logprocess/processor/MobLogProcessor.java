@@ -43,8 +43,8 @@ public class MobLogProcessor {
 	}
 	
 	/**
-	 * unicode½âÂë£¬½öÊÊÓÃÓÚsogouÄÚ²¿
-	 * Ç°¶ËÊ¹ÓÃescape¶ø²»ÊÇencodeURIComponent£¬ºÜÁîÈËã°âê
+	 * unicodeè§£ç ï¼Œä»…é€‚ç”¨äºsogouå†…éƒ¨
+	 * å‰ç«¯ä½¿ç”¨escapeè€Œä¸æ˜¯encodeURIComponentï¼Œå¾ˆä»¤äººæƒ†æ€…
 	 */
 	private static String decodeUnicode(String text) {
 		int start = text.indexOf("%u");
@@ -55,7 +55,7 @@ public class MobLogProcessor {
 		final StringBuilder buff = new StringBuilder();
 		while (start > -1) {
 			buff.append(text.substring(end, start));
-			end = start + 6;	// unicodeÁ½×Ö½Ú´ú±íÒ»¸ö×Ö£¬ÆäÊµ»¹ÊÇÓĞµãÎÊÌâ£¬ÏÈ½«¾Í°É
+			end = start + 6;	// unicodeä¸¤å­—èŠ‚ä»£è¡¨ä¸€ä¸ªå­—ï¼Œå…¶å®è¿˜æ˜¯æœ‰ç‚¹é—®é¢˜ï¼Œå…ˆå°†å°±å§
 			String charStr = text.substring(start + 2, end);
 			char letter = (char) Integer.parseInt(charStr, 16);
 			buff.append(new Character(letter).toString());

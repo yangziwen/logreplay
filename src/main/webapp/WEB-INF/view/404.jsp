@@ -1,5 +1,5 @@
 <%@page import="org.springframework.http.HttpStatus"%>
-<%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="./include/include.jsp" %>
 <% response.setStatus(HttpStatus.NOT_FOUND.value()); %>
 <!DOCTYPE html>
@@ -13,7 +13,7 @@
 
 <div class="container">
 	<div style="text-align: center; font-family: 'Microsoft Yahei'; margin-top: 200px;">
-		<h2><strong>�Բ��𣬵�ǰҳ�治����! <a href="javascript: history.go(-1);">�뷵��</a></strong></h2>
+		<h2><strong>对不起，当前页面不存在! <a href="javascript: history.go(-1);">请返回</a></strong></h2>
 	</div>
 </div>
 </body>

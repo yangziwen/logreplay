@@ -9,9 +9,9 @@ import com.sogou.map.logreplay.exception.LogReplayException;
 public abstract class BaseController {
 	
 	/**
-	 * 在摆脱对mengine-core包的依赖后，
-	 * 为了与前端代码保持兼容，
-	 * 而统一用successResult方法输出json结果
+	 * 鍦ㄦ憜鑴卞mengine-core鍖呯殑渚濊禆鍚庯紝
+	 * 涓轰簡涓庡墠绔唬鐮佷繚鎸佸吋瀹癸紝
+	 * 鑰岀粺涓�鐢╯uccessResult鏂规硶杈撳嚭json缁撴灉
 	 */
 	protected ModelMap successResult(String response) {
 		return new ModelMap("code", 0).addAttribute("response", response);
@@ -26,7 +26,7 @@ public abstract class BaseController {
 	}
 	
 	/**
-	 * 统一处理LogReplayException
+	 * 缁熶竴澶勭悊LogReplayException
 	 */
 	@ResponseBody
 	@ExceptionHandler(LogReplayException.class)

@@ -22,7 +22,7 @@ import com.sogou.map.logreplay.util.ProductUtil;
 import com.sogou.map.logreplay.util.ExcelUtil.DataContainer;
 
 /**
- * 仅用于excel导出
+ * 浠呯敤浜巈xcel瀵煎嚭
  */
 public class TagInfoDto implements DataContainer{
 

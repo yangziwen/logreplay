@@ -59,7 +59,7 @@ public class TagInfoService {
 	}
 	
 	/**
-	 * Èç¹ûÊÇ"¹«¹²²Ù×÷Ïî"£¬ÔòÖ±½ÓºöÂÔpageNo
+	 * å¦‚æœæ˜¯"å…¬å…±æ“ä½œé¡¹"ï¼Œåˆ™ç›´æ¥å¿½ç•¥pageNo
 	 */
 	public TagInfo getTagInfoByPageNoTagNoAndProductId(Integer pageNo, Integer tagNo, Long productId) {
 		return tagInfoMapper.first(new QueryParamMap()

@@ -19,7 +19,7 @@ import com.sogou.map.logreplay.util.JndiUtil;
 @Table(name = "image")
 public class Image extends AbstractBean {
 	
-	/** Í¼Æ¬¸ùÂ·¾¶Í¨¹ıjndi½øĞĞÅäÖÃ **/
+	/** å›¾ç‰‡æ ¹è·¯å¾„é€šè¿‡jndiè¿›è¡Œé…ç½® **/
 	public static final String IMAGE_BASE_PATH = JndiUtil.lookup("java:comp/env/imageBasePath");
 	
 	public static final String IMAGE_BASE_URL = JndiUtil.lookup("java:comp/env/imageBaseUrl");
@@ -28,39 +28,39 @@ public class Image extends AbstractBean {
 	@Column
 	private Long id;
 	
-	/** Ê¹ÓÃsha1Ëã·¨²úÉúĞ£ÑéºÍ **/
+	/** ä½¿ç”¨sha1ç®—æ³•äº§ç”Ÿæ ¡éªŒå’Œ **/
 	@Column
 	private String checksum;
 	
-	/** Í¼Æ¬ÎÄ¼şÀàĞÍ **/
+	/** å›¾ç‰‡æ–‡ä»¶ç±»å‹ **/
 	@Column(name = "format")
 	private String format;
 	
-	/** Í¼Æ¬ÒµÎñÀàĞÍ **/
+	/** å›¾ç‰‡ä¸šåŠ¡ç±»å‹ **/
 	@Column
 	private Type type;
 	
-	/** Í¼Æ¬¿í¶È **/
+	/** å›¾ç‰‡å®½åº¦ **/
 	@Column
 	private Integer width;
 	
-	/** Í¼Æ¬³¤¶È **/
+	/** å›¾ç‰‡é•¿åº¦ **/
 	@Column
 	private Integer height;
 	
-	/** Í¼Æ¬ÎÄ¼ş´óĞ¡ **/
+	/** å›¾ç‰‡æ–‡ä»¶å¤§å° **/
 	@Column
 	private Integer size;
 	
-	/** ´´½¨Õßid **/
+	/** åˆ›å»ºè€…id **/
 	@Column(name = "creator_id")
 	private Long creatorId;
 	
-	/** ´´½¨Ê±¼ä **/
+	/** åˆ›å»ºæ—¶é—´ **/
 	@Column(name = "create_time")
 	private Timestamp createTime;
 	
-	/** ÓÃÓÚÊı¾İÔÚ³ÌĞòÄÚ²¿µÄÖĞ×ª **/
+	/** ç”¨äºæ•°æ®åœ¨ç¨‹åºå†…éƒ¨çš„ä¸­è½¬ **/
 	@Transient
 	private byte[] bytes;
 	
@@ -153,7 +153,7 @@ public class Image extends AbstractBean {
 	}
 	
 	/**
-	 * ÎÄ¼şÂ·¾¶Í¨¹ıÉú³ÉÈÕÆÚ£¬Ğ£ÑéºÍÒÔ¼°ÎÄ¼şÀàĞÍÆ´×°µÃµ½
+	 * æ–‡ä»¶è·¯å¾„é€šè¿‡ç”Ÿæˆæ—¥æœŸï¼Œæ ¡éªŒå’Œä»¥åŠæ–‡ä»¶ç±»å‹æ‹¼è£…å¾—åˆ°
 	 */
 	@JsonIgnore
 	public String getFilepath() {
@@ -225,7 +225,7 @@ public class Image extends AbstractBean {
 		
 	}
 	
-	/** ÉÏ´«Í¼Æ¬Ê±²úÉúµÄÍ¼Æ¬³ß´çÀàĞÍ **/
+	/** ä¸Šä¼ å›¾ç‰‡æ—¶äº§ç”Ÿçš„å›¾ç‰‡å°ºå¯¸ç±»å‹ **/
 	public enum Type {
 		raw(0, 0),
 		small(32, 32),

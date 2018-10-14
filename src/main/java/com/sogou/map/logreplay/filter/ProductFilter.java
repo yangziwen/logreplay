@@ -15,8 +15,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.sogou.map.logreplay.util.ProductUtil;
 
 /**
- * ´ÓÇëÇóµÄcookieÖĞ»ñÈ¡µ±Ç°product_idµÄÖµ
- * ²¢Óëµ±Ç°Ïß³Ì½øĞĞ°ó¶¨
+ * ä»è¯·æ±‚çš„cookieä¸­è·å–å½“å‰product_idçš„å€¼
+ * å¹¶ä¸å½“å‰çº¿ç¨‹è¿›è¡Œç»‘å®š
  */
 public class ProductFilter extends OncePerRequestFilter {
 	

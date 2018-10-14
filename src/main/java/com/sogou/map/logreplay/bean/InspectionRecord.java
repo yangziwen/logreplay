@@ -10,7 +10,7 @@ import javax.persistence.Transient;
 import com.sogou.map.logreplay.bean.base.AbstractBean;
 
 /**
- * ²Ù×÷ÈÕÖ¾µÄĞ£Ñé¼ÇÂ¼
+ * æ“ä½œæ—¥å¿—çš„æ ¡éªŒè®°å½•
  */
 @Table(name = "inspection_record")
 public class InspectionRecord extends AbstractBean {
@@ -22,35 +22,35 @@ public class InspectionRecord extends AbstractBean {
 	@Column(name = "product_id")
 	private Long productId;
 	
-	/** Ò³ÃæĞÅÏ¢µÄid **/
+	/** é¡µé¢ä¿¡æ¯çš„id **/
 	@Column(name = "page_info_id")
 	private Long pageInfoId;
 	
-	/** ²Ù×÷ÏîĞÅÏ¢µÄid **/
+	/** æ“ä½œé¡¹ä¿¡æ¯çš„id **/
 	@Column(name = "tag_info_id")
 	private Long tagInfoId;
 	
-	/** Ğ£Ñé½á¹ûÊÇ·ñÕıÈ· **/
+	/** æ ¡éªŒç»“æœæ˜¯å¦æ­£ç¡® **/
 	@Column
 	private Boolean valid;
 	
-	/** ÊÇ·ñÒÑ½â¾ö **/
+	/** æ˜¯å¦å·²è§£å†³ **/
 	@Column
 	private Boolean solved;
 	
-	/** Ğ£Ñé½á¹ûÌá½»ÈËid **/
+	/** æ ¡éªŒç»“æœæäº¤äººid **/
 	@Column(name = "submitter_id")
 	private Long submitterId;
 	
-	/** Ğ£Ñé½á¹ûÌá½»ÈË½ÇÉ«id **/
+	/** æ ¡éªŒç»“æœæäº¤äººè§’è‰²id **/
 	@Column(name = "submitter_role_id")
 	private Long submitterRoleId;
 	
-	/** Ğ£Ñé½á¹û½â¾öÈËid **/
+	/** æ ¡éªŒç»“æœè§£å†³äººid **/
 	@Column(name = "solver_id")
 	private Long solverId;
 	
-	/** Ğ£Ñé½á¹û½â¾öÈË½ÇÉ«id **/
+	/** æ ¡éªŒç»“æœè§£å†³äººè§’è‰²id **/
 	@Column(name = "solver_role_id")
 	private Long solverRoleId;
 	

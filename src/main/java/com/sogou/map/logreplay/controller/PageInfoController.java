@@ -78,7 +78,7 @@ public class PageInfoController extends BaseController {
 			.orderByAsc("page_no")
 		);
 		Workbook workbook = ExcelUtil.exportDataList(PAGE_INFO_COLUMN_LIST, list);
-		String filename = ProductUtil.getCurrentProduct().getName() + "_“≥√ÊœÍ«È.xls";
+		String filename = ProductUtil.getCurrentProduct().getName() + "_√í¬≥√É√¶√è√™√á√©.xls";
 		ExcelUtil.outputExcelToResponse(workbook, filename, response);
 	}
 	
@@ -176,8 +176,8 @@ public class PageInfoController extends BaseController {
 	
 	private static List<Column> buildPageInfoColumnList() {
 		List<ExcelUtil.Column> columnList = Lists.newArrayList(
-				ExcelUtil.column("“≥√Ê±‡∫≈", "pageNo", 3000, ExcelUtil.CellType.number),
-				ExcelUtil.column("“≥√Ê√˚≥∆", "name", 8000, ExcelUtil.CellType.text)
+				ExcelUtil.column("√í¬≥√É√¶¬±√†¬∫√Ö", "pageNo", 3000, ExcelUtil.CellType.number),
+				ExcelUtil.column("√í¬≥√É√¶√É√ª¬≥√Ü", "name", 8000, ExcelUtil.CellType.text)
 		);
 		return columnList;
 	}

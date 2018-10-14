@@ -1,13 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="ctx_path" value="${pageContext.request.contextPath}" />
 <%-- 
-static_pathÊÇ¾²Ì¬ÎÄ¼þµÄ¸ùÂ·¾¶£¬Ä¿Ç°Ê¹ÓÃcontextPath¡£
-½ñºóÈç¹ûÐèÒª¾²Ì¬ÎÄ¼þ·ÖÀë£¬Ôò¿É¿¼ÂÇ½«´ËÅäÖÃÐÞ¸ÄÎª¾²Ì¬ÎÄ¼þ·þÎñÆ÷µÄÂ·¾¶
+static_pathæ˜¯é™æ€æ–‡ä»¶çš„æ ¹è·¯å¾„ï¼Œç›®å‰ä½¿ç”¨contextPathã€‚
+ä»ŠåŽå¦‚æžœéœ€è¦é™æ€æ–‡ä»¶åˆ†ç¦»ï¼Œåˆ™å¯è€ƒè™‘å°†æ­¤é…ç½®ä¿®æ”¹ä¸ºé™æ€æ–‡ä»¶æœåŠ¡å™¨çš„è·¯å¾„
  --%>
 <c:set var="static_path" value="${pageContext.request.contextPath}" />
 <c:set var="request_uri" value="${pageContext.request.requestURI}" />
-<c:set var="static_version" value="20150427" /><%-- ¾²Ì¬ÎÄ¼þµÄ°æ±¾ºÅ --%>
+<c:set var="static_version" value="20150427" /><%-- é™æ€æ–‡ä»¶çš„ç‰ˆæœ¬å· --%>

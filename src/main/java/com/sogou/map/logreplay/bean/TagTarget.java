@@ -7,7 +7,7 @@ import javax.persistence.Table;
 import com.sogou.map.logreplay.bean.base.AbstractBean;
 
 /**
- * 操作项关联的目标
+ * 鎿嶄綔椤瑰叧鑱旂殑鐩爣
  */
 @Table(name = "tag_target")
 public class TagTarget extends AbstractBean {

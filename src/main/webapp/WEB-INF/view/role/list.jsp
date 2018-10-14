@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../include/include.jsp" %>
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>
-    <title>½ÇÉ«¹ÜÀí</title>
+    <title>è§’è‰²ç®¡ç†</title>
 	<%@ include file="../include/includeCss.jsp" %>
 	<style>
 		.panel-heading {
@@ -34,8 +34,8 @@
 			<div>
 			    <ul class="breadcrumb">
 			        <li>
-						µ±Ç°Î»ÖÃ: <a data-toggle="collapse" href="#J_logConfigSubmenu">ÂñµãÐÅÏ¢¹ÜÀí</a>
-						 &gt; <a href="${ctx_path}/role/list.htm">½ÇÉ«¹ÜÀí</a>
+						å½“å‰ä½ç½®: <a data-toggle="collapse" href="#J_logConfigSubmenu">åŸ‹ç‚¹ä¿¡æ¯ç®¡ç†</a>
+						 &gt; <a href="${ctx_path}/role/list.htm">è§’è‰²ç®¡ç†</a>
 			        </li> 
 			    </ul>
 			</div>
@@ -45,10 +45,10 @@
 				     	<table class="table table-bordered table-striped table-condensed table-hover ">
 				     		<thead>
 				     			<tr>
-				     				<th style="width: 150px;">½ÇÉ«</th>
-				     				<th style="width: 150px;">Ãû³Æ</th>
-				     				<th>ÃèÊö</th>
-				     				<th style="width: 150px;">¹ÜÀí</th>
+				     				<th style="width: 150px;">è§’è‰²</th>
+				     				<th style="width: 150px;">åç§°</th>
+				     				<th>æè¿°</th>
+				     				<th style="width: 150px;">ç®¡ç†</th>
 				     			</tr>
 				     		</thead>
 				     		<tbody id="J_roleTbody">
@@ -59,7 +59,7 @@
 				     				<td>${'${'}displayName}</td>
 				     				<td>${'${'}comment}</td>
 				     				<td>
-				     					<button class="btn btn-primary btn-xs open-relate-permission-modal">¹ØÁªÈ¨ÏÞ</button>
+				     					<button class="btn btn-primary btn-xs open-relate-permission-modal">å…³è”æƒé™</button>
 				     				</td>
 				     			</tr>
 							</script>
@@ -78,13 +78,13 @@
 				<button type="button" class="close" data-dismiss="modal">
 					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 				</button>
-				<h4 class="modal-title"><strong>±êÌâ</strong></h4>
+				<h4 class="modal-title"><strong>æ ‡é¢˜</strong></h4>
 			</div>
 			<div class="modal-body" style="padding-left: 40px; padding-right: 40px;">
 				<div class="row">
 					<div class="col-sm-5">
 						<div class="panel panel-default">
-							<div class="panel-heading"><strong class="title">ÒÑ¹ØÁªÈ¨ÏÞ</strong></div>
+							<div class="panel-heading"><strong class="title">å·²å…³è”æƒé™</strong></div>
 							<div style="overflow-y: scroll; height: 250px;"style="overflow-y: scroll; height: 250px;">
 							<table class="table table-condensed table-hover" style="margin-bottom: 0px;" >
 								<tbody class="left-tbody">
@@ -103,7 +103,7 @@
 					</div>
 					<div class="col-sm-5">
 						<div class="panel panel-default">
-							<div class="panel-heading"><strong class="title">Î´¹ØÁªÈ¨ÏÞ</strong></div>
+							<div class="panel-heading"><strong class="title">æœªå…³è”æƒé™</strong></div>
 							<div style="overflow-y: scroll; height: 250px;"style="overflow-y: scroll; height: 250px;">
 							<table class="table table-condensed table-hover" style="margin-bottom: 0px;" >
 								<tbody class="right-tbody">
@@ -115,8 +115,8 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary update-btn">¸üÐÂ</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">¹Ø±Õ</button>
+				<button type="button" class="btn btn-primary update-btn">æ›´æ–°</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">å…³é—­</button>
 			</div>
 		</div>
 	</div>

@@ -10,12 +10,12 @@ import java.util.regex.Pattern;
 import com.sogou.map.logreplay.bean.ParamInfo;
 
 /**
- * ¸ù¾İtagInfoId,²ÎÊıÃûºÍ²ÎÊıÖµÀ´»ñÈ¡²ÎÊıĞÅÏ¢µÄ°ïÖúÀà
+ * æ ¹æ®tagInfoId,å‚æ•°åå’Œå‚æ•°å€¼æ¥è·å–å‚æ•°ä¿¡æ¯çš„å¸®åŠ©ç±»
  */
 public class TagParamParser {
 	
 	/** 
-	 * ÅÅ³ı¶Ôp, tag, t, reqid, dataid, ucNavigateIdµÈ²ÎÊıµÄ½âÎö
+	 * æ’é™¤å¯¹p, tag, t, reqid, dataid, ucNavigateIdç­‰å‚æ•°çš„è§£æ
 	 */
 	private static final Pattern EXCLUDED_PARAM_KEYS_PATTERN = Pattern.compile("p|tag|t|.*id$", Pattern.CASE_INSENSITIVE);
 	
@@ -61,15 +61,15 @@ public class TagParamParser {
 	}
 	
 	/**
-	 * ÅĞ¶ÏinfoÖĞµÄÄ³¸ö²ÎÊıÊÇ·ñĞèÒª½âÎö
-	 * ±ÈÈç p, tag, t, reqidÖ®ÀàµÄ²ÎÊı¶¼ÊÇ²»ĞèÒª±»µ±×ö²Ù×÷ÏîµÄ²ÎÊı½øĞĞ½âÎöµÄ
+	 * åˆ¤æ–­infoä¸­çš„æŸä¸ªå‚æ•°æ˜¯å¦éœ€è¦è§£æ
+	 * æ¯”å¦‚ p, tag, t, reqidä¹‹ç±»çš„å‚æ•°éƒ½æ˜¯ä¸éœ€è¦è¢«å½“åšæ“ä½œé¡¹çš„å‚æ•°è¿›è¡Œè§£æçš„
 	 */
 	public static boolean isParamKeyExcluded(String key) {
 		return EXCLUDED_PARAM_KEYS_PATTERN.matcher(key).matches();
 	}
 	
 	/**
-	 * Í¬Ò»tagInfoÏÂµÄËùÓĞ²»Í¬Ãû³ÆµÄparam
+	 * åŒä¸€tagInfoä¸‹çš„æ‰€æœ‰ä¸åŒåç§°çš„param
 	 */
 	public static class TagParamHolder {
 		
@@ -107,11 +107,11 @@ public class TagParamParser {
 	}
 	
 	/**
-	 * Í¬Ò»tagInfo£¬Í¬Ò»paramNameÏÂµÄ²»Í¬paramValue
+	 * åŒä¸€tagInfoï¼ŒåŒä¸€paramNameä¸‹çš„ä¸åŒparamValue
 	 */
 	public static class ParamInfoHolder {
 		
-		public static final String PARAM_VALUE_NOT_EXIST_DESCRIPTION = "²ÎÊıµÄÖµ²»´æÔÚ!";
+		public static final String PARAM_VALUE_NOT_EXIST_DESCRIPTION = "å‚æ•°çš„å€¼ä¸å­˜åœ¨!";
 		
 		private String paramName;
 		
@@ -123,8 +123,8 @@ public class TagParamParser {
 		Map<String, ParamInfo> paramInfoMap = new HashMap<String, ParamInfo>();
 		
 		/**
-		 * µ±Ä³¸öparamNameÖ»¶ÔÓ¦Ò»¸öparamValueÇÒparamValueÎª""Ê±
-		 * ±íÃ÷Õâ¸ö²ÎÊı±ØĞë´æÔÚ£¬µ«¿ÉÒÔÎªÈÎÒâÖµ
+		 * å½“æŸä¸ªparamNameåªå¯¹åº”ä¸€ä¸ªparamValueä¸”paramValueä¸º""æ—¶
+		 * è¡¨æ˜è¿™ä¸ªå‚æ•°å¿…é¡»å­˜åœ¨ï¼Œä½†å¯ä»¥ä¸ºä»»æ„å€¼
 		 */
 		public boolean merelyRequired() {
 			return paramInfoMap.size() == 1 && paramInfoMap.containsKey("");
@@ -145,10 +145,10 @@ public class TagParamParser {
 		}
 		
 		/**
-		 * ¸ù¾İtagParamParser#parse·½·¨·µ»ØµÄparamInfoÀ´ÅĞ¶ÏÇëÇóÖĞĞ¯´øµÄ²ÎÊıÊÇ·ñÕıÈ·ÓĞĞ§
-		 * »ùÓÚ²Ù×÷ÏîÖĞµÄ²ÎÊıÅäÖÃĞÅÏ¢£¬ÇëÇóÖĞÎŞĞ§µÄ²ÎÊı°üÀ¨
-		 * 1) ²ÎÊıÈ±Ê§
-		 * 2) ²ÎÊı¶àÓà
+		 * æ ¹æ®tagParamParser#parseæ–¹æ³•è¿”å›çš„paramInfoæ¥åˆ¤æ–­è¯·æ±‚ä¸­æºå¸¦çš„å‚æ•°æ˜¯å¦æ­£ç¡®æœ‰æ•ˆ
+		 * åŸºäºæ“ä½œé¡¹ä¸­çš„å‚æ•°é…ç½®ä¿¡æ¯ï¼Œè¯·æ±‚ä¸­æ— æ•ˆçš„å‚æ•°åŒ…æ‹¬
+		 * 1) å‚æ•°ç¼ºå¤±
+		 * 2) å‚æ•°å¤šä½™
 		 */
 		public static boolean isValid(ParamInfo paramInfo) {
 			return paramInfo != null && !PARAM_VALUE_NOT_EXIST_DESCRIPTION.equals(paramInfo.getDescription());

@@ -77,8 +77,8 @@ public class OperationRecordController extends BaseController {
 	private TagParamService tagParamService;
 	
 	/**
-	 * »ñÈ¡Êı¾İ¿âÖĞ×îĞÂµÄÒ»Ìõ²Ù×÷¼ÇÂ¼
-	 * ÓÃÓÚÔÚÊµÊ±Ğ£Ñé(»Ø·Å)¿ªÊ¼Ê±È·¶¨µÚÒ»´ÎÂÖÑ¯µÄidSinceµÄÖµ
+	 * è·å–æ•°æ®åº“ä¸­æœ€æ–°çš„ä¸€æ¡æ“ä½œè®°å½•
+	 * ç”¨äºåœ¨å®æ—¶æ ¡éªŒ(å›æ”¾)å¼€å§‹æ—¶ç¡®å®šç¬¬ä¸€æ¬¡è½®è¯¢çš„idSinceçš„å€¼
 	 */
 	@ResponseBody
 	@RequestMapping("/latest")
@@ -87,8 +87,8 @@ public class OperationRecordController extends BaseController {
 	}
 	
 	/**
-	 * »ñÈ¡²Ù×÷¼ÇÂ¼
-	 * ÓÃÓÚÊµÊ±Ğ£Ñé(»Ø·Å)
+	 * è·å–æ“ä½œè®°å½•
+	 * ç”¨äºå®æ—¶æ ¡éªŒ(å›æ”¾)
 	 */
 	@ResponseBody
 	@RequestMapping("/query")
@@ -124,9 +124,9 @@ public class OperationRecordController extends BaseController {
 	}
 	
 	/**
-	 * Ìî³ätagNoÔÚ10000ÒÔÉÏµÄtagInfoĞÅÏ¢
-	 * ÕâÖÖtag²»¹ØÁªpageInfo
-	 * operationRecordÖĞµÄpageNoÊÇ¶àÉÙ£¬¾ÍÌî³ä¶ÔÓ¦µÄpageInfo
+	 * å¡«å……tagNoåœ¨10000ä»¥ä¸Šçš„tagInfoä¿¡æ¯
+	 * è¿™ç§tagä¸å…³è”pageInfo
+	 * operationRecordä¸­çš„pageNoæ˜¯å¤šå°‘ï¼Œå°±å¡«å……å¯¹åº”çš„pageInfo
 	 */
 	private void findAndFillCommonTagInfo(List<OperationRecordDto> dtoList) {
 		List<OperationRecordDto> dtoListWithCommonTag = new ArrayList<OperationRecordDto>();
@@ -237,7 +237,7 @@ public class OperationRecordController extends BaseController {
 				if(!json.containsKey(requiredParamName)) {
 					TagParamParsedResult lackOfParamResult = new TagParamParsedResult()
 						.paramName(requiredParamName)
-						.description("È±ÉÙ²ÎÊı!")
+						.description("ç¼ºå°‘å‚æ•°!")
 						.required(true)
 						.valid(false);
 					dto.addParamParsedResult(lackOfParamResult);
@@ -253,7 +253,7 @@ public class OperationRecordController extends BaseController {
 					value = "";
 				}
 				ParamInfo paramInfo = parser.parse(dto.getTagInfoId(), key, value.toString());
-				String description = paramInfo != null? paramInfo.getDescription(): "¶àÓàµÄ²ÎÊı!";
+				String description = paramInfo != null? paramInfo.getDescription(): "å¤šä½™çš„å‚æ•°!";
 				TagParamParsedResult parsedResult = new TagParamParsedResult()
 					.paramName(key).paramValue(value.toString())
 					.description(description)
@@ -265,9 +265,9 @@ public class OperationRecordController extends BaseController {
 	}
 	
 	/**
-	 * ½ÓÊÕ²Ù×÷Êı¾İµÄ½Ó¿Ú
-	 * ÇëÇó´®¸ñÊ½ÈçÏÂ
-	 * http://127.0.0.1:8075/logreplay//operationRecord/receive?moblog=sid:,os:Android4%252e1%252e2,d:A00000408A5798,op:460%252d03,density:240,loginid:,net:wifi,vn:6%252e2%252e0,pd:1,v:60200000,u:1420989208035172,md:SCH%252dI829,bsns:807,openid:,mf:samsung,apn:&info={"key":"²ËÊĞ³¡","tag":1,"p":4,"t":1421656262063}
+	 * æ¥æ”¶æ“ä½œæ•°æ®çš„æ¥å£
+	 * è¯·æ±‚ä¸²æ ¼å¼å¦‚ä¸‹
+	 * http://127.0.0.1:8075/logreplay//operationRecord/receive?moblog=sid:,os:Android4%252e1%252e2,d:A00000408A5798,op:460%252d03,density:240,loginid:,net:wifi,vn:6%252e2%252e0,pd:1,v:60200000,u:1420989208035172,md:SCH%252dI829,bsns:807,openid:,mf:samsung,apn:&info={"key":"èœå¸‚åœº","tag":1,"p":4,"t":1421656262063}
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/receive", method = RequestMethod.GET)
