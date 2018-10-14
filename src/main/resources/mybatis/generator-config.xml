@@ -15,10 +15,14 @@
 			<property name="replaceString" value="Criteria" />
 		</plugin>
 		-->
-		<plugin type="org.mybatis.generator.plugins.ToStringPlugin" />
-		<plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
 		<plugin type="org.mybatis.generator.plugins.RowBoundsPlugin" />
-
+		<plugin type="com.softwareloop.mybatis.generator.plugins.LombokPlugin">
+			<property name="builder" value="true"/>
+			<property name="builder.fluent" value="true"/>
+			<property name="toString" value="true"/>
+			<property name="accessors" value="false"/>
+			<property name="allArgsConstructor" value="false"/>
+		</plugin>
 		<commentGenerator>
 			<property name="javaFileEncoding" value="UTF-8" />
 			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->

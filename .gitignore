@@ -10,3 +10,4 @@ src/main/webapp/WEB-INF/classes/
 *.class
 WebRoot/WEB-INF/classes/
 RemoteSystemsTempFiles/
+logs/
