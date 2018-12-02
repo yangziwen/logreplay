@@ -14,7 +14,7 @@ define(function(require, exports, module) {
 	function refreshTagActionOptions() {
 		var url = CTX_PATH + '/tagAction/list';
 		return $.get(url, function(data) {
-			if(!data || !data.response) {
+			if (!data || !data.response) {
 				return;
 			}
 			tagActionDict = {};
@@ -28,7 +28,7 @@ define(function(require, exports, module) {
 	function refreshTagTargetOptions() {
 		var url = CTX_PATH + '/tagTarget/list';
 		return $.get(url, function(data) {
-			if(!data || !data.response) {
+			if (!data || !data.response) {
 				return;
 			}
 			$('#T_targetId').empty().append($.map(data.response, function(target) {
@@ -46,7 +46,7 @@ define(function(require, exports, module) {
 		params['originVersionUntil'] = common.parseAppVersion(params['originVersionUntil']);
 		var url = CTX_PATH + '/tagInfo/list';
 		$.get(url, params, function(data) {
-			if(!data || !data.response || !data.response.list) {
+			if (!data || !data.response || !data.response.list) {
 				alert('failed!');
 				return;
 			}
@@ -90,7 +90,7 @@ define(function(require, exports, module) {
 	function initQueryBtn() {
 		var $queryBtn = $('#J_queryBtn');
 		$('#J_queryArea').on('keyup', 'input[type!=button][type!=submit][type!=reset]', function(ev) {
-			if(ev.which == 13) {
+			if (ev.which == 13) {
 				$queryBtn.trigger('click');
 			}
 		});

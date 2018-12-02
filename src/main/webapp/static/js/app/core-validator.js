@@ -34,7 +34,7 @@ define(function(require, exports, module) {
 				.append('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');
 		},
 		errorPlacement: function(error, element) {
-			if(!error.text()) {
+			if (!error.text()) {
 				return;
 			}
 			$(element).prop({title: error.text()})

@@ -16,7 +16,7 @@ define(function(require, exports, module) {
 		}, common.collectParams('#J_queryArea input[type=text], #J_queryArea select'));
 		var url = CTX_PATH + '/inspectionRecord/list';
 		$.get(url, params, function(data) {
-			if(!data || !data.response || !data.response.list) {
+			if (!data || !data.response || !data.response.list) {
 				alert('failed!');
 				return;
 			}
@@ -27,7 +27,7 @@ define(function(require, exports, module) {
 	function renderInspectionRecordTbody(list) {
 		$('#J_inspectionRecordTbody').empty().append($('#J_inspectionRecordTmpl').tmpl(list, {
 			displayValidStatus: function(record) {
-				if(record.valid === true) {
+				if (record.valid === true) {
 					return '<span class="label label-success">正确</span>';
 				} else if (!record.valid && record.solved === true) {
 					return '<span class="label label-default">错误</span>';
@@ -36,10 +36,10 @@ define(function(require, exports, module) {
 				}
 			},
 			displaySolvedStatus: function(record) {
-				if(record.valid === true) {
+				if (record.valid === true) {
 					return '--';
 				}
-				if(record.solved === true) {
+				if (record.solved === true) {
 					return '<span class="label label-info">已处理</span>';
 				} else {
 					return '<span class="label label-warning">未处理</span>';
@@ -69,7 +69,7 @@ define(function(require, exports, module) {
 				id = $tr.data('id');
 			var url = CTX_PATH + '/inspectionRecord/detail/' + id;
 			$.get(url).then(function(data, result) {
-				if(result !== 'success' || !data || !data.response) {
+				if (result !== 'success' || !data || !data.response) {
 					common.alergMsg('请求失败!');
 					return;
 				}
@@ -80,14 +80,14 @@ define(function(require, exports, module) {
 						return ( $(window).height() - $(this).height() ) / 4;
 					}
 				});
-				if(record.valid === true || record.solved === true) {
+				if (record.valid === true || record.solved === true) {
 					$resolveBtn.hide();
 				} else {
 					$resolveBtn.show();
 				}
 				$modal.find('tbody').data('id', record.id).empty().append($('#J_inspectionRecordDetailTmpl').tmpl(record, {
 					displayValidStatus: function(record) {
-						if(record.valid === true) {
+						if (record.valid === true) {
 							return '<span class="label label-success">正确</span>'
 						} else if (!record.valid && record.solved === true) {
 							return '<span class="label label-default">错误</span>';
@@ -96,10 +96,10 @@ define(function(require, exports, module) {
 						}
 					},
 					displaySolvedStatus: function(record) {
-						if(record.valid === true) {
+						if (record.valid === true) {
 							return '--';
 						}
-						if(record.solved === true) {
+						if (record.solved === true) {
 							return '<span class="label label-info">已处理</span>';
 						} else {
 							return '<span class="label label-warning">未处理</span>';
@@ -125,12 +125,12 @@ define(function(require, exports, module) {
 		var $modal = $('#J_detailModal');
 		$('#J_resolveBtn').on('click', function() {
 			common.confirmMsg('请确认是否将本条记录标记为<strong>“已处理”</strong>?').then(function(result) {
-				if(result !== true) {
+				if (result !== true) {
 					return;
 				}
 				var id = $modal.find('tbody').data('id');
 				$.post(CTX_PATH + '/inspectionRecord/resolve/' + id).then(function(data) {
-					if(!data || data.code === 0) {
+					if (!data || data.code === 0) {
 						common.alertMsg('更新成功!');
 						refreshInspectionRecordTbl();
 						$modal.modal('hide');
@@ -161,7 +161,7 @@ define(function(require, exports, module) {
 	function initQueryBtn() {
 		var $queryBtn = $('#J_queryBtn');
 		$('#J_queryArea').on('keyup', 'input[type!=button][type!=submit][type!=reset]', function(ev) {
-			if(ev.which == 13) {
+			if (ev.which == 13) {
 				$queryBtn.trigger('click');
 			}
 		});

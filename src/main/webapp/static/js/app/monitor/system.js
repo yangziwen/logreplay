@@ -9,7 +9,7 @@ define(function(require, exports, module) {
 	
 	function initSystemInfo() {
 		return $.get(CTX_PATH + '/monitor/systemInfo', function(data) {
-			if(data.code !== 0 || !data.response) {
+			if (data.code !== 0 || !data.response) {
 				return;
 			}
 			$('#J_systemInfoTmpl').tmpl(data.response)
@@ -207,7 +207,7 @@ define(function(require, exports, module) {
 		showTypeParam.showType = showType;
 		var d = $.Deferred();
 		$.get(CTX_PATH + '/monitor/memoryData', showTypeParam, function(data) {
-			if(data.code !== 0 || !data.response) {
+			if (data.code !== 0 || !data.response) {
 				d.reject(data);
 			} else {
 				d.resolve(data.response);

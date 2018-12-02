@@ -30,11 +30,11 @@ define(function(require){
 					error = opts.error || $.noop,
 					unsupport = opts.unsupport || $.noop;
 				$uploadBtn.on('click', function(){
-					if(!$.isFunction(window.FormData)) {
+					if (!$.isFunction(window.FormData)) {
 						unsupport.call(options);
 						return;
 					}
-					if(!validator.call(opts)) {
+					if (!validator.call(opts)) {
 						return;
 					}
 					var $fileInput = $(opts.fileInput);
@@ -49,17 +49,17 @@ define(function(require){
 					fd.append($fileInput.attr('name'), file);
 					var xhr = new XMLHttpRequest();
 					xhr.upload.addEventListener("progress", function(ev){
-						if(!ev.lengthComputable) {
+						if (!ev.lengthComputable) {
 							return;
 						}
 						var completedPercent = Math.round(ev.loaded * 100 / ev.total);
 						$completedBar.css('width', completedPercent + '%');
 					}, false);
 					xhr.addEventListener('readystatechange', function(ev){
-						if(ev.target.readyState != 4) {
+						if (ev.target.readyState != 4) {
 							return;
 						}
-						if(ev.target.status == 200 || ev.target.status == 304) {
+						if (ev.target.status == 200 || ev.target.status == 304) {
 							success.call(opts, $.parseJSON(ev.target.responseText), ev.target.status, ev);
 						} else {
 							error.call(opts, {}, ev.target.status, ev);

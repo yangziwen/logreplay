@@ -9,7 +9,7 @@ define(function(require, exports, module) {
 	function refreshRoleTbl() {
 		var url = CTX_PATH + '/role/list';
 		$.get(url, function(data) {
-			if(!data || !data.response) {
+			if (!data || !data.response) {
 				common.alertMsg('加载失败!');
 				return;
 			}
@@ -40,11 +40,11 @@ define(function(require, exports, module) {
 		$modal.modal({backdrop: 'static'});
 		var url = CTX_PATH + '/permission/list';
 		$.get(url, {roleId: roleId}, function(data) {
-			if(!data || !data.response) return;
+			if (!data || !data.response) return;
 			$modal.find('.left-tbody').empty().append(buildPermissionTrs(data.response));
 		});
 		$.get(url, {roleId: roleId, excluded: true}, function(data) {
-			if(!data || !data.response) return;
+			if (!data || !data.response) return;
 			$modal.find('.right-tbody').empty().append(buildPermissionTrs(data.response));
 		});
 	}
@@ -92,7 +92,7 @@ define(function(require, exports, module) {
 					return $(tr).data('id');
 				}).join(',');
 				$.post(url, {permissionIds: permissionIds}, function(data) {
-					if(data && data.code == 0) {
+					if (data && data.code == 0) {
 						common.alertMsg('更新成功!');
 					} else {
 						common.alertMsg('更新失败!');

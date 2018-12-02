@@ -30,7 +30,7 @@ define(function(require, exports, module) {
 				url: CTX_PATH + '/image/upload?type=raw',
 				validator: function() {
 					var fileName = $('#J_avatarFileInput').val();
-					if(!fileName){
+					if (!fileName){
 						common.alertMsg('请先选择要上传的图片文件!');
 						return false;
 					}
@@ -67,7 +67,7 @@ define(function(require, exports, module) {
 					imgWidth: info.imgWidth,
 					imgHeight: info.imgHeight
 				}, function(data) {
-					if(data.code === 0) {
+					if (data.code === 0) {
 						common.alertMsg('更新成功!').done(function(){
 							$modal.modal('hide');
 							location.reload(true);

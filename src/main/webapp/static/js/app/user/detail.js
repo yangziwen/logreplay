@@ -31,7 +31,7 @@ define(function(require, exports, module) {
 	}
 	function initUpdatePasswordBtn() {
 		$('#J_updatePasswordBtn').on('click', function() {
-			if(!passwordValidator.form()) {
+			if (!passwordValidator.form()) {
 				// common.alertMsg('参数有误，请检查!');
 				return;
 			}
@@ -50,7 +50,7 @@ define(function(require, exports, module) {
 			dataType: 'json',
 			data: params,
 			success: function(data) {
-				if(data.code !== 0) {
+				if (data.code !== 0) {
 					common.alertMsg('更新失败!');
 					return;
 				} else {

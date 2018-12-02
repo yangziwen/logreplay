@@ -21,7 +21,7 @@ define(function(require, exports, module) {
 	function refreshTagActionOptions() {
 		var url = CTX_PATH + '/tagAction/list';
 		$.get(url, function(data) {
-			if(!data || !data.response) {
+			if (!data || !data.response) {
 				return;
 			}
 			$('#T_actionId').empty().append($.map(data.response, function(action) {
@@ -33,7 +33,7 @@ define(function(require, exports, module) {
 	function refreshTagTargetOptions() {
 		var url = CTX_PATH + '/tagTarget/list';
 		$.get(url, function(data) {
-			if(!data || !data.response) {
+			if (!data || !data.response) {
 				return;
 			}
 			$('#T_targetId').empty().append($.map(data.response, function(target) {
@@ -48,7 +48,7 @@ define(function(require, exports, module) {
 		}, common.collectParams('#J_queryArea input[type!=button][type!=submit][type!=reset]'));
 		var url = CTX_PATH + '/pageInfo/list';
 		$.get(url, params, function(data) {
-			if(!data || !data.response || !data.response.list) {
+			if (!data || !data.response || !data.response.list) {
 				alert(data.errorMsg || 'failed!');
 				return;
 			}
@@ -94,7 +94,7 @@ define(function(require, exports, module) {
 	
 	function initCreatePageInfoBtn() {
 		$('#J_createPageInfoBtn').on('click', function() {
-			if(!pageInfoValidator.form()) {
+			if (!pageInfoValidator.form()) {
 				//common.alertMsg('参数有误，请检查!');
 				return;
 			}
@@ -113,7 +113,7 @@ define(function(require, exports, module) {
 			dataType: 'json',
 			data: params,
 			success: function(data) {
-				if(data.code !== 0) {
+				if (data.code !== 0) {
 					common.alertMsg('创建失败!');
 					return;
 				} else {
@@ -160,7 +160,7 @@ define(function(require, exports, module) {
 	
 	function initUpdatePageInfoBtn() {
 		$('#J_updatePageInfoBtn').on('click', function() {
-			if(!pageInfoValidator.form()) {
+			if (!pageInfoValidator.form()) {
 				//common.alertMsg('参数有误，请检查!');
 				return;
 			}
@@ -180,7 +180,7 @@ define(function(require, exports, module) {
 			dataType: 'json',
 			data: params,
 			success: function(data) {
-				if(data.code !== 0) {
+				if (data.code !== 0) {
 					common.alertMsg('更新失败!');
 					return;
 				} else {
@@ -226,7 +226,7 @@ define(function(require, exports, module) {
 	}
 	function initCreateTagInfoBtn() {
 		$('#J_createTagInfoBtn').on('click', function() {
-			if(!tagInfoValidator.form()) {
+			if (!tagInfoValidator.form()) {
 				//common.alertMsg('参数有误，请检查!');
 				return;
 			}
@@ -251,7 +251,7 @@ define(function(require, exports, module) {
 			dataType: 'json',
 			data: params,
 			success: function(data) {
-				if(data.code !== 0) {
+				if (data.code !== 0) {
 					common.alertMsg('创建失败!');
 					return;
 				} else {
@@ -270,7 +270,7 @@ define(function(require, exports, module) {
 	function initQueryBtn() {
 		var $queryBtn = $('#J_queryBtn');
 		$('#J_queryArea').on('keyup', 'input[type!=button][type!=submit][type!=reset]', function(ev) {
-			if(ev.which == 13) {
+			if (ev.which == 13) {
 				$queryBtn.trigger('click');
 			}
 		});

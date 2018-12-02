@@ -292,7 +292,7 @@ define(function(require, exports, module) {
 		showTypeParam.showType = showType;
 		var d = $.Deferred();
 		$.get(CTX_PATH + '/monitor/appData', showTypeParam, function(data) {
-			if(data.code !== 0 || !data.response) {
+			if (data.code !== 0 || !data.response) {
 				d.reject(data);
 			} else {
 				d.resolve(data.response);

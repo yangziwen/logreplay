@@ -37,7 +37,7 @@ define(function(require){
 				$browseBtn.before($btnWrapper);
 				$btnWrapper.append($browseBtn);
 				buildFileInput($btnWrapper, opts);
-				if(!isWebkit) {
+				if (!isWebkit) {
 					$browseBtn.on('click', function(){
 						$(this).siblings('input[type=file]').click();
 					});

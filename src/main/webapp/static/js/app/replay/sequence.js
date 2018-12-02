@@ -16,7 +16,7 @@ define(function(require, exports, module) {
 	function refreshTagActionDict() {
 		var url = CTX_PATH + '/tagAction/list';
 		return $.get(url, function(data) {
-			if(!data || !data.response) {
+			if (!data || !data.response) {
 				return;
 			}
 			tagActionDict = {};
@@ -29,7 +29,7 @@ define(function(require, exports, module) {
 	function refreshTagTargetDict() {
 		var url = CTX_PATH + '/tagTarget/list';
 		return $.get(url, function(data) {
-			if(!data || !data.response) {
+			if (!data || !data.response) {
 				return;
 			}
 			$.each(data.response, function(i, target) {
@@ -52,7 +52,7 @@ define(function(require, exports, module) {
 	}
 	
 	function switchButtonStatus(replaying) {
-		if(replaying) {
+		if (replaying) {
 			$replaySwitchBtn.html('停止回放');
 //			$clearBtn.attr({disabled: true});
 			var params = common.collectParams('#J_queryArea input[type!=button][type!=submit][type!=reset]');
@@ -68,12 +68,12 @@ define(function(require, exports, module) {
 	function doReplay(params, queryInterval) {
 		queryOperationRecords(params).done(function(data) {
 			var recordList = data.response;
-			if(recordList && recordList.length > 0) {
+			if (recordList && recordList.length > 0) {
 				var record = recordList[recordList.length - 1];
 				record && (params.idSince = record.id) || (params.since = record.timestamp);
 			}
 			setTimeout(function() {
-				if(replaying) {
+				if (replaying) {
 					doReplay(params, queryInterval);
 				}
 			}, queryInterval);
@@ -83,14 +83,14 @@ define(function(require, exports, module) {
 	function queryOperationRecords(params) {
 		var url = CTX_PATH + '/operationRecord/query';
 		return $.get(url, params, function(data) {
-			if(!data || data.code !== 0) {
+			if (!data || data.code !== 0) {
 				return;
 			}
 			var recordList = data.response;
-			if(recordList && recordList.length > 0) {
+			if (recordList && recordList.length > 0) {
 				$replayTbody.append($replayTmpl.tmpl(recordList, {
 					formatTime: function(t) {
-						if(!t) {
+						if (!t) {
 							return '--';
 						}
 						var ts = t + '';
@@ -104,7 +104,7 @@ define(function(require, exports, module) {
 						return [record.pageName, record.tagName].join(' => ');
 					}
 				}));
-				if(!lockScroll) {
+				if (!lockScroll) {
 					$replayArea.scrollTop($replayArea[0].scrollHeight - $replayArea.height());
 				}
 			}
@@ -121,7 +121,7 @@ define(function(require, exports, module) {
 		$('#J_lockScrollBtn').on('click', function() {
 			lockScroll = !lockScroll;
 			var $this = $(this);
-			if(lockScroll) {
+			if (lockScroll) {
 				$this.html('解锁滚动');
 			} else {
 				$this.html('锁定滚动');
@@ -164,7 +164,7 @@ define(function(require, exports, module) {
 			url: CTX_PATH + '/operationRecord/upload/nginx',
 			validator: function() {
 				var fileName = $('#J_uploadLogFileInput').val();
-				if(!fileName){
+				if (!fileName){
 					common.alertMsg('请先选择要上传的文件!');
 					return false;
 				}

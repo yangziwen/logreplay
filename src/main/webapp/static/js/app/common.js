@@ -7,14 +7,14 @@ define(function(require, exports, module){
 	require('bootstrap');
 	
 	String.prototype.encodeUnicode = function() {
-		if(!this) return this;
+		if (!this) return this;
 		var chars = [];
 		for(var i=0, l=this.length; i<l; i++) chars[i] = this.charCodeAt(i);
 		return "&#" + chars.join(";&#") + ";";  
 	};
 	
 	String.prototype.decodeUnicode = function() {
-		if(!this) return this;
+		if (!this) return this;
 		return this.replace(/&#(x)?([^&;]{1,5});?/g, function (a, b, c) {    
 	        return String.fromCharCode(parseInt(c, b ? 16 : 10));    
 	    });
@@ -52,12 +52,12 @@ define(function(require, exports, module){
 	function alertMsg (msg) {
 		var deferred = $.Deferred();
 		var width = 350;
-		if($.isPlainObject(msg)) {
+		if ($.isPlainObject(msg)) {
 			width = msg.width || width;
 			msg = msg.message;
 		}
 		var $modal = $('#J_alertModal');
-		if($modal.size() == 0) {
+		if ($modal.size() == 0) {
 			$modal = $(alertMsgTmpl).appendTo('body');
 //			alert(msg);
 //			return deferred.resolve().promise();
@@ -108,12 +108,12 @@ define(function(require, exports, module){
 	function confirmMsg (msg) {
 		var deferred = $.Deferred();
 		var width = 350;
-		if($.isPlainObject(msg)) {
+		if ($.isPlainObject(msg)) {
 			width = msg.width || width;
 			msg = msg.message;
 		}
 		var $modal = $('#J_confirmModal');
-		if($modal.size() == 0) {
+		if ($modal.size() == 0) {
 			$modal = $(confirmMsgTmpl).appendTo('body');
 //			return deferred.resolve(confirm(msg)).promise();
 		}
@@ -144,7 +144,7 @@ define(function(require, exports, module){
 	
 	function collectParams(selector) {
 		var params = {};
-		if(!selector) {
+		if (!selector) {
 			return params;
 		}
 		$(selector).each(function(i, input){
@@ -161,12 +161,12 @@ define(function(require, exports, module){
 		var arr = [];
 		for(var key in params) {
 			var value = params[key];
-			if(ignoreEmptyParams && (value === null || value === undefined || value === '')) {
+			if (ignoreEmptyParams && (value === null || value === undefined || value === '')) {
 				continue;
 			}
 			arr.push(key + "=" + encodeURIComponent(value));
 		}
-		if(arr.length == 0) {
+		if (arr.length == 0) {
 			return prefix;
 		} else {
 			return prefix + (prefix.indexOf('?') >= 0? '&': '?') + arr.join('&');
@@ -175,7 +175,7 @@ define(function(require, exports, module){
 	
 	function discardEmptyParams(url) {
 		url = url.replace(/(?:\?|&)([^\/\?&]+?=)(?=&|$)/g, '');
-		if(url.indexOf('&') >= 0 && url.indexOf('?') == -1) {
+		if (url.indexOf('&') >= 0 && url.indexOf('?') == -1) {
 			url = url.replace('&', '?');
 		}
 		return url;
@@ -185,7 +185,7 @@ define(function(require, exports, module){
 	 * @deprecated
 	 */
 	function submitForm(form, ignoreEmptyParams) {
-		if(!form) {
+		if (!form) {
 			return;
 		}
 		var params = collectParams($(form).find('input[type!=button][type!=submit][type!=reset], select'));
@@ -193,7 +193,7 @@ define(function(require, exports, module){
 	}
 	
 	function clearForm(form) {
-		if(!form) {
+		if (!form) {
 			return;
 		}
 		$(form).find('input[type!=button][type!=submit][type!=reset], select, textarea').val('');
@@ -219,7 +219,7 @@ define(function(require, exports, module){
 	
 	function buildPageBar(pageBarEl, start, limit, totalCount, clickFn){
 		pageBarEl = $(pageBarEl);
-		if(pageBarEl.size() == 0) {
+		if (pageBarEl.size() == 0) {
 			return;
 		}
 		var curPage = Math.floor(start / limit) + 1;
@@ -242,15 +242,15 @@ define(function(require, exports, module){
 		revisionUnit = 1000;
 	
 	function parseAppVersion(version) {
-		if(!version) {
+		if (!version) {
 			return 0;
 		}
-		if($.isNumeric(version) && parseInt(version) > majorUnit) {
+		if ($.isNumeric(version) && parseInt(version) > majorUnit) {
 			return parseInt(version);
 		}
 		var arr = version.split('.');
 		for(var i = 0, l = arr.length; i < l; i++) {
-			if(!$.isNumeric(arr[i])) {
+			if (!$.isNumeric(arr[i])) {
 				return 0;
 			}
 		}
@@ -263,18 +263,18 @@ define(function(require, exports, module){
 	}
 	
 	function formatAppVersion(version) {
-		if(!$.isNumeric(version)) {
+		if (!$.isNumeric(version)) {
 			return '';
 		}
 		version = parseInt(version);
-		if(version < majorUnit) {
+		if (version < majorUnit) {
 			return '';
 		}
 		var major = Math.floor(version / majorUnit),
 			minor = Math.floor((version % majorUnit) / minorUnit),
 			revision = Math.floor((version % minorUnit) / revisionUnit);
 		var arr = [major, minor];
-		if(revision > 0) {
+		if (revision > 0) {
 			arr.push(revision);
 		}
 		return arr.join('.');
@@ -303,7 +303,7 @@ define(function(require, exports, module){
 			$('#J_openProfileModalBtn').on('click', function() {
 				var url = CTX_PATH + '/user/detail';
 				$.get(url, function(data) {
-					if(!data || !data.response) {
+					if (!data || !data.response) {
 						alertMsg('用户信息加载失败!');
 						return;
 					}
@@ -332,7 +332,7 @@ define(function(require, exports, module){
 						screenName: $('#TB_screenName').val()
 					},
 					success: function(data) {
-						if(data.code !== 0) {
+						if (data.code !== 0) {
 							alertMsg('更新失败!');
 							return;
 						} else {

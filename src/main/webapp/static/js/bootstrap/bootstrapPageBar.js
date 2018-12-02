@@ -30,7 +30,7 @@ define(function(require){
 		var $ul = $('<ul></ul>');
 		
 		for(var i=0, l=pageNumArr.length; i<l; i++) {
-			if(i > 0 && pageNumArr[i] - pageNumArr[i-1] > 1){
+			if (i > 0 && pageNumArr[i] - pageNumArr[i-1] > 1){
 				var $li = $('<li class="disabled"><a href="javascript:void(0);">...</a></li>');
 				$ul.append($li);
 			}
@@ -49,7 +49,7 @@ define(function(require){
 	function buildPageBtnLi(i, pageNum, disabled, callbackFn, content) {
 		var $li = $('<li></li>');
 		$li.append('<a href="javascript:void(0);">' + (content ||pageNum) + '</a>');
-		if(disabled){
+		if (disabled){
 			$li.addClass('disabled');
 		} else {
 			$li.click(function(){
@@ -60,7 +60,7 @@ define(function(require){
 	}
 	
 	function buildPageNumArr(opts){
-		if(opts.totalPageNum < 1) {
+		if (opts.totalPageNum < 1) {
 			return [];
 		}
 		opts.curPageNum < 1 && (opts.curPageNum = 1);
@@ -70,13 +70,13 @@ define(function(require){
 			totalPageNum = opts.totalPageNum,
 			maxBtnNum = opts.maxBtnNum,
 			siblingBtnNum = opts.siblingBtnNum;
-		if(siblingBtnNum * 2 > maxBtnNum) {
+		if (siblingBtnNum * 2 > maxBtnNum) {
 			siblingBtnNum = Math.max(Math.round(maxBtnNum / 2) - 1, 1);
 		}
 		
 		var pageNumArr = [];
 		
-		if(totalPageNum > maxBtnNum) {
+		if (totalPageNum > maxBtnNum) {
 			var centerLeftPageNum = curPageNum > siblingBtnNum
 					? curPageNum - siblingBtnNum: 1;
 			var centerRightPageNum = curPageNum + siblingBtnNum < totalPageNum
@@ -91,7 +91,7 @@ define(function(require){
 			var leftBtnNum = 0, rightBtnNum = 0;	// 最左侧的按钮， 最右侧的按钮
 			var remainedBtnNum = Math.max(maxBtnNum - centerBtnNum, 0);
 			
-			if(remainedBtnNum > 0){
+			if (remainedBtnNum > 0){
 				leftBtnNum = rightBtnNum = Math.floor(remainedBtnNum / 2);
 				// 有可能比maxBtnNum少1， 无所谓了
 				var leftOffset = Math.min(centerLeftPageNum - 1, leftBtnNum);
@@ -111,10 +111,10 @@ define(function(require){
 		pageNumArr.sort(function(v1, v2){
 			return v1 - v2;
 		});
-		if(pageNumArr[0] > 1) {
+		if (pageNumArr[0] > 1) {
 			pageNumArr = [1].concat(pageNumArr);
 		}
-		if(pageNumArr[pageNumArr.length - 1] < totalPageNum) {
+		if (pageNumArr[pageNumArr.length - 1] < totalPageNum) {
 			pageNumArr.push(totalPageNum);
 		}
 		return pageNumArr;

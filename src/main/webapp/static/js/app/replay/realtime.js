@@ -21,7 +21,7 @@ define(function(require, exports, module) {
 	function refreshTagActionDict() {
 		var url = CTX_PATH + '/tagAction/list';
 		return $.get(url, function(data) {
-			if(!data || !data.response) {
+			if (!data || !data.response) {
 				return;
 			}
 			tagActionDict = {};
@@ -34,7 +34,7 @@ define(function(require, exports, module) {
 	function refreshTagTargetDict() {
 		var url = CTX_PATH + '/tagTarget/list';
 		return $.get(url, function(data) {
-			if(!data || !data.response) {
+			if (!data || !data.response) {
 				return;
 			}
 			$.each(data.response, function(i, target) {
@@ -64,7 +64,7 @@ define(function(require, exports, module) {
 	}
 
 	function switchButtonStatus(replaying) {
-		if(replaying) {
+		if (replaying) {
 			$replaySwitchBtn.html('停止校验');
 			var params = collectQueryParams();
 			startReplay(params);
@@ -77,7 +77,7 @@ define(function(require, exports, module) {
 	function _startReplay(params) {
 		$.get(CTX_PATH + "/operationRecord/latest").done(function(data) {
 			var latestRecordId = 0;
-			if(data && data.response) {
+			if (data && data.response) {
 				var latestRecord = data.response;
 				latestRecordId = latestRecord.id || 0;
 			}
@@ -118,12 +118,12 @@ define(function(require, exports, module) {
 	function doReplay(params, queryInterval) {
 		queryOperationRecords(params).done(function(data) {
 			var recordList = data.response;
-			if(recordList && recordList.length > 0) {
+			if (recordList && recordList.length > 0) {
 				var record = recordList[recordList.length - 1];
 				record && (params.idSince = record.id) || (params.since = record.timestamp);
 			}
 			setTimeout(function() {
-				if(replaying) {
+				if (replaying) {
 					doReplay(params, queryInterval);
 				}
 			}, queryInterval);
@@ -133,11 +133,11 @@ define(function(require, exports, module) {
 	function queryOperationRecords(params) {
 		var url = CTX_PATH + '/operationRecord/query';
 		return $.get(url, params, function(data) {
-			if(!data || data.code !== 0) {
+			if (!data || data.code !== 0) {
 				return;
 			}
 			var recordList = data.response;
-			if(recordList && recordList.length > 0) {
+			if (recordList && recordList.length > 0) {
 				renderOperationRecords(recordList);
 			}
 		});
@@ -146,7 +146,7 @@ define(function(require, exports, module) {
 	function renderOperationRecords(recordList) {
 		$replayTbody.append($replayTmpl.tmpl(recordList, {
 			formatTime: function(t) {
-				if(!t) {
+				if (!t) {
 					return '--';
 				}
 				var ts = t + '';
@@ -157,9 +157,9 @@ define(function(require, exports, module) {
 				if (!record.pageName || !record.tagName) {
 					return 'danger';
 				}
-				if($.isArray(record.paramParsedResultList)) {
+				if ($.isArray(record.paramParsedResultList)) {
 					for(var i = 0, l = record.paramParsedResultList.length; i < l; i++) {
-						if(record.paramParsedResultList[i].valid == false) {
+						if (record.paramParsedResultList[i].valid == false) {
 							return 'warning';
 						}
 					}
@@ -169,7 +169,7 @@ define(function(require, exports, module) {
 			describe: function(record) {
 //				return [record.pageName, record.tagName, tagTargetDict[record.targetId], tagActionDict[record.actionId]].join(' => ');
 				var contents = [[record.pageName, record.tagName].join(' => ')];
-				if($.isArray(record.paramParsedResultList)) {
+				if ($.isArray(record.paramParsedResultList)) {
 					for(var i = 0, l = record.paramParsedResultList.length; i < l; i++) {
 						var parsedResult = record.paramParsedResultList[i];
 						var content = [
@@ -177,7 +177,7 @@ define(function(require, exports, module) {
 						    parsedResult.paramValue,
 						    parsedResult.description,
 						    !parsedResult.required? '多余': parsedResult.valid? '正常': '异常'].join(' : ');
-						if(!parsedResult.required) {
+						if (!parsedResult.required) {
 							content = '<span style="color: #269abc; font-weight: bold;">' + content + '</span>';
 						} else if (!parsedResult.valid) {
 							content = '<span style="color: #c9302c; font-weight: bold;">' + content + '</span>';
@@ -197,7 +197,7 @@ define(function(require, exports, module) {
 			}
 		}));
 		$replayTbody.append('<tr class="info"><td colspan="6"></td></tr><tr class="hide"><td colspan="6"></td></tr>'); // 分隔行
-		if(!lockScroll) {
+		if (!lockScroll) {
 			$replayArea.scrollTop($replayArea[0].scrollHeight - $replayArea.height());
 		}
 	}
@@ -208,17 +208,17 @@ define(function(require, exports, module) {
 			var $btn = $(this);
 			common.confirmMsg('请确认将此条记录的校验结果标记为<strong>“正确”<strong>?')
 			.then(function(result) {
-				if(result !== true) {
+				if (result !== true) {
 					return;
 				}
 				var $tr = $btn.parents('tr').eq(0);
 				var pageNo = $tr.data('pageNo'),
 					tagNo = $tr.data('tagNo');
-				if(!pageNo) {
+				if (!pageNo) {
 					common.alertMsg('页面编号有误!');
 					return;
 				}
-				if(!tagNo) {
+				if (!tagNo) {
 					common.alertMsg('操作编号有误!');
 					return;
 				}
@@ -227,7 +227,7 @@ define(function(require, exports, module) {
 					tagNo: tagNo,
 					valid: true
 				}).then(function(data) {
-					if(data && data.code === 0) {
+					if (data && data.code === 0) {
 						common.alertMsg('提交成功!');
 						$tr.removeClass('danger').addClass('success');
 						$btn.parent().empty();
@@ -273,12 +273,12 @@ define(function(require, exports, module) {
 		$pageNo.on('change', function() {
 			$pageName.empty();
 			var pageNo = $pageNo.val();
-			if(!pageNo) {
+			if (!pageNo) {
 				return;
 			}
 			$.get(CTX_PATH + '/pageInfo/detailByPageNo/' + pageNo)
 			.then(function(data) {
-				if(!data || data.code !== 0 || !data.response) {
+				if (!data || data.code !== 0 || !data.response) {
 					return;
 				}
 				var pageInfo = data.response;
@@ -290,12 +290,12 @@ define(function(require, exports, module) {
 			$tagName.empty();
 			var pageNo = $pageNo.val(),
 				tagNo = $tagNo.val();
-			if(!tagNo || (tagNo < 10000 && !pageNo)) {
+			if (!tagNo || (tagNo < 10000 && !pageNo)) {
 				return;
 			}
 			$.get(CTX_PATH + '/tagInfo/detailByPageNoAndTagNo/' + (pageNo || 0) + '/' + tagNo)
 			.then(function(data) {
-				if(!data || data.code !== 0 || !data.response) {
+				if (!data || data.code !== 0 || !data.response) {
 					return;
 				}
 				var tagInfo = data.response;
@@ -307,7 +307,7 @@ define(function(require, exports, module) {
 	function initSubmitErrorBtn() {
 		var $modal = $('#J_submitErrorModal');
 		$('#J_submitErrorBtn').on('click', function() {
-			if(!submitErrorValidator.form()) {
+			if (!submitErrorValidator.form()) {
 				common.alertMsg('参数有误，请检查!');
 				return;
 			}
@@ -318,7 +318,7 @@ define(function(require, exports, module) {
 				comment: $('#S_comment').val()
 			})
 			.then(function(data) {
-				if(!data || data.code !== 0) {
+				if (!data || data.code !== 0) {
 					common.alertMsg('提交失败!');
 				} else {
 					common.alertMsg('提交成功!');
@@ -341,7 +341,7 @@ define(function(require, exports, module) {
 		$('#J_lockScrollBtn').on('click', function() {
 			lockScroll = !lockScroll;
 			var $this = $(this);
-			if(lockScroll) {
+			if (lockScroll) {
 				$this.html('解锁滚动');
 			} else {
 				$this.html('锁定滚动');

@@ -24,7 +24,7 @@ define(function(require, exports, module) {
 	function refreshTagActionOptions() {
 		var url = CTX_PATH + '/tagAction/list';
 		return $.get(url, function(data) {
-			if(!data || !data.response) {
+			if (!data || !data.response) {
 				return;
 			}
 			tagActionDict = {};
@@ -38,7 +38,7 @@ define(function(require, exports, module) {
 	function refreshTagTargetOptions() {
 		var url = CTX_PATH + '/tagTarget/list';
 		return $.get(url, function(data) {
-			if(!data || !data.response) {
+			if (!data || !data.response) {
 				return;
 			}
 			$('#T_targetId').empty().append($.map(data.response, function(target) {
@@ -56,7 +56,7 @@ define(function(require, exports, module) {
 		params['originVersionUntil'] = common.parseAppVersion(params['originVersionUntil']);
 		var url = CTX_PATH + '/tagInfo/list';
 		$.get(url, params, function(data) {
-			if(!data || !data.response || !data.response.list) {
+			if (!data || !data.response || !data.response.list) {
 				alert('failed!');
 				return;
 			}
@@ -112,7 +112,7 @@ define(function(require, exports, module) {
 	}
 	function initCreateTagInfoBtn() {
 		$('#J_createTagInfoBtn').on('click', function() {
-			if(!tagInfoValidator.form()) {
+			if (!tagInfoValidator.form()) {
 				return;
 			}
 			var params = {
@@ -134,7 +134,7 @@ define(function(require, exports, module) {
 			dataType: 'json',
 			data: params,
 			success: function(data) {
-				if(data.code !== 0) {
+				if (data.code !== 0) {
 					common.alertMsg('创建失败!');
 					return;
 				} else {
@@ -183,7 +183,7 @@ define(function(require, exports, module) {
 	}
 	function initUpdateTagInfoBtn() {
 		$('#J_updateTagInfoBtn').on('click', function() {
-			if(!tagInfoValidator.form()) {
+			if (!tagInfoValidator.form()) {
 				return;
 			}
 			var params = {
@@ -206,7 +206,7 @@ define(function(require, exports, module) {
 			dataType: 'json',
 			data: params,
 			success: function(data) {
-				if(data.code !== 0) {
+				if (data.code !== 0) {
 					common.alertMsg('更新失败!');
 					return;
 				} else {
@@ -232,11 +232,11 @@ define(function(require, exports, module) {
 			var tagNo = $tds.eq(0).text(),
 				tagName = $tds.eq(1).text();
 			common.confirmMsg('确定要删除如下操作项? <br/> [t' + tagNo + '] [' + tagName + ']').done(function(result) {
-				if(!result) {
+				if (!result) {
 					return;
 				}
 				$.post(CTX_PATH + '/tagInfo/delete', {id: id}, function(data) {
-					if(data && data.code === 0) {
+					if (data && data.code === 0) {
 						common.alertMsg('删除成功!');
 						refreshTagInfoTbl();
 					} else {
@@ -273,7 +273,7 @@ define(function(require, exports, module) {
 				var tagParam = data.response,
 					paramInfoList = tagParam? tagParam.paramInfoList: [];
 				$modal.find('textarea[name=comment]').val(tagParam? tagParam.comment: '');
-				/* if($.isEmptyObject(paramInfoList)) {
+				/* if ($.isEmptyObject(paramInfoList)) {
 					paramInfoList = [{}];
 				} */
 				$('#TP_paramInfoTbody').empty().append($('#TP_paramInfoTmpl').tmpl(paramInfoList, {
@@ -335,7 +335,7 @@ define(function(require, exports, module) {
 			dataType: 'json',
 			data: params,
 			success: function(data) {
-				if(data.code !== 0) {
+				if (data.code !== 0) {
 					common.alertMsg('更新失败!');
 					return;
 				} else {
@@ -356,7 +356,7 @@ define(function(require, exports, module) {
 	function initQueryBtn() {
 		var $queryBtn = $('#J_queryBtn');
 		$('#J_queryArea').on('keyup', 'input[type!=button][type!=submit][type!=reset]', function(ev) {
-			if(ev.which == 13) {
+			if (ev.which == 13) {
 				$queryBtn.trigger('click');
 			}
 		});
@@ -421,7 +421,7 @@ define(function(require, exports, module) {
 			url: CTX_PATH + '/tagInfo/import',
 			validator: function() {
 				var fileName = $('#J_uploadExcelInput').val();
-				if(!fileName){
+				if (!fileName){
 					common.alertMsg('请先选择要上传的Excel文件!');
 					return false;
 				}

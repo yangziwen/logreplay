@@ -22,7 +22,7 @@ define(function(require, exports, module) {
 	function refreshRoleOptions() {
 		var url = CTX_PATH + '/role/list';
 		$.get(url, function(data) {
-			if(!data || !data.response) {
+			if (!data || !data.response) {
 				return;
 			}
 			$('#J_roleNames, #U_roleNames').empty().append($.map(data.response, function(role) {
@@ -37,7 +37,7 @@ define(function(require, exports, module) {
 		}, common.collectParams('#J_queryArea input[type!=button][type!=submit][type!=reset], #J_queryArea select'));
 		var url = CTX_PATH + '/admin/user/list';
 		$.get(url, params, function(data) {
-			if(!data || !data.response || !data.response.list) {
+			if (!data || !data.response || !data.response.list) {
 				common.alertMsg('加载失败!');
 				return;
 			}
@@ -46,12 +46,12 @@ define(function(require, exports, module) {
 	}
 	
 	function loadUserById(id, callback) {
-		if(!id) {
+		if (!id) {
 			return;
 		}
 		var url = CTX_PATH + '/admin/user/detail/' + id;
 		$.get(url, function(data) {
-			if(!data || !data.response) {
+			if (!data || !data.response) {
 				common.alertMsg('加载失败!');
 				return;
 			}
@@ -99,7 +99,7 @@ define(function(require, exports, module) {
 	
 	function initCreateUserBtn() {
 		$('#J_createUserBtn').on('click', function() {
-			if(!userValidator.form()) {
+			if (!userValidator.form()) {
 				// common.alertMsg('参数有误，请检查!');
 				return;
 			}
@@ -121,7 +121,7 @@ define(function(require, exports, module) {
 			dataType: 'json',
 			data: params,
 			success: function(data) {
-				if(data.code !== 0) {
+				if (data.code !== 0) {
 					common.alertMsg('创建失败!');
 					return;
 				} else {
@@ -171,7 +171,7 @@ define(function(require, exports, module) {
 	
 	function initUpdateUserBtn() {
 		$('#J_updateUserBtn').on('click', function() {
-			if(!userValidator.form()) {
+			if (!userValidator.form()) {
 				// common.alertMsg('参数有误，请检查!');
 				return;
 			}
@@ -193,7 +193,7 @@ define(function(require, exports, module) {
 			dataType: 'json',
 			data: params,
 			success: function(data) {
-				if(data.code !== 0) {
+				if (data.code !== 0) {
 					common.alertMsg('更新失败!');
 					return;
 				} else {
@@ -234,7 +234,7 @@ define(function(require, exports, module) {
 	}
 	function initUpdatePasswordBtn() {
 		$('#J_updatePasswordBtn').on('click', function() {
-			if(!passwordValidator.form()) {
+			if (!passwordValidator.form()) {
 				// common.alertMsg('参数有误，请检查!');
 				return;
 			}
@@ -253,7 +253,7 @@ define(function(require, exports, module) {
 			dataType: 'json',
 			data: params,
 			success: function(data) {
-				if(data.code !== 0) {
+				if (data.code !== 0) {
 					common.alertMsg('更新失败!');
 					return;
 				} else {
@@ -272,7 +272,7 @@ define(function(require, exports, module) {
 	function initQueryBtn() {
 		var $queryBtn = $('#J_queryBtn');
 		$('#J_queryArea').on('keyup', 'input[type!=button][type!=submit][type!=reset]', function(ev) {
-			if(ev.which == 13) {
+			if (ev.which == 13) {
 				$queryBtn.trigger('click');
 			}
 		});
