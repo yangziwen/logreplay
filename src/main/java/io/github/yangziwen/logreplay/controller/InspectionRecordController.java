@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -52,6 +53,7 @@ public class InspectionRecordController extends BaseController {
 	 */
 	@ResponseBody
 	@RequestMapping("/list")
+	@RequiresPermissions("inspection_record:view")
 	public ModelMap list(
 			@RequestParam(defaultValue = Page.DEFAULT_START) int start,
 			@RequestParam(defaultValue = Page.DEFAULT_LIMIT) int limit,
@@ -100,6 +102,7 @@ public class InspectionRecordController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping("/detail/{id}")
+	@RequiresPermissions("inspection_record:view")
 	public ModelMap detail(@PathVariable("id") Long id) {
 		InspectionRecord record = inspectionRecordService.getInspectionRecordById(id);
 		return successResult(new InspectionRecordDto().from(record));
@@ -110,6 +113,7 @@ public class InspectionRecordController extends BaseController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/submit", method = RequestMethod.POST)
+	@RequiresPermissions("inspection_record:modify")
 	public ModelMap submit(
 			@RequestParam Integer pageNo,
 			@RequestParam Integer tagNo,
@@ -148,6 +152,7 @@ public class InspectionRecordController extends BaseController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/resolve/{id}", method = RequestMethod.POST)
+	@RequiresPermissions("inspection_record:modify")
 	public Map<String, Object> resolve(@PathVariable("id") Long id) {
 		if(!AuthUtil.isPermitted(Target.Inspection_Record.modify())) {
 			throw LogReplayException.unauthorizedException("Role of 'admin' or 'test' or 'dev' is required!");

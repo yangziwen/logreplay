@@ -1,5 +1,6 @@
 package io.github.yangziwen.logreplay.controller.base;
 
+import org.apache.shiro.authz.AuthorizationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.ModelMap;
@@ -36,6 +37,12 @@ public abstract class BaseController {
 	@ExceptionHandler(LogReplayException.class)
 	protected ModelMap handleLogReplayException(LogReplayException e) {
 		return new ModelMap("code", e.getErrorId()).addAttribute("errorMsg", e.getErrorMsg());
+	}
+
+	@ResponseBody
+	@ExceptionHandler(AuthorizationException.class)
+	protected ModelMap handleAuthorizationException(AuthorizationException e) {
+	    return handleLogReplayException(LogReplayException.unauthorizedException(e.getMessage()));
 	}
 
 }

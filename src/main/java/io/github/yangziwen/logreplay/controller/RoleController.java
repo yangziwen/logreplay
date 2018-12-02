@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,21 +22,19 @@ import com.google.common.collect.Lists;
 
 import io.github.yangziwen.logreplay.bean.Permission;
 import io.github.yangziwen.logreplay.bean.Role;
-import io.github.yangziwen.logreplay.bean.Permission.Target;
 import io.github.yangziwen.logreplay.controller.base.BaseController;
 import io.github.yangziwen.logreplay.dao.base.QueryParamMap;
 import io.github.yangziwen.logreplay.exception.LogReplayException;
 import io.github.yangziwen.logreplay.service.PermissionService;
 import io.github.yangziwen.logreplay.service.RoleService;
-import io.github.yangziwen.logreplay.util.AuthUtil;
 
 @Controller
 @RequestMapping("/role")
 public class RoleController extends BaseController {
-	
+
 	@Autowired
 	private RoleService roleService;
-	
+
 	@Autowired
 	private PermissionService permissionService;
 
@@ -45,16 +44,14 @@ public class RoleController extends BaseController {
 		List<Role> list = roleService.getRoleListResult(new QueryParamMap().orderByAsc("id"));
 		return successResult(list);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+	@RequiresPermissions("role:modify")
 	public ModelMap update(
 			@PathVariable(value = "id") Long id,
-			@RequestParam String displayName, 
+			@RequestParam String displayName,
 			@RequestParam String comment) {
-		if(!AuthUtil.isPermitted(Target.Role.modify())) {
-			throw LogReplayException.unauthorizedException("Current user is not permitted to update role");
-		}
 		Role role = roleService.getRoleById(id);
 		if(role == null) {
 			throw LogReplayException.notExistException("Role[%d] does not exist!");
@@ -68,9 +65,10 @@ public class RoleController extends BaseController {
 			throw LogReplayException.operationFailedException("Failed to update Role[%d]!", id);
 		}
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/updatePermissions/{id}", method = RequestMethod.POST)
+	@RequiresPermissions({"role:modify"})
 	public ModelMap updateRelatedPermissions(
 			@PathVariable("id") Long id,
 			@RequestParam(defaultValue = "") String permissionIds
@@ -82,7 +80,7 @@ public class RoleController extends BaseController {
 		if(role == null) {
 			throw LogReplayException.notExistException("Role[%d] does not exist!", id);
 		}
-		
+
 		List<Long> permissionIdList = Lists.transform(Arrays.asList(StringUtils.split(permissionIds, ",")), new Function<String, Long>() {
 			@Override
 			public Long apply(String input) {

@@ -13,6 +13,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -31,7 +32,6 @@ import io.github.yangziwen.logreplay.bean.TagAction;
 import io.github.yangziwen.logreplay.bean.TagInfo;
 import io.github.yangziwen.logreplay.bean.TagParam;
 import io.github.yangziwen.logreplay.bean.TagTarget;
-import io.github.yangziwen.logreplay.bean.Permission.Target;
 import io.github.yangziwen.logreplay.bean.TagInfo.InspectStatus;
 import io.github.yangziwen.logreplay.controller.base.BaseController;
 import io.github.yangziwen.logreplay.dao.base.Page;
@@ -43,7 +43,6 @@ import io.github.yangziwen.logreplay.service.TagActionService;
 import io.github.yangziwen.logreplay.service.TagInfoService;
 import io.github.yangziwen.logreplay.service.TagParamService;
 import io.github.yangziwen.logreplay.service.TagTargetService;
-import io.github.yangziwen.logreplay.util.AuthUtil;
 import io.github.yangziwen.logreplay.util.ExcelUtil;
 import io.github.yangziwen.logreplay.util.ProductUtil;
 import io.github.yangziwen.logreplay.util.TagFields;
@@ -75,6 +74,7 @@ public class TagInfoController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping("/list")
+	@RequiresPermissions("tag_info:view")
 	public ModelMap list(
 			@RequestParam(defaultValue = Page.DEFAULT_START) int start,
 			@RequestParam(defaultValue = Page.DEFAULT_LIMIT) int limit,
@@ -128,6 +128,7 @@ public class TagInfoController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping("/detail/{id}")
+	@RequiresPermissions("tag_info:view")
 	public ModelMap detail(@PathVariable("id") Long id) {
 		TagInfo tagInfo = tagInfoService.getTagInfoById(id);
 		return successResult(tagInfo);
@@ -135,6 +136,7 @@ public class TagInfoController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping("/detailByPageNoAndTagNo/{pageNo}/{tagNo}")
+	@RequiresPermissions("tag_info:view")
 	public ModelMap detailByPageNoAndTagNo(
 			@PathVariable("pageNo") Integer pageNo,
 			@PathVariable("tagNo") Integer tagNo) {
@@ -144,6 +146,7 @@ public class TagInfoController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping("/update")
+	@RequiresPermissions("tag_info:modify")
 	public ModelMap update(
 			@RequestParam Long id,
 			@RequestParam Integer tagNo,
@@ -154,9 +157,6 @@ public class TagInfoController extends BaseController {
 			@RequestParam Integer originVersion,
 			@RequestParam(required = false) String comment
 			) {
-		if(!AuthUtil.isPermitted(Target.Tag_Info.modify())) {
-			throw LogReplayException.unauthorizedException("Role[admin] is required!");
-		}
 		boolean needPageInfo = tagNo < TagInfo.COMMON_TAG_NO_MIN_VALUE;
 		if(StringUtils.isBlank(name)
 				|| tagNo == null
@@ -193,6 +193,7 @@ public class TagInfoController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	@RequiresPermissions("tag_info:modify")
 	public ModelMap create(
 			@RequestParam Integer tagNo,
 			@RequestParam String name,
@@ -202,9 +203,6 @@ public class TagInfoController extends BaseController {
 			@RequestParam Integer originVersion,
 			@RequestParam(required = false) String comment
 			) {
-		if(!AuthUtil.isPermitted(Target.Tag_Info.modify())) {
-			throw LogReplayException.unauthorizedException("Role[admin] is required!");
-		}
 		boolean needPageInfo = tagNo < TagInfo.COMMON_TAG_NO_MIN_VALUE;
 		if(StringUtils.isBlank(name)
 				|| tagNo == null
@@ -240,10 +238,8 @@ public class TagInfoController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	@RequiresPermissions("tag_info:modify")
 	public ModelMap delete(@RequestParam("id") Long id) {
-		if(!AuthUtil.isPermitted(Target.Tag_Info.modify())) {
-			throw LogReplayException.unauthorizedException("Role[admin] is required!");
-		}
 		if(id == null || id <= 0) {
 			throw LogReplayException.invalidParameterException("Parameters are invalid!");
 		}
@@ -291,6 +287,7 @@ public class TagInfoController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping("/export")
+	@RequiresPermissions("tag_info:view")
 	public void exportTagInfos(
 			Integer pageNo,
 			Integer tagNo,
@@ -410,10 +407,8 @@ public class TagInfoController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "/import", method = RequestMethod.POST)
+	@RequiresPermissions("tag_info:modify")
 	public ModelMap importTagInfos(MultipartFile file) throws IOException {
-		if(!AuthUtil.isPermitted(Target.Tag_Info.modify())) {
-			throw LogReplayException.unauthorizedException("Role[admin] is required!");
-		}
 		List<Map<String, String>> mapList = ExcelUtil.importMapList(file.getInputStream());
 		List<TagInfoDto> dtoList = TagFields.convertToTagInfoDtoList(mapList);
 		int count = importTagInfoByDtoList(dtoList);

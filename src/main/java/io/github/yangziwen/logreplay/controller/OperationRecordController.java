@@ -17,6 +17,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -92,6 +93,7 @@ public class OperationRecordController extends BaseController {
 	 */
 	@ResponseBody
 	@RequestMapping("/query")
+	@RequiresPermissions("operation_record:view")
 	public ModelMap query(
 			Long idSince,
 			Long since,
@@ -331,6 +333,7 @@ public class OperationRecordController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "/upload/nginx", method = RequestMethod.POST)
+	@RequiresPermissions("operation_record:modify")
 	public ModelMap uploadNginxLog(MultipartFile file) {
 		if(!AuthUtil.isPermitted(Target.Operation_Record.modify())) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");

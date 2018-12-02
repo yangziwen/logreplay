@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,16 +21,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.common.collect.Lists;
 
 import io.github.yangziwen.logreplay.bean.PageInfo;
-import io.github.yangziwen.logreplay.bean.Permission.Target;
 import io.github.yangziwen.logreplay.controller.base.BaseController;
 import io.github.yangziwen.logreplay.dao.base.Page;
 import io.github.yangziwen.logreplay.dao.base.QueryParamMap;
 import io.github.yangziwen.logreplay.exception.LogReplayException;
 import io.github.yangziwen.logreplay.service.PageInfoService;
-import io.github.yangziwen.logreplay.util.AuthUtil;
 import io.github.yangziwen.logreplay.util.ExcelUtil;
-import io.github.yangziwen.logreplay.util.ProductUtil;
 import io.github.yangziwen.logreplay.util.ExcelUtil.Column;
+import io.github.yangziwen.logreplay.util.ProductUtil;
 
 @Controller
 @RequestMapping("/pageInfo")
@@ -42,6 +41,7 @@ public class PageInfoController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequiresPermissions("page_info:view")
 	public Map<String, Object> list(
 			@RequestParam(defaultValue = Page.DEFAULT_START) int start,
 			@RequestParam(defaultValue = Page.DEFAULT_LIMIT) int limit,
@@ -63,6 +63,7 @@ public class PageInfoController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "/export", method = RequestMethod.GET)
+	@RequiresPermissions("page_info:view")
 	public void export(
 			Integer pageNo,
 			String pageName,
@@ -85,6 +86,7 @@ public class PageInfoController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+	@RequiresPermissions("page_info:view")
 	public Map<String, Object> detail(@PathVariable("id") Long id) {
 		PageInfo info = pageInfoService.getPageInfoById(id);
 		return successResult(info);
@@ -92,6 +94,7 @@ public class PageInfoController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "/detailByPageNo/{pageNo}", method = RequestMethod.GET)
+	@RequiresPermissions("page_info:view")
 	public Map<String, Object> detailByPageNo(@PathVariable("pageNo") Integer pageNo) {
 		PageInfo info = pageInfoService.getPageInfoByPageNoAndProductId(pageNo, ProductUtil.getProductId());
 		return successResult(info);
@@ -99,12 +102,10 @@ public class PageInfoController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+	@RequiresPermissions("page_info:modify")
 	public Map<String, Object> update(@PathVariable("id") Long id,
 			@RequestParam Integer pageNo,
 			@RequestParam String name) {
-		if(!AuthUtil.isPermitted(Target.Page_Info.modify())) {
-			throw LogReplayException.unauthorizedException("Role[admin] is required!");
-		}
 		if(pageNo == null || StringUtils.isBlank(name)) {
 			throw LogReplayException.invalidParameterException("Parameters are invalid!");
 		}
@@ -124,13 +125,11 @@ public class PageInfoController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	@RequiresPermissions("page_info:modify")
 	public ModelMap create(
 			@RequestParam Integer pageNo,
 			@RequestParam String name
 			) {
-		if(!AuthUtil.isPermitted(Target.Page_Info.modify())) {
-			throw LogReplayException.unauthorizedException("Role[admin] is required!");
-		}
 		if(pageNo == null || StringUtils.isBlank(name)) {
 			throw LogReplayException.invalidParameterException("Parameters are invalid!");
 		}

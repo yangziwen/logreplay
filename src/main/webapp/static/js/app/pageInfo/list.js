@@ -49,7 +49,7 @@ define(function(require, exports, module) {
 		var url = CTX_PATH + '/pageInfo/list';
 		$.get(url, params, function(data) {
 			if(!data || !data.response || !data.response.list) {
-				alert('failed!');
+				alert(data.errorMsg || 'failed!');
 				return;
 			}
 			$.isFunction(callback) && callback(data);

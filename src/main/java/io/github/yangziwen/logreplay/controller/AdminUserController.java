@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.audit4j.core.annotation.Audit;
 import org.audit4j.core.annotation.AuditField;
 import org.audit4j.core.annotation.DeIdentify;
@@ -39,6 +40,7 @@ public class AdminUserController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping("/list")
+	@RequiresPermissions("user:view")
 	public ModelMap list(
 			@RequestParam(defaultValue = Page.DEFAULT_START) int start,
 			@RequestParam(defaultValue = Page.DEFAULT_LIMIT) int limit,
@@ -58,6 +60,7 @@ public class AdminUserController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping("/detail/{id}")
+	@RequiresPermissions("user:view")
 	public ModelMap detail(@PathVariable("id") Long id) {
 		UserWithRoles user = userService.getUserWithRolesById(id);
 		return successResult(user);
@@ -66,6 +69,7 @@ public class AdminUserController extends BaseController {
 	@Audit(action = "admin.create_user")
 	@ResponseBody
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	@RequiresPermissions("user:modify")
 	public ModelMap create (
 			@AuditField(field = "username")
 			@RequestParam String username,
@@ -103,6 +107,7 @@ public class AdminUserController extends BaseController {
 	@Audit(action = "admin.update_user")
 	@ResponseBody
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+	@RequiresPermissions("user:modify")
 	public ModelMap update (
 			@AuditField(field = "id")
 			@PathVariable("id") Long id,
@@ -143,6 +148,7 @@ public class AdminUserController extends BaseController {
 	@Audit(action = "admin.reset_password")
 	@ResponseBody
 	@RequestMapping(value = "/password/update/{id}", method = RequestMethod.POST)
+	@RequiresPermissions("user:modify")
 	public ModelMap updatePassword(
 			@AuditField(field = "id")
 			@PathVariable("id") Long id,

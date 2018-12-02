@@ -52,7 +52,9 @@
 			     			<shiro:hasPermission name="page_info:modify">
 			     				<button class="btn btn-primary btn-lg-font" id="J_openCreateModalBtn" title="新增页面信息">新增</button>
 			     			</shiro:hasPermission>
-		     				<button class="btn btn-primary btn-lg-font" id="J_exportPageInfoBtn" title="导出excel">导出</button>
+			     			<shiro:hasPermission name="page_info:view">
+			     				<button class="btn btn-primary btn-lg-font" id="J_exportPageInfoBtn" title="导出excel">导出</button>
+			     			</shiro:hasPermission>
 			     		</div>
 			     		<div id="J_pagebar" class="col-sm-9">
 			     			

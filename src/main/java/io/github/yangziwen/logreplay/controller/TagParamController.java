@@ -2,6 +2,7 @@ package io.github.yangziwen.logreplay.controller;
 
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,38 +15,35 @@ import com.alibaba.fastjson.JSON;
 
 import io.github.yangziwen.logreplay.bean.ParamInfo;
 import io.github.yangziwen.logreplay.bean.TagParam;
-import io.github.yangziwen.logreplay.bean.Permission.Target;
 import io.github.yangziwen.logreplay.controller.base.BaseController;
 import io.github.yangziwen.logreplay.exception.LogReplayException;
 import io.github.yangziwen.logreplay.service.TagInfoService;
 import io.github.yangziwen.logreplay.service.TagParamService;
-import io.github.yangziwen.logreplay.util.AuthUtil;
 
 @Controller
 @RequestMapping("/tagParam")
 public class TagParamController extends BaseController {
-	
+
 	@Autowired
 	private TagParamService tagParamService;
-	
+
 	@Autowired
 	private TagInfoService tagInfoService;
 
 	@ResponseBody
 	@RequestMapping("/detail")
+	@RequiresPermissions("tag_info:view")
 	public ModelMap detail(@RequestParam Long tagInfoId) {
 		return successResult(tagParamService.getTagParamByTagInfoId(tagInfoId));
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@RequiresPermissions("tag_info:modify")
 	public ModelMap update(
 			@RequestParam Long tagInfoId,
 			@RequestParam(required = false) String comment,
 			@RequestParam(value = "paramInfoList", required = false) String paramInfoListJson) {
-		if(!AuthUtil.isPermitted(Target.Tag_Info.modify())) {
-			throw LogReplayException.unauthorizedException("Role[admin] is required!");
-		}
 		if(tagInfoId == null || tagInfoService.getTagInfoById(tagInfoId) == null) {
 			throw LogReplayException.invalidParameterException("TagInfo[%d] does not exist!", tagInfoId);
 		}
@@ -63,6 +61,6 @@ public class TagParamController extends BaseController {
 			throw LogReplayException.operationFailedException("Failed to renew TagParam!");
 		}
 	}
-	
-	
+
+
 }

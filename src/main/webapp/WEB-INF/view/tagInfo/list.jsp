@@ -83,7 +83,9 @@
 			     			<shiro:hasPermission name="tag_info:modify">
 				     			<button class="btn btn-primary btn-lg-font" id="J_openUploadExcelModalBtn" title="导入excel">导入</button>
 			     			</shiro:hasPermission>
-			     			<button class="btn btn-primary btn-lg-font" id="J_exportTagInfoBtn" title="导出excel">导出</button>
+			     			<shiro:hasPermission name="tag_info:view">
+				     			<button class="btn btn-primary btn-lg-font" id="J_exportTagInfoBtn" title="导出excel">导出</button>
+			     			</shiro:hasPermission>
 			     		</div>
 			     		<div id="J_pagebar" class="col-sm-9"></div>
 			     	</div>
