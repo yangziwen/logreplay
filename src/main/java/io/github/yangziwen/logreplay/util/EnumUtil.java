@@ -9,15 +9,15 @@ public class EnumUtil {
 	private EnumUtil() {}
 	
 	public static <E extends Enum<E>> E parse(Object value, Class<E> enumType) {
-		if(value == null) {
+		if (value == null) {
 			return null;
 		}
 		E e = null;
-		if(value instanceof Number) {
+		if (value instanceof Number) {
 			e = parse((Number) value, enumType);
 		}
 		String str = value.toString();
-		if(e == null) {
+		if (e == null) {
 			e = parse(str, enumType);
 		}
 		return e;
@@ -26,7 +26,7 @@ public class EnumUtil {
 	public static <E extends Enum<E>> E parse(Number value, Class<E> enumType) {
 		E[] values = enumType.getEnumConstants();
 		int i = value.intValue();
-		if(i < 0 || i >= values.length) {
+		if (i < 0 || i >= values.length) {
 			return null;
 		}
 		return values[i];
@@ -48,15 +48,15 @@ public class EnumUtil {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E extends Enum<E>> Object convertValue(Object value, Class<E> enumType, EnumConverter converter) {
-		if(value instanceof Collection) {	// 尽量避免进入这个if中
+		if (value instanceof Collection) {	// 尽量避免进入这个if中
 			Collection<?> coll = (Collection<?>) value;
-			if(coll.size() > 0) {
+			if (coll.size() > 0) {
 				return convertValue(coll.toArray(), enumType, converter);
 			} else {
 				return null;
 			}
 		}
-		if(value instanceof Object[] && enumType.isAssignableFrom(value.getClass().getComponentType())) {
+		if (value instanceof Object[] && enumType.isAssignableFrom(value.getClass().getComponentType())) {
 			Object[] array = (Object[]) value;
 			List<Object> list = new ArrayList<Object>();
 			for(Object obj: array) {
@@ -64,7 +64,7 @@ public class EnumUtil {
 			}
 			return list;
 		}
-		if(enumType.isInstance(value)) {
+		if (enumType.isInstance(value)) {
 			E e = (E) value;
 			return converter.convert(e);
 		}

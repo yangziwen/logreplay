@@ -106,11 +106,11 @@ public class PageInfoController extends BaseController {
 	public Map<String, Object> update(@PathVariable("id") Long id,
 			@RequestParam Integer pageNo,
 			@RequestParam String name) {
-		if(pageNo == null || StringUtils.isBlank(name)) {
+		if (pageNo == null || StringUtils.isBlank(name)) {
 			throw LogReplayException.invalidParameterException("Parameters are invalid!");
 		}
 		PageInfo info = pageInfoService.getPageInfoById(id);
-		if(info == null) {
+		if (info == null) {
 			throw LogReplayException.invalidParameterException(String.format("PageInfo[%d] does not exist!", id));
 		}
 		try {
@@ -130,7 +130,7 @@ public class PageInfoController extends BaseController {
 			@RequestParam Integer pageNo,
 			@RequestParam String name
 			) {
-		if(pageNo == null || StringUtils.isBlank(name)) {
+		if (pageNo == null || StringUtils.isBlank(name)) {
 			throw LogReplayException.invalidParameterException("Parameters are invalid!");
 		}
 		try {
@@ -145,15 +145,15 @@ public class PageInfoController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/checkDuplication")
 	public boolean checkDuplication(Long id, Integer pageNo) {
-		if(pageNo == null || pageNo <= 0) {
+		if (pageNo == null || pageNo <= 0) {
 			return false;
 		}
-		if(id == null && pageInfoService.getPageInfoListResult(0, 1, new QueryParamMap()
+		if (id == null && pageInfoService.getPageInfoListResult(0, 1, new QueryParamMap()
 				.addParam("pageNo", pageNo)
 				.addParam("productId", ProductUtil.getProductId())).size() > 0) {
 			return false;
 		}
-		if(pageInfoService.getPageInfoListResult(0, 1, new QueryParamMap()
+		if (pageInfoService.getPageInfoListResult(0, 1, new QueryParamMap()
 				.addParam("pageNo", pageNo)
 				.addParam("productId", ProductUtil.getProductId())
 				.addParam("id__ne", id)).size() > 0) {
@@ -165,10 +165,10 @@ public class PageInfoController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/checkExist")
 	public boolean checkExist(Integer pageNo) {
-		if(pageNo == null || pageNo <= 0) {
+		if (pageNo == null || pageNo <= 0) {
 			return false;
 		}
-		if(pageInfoService.getPageInfoByPageNoAndProductId(pageNo, ProductUtil.getProductId()) == null) {
+		if (pageInfoService.getPageInfoByPageNoAndProductId(pageNo, ProductUtil.getProductId()) == null) {
 			return false;
 		}
 		return true;

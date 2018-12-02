@@ -16,19 +16,19 @@ public class UrlInfoProcessor {
 		String queryString = "";
 		Map<String, String> params = Collections.emptyMap();
 		
-		if(questionMarkIndex > 0) {
+		if (questionMarkIndex > 0) {
 			uri = url.substring(0, questionMarkIndex);
 			queryString = url.substring(questionMarkIndex + 1, url.length());
 		}
 		
-		if(StringUtils.isNotEmpty(queryString)) {
+		if (StringUtils.isNotEmpty(queryString)) {
 			String customInfoPrefix = "info=";
 			int customInfoBeginIndex = url.indexOf(customInfoPrefix) + customInfoPrefix.length();
 			String otherQueries = customInfoBeginIndex > 0? queryString.substring(0, customInfoBeginIndex): queryString;
 			String customInfoStr = customInfoBeginIndex > 0? url.substring(customInfoBeginIndex, url.length()): "";
-			if(StringUtils.isNotBlank(customInfoStr)) {
+			if (StringUtils.isNotBlank(customInfoStr)) {
 				int appendedParamsBeginIndex = customInfoStr.lastIndexOf("}&") + 1;
-				if(appendedParamsBeginIndex > 0) {
+				if (appendedParamsBeginIndex > 0) {
 					otherQueries += customInfoStr.substring(appendedParamsBeginIndex);
 					customInfoStr = customInfoStr.substring(0, appendedParamsBeginIndex);
 				}
@@ -45,13 +45,13 @@ public class UrlInfoProcessor {
 	}
 	
 	private Map<String, String> parseParams(String queryString) {
-		if(StringUtils.isEmpty(queryString)) {
+		if (StringUtils.isEmpty(queryString)) {
 			return Collections.emptyMap();
 		}
 		int equalityIndex = -1;
 		Map<String, String> params = new LinkedHashMap<String, String>();
 		for(String pair: queryString.split("&")) {
-			if(StringUtils.isBlank(pair) || (equalityIndex = pair.indexOf("=")) == -1) {
+			if (StringUtils.isBlank(pair) || (equalityIndex = pair.indexOf("=")) == -1) {
 				continue;
 			}
 			String key = pair.substring(0, equalityIndex);

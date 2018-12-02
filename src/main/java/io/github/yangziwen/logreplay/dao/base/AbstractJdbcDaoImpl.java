@@ -75,7 +75,7 @@ public abstract class AbstractJdbcDaoImpl<E extends AbstractBean>  extends Abstr
 	}
 
 	public void saveOrUpdate(E entity) {
-		if(entity.getId() == null) {
+		if (entity.getId() == null) {
 			save(entity);
 		} else {
 			update(entity);
@@ -99,7 +99,7 @@ public abstract class AbstractJdbcDaoImpl<E extends AbstractBean>  extends Abstr
 	}
 	
 	public int batchSave(List<E> entityList, int batchSize) {
-		if(CollectionUtils.isEmpty(entityList)) {
+		if (CollectionUtils.isEmpty(entityList)) {
 			return 0;
 		}
 		return batchSave(entityList.toArray(beanMapping.emptyArray()), batchSize);
@@ -111,18 +111,18 @@ public abstract class AbstractJdbcDaoImpl<E extends AbstractBean>  extends Abstr
 	
 	@SuppressWarnings("unchecked")
 	public int batchSave(E[] entities, int batchSize) {
-		if(ArrayUtils.isEmpty(entities)) {
+		if (ArrayUtils.isEmpty(entities)) {
 			return 0;
 		}
 		for(E entity: entities) {
-			if(entity == null) {
+			if (entity == null) {
 				throw new IllegalArgumentException("Entity should not be null before insertion!");
 			}
-			if(entity.getId() != null) {
+			if (entity.getId() != null) {
 				throw new IllegalArgumentException("The id of the entity should be null before insersion!");
 			}
 		}
-		if(batchSize <= 0) {
+		if (batchSize <= 0) {
 			batchSize = entities.length;
 		}
 		int insertRows = 0;
@@ -141,7 +141,7 @@ public abstract class AbstractJdbcDaoImpl<E extends AbstractBean>  extends Abstr
 	}
 	
 	public int batchUpdate(List<E> entityList, int batchSize) {
-		if(CollectionUtils.isEmpty(entityList)) {
+		if (CollectionUtils.isEmpty(entityList)) {
 			return 0;
 		}
 		return batchUpdate(entityList.toArray(beanMapping.emptyArray()), batchSize);
@@ -153,18 +153,18 @@ public abstract class AbstractJdbcDaoImpl<E extends AbstractBean>  extends Abstr
 	
 	@SuppressWarnings("unchecked")
 	public int batchUpdate(E[] entities, int batchSize) {
-		if(ArrayUtils.isEmpty(entities)) {
+		if (ArrayUtils.isEmpty(entities)) {
 			return 0;
 		}
 		for(E entity: entities) {
-			if(entity == null) {
+			if (entity == null) {
 				throw new IllegalArgumentException("The entity should not be null before update!");
 			}
-			if(entity.getId() == null || entity.getId() <= 0) {
+			if (entity.getId() == null || entity.getId() <= 0) {
 				throw new IllegalArgumentException("The id of the entity is not valid!");
 			}
 		}
-		if(batchSize <= 0) {
+		if (batchSize <= 0) {
 			batchSize = entities.length;
 		}
 		int updateRows = 0;
@@ -179,24 +179,24 @@ public abstract class AbstractJdbcDaoImpl<E extends AbstractBean>  extends Abstr
 	}
 	
 	public int batchSaveOrUpdate(List<E> entityList, int batchSize) {
-		if(CollectionUtils.isEmpty(entityList)) {
+		if (CollectionUtils.isEmpty(entityList)) {
 			return 0;
 		}
 		return batchSaveOrUpdate(entityList.toArray(beanMapping.emptyArray()), batchSize);
 	}
 	
 	public int batchSaveOrUpdate(E[] entities, int batchSize) {
-		if(ArrayUtils.isEmpty(entities)) {
+		if (ArrayUtils.isEmpty(entities)) {
 			return 0;
 		}
 		int initCapacity = entities.length / 2 + 1;
 		List<E> toSaveList = new ArrayList<E>(initCapacity);
 		List<E> toUpdateList = new ArrayList<E>(initCapacity);
 		for(E entity: entities) {
-			if(entity == null) {
+			if (entity == null) {
 				continue;
 			}
-			if(entity.getId() == null) {
+			if (entity.getId() == null) {
 				toSaveList.add(entity);
 			} else {
 				toUpdateList.add(entity);
@@ -207,7 +207,7 @@ public abstract class AbstractJdbcDaoImpl<E extends AbstractBean>  extends Abstr
 	}
 	
 	public int batchDeleteByIds(Collection<Long> ids) {
-		if(CollectionUtils.isEmpty(ids)) {
+		if (CollectionUtils.isEmpty(ids)) {
 			return 0;
 		}
 		String sql = "delete from " + beanMapping.getTableName() + " where " + beanMapping.getIdColumn() + " in (:ids)";

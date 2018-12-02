@@ -58,11 +58,11 @@ public class ExcelUtil {
 	}
 
 	private static List<Map<String, String>> readMapListFromSheet(Sheet sheet) {
-		if(sheet == null) {
+		if (sheet == null) {
 			return Collections.emptyList();
 		}
 		Iterator<Row> rowIter = sheet.rowIterator();
-		if(!rowIter.hasNext()) {
+		if (!rowIter.hasNext()) {
 			return Collections.emptyList();
 		}
 		Iterator<Cell> headerIter = rowIter.next().cellIterator();
@@ -106,7 +106,7 @@ public class ExcelUtil {
 	}
 
 	public static Workbook exportDataList(List<Column> columnList, List<? extends DataContainer> dataList) {
-		if(dataList == null) {
+		if (dataList == null) {
 			dataList = Collections.emptyList();
 		}
 		final Workbook workbook = new HSSFWorkbook();
@@ -117,11 +117,11 @@ public class ExcelUtil {
 		String sheetName = "sheet";
 		Sheet sheet = null;
 		Map<String, Object> context = new HashMap<String, Object>();
-		if(CollectionUtils.isEmpty(dataList)) {	// 如果没有数据，则至少创建一个空的sheet，不然excel文件打开时会出错
+		if (CollectionUtils.isEmpty(dataList)) {	// 如果没有数据，则至少创建一个空的sheet，不然excel文件打开时会出错
 			createNewSheet(workbook, ++ sheetIndex, sheetName + (sheetIndex + 1), columnList, headerStyle);
 		} else {
 			for(int i=0, l=dataList.size(); i<l; i++) {
-				if(i / MAX_DATAROW_PER_SHEET > sheetIndex) {
+				if (i / MAX_DATAROW_PER_SHEET > sheetIndex) {
 					sheetIndex ++;
 					createNewSheet(workbook, sheetIndex, sheetName + (sheetIndex + 1), columnList, headerStyle);
 					sheet = workbook.getSheetAt(sheetIndex);
@@ -135,7 +135,7 @@ public class ExcelUtil {
 					String columnKey = column.getKey();
 					Cell cell = row.createCell(j);
 					Object value = dc.getColumnValue(columnKey);
-					if(value == null) {
+					if (value == null) {
 						cell.setCellValue("");
 					} else {
 						column.getType().handle(workbook, cell, value, context);
@@ -148,7 +148,7 @@ public class ExcelUtil {
 	}
 
 	public static Workbook exportMapList(List<Column> columnList, List<Map<String, Object>> dataList) {
-		if(dataList == null) {
+		if (dataList == null) {
 			dataList = Collections.emptyList();
 		}
 		List<DataContainer> list = new ArrayList<DataContainer>(dataList.size());
@@ -164,7 +164,7 @@ public class ExcelUtil {
 		Row titleRow = sheet.createRow(0);
 		for(int i=0, l=columnList.size(); i<l; i++) {
 			Column column = columnList.get(i);
-			if(column.getWidth() > 1000) {
+			if (column.getWidth() > 1000) {
 				sheet.setColumnWidth(i, column.getWidth());
 			}
 			Cell cell = titleRow.createCell(i);
@@ -246,7 +246,7 @@ public class ExcelUtil {
 			public void handle(Workbook workbook, Cell cell, Object value, Map<String, Object> context) {
 				cell.setCellType(org.apache.poi.ss.usermodel.CellType.NUMERIC);
 				CellStyle currencyCnyStyle = (CellStyle) context.get(KEY_OF_CURRENCY_CNY_STYLE);
-				if(currencyCnyStyle == null) {
+				if (currencyCnyStyle == null) {
 					DataFormat format = workbook.createDataFormat();
 					currencyCnyStyle = workbook.createCellStyle();
 					currencyCnyStyle.setDataFormat(format.getFormat("￥#,##0.00"));
@@ -261,7 +261,7 @@ public class ExcelUtil {
 			public void handle(Workbook workbook,Cell cell, Object value, Map<String, Object> context) {
 				cell.setCellType(org.apache.poi.ss.usermodel.CellType.NUMERIC);
 				CellStyle currencyUsdStyle = (CellStyle) context.get(KEY_OF_CURRENCY_USD_STYLE);
-				if(currencyUsdStyle == null) {
+				if (currencyUsdStyle == null) {
 					DataFormat format =  workbook.createDataFormat();
 					currencyUsdStyle = workbook.createCellStyle();
 					currencyUsdStyle.setDataFormat(format.getFormat("$#,##0.00"));
@@ -296,7 +296,7 @@ public class ExcelUtil {
 			@Override
 			public void handle(Workbook workbook, Cell cell, Object value, Map<String, Object> context) {
 				CellStyle numberStyle = (CellStyle) context.get(KEY_OF_FORMATTED_NUMBER_STYLE);
-				if(numberStyle == null) {
+				if (numberStyle == null) {
 					numberStyle = workbook.createCellStyle();
 					DataFormat format = workbook.createDataFormat();
 					numberStyle.setDataFormat(format.getFormat("#,##0"));
@@ -311,7 +311,7 @@ public class ExcelUtil {
 			@Override
 			public void handle(Workbook workbook, Cell cell, Object value, Map<String, Object> context) {
 				CellStyle numberStyle = (CellStyle) context.get(KEY_OF_NUMBER_STYLE);
-				if(numberStyle == null) {
+				if (numberStyle == null) {
 					numberStyle = workbook.createCellStyle();
 					context.put(KEY_OF_NUMBER_STYLE, numberStyle);
 				}
@@ -324,7 +324,7 @@ public class ExcelUtil {
 			@Override
 			public void handle(Workbook workbook, Cell cell, Object value, Map<String, Object> context) {
 				CellStyle percentStyle = (CellStyle) context.get(KEY_OF_PERCENT_STYLE);
-				if(percentStyle == null) {
+				if (percentStyle == null) {
 					percentStyle = workbook.createCellStyle();
 					DataFormat format = workbook.createDataFormat();
 					percentStyle.setDataFormat(format.getFormat("0.00%"));

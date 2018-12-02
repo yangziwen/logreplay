@@ -64,11 +64,11 @@ public class MonitorController extends BaseController {
 			String showType,
 			HttpSession session) {
 
-		if(startTime == 0) {	// 默认取一天前的时间
+		if (startTime == 0) {	// 默认取一天前的时间
 			startTime = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(12);
 		}
 
-		if(endTime == 0) {		// 默认取当前时间
+		if (endTime == 0) {		// 默认取当前时间
 			endTime = System.currentTimeMillis();
 		}
 
@@ -102,11 +102,11 @@ public class MonitorController extends BaseController {
 			String showType,
 			HttpSession session) {
 
-		if(startTime == 0) {	// 默认取一天前的时间
+		if (startTime == 0) {	// 默认取一天前的时间
 			startTime = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(12);
 		}
 
-		if(endTime == 0) {		// 默认取当前时间
+		if (endTime == 0) {		// 默认取当前时间
 			endTime = System.currentTimeMillis();
 		}
 

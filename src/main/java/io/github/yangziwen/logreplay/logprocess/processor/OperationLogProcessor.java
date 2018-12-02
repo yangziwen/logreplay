@@ -29,15 +29,15 @@ public class OperationLogProcessor {
 	private MobLogProcessor mobLogProcessor = new MobLogProcessor();
 
 	public OperationLog process(String log) {
-		if(StringUtils.isBlank(log)) {
+		if (StringUtils.isBlank(log)) {
 			return null;
 		}
 		NginxLog nginxLog = nginxLogProcessor.process(log);
-		if(nginxLog == null) {
+		if (nginxLog == null) {
 			return null;
 		}
 		UrlInfo urlInfo = urlInfoProcessor.process(nginxLog.getUrl());
-		if(urlInfo == null) {
+		if (urlInfo == null) {
 			return null;
 		}
 		MobLog mobLog = mobLogProcessor.process(urlInfo.getParam("moblog"));
@@ -56,7 +56,7 @@ public class OperationLogProcessor {
 	}
 	
 	public List<Map<String, Object>> parseOperationList(String allInfoStr) {
-		if(StringUtils.isBlank(allInfoStr)) {
+		if (StringUtils.isBlank(allInfoStr)) {
 			return null;
 		}
 		JSONObject allInfo = JSON.parseObject(allInfoStr);
@@ -64,10 +64,10 @@ public class OperationLogProcessor {
 		JSONObject event6000Info = null;
 		for(int i = 0, l = eventInfoList.size(); i < l; i++) {
 			JSONObject info = eventInfoList.getJSONObject(i);
-			if(info == null) {
+			if (info == null) {
 				continue;
 			}
-			if(NumberUtils.toInt(info.getString("e")) != 6000) {
+			if (NumberUtils.toInt(info.getString("e")) != 6000) {
 				continue;
 			}
 			event6000Info = info;
@@ -75,7 +75,7 @@ public class OperationLogProcessor {
 		}
 		JSONArray subInfoList = null;
 		try {
-			if(event6000Info.get("info") instanceof JSONArray) {
+			if (event6000Info.get("info") instanceof JSONArray) {
 				subInfoList = event6000Info.getJSONArray("info");
 			} else {
 				subInfoList = JSONObject.parseArray(event6000Info.getString("info"));
@@ -87,7 +87,7 @@ public class OperationLogProcessor {
 		List<Map<String, Object>> operationList = new ArrayList<Map<String,Object>>();
 		for(int i = 0, l = subInfoList.size(); i < l; i++) {
 			JSONObject subInfo = subInfoList.getJSONObject(i);
-			if(subInfo.get("tag") != null && subInfo.get("p") != null) {
+			if (subInfo.get("tag") != null && subInfo.get("p") != null) {
 				operationList.add(subInfo);
 			}
 		}

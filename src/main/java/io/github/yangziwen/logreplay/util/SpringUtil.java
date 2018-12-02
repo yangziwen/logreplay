@@ -28,7 +28,7 @@ public class SpringUtil implements ApplicationContextAware {
 	
 	public static <T> T getBean(Class<T> clazz) {
 		Map<?,T> beanMap = context.getBeansOfType(clazz);
-		if(beanMap == null || beanMap.size() == 0) {
+		if (beanMap == null || beanMap.size() == 0) {
 			return null;
 		}
 		return beanMap.values().iterator().next();

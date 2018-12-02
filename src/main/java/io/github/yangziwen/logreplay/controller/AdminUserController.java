@@ -82,17 +82,17 @@ public class AdminUserController extends BaseController {
 			@RequestParam String roleNames,
 			@AuditField(field = "enabled")
 			@RequestParam Boolean enabled) {
-		if(StringUtils.isBlank(username) || StringUtils.isBlank(roleNames)) {
+		if (StringUtils.isBlank(username) || StringUtils.isBlank(roleNames)) {
 			throw LogReplayException.invalidParameterException("Either Username or roleNames should not be null!");
 		}
-		if(StringUtils.isBlank(password) || (password = password.trim()).length() < User.PASSWORD_MIN_LENGTH) {
+		if (StringUtils.isBlank(password) || (password = password.trim()).length() < User.PASSWORD_MIN_LENGTH) {
 			throw LogReplayException.invalidParameterException("Password is not valid!");
 		}
 		List<Role> roleList = roleService.getRoleListResult(new QueryParamMap().addParam("name__in", roleNames.split(",")));
-		if(CollectionUtils.isEmpty(roleList)) {
+		if (CollectionUtils.isEmpty(roleList)) {
 			throw LogReplayException.invalidParameterException("Invalid roleNames!");
 		}
-		if(userService.getUserByUsername(username) != null) {
+		if (userService.getUserByUsername(username) != null) {
 			throw LogReplayException.invalidParameterException("Duplicated username!");
 		}
 		try {
@@ -117,21 +117,21 @@ public class AdminUserController extends BaseController {
 			@RequestParam String roleNames,
 			@AuditField(field = "enabled")
 			@RequestParam Boolean enabled) {
-		if(id == null) {
+		if (id == null) {
 			throw LogReplayException.invalidParameterException("Id of user should not be null!");
 		}
 		List<Role> roleList = roleService.getRoleListResult(new QueryParamMap().addParam("name__in", roleNames.split(",")));
-		if(CollectionUtils.isEmpty(roleList)) {
+		if (CollectionUtils.isEmpty(roleList)) {
 			throw LogReplayException.invalidParameterException("Invalid roleNames!");
 		}
 		User user = userService.getUserById(id);
-		if(user == null) {
+		if (user == null) {
 			throw LogReplayException.notExistException("User[%d] does not exist!", id);
 		}
-		if(StringUtils.isNotBlank(screenName)) {
+		if (StringUtils.isNotBlank(screenName)) {
 			user.setScreenName(screenName);
 		}
-		if(enabled != null) {
+		if (enabled != null) {
 			user.setEnabled(enabled);
 		}
 		try {
@@ -156,10 +156,10 @@ public class AdminUserController extends BaseController {
 			@AuditField(field = "password")
 			@RequestParam String password) {
 		User user = null;
-		if(StringUtils.isBlank(password) || (password = password.trim()).length() < User.PASSWORD_MIN_LENGTH) {
+		if (StringUtils.isBlank(password) || (password = password.trim()).length() < User.PASSWORD_MIN_LENGTH) {
 			throw LogReplayException.invalidParameterException("Invalid password[%s]!", password);
 		}
-		if(id == null || (user = userService.getUserById(id)) == null) {
+		if (id == null || (user = userService.getUserById(id)) == null) {
 			throw LogReplayException.invalidParameterException(String.format("Invalid userId[%s]!", id));
 		}
 		try {
@@ -174,7 +174,7 @@ public class AdminUserController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/checkDuplication")
 	public boolean checkDuplication(Long id, String username) {
-		if(id == null && userService.getUserByUsername(username) != null) {
+		if (id == null && userService.getUserByUsername(username) != null) {
 			return false;
 		}
 		return true;

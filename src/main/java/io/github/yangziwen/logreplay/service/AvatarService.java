@@ -24,7 +24,7 @@ public class AvatarService {
 	
 	@Transactional
 	public void renewAvatars(List<Avatar> avatarList, Long userId) {
-		if(CollectionUtils.isEmpty(avatarList)) {
+		if (CollectionUtils.isEmpty(avatarList)) {
 			return;
 		}
 		avatarDao.deleteByUserId(userId);

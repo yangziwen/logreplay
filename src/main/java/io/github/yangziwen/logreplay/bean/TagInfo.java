@@ -236,11 +236,11 @@ public class TagInfo extends AbstractBean {
 		}
 
 		public static InspectStatus from(Integer intValue) {
-			if(intValue == null) {
+			if (intValue == null) {
 				return UNKNOWN;
 			}
 			for(InspectStatus status: values()) {
-				if(intValue.equals(status.intValue)) {
+				if (intValue.equals(status.intValue)) {
 					return status;
 				}
 			}
@@ -248,11 +248,11 @@ public class TagInfo extends AbstractBean {
 		}
 
 		public static InspectStatus fromDescription(String description) {
-			if(StringUtils.isBlank(description)) {
+			if (StringUtils.isBlank(description)) {
 				return UNKNOWN;
 			}
 			for(InspectStatus status: values()) {
-				if(description.equals(status.description)) {
+				if (description.equals(status.description)) {
 					return status;
 				}
 			}

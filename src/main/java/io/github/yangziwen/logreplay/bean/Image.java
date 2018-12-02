@@ -218,7 +218,7 @@ public class Image extends AbstractBean {
 			image.setType(type);
 			image.setWidth(width);
 			image.setHeight(height);
-			if(bytes != null) {
+			if (bytes != null) {
 				image.setBytes(bytes);
 				image.setChecksum(ChecksumUtil.sha1Base64(bytes));
 				image.setSize(bytes.length);

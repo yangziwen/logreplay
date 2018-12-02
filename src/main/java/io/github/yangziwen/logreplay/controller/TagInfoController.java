@@ -104,7 +104,7 @@ public class TagInfoController extends BaseController {
 	 * 为tagInfo添加是否有参数(tagParam)的标识
 	 */
 	private void fillHasParamsFlag(List<TagInfo> tagInfoList) {
-		if(CollectionUtils.isEmpty(tagInfoList)) {
+		if (CollectionUtils.isEmpty(tagInfoList)) {
 			return;
 		}
 		Set<Long> tagInfoIdSet = new HashSet<Long>();
@@ -158,7 +158,7 @@ public class TagInfoController extends BaseController {
 			@RequestParam(required = false) String comment
 			) {
 		boolean needPageInfo = tagNo < TagInfo.COMMON_TAG_NO_MIN_VALUE;
-		if(StringUtils.isBlank(name)
+		if (StringUtils.isBlank(name)
 				|| tagNo == null
 				|| (pageInfoId == null && needPageInfo)
 				|| actionId == null
@@ -167,11 +167,11 @@ public class TagInfoController extends BaseController {
 			throw LogReplayException.invalidParameterException("Parameters are invalid!");
 		}
 		PageInfo pageInfo = needPageInfo ? pageInfoService.getPageInfoById(pageInfoId) : null;
-		if(pageInfo == null && needPageInfo) {
+		if (pageInfo == null && needPageInfo) {
 			throw LogReplayException.invalidParameterException(String.format("PageInfo[%d] does not exist!", pageInfoId));
 		}
 		TagInfo tagInfo = tagInfoService.getTagInfoById(id);
-		if(tagInfo == null) {
+		if (tagInfo == null) {
 			throw LogReplayException.invalidParameterException(String.format("TagInfo[%d] does not exist!", id));
 		}
 		try {
@@ -204,7 +204,7 @@ public class TagInfoController extends BaseController {
 			@RequestParam(required = false) String comment
 			) {
 		boolean needPageInfo = tagNo < TagInfo.COMMON_TAG_NO_MIN_VALUE;
-		if(StringUtils.isBlank(name)
+		if (StringUtils.isBlank(name)
 				|| tagNo == null
 				|| (pageInfoId == null && needPageInfo)
 				|| actionId == null
@@ -213,7 +213,7 @@ public class TagInfoController extends BaseController {
 			throw LogReplayException.invalidParameterException("Parameters are invalid!");
 		}
 		PageInfo pageInfo = needPageInfo ? pageInfoService.getPageInfoById(pageInfoId) : null;
-		if(pageInfo == null && needPageInfo) {
+		if (pageInfo == null && needPageInfo) {
 			throw LogReplayException.invalidParameterException("PageInfo[%d] does not exist!", pageInfoId);
 		}
 		try {
@@ -240,7 +240,7 @@ public class TagInfoController extends BaseController {
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@RequiresPermissions("tag_info:modify")
 	public ModelMap delete(@RequestParam("id") Long id) {
-		if(id == null || id <= 0) {
+		if (id == null || id <= 0) {
 			throw LogReplayException.invalidParameterException("Parameters are invalid!");
 		}
 		try {
@@ -254,16 +254,16 @@ public class TagInfoController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/checkDuplication")
 	public boolean checkDuplication(Long id, Integer tagNo, Long pageInfoId) {
-		if(tagNo == null || tagNo <= 0) {
+		if (tagNo == null || tagNo <= 0) {
 			return false;
 		}
-		if(id == null && tagInfoService.getTagInfoListResult(0, 1, new QueryParamMap()
+		if (id == null && tagInfoService.getTagInfoListResult(0, 1, new QueryParamMap()
 				.addParam("productId", ProductUtil.getProductId())
 				.addParam(pageInfoId != null, "pageInfoId", pageInfoId)
 				.addParam("tagNo", tagNo)).size() > 0) {
 			return false;
 		}
-		if(tagInfoService.getTagInfoListResult(0, 1, new QueryParamMap()
+		if (tagInfoService.getTagInfoListResult(0, 1, new QueryParamMap()
 				.addParam("productId", ProductUtil.getProductId())
 				.addParam(pageInfoId != null, "pageInfoId", pageInfoId)
 				.addParam("tagNo", tagNo)
@@ -276,10 +276,10 @@ public class TagInfoController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/checkExist")
 	public boolean checkExist(Integer pageNo, Integer tagNo) {
-		if(tagNo == null || (tagNo < TagInfo.COMMON_TAG_NO_MIN_VALUE && pageNo == null)) {
+		if (tagNo == null || (tagNo < TagInfo.COMMON_TAG_NO_MIN_VALUE && pageNo == null)) {
 			return false;
 		}
-		if(tagInfoService.getTagInfoByPageNoTagNoAndProductId(pageNo, tagNo, ProductUtil.getProductId()) == null) {
+		if (tagInfoService.getTagInfoByPageNoTagNoAndProductId(pageNo, tagNo, ProductUtil.getProductId()) == null) {
 			return false;
 		}
 		return true;
@@ -354,7 +354,7 @@ public class TagInfoController extends BaseController {
 		InspectStatus inspectStatus = InspectStatus.from(NumberUtils.toInt(inspectStatusStr, -1));
 		InspectStatus devInspectStatus = InspectStatus.from(NumberUtils.toInt(devInspectStatusStr, -1));
 		List<Long> pageInfoIdList = new ArrayList<Long>();
-		if(StringUtils.isNotBlank(pageName)) {
+		if (StringUtils.isNotBlank(pageName)) {
 			List<PageInfo> pageInfoList = pageInfoService.getPageInfoListResult(new QueryParamMap()
 				.addParam("name__contain", pageName)
 				.addParam("productId", ProductUtil.getProductId())
@@ -383,7 +383,7 @@ public class TagInfoController extends BaseController {
 
 	private static List<Column> buildTagInfoColumnList(boolean isCommonTag) {
 		List<Column> columnList = new ArrayList<Column>();
-		if(!isCommonTag) {
+		if (!isCommonTag) {
 			columnList.add(ExcelUtil.column(TagFields.pageNo, "pageNo", 3000, CellType.number));
 			columnList.add(ExcelUtil.column(TagFields.pageName, "pageName", 8000, CellType.text));
 		}
@@ -434,7 +434,7 @@ public class TagInfoController extends BaseController {
 
 		int cnt = 0;
 		for(TagInfoDto tagInfoDto: dtoList) {
-			if(createTagInfoByDto(tagInfoDto, pageInfoMap, actionMap, targetMap)) {
+			if (createTagInfoByDto(tagInfoDto, pageInfoMap, actionMap, targetMap)) {
 				cnt ++;
 			}
 		}
@@ -442,11 +442,11 @@ public class TagInfoController extends BaseController {
 	}
 
 	private PageInfo getOrCreatePageInfoIfNotExist(Integer pageNo, String pageName) {
-		if(pageNo <= 0) {
+		if (pageNo <= 0) {
 			return null;
 		}
 		PageInfo pageInfo = pageInfoService.getPageInfoByPageNoAndProductId(pageNo, ProductUtil.getProductId());
-		if(pageInfo == null) {
+		if (pageInfo == null) {
 			pageInfo = new PageInfo(pageNo, pageName);
 			pageInfoService.createPageInfo(pageInfo);
 		}
@@ -459,16 +459,16 @@ public class TagInfoController extends BaseController {
 			Map<String, TagAction> actionMap,		// Map<TagAction.name, TagAction>
 			Map<String, TagTarget> targetMap) {		// Map<TagTarget.name, TagTarget>
 
-		if(tagInfoService.getTagInfoByPageNoTagNoAndProductId(
+		if (tagInfoService.getTagInfoByPageNoTagNoAndProductId(
 				tagInfoDto.getPageNo(),
 				tagInfoDto.getTagNo(),
 				ProductUtil.getProductId()) != null) {
 			return false;
 		}
 
-		if(!pageInfoMap.containsKey(tagInfoDto.getPageNo())) {
+		if (!pageInfoMap.containsKey(tagInfoDto.getPageNo())) {
 			PageInfo pageInfo = getOrCreatePageInfoIfNotExist(tagInfoDto.getPageNo(), tagInfoDto.getPageName());
-			if(pageInfo != null) {
+			if (pageInfo != null) {
 				pageInfoMap.put(pageInfo.getPageNo(), pageInfo);
 			}
 		}
@@ -493,7 +493,7 @@ public class TagInfoController extends BaseController {
 		tagInfoService.createTagInfo(tagInfo);
 
 		TagParam tagParam = tagInfoDto.getTagParam();
-		if(tagParam != null) {
+		if (tagParam != null) {
 			tagParam.setTagInfoId(tagInfo.getId());
 			tagParamService.renewTagParamAndParamInfo(tagParam, tagParam.getParamInfoList());
 		}

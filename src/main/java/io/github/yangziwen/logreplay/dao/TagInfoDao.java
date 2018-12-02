@@ -43,7 +43,7 @@ public class TagInfoDao extends AbstractJdbcDaoImpl<TagInfo> {
 	@Override
 	protected OperationParsedResult parseOperation(String keyWithOper) {
 		OperationParsedResult parsedResult = super.parseOperation(keyWithOper);
-		if(parsedResult.getKey().indexOf(".") == -1) {
+		if (parsedResult.getKey().indexOf(".") == -1) {
 			parsedResult.setKey(getTableName() + "." + parsedResult.getKey());
 		}
 		return parsedResult;

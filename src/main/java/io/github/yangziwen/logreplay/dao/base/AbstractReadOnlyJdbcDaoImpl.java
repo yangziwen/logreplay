@@ -74,7 +74,7 @@ public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 	}
 	
 	protected List<E> doList(String sql, Map<String, Object> params, ResultSetExtractor<List<E>> rse) {
-		if(SQL_DEBUG) {
+		if (SQL_DEBUG) {
 			return outputLogInfoWithTimespan(now(), jdbcTemplate.query(sql, createSqlParameterSource(params), rse), now(), sql);
 		}
 		return jdbcTemplate.query(sql, createSqlParameterSource(params), rse);
@@ -91,18 +91,18 @@ public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 	protected int doCount(String sql, Map<String, Object> params) {
 		int beginPos = sql.indexOf("from");
 		int endPos = sql.indexOf("order by");
-		if(endPos == -1) {
+		if (endPos == -1) {
 			endPos = sql.indexOf(" limit ");
 		}
-		if(endPos == -1) {
+		if (endPos == -1) {
 			endPos = sql.length();
 		}
-		if(sql.indexOf("group by") != -1) {
+		if (sql.indexOf("group by") != -1) {
 			sql = "select count(*) from ( select 1 " + sql.substring(beginPos, endPos) + ") as result";
 		} else {
 			sql = "select count(*) " + sql.substring(beginPos, endPos);
 		}
-		if(SQL_DEBUG) {
+		if (SQL_DEBUG) {
 			return outputLogInfoWithTimespan(now(), jdbcTemplate.queryForObject(sql, params, Integer.class), now(), sql);
 		}
 		return jdbcTemplate.queryForObject(sql, params, Integer.class);
@@ -121,7 +121,7 @@ public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 	public E unique(Map<String, Object> params) {
 		List<E> list = list(0, 2, params);
 		int len = list.size();
-		if(len > 1) {
+		if (len > 1) {
 			throw new IllegalStateException("The query result should be unique!");
 		}
 		return len > 0? list.get(0): null;
@@ -161,10 +161,10 @@ public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 	}
 	
 	protected String generateLimit(int start, int limit, Map<String, Object> params) {
-		if(limit <= 0) {
+		if (limit <= 0) {
 			return "";
 		}
-		if(start < 0) {
+		if (start < 0) {
 			start = 0;
 		}
 		params.put(DaoConstant.START, start);
@@ -177,11 +177,11 @@ public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 		List<Map<String, Object>> orParamList = new ArrayList<Map<String,Object>>();
 		List<String> keyList = new ArrayList<String>(params.keySet());
 		for(String key: keyList) {
-			if(key == null || !key.toLowerCase().endsWith(DaoConstant.OR_SUFFIX)) {
+			if (key == null || !key.toLowerCase().endsWith(DaoConstant.OR_SUFFIX)) {
 				continue;
 			}
 			Map<String, Object> orParam = (Map<String, Object>)params.remove(key);
-			if(MapUtils.isEmpty(orParam)) {
+			if (MapUtils.isEmpty(orParam)) {
 				continue;
 			}
 			orParamList.add(orParam);
@@ -198,18 +198,18 @@ public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 	private String generateAndConditionsByParam(Map<String, Object> params) {
 		StringBuilder andBuff = new StringBuilder(" 1 = 1 ");
 		for(Entry<String, Object> entry: params.entrySet()) {
-			if(DaoConstant.ORDER_BY.equals(entry.getKey())) {
+			if (DaoConstant.ORDER_BY.equals(entry.getKey())) {
 				continue;
 			}
-			if(DaoConstant.GROUP_BY.equals(entry.getKey())) {
+			if (DaoConstant.GROUP_BY.equals(entry.getKey())) {
 				continue;
 			}
 			// jdbcTemplate对数组不提供in的支持，所以需要先将数组转换成List
-			if(entry.getValue() instanceof Object[]) {
+			if (entry.getValue() instanceof Object[]) {
 				entry.setValue(Arrays.asList((Object[]) entry.getValue()));
 			}
 			OperationParsedResult parsedResult = parseOperation(entry.getKey());
-			if(parsedResult == null) {
+			if (parsedResult == null) {
 				continue;
 			}
 			andBuff.append(" and ").append(parsedResult.toSql());
@@ -220,18 +220,18 @@ public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 	private String generateOrConditionsByParam(Map<String, Object> params) {
 		StringBuilder orBuff = new StringBuilder(" 1 = 2 ");
 		for(Entry<String, Object> entry: params.entrySet()) {
-			if(DaoConstant.ORDER_BY.equals(entry.getKey())) {
+			if (DaoConstant.ORDER_BY.equals(entry.getKey())) {
 				continue;
 			}
-			if(DaoConstant.GROUP_BY.equals(entry.getKey())) {
+			if (DaoConstant.GROUP_BY.equals(entry.getKey())) {
 				continue;
 			}
 			// jdbcTemplate对数组不提供in的支持，所以需要先将数组转换成List
-			if(entry.getValue() instanceof Object[]) {
+			if (entry.getValue() instanceof Object[]) {
 				entry.setValue(Arrays.asList((Object[]) entry.getValue()));
 			}
 			OperationParsedResult parsedResult = parseOperation(entry.getKey());
-			if(parsedResult == null) {
+			if (parsedResult == null) {
 				continue;
 			}
 			orBuff.append(" or ").append(parsedResult.toSql());
@@ -241,13 +241,13 @@ public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 	
 	protected String generateGroupByByParam(Map<String, Object> params) {
 		Object groupBy = params.remove(DaoConstant.GROUP_BY);
-		if(groupBy == null) {
+		if (groupBy == null) {
 			return "";
 		}
-		if(groupBy instanceof String) {
+		if (groupBy instanceof String) {
 			return generateGroupBy((String) groupBy);
 		}
-		if(groupBy instanceof Collection) {
+		if (groupBy instanceof Collection) {
 			return generateGroupBy((Collection<?>) groupBy);
 		}
 		return " group by " + groupBy.toString();
@@ -258,7 +258,7 @@ public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 	}
 	
 	private String generateGroupBy(Collection<?> groupBy) {
-		if(CollectionUtils.isEmpty(groupBy)) {
+		if (CollectionUtils.isEmpty(groupBy)) {
 			return "";
 		}
 		StringBuilder groupByBuff = new StringBuilder(" group by ");
@@ -272,27 +272,27 @@ public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 	
 	protected String generateOrderByByParam(Map<String, Object> params) {
 		Object orderBy = params.remove(DaoConstant.ORDER_BY);
-		if(orderBy == null) {
+		if (orderBy == null) {
 			return "";
 		}
-		if(orderBy instanceof String) {	// 这种字符串类型的orderBy比较弱
+		if (orderBy instanceof String) {	// 这种字符串类型的orderBy比较弱
 			return generateOrderBy((String) orderBy);
 		}
-		if(orderBy instanceof Map) {
+		if (orderBy instanceof Map) {
 			return generateOrderBy((Map<?, ?>) orderBy);
 		}
 		return "";
 	}
 	
 	private String generateOrderBy(String orderByStr) {
-		if(StringUtils.isBlank(orderByStr)) {
+		if (StringUtils.isBlank(orderByStr)) {
 			return "";
 		}
 		return " order by " + orderByStr;
 	}
 	
 	private String generateOrderBy(Map<?, ?> orderByParams) {
-		if(MapUtils.isEmpty(orderByParams)) {
+		if (MapUtils.isEmpty(orderByParams)) {
 			return "";
 		}
 		StringBuilder orderByBuff = new StringBuilder();
@@ -300,10 +300,10 @@ public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 		for(Entry<?, ?> entry: orderByParams.entrySet()) {
 			String key = entry.getKey() != null? beanMapping.getColumnByField(entry.getKey().toString()): "";
 			String value = entry.getValue() != null? entry.getValue().toString(): "";
-			if(StringUtils.isBlank(key) && StringUtils.isBlank(value)) {
+			if (StringUtils.isBlank(key) && StringUtils.isBlank(value)) {
 				continue;
 			}
-			if(isFirst) {
+			if (isFirst) {
 				orderByBuff.append(" order by ");
 				isFirst = false;
 			} else {
@@ -329,7 +329,7 @@ public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 	}
 	
 	protected static String escapeSqlStringValue(String value) {
-		if(value == null) {
+		if (value == null) {
 			return null;
 		}
 		return "'" + StringEscapeUtils.escapeSql(value) + "'";

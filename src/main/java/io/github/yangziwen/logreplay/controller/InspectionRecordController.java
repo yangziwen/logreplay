@@ -69,16 +69,16 @@ public class InspectionRecordController extends BaseController {
 			String submitTimeUntil
 			) {
 		List<Long> submitterIdList = null;
-		if(StringUtils.isNotBlank(submitterName)) {
+		if (StringUtils.isNotBlank(submitterName)) {
 			submitterIdList = userService.getUserIdListResultByName(submitterName);
-			if(CollectionUtils.isEmpty(submitterIdList)) {
+			if (CollectionUtils.isEmpty(submitterIdList)) {
 				return successResult(Page.<InspectionRecordDto>emptyPage());
 			}
 		}
 		List<Long> solverIdList = null;
-		if(StringUtils.isNotBlank(solverName)) {
+		if (StringUtils.isNotBlank(solverName)) {
 			solverIdList = userService.getUserIdListResultByName(solverName);
-			if(CollectionUtils.isEmpty(solverIdList)) {
+			if (CollectionUtils.isEmpty(solverIdList)) {
 				return successResult(Page.<InspectionRecordDto>emptyPage());
 			}
 		}
@@ -120,18 +120,18 @@ public class InspectionRecordController extends BaseController {
 			@RequestParam Boolean valid,
 			@RequestParam(required = false) String comment
 			) {
-		if(!AuthUtil.isPermitted(Target.Inspection_Record.modify())) {
+		if (!AuthUtil.isPermitted(Target.Inspection_Record.modify())) {
 			throw LogReplayException.unauthorizedException("Role of 'admin' or 'test' or 'dev' is required!");
 		}
-		if(pageNo == null || tagNo == null || valid == null) {
+		if (pageNo == null || tagNo == null || valid == null) {
 			throw LogReplayException.invalidParameterException("Parameters are invalid!");
 		}
 		PageInfo pageInfo = pageInfoService.getPageInfoByPageNoAndProductId(pageNo, ProductUtil.getProductId());
-		if(pageInfo == null) {
+		if (pageInfo == null) {
 			throw LogReplayException.invalidParameterException(String.format("PageInfo with pageNo[%d] does not exist!", pageNo));
 		}
 		TagInfo tagInfo = tagInfoService.getTagInfoByPageNoTagNoAndProductId(pageNo, tagNo, ProductUtil.getProductId());
-		if(tagInfo == null) {
+		if (tagInfo == null) {
 			throw LogReplayException.invalidParameterException(String.format("TagInfo with pageNo[%d] and tagNo[%d] does not exist!", pageNo, tagNo));
 		}
 		try {
@@ -154,11 +154,11 @@ public class InspectionRecordController extends BaseController {
 	@RequestMapping(value = "/resolve/{id}", method = RequestMethod.POST)
 	@RequiresPermissions("inspection_record:modify")
 	public Map<String, Object> resolve(@PathVariable("id") Long id) {
-		if(!AuthUtil.isPermitted(Target.Inspection_Record.modify())) {
+		if (!AuthUtil.isPermitted(Target.Inspection_Record.modify())) {
 			throw LogReplayException.unauthorizedException("Role of 'admin' or 'test' or 'dev' is required!");
 		}
 		InspectionRecord record = null;
-		if(id == null || (record = inspectionRecordService.getInspectionRecordById(id)) == null) {
+		if (id == null || (record = inspectionRecordService.getInspectionRecordById(id)) == null) {
 			throw LogReplayException.invalidParameterException("Id[%d] of InspectionRecord is invalid!", id);
 		}
 		try {

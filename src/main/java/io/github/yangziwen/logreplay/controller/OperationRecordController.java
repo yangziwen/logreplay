@@ -135,13 +135,13 @@ public class OperationRecordController extends BaseController {
 		Set<Integer> tagNoSet = new HashSet<Integer>();
 		Set<Integer> pageNoSet = new HashSet<Integer>();
 		for(OperationRecordDto dto: dtoList) {
-			if(dto.getTagNo() != null && dto.getTagNo() > TagInfo.COMMON_TAG_NO_MIN_VALUE) {
+			if (dto.getTagNo() != null && dto.getTagNo() > TagInfo.COMMON_TAG_NO_MIN_VALUE) {
 				dtoListWithCommonTag.add(dto);
 				tagNoSet.add(dto.getTagNo());
 				pageNoSet.add(dto.getPageNo());
 			}
 		}
-		if(CollectionUtils.isEmpty(dtoListWithCommonTag)) {
+		if (CollectionUtils.isEmpty(dtoListWithCommonTag)) {
 			return;
 		}
 		Map<Integer, PageInfo> pageInfoMap = Maps.uniqueIndex(pageInfoService.getPageInfoListResult(new QueryParamMap()
@@ -164,11 +164,11 @@ public class OperationRecordController extends BaseController {
 		});
 		for(OperationRecordDto dto: dtoListWithCommonTag) {
 			PageInfo pageInfo = pageInfoMap.get(dto.getPageNo());
-			if(pageInfo != null) {
+			if (pageInfo != null) {
 				dto.setPageName(pageInfo.getName());
 			}
 			TagInfo tagInfo = tagInfoMap.get(dto.getTagNo());
-			if(tagInfo != null) {
+			if (tagInfo != null) {
 				dto.setTagInfoId(tagInfo.getId());
 				dto.setTagName(tagInfo.getName());
 				dto.setActionId(tagInfo.getActionId());
@@ -180,7 +180,7 @@ public class OperationRecordController extends BaseController {
 	}
 
 	private List<OperationRecordDto> convertToDtoList(List<OperationRecord> list) {
-		if(CollectionUtils.isEmpty(list)) {
+		if (CollectionUtils.isEmpty(list)) {
 			return Collections.emptyList();
 		}
 		List<TagInfo> tagInfoList = tagInfoService.getTagInfoListResult(new QueryParamMap()
@@ -189,7 +189,7 @@ public class OperationRecordController extends BaseController {
 		Map<Integer, Map<Integer, TagInfo>> dict = new HashMap<Integer, Map<Integer,TagInfo>>();
 		for(TagInfo tagInfo: tagInfoList) {
 			Map<Integer, TagInfo> subDict = dict.get(tagInfo.getPageNo());
-			if(subDict == null) {
+			if (subDict == null) {
 				subDict = new HashMap<Integer, TagInfo>();
 				dict.put(tagInfo.getPageNo(), subDict);
 			}
@@ -198,7 +198,7 @@ public class OperationRecordController extends BaseController {
 		List<OperationRecordDto> dtoList = new ArrayList<OperationRecordDto>();
 		for(OperationRecord record: list) {
 			TagInfo tagInfo = null;
-			if(dict.get(record.getPageNo()) != null) {
+			if (dict.get(record.getPageNo()) != null) {
 				tagInfo = dict.get(record.getPageNo()).get(record.getTagNo());
 			}
 			dtoList.add(OperationRecordDto.from(record, tagInfo));
@@ -207,7 +207,7 @@ public class OperationRecordController extends BaseController {
 	}
 
 	private Set<Long> collectTagInfoId(List<OperationRecord> list) {
-		if(CollectionUtils.isEmpty(list)) {
+		if (CollectionUtils.isEmpty(list)) {
 			return Collections.emptySet();
 		}
 		Set<Long> tagInfoIdSet = new HashSet<Long>();
@@ -218,7 +218,7 @@ public class OperationRecordController extends BaseController {
 	}
 
 	public void fillTagParamParsedResult(List<OperationRecordDto> dtoList) {
-		if(CollectionUtils.isEmpty(dtoList)) {
+		if (CollectionUtils.isEmpty(dtoList)) {
 			return;
 		}
 		List<Long> tagInfoIdList = Lists.transform(dtoList, new Function<OperationRecordDto, Long>() {
@@ -230,13 +230,13 @@ public class OperationRecordController extends BaseController {
 		TagParamParser parser = tagParamService.getTagParamParserByTagInfoIdList(tagInfoIdList);
 		for(OperationRecordDto dto: dtoList) {
 			String params = dto.getParams();
-			if(StringUtils.isBlank(params)) {
+			if (StringUtils.isBlank(params)) {
 				params = "{}";
 			}
 			JSONObject json = JSON.parseObject(params);
 			List<String> requiredParamNameList = parser.getRequiredParamNameList(dto.getTagInfoId());
 			for(String requiredParamName: requiredParamNameList) {
-				if(!json.containsKey(requiredParamName)) {
+				if (!json.containsKey(requiredParamName)) {
 					TagParamParsedResult lackOfParamResult = new TagParamParsedResult()
 						.paramName(requiredParamName)
 						.description("缺少参数!")
@@ -247,11 +247,11 @@ public class OperationRecordController extends BaseController {
 			}
 			for(Entry<String, Object> entry: json.entrySet()) {
 				String key = entry.getKey();
-				if(TagParamParser.isParamKeyExcluded(key)) {
+				if (TagParamParser.isParamKeyExcluded(key)) {
 					continue;
 				}
 				Object value = entry.getValue();
-				if(value == null) {
+				if (value == null) {
 					value = "";
 				}
 				ParamInfo paramInfo = parser.parse(dto.getTagInfoId(), key, value.toString());
@@ -291,11 +291,11 @@ public class OperationRecordController extends BaseController {
 
 	private ModelMap doReceiveData(String moblogStr, String infoStr, HttpServletRequest request) {
 		MobLog moblog = new MobLogProcessor().process(moblogStr);
-		if(StringUtils.isEmpty(moblog.getDeviceId()) || StringUtils.isEmpty(moblog.getVersion())) {
+		if (StringUtils.isEmpty(moblog.getDeviceId()) || StringUtils.isEmpty(moblog.getVersion())) {
 			throw LogReplayException.invalidParameterException("Invalid parameter of moblog!");
 		}
 		JSONObject info = JSON.parseObject(infoStr);
-		if(MapUtils.isEmpty(info)) {
+		if (MapUtils.isEmpty(info)) {
 			throw LogReplayException.invalidParameterException("Invalid parameter of info!");
 		}
 		OperationRecord record = null;
@@ -335,7 +335,7 @@ public class OperationRecordController extends BaseController {
 	@RequestMapping(value = "/upload/nginx", method = RequestMethod.POST)
 	@RequiresPermissions("operation_record:modify")
 	public ModelMap uploadNginxLog(MultipartFile file) {
-		if(!AuthUtil.isPermitted(Target.Operation_Record.modify())) {
+		if (!AuthUtil.isPermitted(Target.Operation_Record.modify())) {
 			throw LogReplayException.unauthorizedException("Role[admin] is required!");
 		}
 		BufferedReader reader = null;
@@ -352,16 +352,16 @@ public class OperationRecordController extends BaseController {
 					logger.warn(e.getMessage());
 					line = null;
 				}
-				if(line == null) {
+				if (line == null) {
 					break;
 				}
 				recordList.addAll(processor.process(line).toRecordList());
-				if(recordList.size() > 1000) {
+				if (recordList.size() > 1000) {
 					count += operationRecordService.batchSaveOperationRecord(recordList);
 					recordList = new ArrayList<OperationRecord>(500);
 				}
 			}
-			if(recordList.size() > 0) {
+			if (recordList.size() > 0) {
 				count += operationRecordService.batchSaveOperationRecord(recordList);
 			}
 		} catch (Exception e) {

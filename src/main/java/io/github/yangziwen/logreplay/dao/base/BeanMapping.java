@@ -64,7 +64,7 @@ public class BeanMapping<E extends AbstractBean> {
 
 	public static String getTableNameFromAnnotation(Class<?> clazz) {
 		Table table = clazz.getAnnotation(Table.class);
-		if(table != null && StringUtils.isNotBlank(table.name())) {
+		if (table != null && StringUtils.isNotBlank(table.name())) {
 			return table.name();
 		}
 		return convertCamelToUnderscore(clazz.getSimpleName());
@@ -72,11 +72,11 @@ public class BeanMapping<E extends AbstractBean> {
 
 	public static List<Field> getFieldsWithColumnAnnotation(Class<?> clazz) {
 		List<Field> list = new ArrayList<Field>();
-		if(clazz.getSuperclass() != Object.class) {
+		if (clazz.getSuperclass() != Object.class) {
 			list.addAll(getFieldsWithColumnAnnotation(clazz.getSuperclass()));
 		}
 		for(Field field: clazz.getDeclaredFields()) {
-			if(field.getAnnotation(Column.class) == null) {
+			if (field.getAnnotation(Column.class) == null) {
 				continue;
 			}
 			list.add(field);
@@ -92,14 +92,14 @@ public class BeanMapping<E extends AbstractBean> {
 	public static Field getIdField(List<Field> fields) {
 		Field idNamedField = null;
 		for(Field field: fields) {
-			if(field.getAnnotation(Id.class) != null) {
+			if (field.getAnnotation(Id.class) != null) {
 				return field;
 			}
-			if("id".equalsIgnoreCase(field.getName())) {
+			if ("id".equalsIgnoreCase(field.getName())) {
 				idNamedField = field;
 			}
 		}
-		if(idNamedField == null) {
+		if (idNamedField == null) {
 			throw new IllegalStateException("No id field specified in the relative entity class");
 		}
 		return idNamedField;
@@ -109,7 +109,7 @@ public class BeanMapping<E extends AbstractBean> {
 		Map<String, String> mapping = new LinkedHashMap<String, String>();
 		for(Field field: fields) {
 			Column column = field.getAnnotation(Column.class);
-			if(column == null) {
+			if (column == null) {
 				continue;
 			}
 			String columnName = StringUtils.isNotBlank(column.name())
@@ -134,7 +134,7 @@ public class BeanMapping<E extends AbstractBean> {
 
 	public String getColumnByField(String field) {
 		String column = fieldColumnMapping.get(field);
-		if(StringUtils.isBlank(column)) {
+		if (StringUtils.isBlank(column)) {
 			column = BeanMapping.convertCamelToUnderscore(field);
 		}
 		return column;

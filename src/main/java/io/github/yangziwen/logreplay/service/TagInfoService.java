@@ -87,7 +87,7 @@ public class TagInfoService {
 	@Transactional
 	public void deleteTagInfoById(Long id) {
 		List<TagParam> tagParamList = tagParamWithInfosDao.list(new QueryParamMap().addParam("tagInfoId", id));
-		if(CollectionUtils.isNotEmpty(tagParamList)) {
+		if (CollectionUtils.isNotEmpty(tagParamList)) {
 			TagParam tagParam = tagParamList.get(0);
 			paramInfoDao.batchDeleteByIds(collectParamInfoId(tagParam.getParamInfoList()));
 			tagParamWithInfosDao.delete(tagParam);
@@ -96,12 +96,12 @@ public class TagInfoService {
 	}
 
 	private Set<Long> collectParamInfoId(List<ParamInfo> paramInfoList) {
-		if(CollectionUtils.isEmpty(paramInfoList)) {
+		if (CollectionUtils.isEmpty(paramInfoList)) {
 			return Collections.emptySet();
 		}
 		Set<Long> existedIdSet = new HashSet<Long>();
 		for(ParamInfo paramInfo: paramInfoList) {
-			if(paramInfo == null || paramInfo.getId() == null) {
+			if (paramInfo == null || paramInfo.getId() == null) {
 				continue;
 			}
 			existedIdSet.add(paramInfo.getId());

@@ -43,7 +43,7 @@ public class TagParamService {
 
 	public TagParamParser getTagParamParserByTagInfoIdList(List<Long> tagInfoIdList) {
 		TagParamParser parser = new TagParamParser();
-		if(CollectionUtils.isEmpty(tagInfoIdList)) {
+		if (CollectionUtils.isEmpty(tagInfoIdList)) {
 			return parser;
 		}
 		List<TagParam> tagParamList = getTagParamListResultWithInfos(new QueryParamMap()
@@ -63,9 +63,9 @@ public class TagParamService {
 	@CacheEvict(cacheNames = TAG_PARAM_CACHE_NAME, key = "#tagParam.tagInfoId")
 	@Transactional
 	public void renewTagParamAndParamInfo(TagParam tagParam, List<ParamInfo> paramInfoList) {
-		if(CollectionUtils.isEmpty(paramInfoList) && StringUtils.isBlank(tagParam.getComment())) {
+		if (CollectionUtils.isEmpty(paramInfoList) && StringUtils.isBlank(tagParam.getComment())) {
 			paramInfoDao.batchDeleteByIds(collectParamInfoId(tagParam.getParamInfoList()));
-			if(tagParam.getId() != null) {
+			if (tagParam.getId() != null) {
 				tagParamDao.delete(tagParam);
 			}
 			return;
@@ -83,12 +83,12 @@ public class TagParamService {
 	}
 
 	private List<ParamInfo> extractToSaveParamInfoList(List<ParamInfo> paramInfoList) {
-		if(CollectionUtils.isEmpty(paramInfoList)) {
+		if (CollectionUtils.isEmpty(paramInfoList)) {
 			return Collections.emptyList();
 		}
 		List<ParamInfo> toSaveList = new ArrayList<ParamInfo>();
 		for(ParamInfo paramInfo: paramInfoList) {
-			if(paramInfo == null || paramInfo.getId() != null) {
+			if (paramInfo == null || paramInfo.getId() != null) {
 				continue;
 			}
 			toSaveList.add(paramInfo);
@@ -97,13 +97,13 @@ public class TagParamService {
 	}
 
 	private List<ParamInfo> extractToUpdateParamInfoList(TagParam tagParam, List<ParamInfo> paramInfoList) {
-		if(CollectionUtils.isEmpty(tagParam.getParamInfoList())) {
+		if (CollectionUtils.isEmpty(tagParam.getParamInfoList())) {
 			return Collections.emptyList();
 		}
 		Set<Long> existedIdSet = collectParamInfoId(tagParam.getParamInfoList());
 		List<ParamInfo> toUpdateList = new ArrayList<ParamInfo>();
 		for(ParamInfo paramInfo: paramInfoList) {
-			if(paramInfo == null || !existedIdSet.contains(paramInfo.getId())) {
+			if (paramInfo == null || !existedIdSet.contains(paramInfo.getId())) {
 				continue;
 			}
 			toUpdateList.add(paramInfo);
@@ -112,16 +112,16 @@ public class TagParamService {
 	}
 
 	private List<ParamInfo> extractToDeleteParamInfoList(TagParam tagParam, List<ParamInfo> paramInfoList) {
-		if(CollectionUtils.isEmpty(tagParam.getParamInfoList())) {
+		if (CollectionUtils.isEmpty(tagParam.getParamInfoList())) {
 			return Collections.emptyList();
 		}
-		if(CollectionUtils.isEmpty(paramInfoList)) {
+		if (CollectionUtils.isEmpty(paramInfoList)) {
 			return tagParam.getParamInfoList();
 		}
 		Set<Long> survivedIdSet = collectParamInfoId(paramInfoList);
 		List<ParamInfo> toDeleteList = new ArrayList<ParamInfo>();
 		for(ParamInfo paramInfo: tagParam.getParamInfoList()) {
-			if(paramInfo == null || survivedIdSet.contains(paramInfo.getId())) {
+			if (paramInfo == null || survivedIdSet.contains(paramInfo.getId())) {
 				continue;
 			}
 			toDeleteList.add(paramInfo);
@@ -130,12 +130,12 @@ public class TagParamService {
 	}
 
 	private Set<Long> collectParamInfoId(List<ParamInfo> paramInfoList) {
-		if(CollectionUtils.isEmpty(paramInfoList)) {
+		if (CollectionUtils.isEmpty(paramInfoList)) {
 			return Collections.emptySet();
 		}
 		Set<Long> existedIdSet = new HashSet<Long>();
 		for(ParamInfo paramInfo: paramInfoList) {
-			if(paramInfo == null || paramInfo.getId() == null) {
+			if (paramInfo == null || paramInfo.getId() == null) {
 				continue;
 			}
 			existedIdSet.add(paramInfo.getId());
@@ -151,7 +151,7 @@ public class TagParamService {
 	@Cacheable(cacheNames = TAG_PARAM_CACHE_NAME, key = "#tagInfoId")
 	public TagParam getTagParamByTagInfoId(Long tagInfoId) {
 		TagParam tagParam = tagParamDao.first(new QueryParamMap().addParam("tagInfoId", tagInfoId));
-		if(tagParam != null) {
+		if (tagParam != null) {
 			tagParam.setParamInfoList(getParamInfoListResultByTagParamId(tagParam.getId()));
 		}
 		return tagParam;

@@ -61,11 +61,11 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 		User user = principals.oneByType(User.class);
-		if(user != null) {
+		if (user != null) {
 			UserWithRoles userWithRoles = userService.getUserWithRolesById(user.getId());
 			for(Role role: userWithRoles.getRoles()) {
 				info.addRole(role.getName());
-				if(Role.ADMIN.equals(role.getName())) {
+				if (Role.ADMIN.equals(role.getName())) {
 					info.addStringPermission("*:*");
 				}
 			}

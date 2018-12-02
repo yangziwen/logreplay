@@ -53,7 +53,7 @@ public class RoleController extends BaseController {
 			@RequestParam String displayName,
 			@RequestParam String comment) {
 		Role role = roleService.getRoleById(id);
-		if(role == null) {
+		if (role == null) {
 			throw LogReplayException.notExistException("Role[%d] does not exist!");
 		}
 		role.setDisplayName(displayName);
@@ -73,11 +73,11 @@ public class RoleController extends BaseController {
 			@PathVariable("id") Long id,
 			@RequestParam(defaultValue = "") String permissionIds
 			) {
-		if(id == null) {
+		if (id == null) {
 			throw LogReplayException.invalidParameterException("Id of permission should not be null!");
 		}
 		Role role = roleService.getRoleById(id);
-		if(role == null) {
+		if (role == null) {
 			throw LogReplayException.notExistException("Role[%d] does not exist!", id);
 		}
 

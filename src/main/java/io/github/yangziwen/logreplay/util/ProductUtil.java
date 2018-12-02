@@ -68,7 +68,7 @@ public class ProductUtil {
 	}
 
 	private static Map<Long, Product> ensureProductMap() {
-		if(productMap == null) {
+		if (productMap == null) {
 			List<Product> list = doGetProductList();
 			Map<Long, Product> map = new LinkedHashMap<Long, Product>();
 			for(Product product: list) {
@@ -84,35 +84,35 @@ public class ProductUtil {
 	}
 
 	public static String formatAppVersion(Integer version) {
-		if(version == null || version < MAJOR_UNIT) {
+		if (version == null || version < MAJOR_UNIT) {
 			return "";
 		}
 		int major = version / MAJOR_UNIT;
 		int minor = ( version % MAJOR_UNIT ) /  MINOR_UNIT;
 		int revision = ( version % MINOR_UNIT ) / REVISION_UNIT;
 		List<Integer> list = Lists.newArrayList(major, minor);
-		if(revision > 0) {
+		if (revision > 0) {
 			list.add(revision);
 		}
 		return StringUtils.join(list, '.');
 	}
 
 	public static Integer parseAppVersion(String version) {
-		if(StringUtils.isBlank(version)) {
+		if (StringUtils.isBlank(version)) {
 			return 0;
 		}
 		try {	// version是科学记数法的情形
 			int v = Double.valueOf(Double.parseDouble(version)).intValue();
-			if(v > MAJOR_UNIT) {
+			if (v > MAJOR_UNIT) {
 				return v;
 			}
 		} catch (NumberFormatException e) {}
-		if(NumberUtils.isNumber(version) && NumberUtils.toInt(version) > MAJOR_UNIT) {
+		if (NumberUtils.isNumber(version) && NumberUtils.toInt(version) > MAJOR_UNIT) {
 			return NumberUtils.toInt(version);
 		}
 		String[] arr = StringUtils.split(version, '.');
 		for(int i = 0, l = arr.length; i < l; i++) {
-			if(!NumberUtils.isNumber(arr[i])) {
+			if (!NumberUtils.isNumber(arr[i])) {
 				return 0;
 			}
 		}

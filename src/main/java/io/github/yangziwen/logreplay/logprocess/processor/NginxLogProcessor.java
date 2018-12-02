@@ -18,7 +18,7 @@ public class NginxLogProcessor {
 	
 	public NginxLog process(String log) {
 		parserChain.reset();
-		if(!parserChain.parse(log)) {
+		if (!parserChain.parse(log)) {
 			return null;
 		}
 		return new NginxLog.Builder()
@@ -36,7 +36,7 @@ public class NginxLogProcessor {
 		public boolean parse(String log, int offset) {
 			beginIndex = offset;
 			endIndex = log.indexOf(" ");
-			if(endIndex <= beginIndex) {
+			if (endIndex <= beginIndex) {
 				return false;
 			}
 			content = log.substring(beginIndex, endIndex);
@@ -50,7 +50,7 @@ public class NginxLogProcessor {
 		public boolean parse(String log, int offset) {
 			beginIndex = log.indexOf("[", offset) + 1;
 			endIndex = log.indexOf("]", beginIndex);
-			if(endIndex <= beginIndex) {
+			if (endIndex <= beginIndex) {
 				return false;
 			}
 			content = log.substring(beginIndex, endIndex);
@@ -66,7 +66,7 @@ public class NginxLogProcessor {
 		public boolean parse(String log, int offset) {
 			beginIndex = log.indexOf("\"", offset) + 1;
 			endIndex = log.indexOf(" ", beginIndex);
-			if(endIndex <= beginIndex) {
+			if (endIndex <= beginIndex) {
 				return false;
 			}
 			content = log.substring(beginIndex, endIndex);
@@ -79,13 +79,13 @@ public class NginxLogProcessor {
 		public boolean parse(String log, int offset) {
 			beginIndex = log.indexOf("/", offset);
 			endIndex = log.indexOf(" HTTP/1.1\"", beginIndex);
-			if(endIndex == -1) {
+			if (endIndex == -1) {
 				endIndex = log.indexOf(" HTTP/1.0\"", beginIndex);
 			}
-			if(endIndex == -1) {
+			if (endIndex == -1) {
 				endIndex = log.indexOf(" HTTP/0.9\"", beginIndex);
 			}
-			if(endIndex <= beginIndex) {
+			if (endIndex <= beginIndex) {
 				return false;
 			}
 			content = log.substring(beginIndex, endIndex);
@@ -101,7 +101,7 @@ public class NginxLogProcessor {
 		public boolean parse(String log, int offset) {
 			beginIndex = log.indexOf(" HTTP/", offset) + 1;
 			endIndex = log.indexOf("\"", beginIndex);
-			if(endIndex <= beginIndex) {
+			if (endIndex <= beginIndex) {
 				return false;
 			}
 			content = log.substring(beginIndex, endIndex);

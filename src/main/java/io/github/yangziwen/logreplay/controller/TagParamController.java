@@ -44,12 +44,12 @@ public class TagParamController extends BaseController {
 			@RequestParam Long tagInfoId,
 			@RequestParam(required = false) String comment,
 			@RequestParam(value = "paramInfoList", required = false) String paramInfoListJson) {
-		if(tagInfoId == null || tagInfoService.getTagInfoById(tagInfoId) == null) {
+		if (tagInfoId == null || tagInfoService.getTagInfoById(tagInfoId) == null) {
 			throw LogReplayException.invalidParameterException("TagInfo[%d] does not exist!", tagInfoId);
 		}
 		List<ParamInfo> paramInfoList = JSON.parseArray(paramInfoListJson, ParamInfo.class);
 		TagParam tagParam = tagParamService.getTagParamByTagInfoId(tagInfoId);
-		if(tagParam == null) {
+		if (tagParam == null) {
 			tagParam = new TagParam(tagInfoId, comment);
 		} else {
 			tagParam.setComment(comment);

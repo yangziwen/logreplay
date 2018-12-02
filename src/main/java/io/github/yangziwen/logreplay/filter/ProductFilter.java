@@ -30,18 +30,18 @@ public class ProductFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		String uri = request.getRequestURI();
-		if(uri.contains(".") && !uri.endsWith(".htm")) {
+		if (uri.contains(".") && !uri.endsWith(".htm")) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 		Cookie[] cookies = request.getCookies();
-		if(ArrayUtils.isEmpty(cookies)) {
+		if (ArrayUtils.isEmpty(cookies)) {
 			ProductUtil.setProductId(DEFAULT_PRODUCT_ID);
 			filterChain.doFilter(request, response);
 			return;
 		}
 		for(Cookie cookie: cookies) {
-			if(ProductUtil.COOKIE_KEY.equals(cookie.getName())) {
+			if (ProductUtil.COOKIE_KEY.equals(cookie.getName())) {
 				ProductUtil.setProductId(NumberUtils.toLong(cookie.getValue(), DEFAULT_PRODUCT_ID));
 				filterChain.doFilter(request, response);
 				return;

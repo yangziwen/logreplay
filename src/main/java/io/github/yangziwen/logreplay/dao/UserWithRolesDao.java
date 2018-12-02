@@ -49,7 +49,7 @@ public class UserWithRolesDao extends AbstractJdbcDaoImpl<UserWithRoles> {
 	@Override
 	protected OperationParsedResult parseOperation(String keyWithOper) {
 		OperationParsedResult parsedResult = super.parseOperation(keyWithOper);
-		if(parsedResult.getKey().indexOf(".") == -1) {
+		if (parsedResult.getKey().indexOf(".") == -1) {
 			parsedResult.setKey("user." + parsedResult.getKey());
 		}
 		return parsedResult;
@@ -63,10 +63,10 @@ public class UserWithRolesDao extends AbstractJdbcDaoImpl<UserWithRoles> {
 	@Override
 	protected int doCount(String sql, Map<String, Object> params) {
 		int endPos = sql.indexOf("order by");
-		if(endPos == -1) {
+		if (endPos == -1) {
 			endPos = sql.indexOf(" limit ");
 		}
-		if(endPos == -1) {
+		if (endPos == -1) {
 			endPos = sql.length();
 		}
 		return super.doCount(sql.substring(0, endPos) + " group by user.id", params);
@@ -89,7 +89,7 @@ public class UserWithRolesDao extends AbstractJdbcDaoImpl<UserWithRoles> {
 
 		@Override
 		protected Long mapForeignKey(ResultSet rs) throws SQLException {
-			if(rs.getObject("role.id") == null) {
+			if (rs.getObject("role.id") == null) {
 				return null;
 			}
 			return rs.getLong("user.id");

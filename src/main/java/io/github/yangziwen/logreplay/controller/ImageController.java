@@ -81,7 +81,7 @@ public class ImageController extends BaseController {
 		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 		Image image = null;
 		File imageFile = null;
-		if(id == null
+		if (id == null
 				|| (image = imageService.getImageById(id)) == null
 				|| !(imageFile = new File(image.getFilepath())).exists()) {
 			throw new NoSuchRequestHandlingMethodException(request);
@@ -108,7 +108,7 @@ public class ImageController extends BaseController {
 		filename = filename.toLowerCase();
 		String filepath = StringUtils.join(new String[]{Image.IMAGE_BASE_PATH, year, month, date, filename}, "/");
 		File imageFile = new File(filepath);
-		if(!imageFile.exists()) {
+		if (!imageFile.exists()) {
 			throw new NoSuchRequestHandlingMethodException(request);
 		}
 
@@ -117,7 +117,7 @@ public class ImageController extends BaseController {
 	}
 
 	private void setContentHeaders(String mimeType, int length, HttpServletResponse response) {
-		if(StringUtils.isNotBlank(mimeType)) {
+		if (StringUtils.isNotBlank(mimeType)) {
 			response.setContentType(mimeType);
 		}
 		response.setContentLength(length);
@@ -126,7 +126,7 @@ public class ImageController extends BaseController {
 	private void setCacheHeaders(HttpServletResponse response, int seconds, boolean mustRevalidate) {
 		response.setDateHeader(HEADER_EXPIRES, System.currentTimeMillis() + seconds * 1000L);
 		String headerValue = "max-age=" + seconds;
-		if(mustRevalidate) {
+		if (mustRevalidate) {
 			headerValue += ", must-revalidate";
 		}
 		response.setHeader(HEADER_CACHE_CONTROL,  headerValue);
@@ -134,7 +134,7 @@ public class ImageController extends BaseController {
 
 	private void outputImage(File imageFile, NativeWebRequest webRequest, HttpServletResponse response) {
 		long lastModified = imageFile.lastModified();
-		if(webRequest.checkNotModified(lastModified)) {
+		if (webRequest.checkNotModified(lastModified)) {
 			response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
 			return;
 		}
@@ -173,7 +173,7 @@ public class ImageController extends BaseController {
 		Avatar avatar = avatarService.getAvatarByUserIdAndType(userId, type);
 		Image image = avatar != null? imageService.getImageById(avatar.getImageId()): null;
 		File imageFile = null;
-		if(image == null || !(imageFile = new File(image.getFilepath())).exists()) {
+		if (image == null || !(imageFile = new File(image.getFilepath())).exists()) {
 			// 替换成默认图片
 			response.sendRedirect(request.getContextPath() + Avatar.DEFAULT_AVATAR);
 			return;
@@ -195,15 +195,15 @@ public class ImageController extends BaseController {
 			@RequestParam int height,
 			@RequestParam int imgWidth,
 			@RequestParam int imgHeight) throws IOException {
-		if(left < 0 || top < 0 || width <= 0 || height <= 0 || imgWidth <= 0 || imgHeight <= 0 || imageId == null) {
+		if (left < 0 || top < 0 || width <= 0 || height <= 0 || imgWidth <= 0 || imgHeight <= 0 || imageId == null) {
 			throw LogReplayException.invalidParameterException("Parameters are invalid!");
 		}
 		Image image = imageService.getImageById(imageId);
-		if(image == null ) {
+		if (image == null ) {
 			throw LogReplayException.notExistException("Image[%d] does not exist!", imageId);
 		}
 		File imageFile = new File(image.getFilepath());
-		if(!imageFile.exists()) {
+		if (!imageFile.exists()) {
 			throw LogReplayException.notExistException("Failed to find file of Image[%d]", image.getId());
 		}
 		// 切出3种尺寸的头像
@@ -230,7 +230,7 @@ public class ImageController extends BaseController {
 
 		Iterator<Image> avatarImageIter = avatarImageList.iterator();
 		while(avatarImageIter.hasNext()) {
-			if(prevImageMap.containsKey(avatarImageIter.next().getChecksum())) {
+			if (prevImageMap.containsKey(avatarImageIter.next().getChecksum())) {
 				avatarImageIter.remove();
 			}
 		}
@@ -265,7 +265,7 @@ public class ImageController extends BaseController {
 	}
 
 	private List<Image> buildAvatarImages(BufferedImage image, String format) throws IOException {
-		if(StringUtils.isBlank(format)) {
+		if (StringUtils.isBlank(format)) {
 			format = DEFAULT_IMAGE_FORMAT;
 		}
 		List<Image> avatarList = new ArrayList<Image>();
@@ -299,7 +299,7 @@ public class ImageController extends BaseController {
 		try {
 			Image image = buildRawImage(file, DEFAULT_IMAGE_FORMAT);
 			Image prevImage = imageService.getImageByChecksum(image.getChecksum());
-			if(prevImage != null && prevImage.getSize().equals(image.getSize())) {
+			if (prevImage != null && prevImage.getSize().equals(image.getSize())) {
 				return successResult(prevImage);
 			}
 			persistImage(image);
@@ -314,7 +314,7 @@ public class ImageController extends BaseController {
 	}
 
 	private Image buildRawImage(MultipartFile file, String format) throws IOException {
-		if(StringUtils.isBlank(format)) {
+		if (StringUtils.isBlank(format)) {
 			format = FilenameUtils.getExtension(file.getName());
 		}
 		BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(file.getBytes()));

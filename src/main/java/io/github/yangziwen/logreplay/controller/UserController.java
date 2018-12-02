@@ -38,7 +38,7 @@ public class UserController extends BaseController {
 	public ModelMap updateProfile(
 			@AuditField(field = "screenName")
 			@RequestParam String screenName) {
-		if(StringUtils.isBlank(screenName)) {
+		if (StringUtils.isBlank(screenName)) {
 			throw LogReplayException.invalidParameterException("ScreenName should not be null!");
 		}
 		String username = AuthUtil.getUsername();
@@ -63,15 +63,15 @@ public class UserController extends BaseController {
 			@DeIdentify(fromRight = 2)
 			@AuditField(field = "newPassword")
 			@RequestParam String newPassword) {
-		if(StringUtils.isBlank(oldPassword) || StringUtils.isBlank(newPassword)) {
+		if (StringUtils.isBlank(oldPassword) || StringUtils.isBlank(newPassword)) {
 			throw LogReplayException.invalidParameterException("Neither oldPassword nor newPassword should be null!");
 		}
-		if((newPassword = newPassword.trim()).length() < User.PASSWORD_MIN_LENGTH) {
+		if ((newPassword = newPassword.trim()).length() < User.PASSWORD_MIN_LENGTH) {
 			throw LogReplayException.invalidParameterException("New password is too short!");
 		}
 		String username = AuthUtil.getUsername();
 		User user = userService.getUserByUsername(username);
-		if(!AuthUtil.hashPassword(username, oldPassword).equals(user.getPassword())) {
+		if (!AuthUtil.hashPassword(username, oldPassword).equals(user.getPassword())) {
 			throw LogReplayException.invalidParameterException("Parameter oldPassword is wrong!");
 		}
 		try {
@@ -87,11 +87,11 @@ public class UserController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/checkPassword")
 	public boolean checkPassword(String password) {
-		if(StringUtils.isBlank(password)) {
+		if (StringUtils.isBlank(password)) {
 			return false;
 		}
 		User user = userService.getUserByUsername(AuthUtil.getUsername());
-		if(!AuthUtil.hashPassword(user.getUsername(), password).equals(user.getPassword())) {
+		if (!AuthUtil.hashPassword(user.getUsername(), password).equals(user.getPassword())) {
 			return false;
 		}
 		return true;

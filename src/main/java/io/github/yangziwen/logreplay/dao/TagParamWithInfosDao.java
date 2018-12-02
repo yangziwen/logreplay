@@ -47,7 +47,7 @@ public class TagParamWithInfosDao extends AbstractJdbcDaoImpl<TagParam> {
 	@Override
 	protected OperationParsedResult parseOperation(String keyWithOper) {
 		OperationParsedResult parsedResult = super.parseOperation(keyWithOper);
-		if(parsedResult.getKey().indexOf(".") == -1) {
+		if (parsedResult.getKey().indexOf(".") == -1) {
 			parsedResult.setKey("tag_param." + parsedResult.getKey());
 		}
 		return parsedResult;
@@ -61,10 +61,10 @@ public class TagParamWithInfosDao extends AbstractJdbcDaoImpl<TagParam> {
 	@Override
 	protected int doCount(String sql, Map<String, Object> params) {
 		int endPos = sql.indexOf("order by");
-		if(endPos == -1) {
+		if (endPos == -1) {
 			endPos = sql.indexOf(" limit ");
 		}
-		if(endPos == -1) {
+		if (endPos == -1) {
 			endPos = sql.length();
 		}
 		return super.doCount(sql.substring(0, endPos) + " group by tag_param.id", params);
@@ -87,7 +87,7 @@ public class TagParamWithInfosDao extends AbstractJdbcDaoImpl<TagParam> {
 
 		@Override
 		protected Long mapForeignKey(ResultSet rs) throws SQLException {
-			if(rs.getObject("param_info.id") == null) {
+			if (rs.getObject("param_info.id") == null) {
 				return null;
 			}
 			return rs.getLong("tag_param.id");

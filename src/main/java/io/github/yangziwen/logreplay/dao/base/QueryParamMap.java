@@ -46,7 +46,7 @@ public class QueryParamMap extends HashMap<String, Object> {
 	}
 	
 	public QueryParamMap addParam(boolean isValid, String key, Object value) {
-		if(isValid) {
+		if (isValid) {
 			put(key, value);
 		}
 		return this;
@@ -114,11 +114,11 @@ public class QueryParamMap extends HashMap<String, Object> {
 	}
 	
 	private QueryParamMap ensureOrMap(String orMapKey) {
-		if(this.isOrMap) {
+		if (this.isOrMap) {
 			throw new UnsupportedOperationException("Nested orMap is not supported!");
 		}
 		QueryParamMap orMap = (QueryParamMap) get(orMapKey + DaoConstant.OR_SUFFIX);
-		if(orMap == null) {
+		if (orMap == null) {
 			orMap = new QueryParamMap();
 			put(orMapKey + DaoConstant.OR_SUFFIX, orMap);
 		}
@@ -128,7 +128,7 @@ public class QueryParamMap extends HashMap<String, Object> {
 	@SuppressWarnings("unchecked")
 	private Map<String, String> ensureOrderByMap() {
 		Map<String, String> orderByMap = (Map<String, String>) get(DaoConstant.ORDER_BY);
-		if(orderByMap == null) {
+		if (orderByMap == null) {
 			orderByMap = new LinkedHashMap<String, String>();
 			put(DaoConstant.ORDER_BY, orderByMap);
 		}
@@ -138,7 +138,7 @@ public class QueryParamMap extends HashMap<String, Object> {
 	@SuppressWarnings("unchecked")
 	private List<String> ensureGroupByList() {
 		List<String> groupByList = (List<String>) get(DaoConstant.GROUP_BY);
-		if(groupByList == null) {
+		if (groupByList == null) {
 			groupByList = new ArrayList<String>(3);
 			put(DaoConstant.GROUP_BY, groupByList);
 		}

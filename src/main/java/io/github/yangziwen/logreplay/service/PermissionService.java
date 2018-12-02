@@ -36,7 +36,7 @@ public class PermissionService {
 	}
 	
 	public List<Permission> getPermissionListByRoleId(Long roleId, boolean excluded) {
-		if(roleId == null && !excluded) {
+		if (roleId == null && !excluded) {
 			return Collections.emptyList();
 		}
 		List<RoleRelPermission> relList = roleRelPermissionDao.list(new QueryParamMap()
@@ -58,7 +58,7 @@ public class PermissionService {
 	}
 	
 	public List<Permission> getPermissionListByRoleIdList(List<Long> roleIdList) {
-		if(CollectionUtils.isEmpty(roleIdList)) {
+		if (CollectionUtils.isEmpty(roleIdList)) {
 			return Collections.emptyList();
 		}
 		List<RoleRelPermission> relList = roleRelPermissionDao.list(new QueryParamMap()
@@ -68,7 +68,7 @@ public class PermissionService {
 	}
 	
 	private List<Permission> getPermissionListByRelList(List<RoleRelPermission> relList, boolean excluded) {
-		if(CollectionUtils.isEmpty(relList) && !excluded) {
+		if (CollectionUtils.isEmpty(relList) && !excluded) {
 			return Collections.emptyList();
 		}
 		List<Long> permissionIdList = Lists.transform(relList, new Function<RoleRelPermission, Long>() {
@@ -86,7 +86,7 @@ public class PermissionService {
 	
 	public List<Permission> getPermissionListByIdList(List<Long> idList, boolean excluded) {
 		QueryParamMap params = new QueryParamMap().orderByAsc("target").orderByAsc("action");
-		if(CollectionUtils.isEmpty(idList)) {
+		if (CollectionUtils.isEmpty(idList)) {
 			return excluded
 					? permissionDao.list(params)
 					: Collections.<Permission>emptyList();

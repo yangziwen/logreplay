@@ -22,13 +22,13 @@ public class MobLogProcessor {
 	}
 	
 	private Map<String, String> parseParams(String log) {
-		if(StringUtils.isBlank(log)) {
+		if (StringUtils.isBlank(log)) {
 			return Collections.emptyMap();
 		}
 		int colonIndex = -1;
 		Map<String, String> params = new HashMap<String, String>();
 		for(String pair: log.split(",")) {
-			if(StringUtils.isBlank(pair) || (colonIndex = pair.indexOf(":")) == -1 ) {
+			if (StringUtils.isBlank(pair) || (colonIndex = pair.indexOf(":")) == -1 ) {
 				continue;
 			}
 			String key = pair.substring(0, colonIndex);
@@ -48,7 +48,7 @@ public class MobLogProcessor {
 	 */
 	private static String decodeUnicode(String text) {
 		int start = text.indexOf("%u");
-		if(start == -1) {
+		if (start == -1) {
 			return text;
 		}
 		int end = 0;
@@ -61,7 +61,7 @@ public class MobLogProcessor {
 			buff.append(new Character(letter).toString());
 			start = text.indexOf("%u", start + 1);
 		}
-		if(end < text.length()) {
+		if (end < text.length()) {
 			buff.append(text.substring(end, text.length()));
 		}
 		return buff.toString();

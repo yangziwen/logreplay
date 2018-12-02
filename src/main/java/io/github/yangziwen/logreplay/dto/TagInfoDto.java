@@ -257,7 +257,7 @@ public class TagInfoDto implements DataContainer {
 		this.productName = ProductUtil.getProductById(this.productId).getName();
 
 		this.pageNo = info.getPageNo();
-		if(info.getPageInfo() != null) {
+		if (info.getPageInfo() != null) {
 			this.pageName = info.getPageInfo().getName();
 		}
 		this.tagNo = info.getTagNo();
@@ -269,7 +269,7 @@ public class TagInfoDto implements DataContainer {
 		this.targetName = target != null? target.getName(): null;
 
 		this.originVersion = info.getOriginVersion();
-		if(this.originVersion != null) {
+		if (this.originVersion != null) {
 			this.originVersionDisplay = ProductUtil.formatAppVersion(this.originVersion);
 		}
 		this.comment = info.getComment();
@@ -282,7 +282,7 @@ public class TagInfoDto implements DataContainer {
 		this.comment = info.getComment();
 
 		this.tagParam = tagParamMap.get(info.getId());
-		if(tagParam != null && CollectionUtils.isNotEmpty(tagParam.getParamInfoList())) {
+		if (tagParam != null && CollectionUtils.isNotEmpty(tagParam.getParamInfoList())) {
 			this.tagParamComment = tagParam.getComment();
 			Iterator<ParamInfo> iter = tagParam.getParamInfoList().iterator();
 			ParamInfo param = iter.next();

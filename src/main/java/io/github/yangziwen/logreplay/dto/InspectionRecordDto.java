@@ -197,25 +197,25 @@ public class InspectionRecordDto {
 	public InspectionRecordDto from(InspectionRecord record) {
 		this.setId(record.getId());
 		this.setPageInfoId(record.getPageInfoId());
-		if(record.getPageInfo() != null) {
+		if (record.getPageInfo() != null) {
 			this.setPageNo(record.getPageInfo().getPageNo());
 			this.setPageName(record.getPageInfo().getName());
 		}
 		this.setTagInfoId(record.getTagInfoId());
-		if(record.getTagInfo() != null) {
+		if (record.getTagInfo() != null) {
 			this.setTagNo(record.getTagInfo().getTagNo());
 			this.setTagName(record.getTagInfo().getName());
 		}
 		this.setValid(record.getValid());
 		this.setSolved(record.getSolved());
 		this.setSubmitterId(record.getSubmitterId());
-		if(record.getSubmitter() != null) {
+		if (record.getSubmitter() != null) {
 			this.setSubmitterUsername(record.getSubmitter().getUsername());
 			this.setSubmitterScreenName(record.getSubmitter().getScreenName());
 		}
 		this.setSubmitterRoleId(record.getSubmitterRoleId());
 		this.setSolverId(record.getSolverId());
-		if(record.getSolver() != null) {
+		if (record.getSolver() != null) {
 			this.setSolverUsername(record.getSolver().getUsername());
 			this.setSolverScreenName(record.getSolver().getScreenName());
 		}

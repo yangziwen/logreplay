@@ -37,7 +37,7 @@ public class OperationRecordDao extends AbstractJdbcDaoImpl<OperationRecord> {
 	@Override
 	protected OperationParsedResult parseOperation(String keyWithOper) {
 		OperationParsedResult parsedResult = super.parseOperation(keyWithOper);
-		if(parsedResult.getKey().indexOf(".") == -1) {
+		if (parsedResult.getKey().indexOf(".") == -1) {
 			parsedResult.setKey(getTableName() + "." + parsedResult.getKey());
 		}
 		return parsedResult;
@@ -56,15 +56,15 @@ public class OperationRecordDao extends AbstractJdbcDaoImpl<OperationRecord> {
 	}
 	
 	public int batchSaveByDirectSql(OperationRecord[] records, int batchSize) {
-		if(ArrayUtils.isEmpty(records)) {
+		if (ArrayUtils.isEmpty(records)) {
 			return 0;
 		}
 		for(OperationRecord record: records) {
-			if(record.getId() != null) {
+			if (record.getId() != null) {
 				throw new IllegalArgumentException("Id of the OperationRecord should be 0 before insert! [" + record + "]");
 			}
 		}
-		if(batchSize <= 0) {
+		if (batchSize <= 0) {
 			batchSize = 100;
 		}
 		for(int i = 0, l = records.length; i < l; i += batchSize) {
@@ -79,7 +79,7 @@ public class OperationRecordDao extends AbstractJdbcDaoImpl<OperationRecord> {
 			.append(" insert into operation_record (ip, product_id, device_id, uvid, os, version, timestamp, page_no, tag_no, params) values ");
 		OperationRecord record = null;
 		for(int i = startIndexInclusive; i < endIndexExclusive; i++) {
-			if(i > startIndexInclusive) {
+			if (i > startIndexInclusive) {
 				sqlBuff.append(",");
 			}
 			record = records[i];

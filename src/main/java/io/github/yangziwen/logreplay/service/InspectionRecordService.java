@@ -49,7 +49,7 @@ public class InspectionRecordService {
 	public void createInspectionRecord(InspectionRecord record) {
 		Timestamp ts = new Timestamp(System.currentTimeMillis());
 		TagInfo tagInfo = record.getTagInfo();
-		if(tagInfo != null) {
+		if (tagInfo != null) {
 			updateInspectStatusOfTagInfo(tagInfo, record.getValid());
 		}
 		record.setProductId(ProductUtil.getProductId());
@@ -61,7 +61,7 @@ public class InspectionRecordService {
 	public void updateInspectionRecord(InspectionRecord record) {
 		Timestamp ts = new Timestamp(System.currentTimeMillis());
 		TagInfo tagInfo = record.getTagInfo();
-		if(tagInfo != null) {
+		if (tagInfo != null) {
 			updateInspectStatusOfTagInfo(tagInfo, record.getSolved());
 		}
 		record.setUpdateTime(ts);
@@ -74,7 +74,7 @@ public class InspectionRecordService {
 				: InspectStatus.ERROR.getIntValue();
 		
 		// 校验模式分为“开发模式”和“测试模式”
-		if(AuthUtil.hasRole(Role.DEV)) {
+		if (AuthUtil.hasRole(Role.DEV)) {
 			tagInfo.setDevInspectStatus(status);
 		} else {
 			tagInfo.setInspectStatus(status);
@@ -104,10 +104,10 @@ public class InspectionRecordService {
 		List<Long> pageInfoIdList = Lists.newArrayList();
 		List<Long> tagInfoIdList = Lists.newArrayList();
 		for(InspectionRecord record: page.getList()) {
-			if(record.getSubmitterId() != null) userIdList.add(record.getSubmitterId());
-			if(record.getSolverId() != null) userIdList.add(record.getSolverId());
-			if(record.getPageInfoId() != null) pageInfoIdList.add(record.getPageInfoId());
-			if(record.getTagInfoId() != null) tagInfoIdList.add(record.getTagInfoId());
+			if (record.getSubmitterId() != null) userIdList.add(record.getSubmitterId());
+			if (record.getSolverId() != null) userIdList.add(record.getSolverId());
+			if (record.getPageInfoId() != null) pageInfoIdList.add(record.getPageInfoId());
+			if (record.getTagInfoId() != null) tagInfoIdList.add(record.getTagInfoId());
 		}
 		Map<Long, User> userMap = getUserMapByIdList(userIdList);
 		Map<Long, PageInfo> pageInfoMap = getPageInfoMapByIdList(pageInfoIdList);

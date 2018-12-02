@@ -56,7 +56,7 @@ public class AuthUtil {
 	}
 	
 	private static Map<String, Role> ensureRoleObjMap() {
-		if(roleObjMap == null) {
+		if (roleObjMap == null) {
 			List<Role> list = SpringUtil.getBean(RoleService.class).getRoleListResult(QueryParamMap.emptyMap());
 			Map<String, Role> map = new LinkedHashMap<String, Role>();
 			for(Role role: list) {
@@ -97,7 +97,7 @@ public class AuthUtil {
 	
 	public static Long getCurrentUserId() {
 		User user = getCurrentUser();
-		if(user == null) {
+		if (user == null) {
 			return null;
 		}
 		return user.getId();
@@ -105,7 +105,7 @@ public class AuthUtil {
 	
 	public static String getScreenName() {
 		User user = getCurrentUser();
-		if(user == null) {
+		if (user == null) {
 			return "";
 		}
 		return StringUtils.isNotBlank(user.getScreenName())
@@ -116,7 +116,7 @@ public class AuthUtil {
 	public static List<String> getRoleList() {
 		PrincipalCollection principals = getCurrentSubject().getPrincipals();
 		AuthorizationInfo info = SpringUtil.getBean(ShiroDbRealm.class).getAuthorizationInfo(principals);
-		if(info != null) {
+		if (info != null) {
 			return new ArrayList<String>(info.getRoles());
 		}
 		return Collections.emptyList();
@@ -133,7 +133,7 @@ public class AuthUtil {
 	public static boolean hasAnyRoles(String... roles) {
 		Subject subject = getCurrentSubject();
 		for(String role: roles) {
-			if(subject.hasRole(role)) {
+			if (subject.hasRole(role)) {
 				return true;
 			}
 		}
@@ -171,7 +171,7 @@ public class AuthUtil {
 	}
 	
 	public static String hashPassword(String username, String password) {
-		if(StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
+		if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
 			throw new IllegalArgumentException("Neither username nor password should be null!");
 		}
 		HashService hashService = new DefaultHashService();

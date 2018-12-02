@@ -30,7 +30,7 @@ public class TagParamParser {
 	
 	private TagParamHolder ensureHolder(Long tagInfoId) {
 		TagParamHolder holder = holderMap.get(tagInfoId);
-		if(holder != null) {
+		if (holder != null) {
 			return holder;
 		}
 		holder = new TagParamHolder();
@@ -40,7 +40,7 @@ public class TagParamParser {
 	}
 	
 	public ParamInfo parse(Long tagInfoId, String paramName, String paramValue) {
-		if(!holderMap.containsKey(tagInfoId)) {
+		if (!holderMap.containsKey(tagInfoId)) {
 			return null;
 		}
 		return holderMap.get(tagInfoId).parse(paramName, paramValue);
@@ -48,12 +48,12 @@ public class TagParamParser {
 	
 	public List<String> getRequiredParamNameList(Long tagInfoId) {
 		TagParamHolder tagParamHolder = holderMap.get(tagInfoId);
-		if(tagParamHolder == null) {
+		if (tagParamHolder == null) {
 			return Collections.emptyList();
 		}
 		List<String> list = new ArrayList<String>();
 		for(ParamInfoHolder paramInfoHolder: tagParamHolder.holderMap.values()) {
-			if(paramInfoHolder.merelyRequired()) {
+			if (paramInfoHolder.merelyRequired()) {
 				list.add(paramInfoHolder.paramName);
 			}
 		}
@@ -88,7 +88,7 @@ public class TagParamParser {
 		
 		public ParamInfoHolder ensureHolder(String paramName) {
 			ParamInfoHolder holder = holderMap.get(paramName);
-			if(holder != null) {
+			if (holder != null) {
 				return holder;
 			}
 			holder = new ParamInfoHolder();
@@ -98,7 +98,7 @@ public class TagParamParser {
 		}
 		
 		public ParamInfo parse(String paramName, String paramValue) {
-			if(!holderMap.containsKey(paramName)) {
+			if (!holderMap.containsKey(paramName)) {
 				return null;
 			}
 			return holderMap.get(paramName).parse(paramValue);
@@ -135,10 +135,10 @@ public class TagParamParser {
 		}
 		
 		public ParamInfo parse(String paramValue) {
-			if(merelyRequired()) {
+			if (merelyRequired()) {
 				return paramInfoMap.get("");
 			}
-			if(!paramInfoMap.containsKey(paramValue)) {
+			if (!paramInfoMap.containsKey(paramValue)) {
 				return new ParamInfo(paramName, paramValue, PARAM_VALUE_NOT_EXIST_DESCRIPTION);
 			}
 			return paramInfoMap.get(paramValue);

@@ -28,7 +28,7 @@ public class ParserChain {
 		Parser parser = null;
 		while(iter.hasNext()) {
 			parser = iter.next();
-			if(clazz.isInstance(parser)){
+			if (clazz.isInstance(parser)){
 				iter.remove();
 				return parser;
 			}
@@ -43,7 +43,7 @@ public class ParserChain {
 	@SuppressWarnings("unchecked")
 	public <T extends Parser> T getParser(Class<T> clazz) {
 		for(Parser parser: parsers.values()) {
-			if(clazz.isInstance(parser)) {
+			if (clazz.isInstance(parser)) {
 				return (T) parser;
 			}
 		}
@@ -80,12 +80,12 @@ public class ParserChain {
 	}
 	
 	public boolean parse(String log){
-		if(MapUtils.isEmpty(parsers)) {
+		if (MapUtils.isEmpty(parsers)) {
 			return false;
 		}
 		int offset = 0;
 		for(Parser parser: parsers.values()){
-			if(!parser.parse(log, offset)){
+			if (!parser.parse(log, offset)){
 				return false;
 			}
 			offset = parser.getEndIndex();

@@ -31,7 +31,7 @@ public class MobLog {
 	 */
 	public String getDeviceId() {
 		String deviceId = infoMap.get("d");
-		if(StringUtils.isBlank(deviceId)) {
+		if (StringUtils.isBlank(deviceId)) {
 			deviceId = infoMap.get("kd");
 		}
 		return deviceId;

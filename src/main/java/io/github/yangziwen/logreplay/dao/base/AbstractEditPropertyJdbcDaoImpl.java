@@ -25,16 +25,16 @@ public abstract class AbstractEditPropertyJdbcDaoImpl<E extends AbstractBean> ex
 	 */
 	protected Object processValueBeforeQuery(Object value) {
 		Map<Class<?>, CustomPropertyEditor> editorMap = getPropertyEditorMap();
-		if(MapUtils.isEmpty(editorMap)) {
+		if (MapUtils.isEmpty(editorMap)) {
 			return value;
 		}
 		Object newValue = null;
 		Object oldValue = value;
-		if(value instanceof Collection<?>) {
+		if (value instanceof Collection<?>) {
 			value = ((Collection<?>) value).toArray();
 		}
 		for(CustomPropertyEditor editor: editorMap.values()) {
-			if((newValue = editor.convertValue(value)) != null) {
+			if ((newValue = editor.convertValue(value)) != null) {
 				break;
 			}
 		}

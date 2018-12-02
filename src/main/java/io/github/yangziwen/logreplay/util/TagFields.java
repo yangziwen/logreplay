@@ -40,7 +40,7 @@ public class TagFields {
 	private static final Pattern PARAM_INFO_PATTERN = Pattern.compile("^(.+)\\{(.+)\\}=(.*)$");
 	
 	public static List<TagInfoDto> convertToTagInfoDtoList(List<Map<String, String>> mapList) {
-		if(CollectionUtils.isEmpty(mapList)) {
+		if (CollectionUtils.isEmpty(mapList)) {
 			return Collections.emptyList();
 		}
 		List<TagInfoDto> dtoList = Lists.newArrayList();
@@ -51,7 +51,7 @@ public class TagFields {
 	}
 	
 	public static TagInfoDto convertToTagInfoDto(Map<String, String> map) {
-		if(MapUtils.isEmpty(map)) {
+		if (MapUtils.isEmpty(map)) {
 			return null;
 		}
 		TagInfoDto dto = new TagInfoDto();
@@ -73,12 +73,12 @@ public class TagFields {
 	}
 	
 	private static TagParam parseTagParam(String tagParamDisplay, String tagParamComment) {
-		if(StringUtils.isBlank(tagParamComment) && StringUtils.isBlank(tagParamDisplay)) {
+		if (StringUtils.isBlank(tagParamComment) && StringUtils.isBlank(tagParamDisplay)) {
 			return null;
 		}
 		TagParam tagParam = new TagParam();
 		tagParam.setComment(tagParamComment);
-		if(StringUtils.isNotBlank(tagParamDisplay)) {
+		if (StringUtils.isNotBlank(tagParamDisplay)) {
 			List<ParamInfo> paramInfoList = Lists.newArrayList();
 			for(String paramInfoDisplay: StringUtils.split(tagParamDisplay, ';')) {
 				paramInfoList.add(parseParamInfo(paramInfoDisplay));
@@ -89,18 +89,18 @@ public class TagFields {
 	}
 	
 	private static ParamInfo parseParamInfo(String paramInfoDisplay) {
-		if(StringUtils.isBlank(paramInfoDisplay)) {
+		if (StringUtils.isBlank(paramInfoDisplay)) {
 			return null;
 		}
 		Matcher matcher = PARAM_INFO_PATTERN.matcher(paramInfoDisplay);
-		if(!matcher.matches()) {
+		if (!matcher.matches()) {
 			return null;
 		}
 		ParamInfo paramInfo = new ParamInfo();
 		paramInfo.setName(matcher.group(1).trim());
 		paramInfo.setValue(matcher.group(2).trim());
 		paramInfo.setDescription(matcher.group(3).trim());
-		if("?".equals(paramInfo.getValue())) {
+		if ("?".equals(paramInfo.getValue())) {
 			paramInfo.setValue("");
 		}
 		return paramInfo;

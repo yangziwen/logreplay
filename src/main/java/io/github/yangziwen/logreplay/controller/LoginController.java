@@ -25,9 +25,9 @@ public class LoginController {
 	@RequestMapping(value = "/login.htm", method = RequestMethod.GET)
 	public String toLogin(HttpServletRequest request) {
 		SavedRequest savedRequest = WebUtils.getSavedRequest(request);
-		if(savedRequest != null) {
+		if (savedRequest != null) {
 			String savedUri = savedRequest.getRequestURI();
-			if(StringUtils.isBlank(savedUri) 
+			if (StringUtils.isBlank(savedUri) 
 					|| !savedUri.endsWith(".htm") 
 					|| savedUri.endsWith("404.htm")) {
 				WebUtils.getAndClearSavedRequest(request);
@@ -46,11 +46,11 @@ public class LoginController {
 			HttpServletResponse response,
 			RedirectAttributes redirectAttributes
 			) throws IOException {
-		if(AuthUtil.isAuthenticated()) {
+		if (AuthUtil.isAuthenticated()) {
 			org.apache.shiro.web.util.WebUtils.redirectToSavedRequest(request, response, "/home.htm");
 			return null;
 		} 
-		if(AuthUtil.isRemembered()) {
+		if (AuthUtil.isRemembered()) {
 			redirectAttributes.addFlashAttribute("errorMessage", "密码错误，请重试!");
 		} else {
 			redirectAttributes.addFlashAttribute("errorMessage", "用户名或密码错误，请重试!");

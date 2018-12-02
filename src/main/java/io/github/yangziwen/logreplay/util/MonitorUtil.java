@@ -38,12 +38,12 @@ public class MonitorUtil {
 	public static List<Data<Long, Double>> getDataList(
 			String application, String name, long startTime, long endTime, long step, ConsolFunc func) {
 		File rrdFile = getStorageRrdFile(application, name);
-		if(!rrdFile.exists()) {
+		if (!rrdFile.exists()) {
 			return Collections.emptyList();
 		}
 		try {
 			String dsName = name;
-			if(dsName.length() > 20) {	// 貌似是melody中的机制
+			if (dsName.length() > 20) {	// 貌似是melody中的机制
 				dsName = dsName.substring(0, 20);
 			}
 			DataProcessor processor = new DataProcessor(startTime / 1000, endTime / 1000);

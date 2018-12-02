@@ -63,12 +63,12 @@ public class OperationLog {
 	
 	public List<OperationRecord> toRecordList() {
 		List<Map<String, Object>> operationList = this.operationList;
-		if(CollectionUtils.isEmpty(operationList)) {
+		if (CollectionUtils.isEmpty(operationList)) {
 			return Collections.emptyList();
 		}
 		List<OperationRecord> recordList = new ArrayList<OperationRecord>();
 		for(Map<String, Object> operation: operationList) {
-			if(MapUtils.isEmpty(operation)) {
+			if (MapUtils.isEmpty(operation)) {
 				continue;
 			}
 			Integer pageNo = MapUtils.getIntValue(operation, "p");
@@ -158,7 +158,7 @@ public class OperationLog {
 		}
 		
 		public Builder operationList(List<Map<String, Object>> operationList) {
-			if(CollectionUtils.isEmpty(operationList)) {
+			if (CollectionUtils.isEmpty(operationList)) {
 				return this;
 			}
 			this.operationList = operationList;

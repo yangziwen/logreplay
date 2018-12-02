@@ -184,17 +184,17 @@ public class OperationRecordDto {
 	}
 
 	public void addParamParsedResult(TagParamParsedResult result) {
-		if(result != null) {
+		if (result != null) {
 			paramParsedResultList.add(result);
 		}
 	}
 
 	public static OperationRecordDto from(OperationRecord record, TagInfo tagInfo) {
-		if(record == null) {
+		if (record == null) {
 			throw new IllegalArgumentException("OperationRecord should not be null!");
 		}
-		if(tagInfo != null) {
-			if(!record.getPageNo().equals(tagInfo.getPageNo()) || !record.getTagNo().equals(tagInfo.getTagNo())) {
+		if (tagInfo != null) {
+			if (!record.getPageNo().equals(tagInfo.getPageNo()) || !record.getTagNo().equals(tagInfo.getTagNo())) {
 				throw new IllegalStateException("Arguments are not consistent!");
 			}
 		}
@@ -210,7 +210,7 @@ public class OperationRecordDto {
 		dto.pageNo = record.getPageNo();
 		dto.tagNo = record.getTagNo();
 		dto.params = record.getParams();
-		if(tagInfo != null) {
+		if (tagInfo != null) {
 			dto.tagInfoId = tagInfo.getId();
 			dto.pageName = tagInfo.getPageInfo().getName();
 			dto.tagName = tagInfo.getName();

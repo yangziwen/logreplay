@@ -45,7 +45,7 @@ public class UserService {
 	}
 
 	public UserWithRoles getUserWithRolesById(Long id) {
-		if(id == null) {
+		if (id == null) {
 			return null;
 		}
 		return userWithRolesDao.getById(id);
@@ -72,7 +72,7 @@ public class UserService {
 	}
 
 	public List<Long> getUserIdListResultByName(String name) {
-		if(StringUtils.isBlank(name)) {
+		if (StringUtils.isBlank(name)) {
 			return Collections.emptyList();
 		}
 		return Lists.transform(getUserListResultByName(name), new Function<User, Long>() {
@@ -86,7 +86,7 @@ public class UserService {
 	@Transactional
 	public void createUser(User user, List<Role> roleList) {
 		user.setCreateTime(new Timestamp(System.currentTimeMillis()));
-		if(user.getEnabled() == null) {
+		if (user.getEnabled() == null) {
 			user.setEnabled(true);
 		}
 		userDao.save(user);
