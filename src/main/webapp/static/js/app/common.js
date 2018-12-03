@@ -9,7 +9,7 @@ define(function(require, exports, module){
 	String.prototype.encodeUnicode = function() {
 		if (!this) return this;
 		var chars = [];
-		for(var i=0, l=this.length; i<l; i++) chars[i] = this.charCodeAt(i);
+		for (var i=0, l=this.length; i<l; i++) chars[i] = this.charCodeAt(i);
 		return "&#" + chars.join(";&#") + ";";  
 	};
 	
@@ -159,7 +159,7 @@ define(function(require, exports, module){
 	function buildUrlByParams(prefix, params, ignoreEmptyParams) {
 		ignoreEmptyParams = !!ignoreEmptyParams;
 		var arr = [];
-		for(var key in params) {
+		for (var key in params) {
 			var value = params[key];
 			if (ignoreEmptyParams && (value === null || value === undefined || value === '')) {
 				continue;
@@ -249,7 +249,7 @@ define(function(require, exports, module){
 			return parseInt(version);
 		}
 		var arr = version.split('.');
-		for(var i = 0, l = arr.length; i < l; i++) {
+		for (var i = 0, l = arr.length; i < l; i++) {
 			if (!$.isNumeric(arr[i])) {
 				return 0;
 			}

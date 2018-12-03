@@ -158,7 +158,7 @@ define(function(require, exports, module) {
 					return 'danger';
 				}
 				if ($.isArray(record.paramParsedResultList)) {
-					for(var i = 0, l = record.paramParsedResultList.length; i < l; i++) {
+					for (var i = 0, l = record.paramParsedResultList.length; i < l; i++) {
 						if (record.paramParsedResultList[i].valid == false) {
 							return 'warning';
 						}
@@ -170,7 +170,7 @@ define(function(require, exports, module) {
 //				return [record.pageName, record.tagName, tagTargetDict[record.targetId], tagActionDict[record.actionId]].join(' => ');
 				var contents = [[record.pageName, record.tagName].join(' => ')];
 				if ($.isArray(record.paramParsedResultList)) {
-					for(var i = 0, l = record.paramParsedResultList.length; i < l; i++) {
+					for (var i = 0, l = record.paramParsedResultList.length; i < l; i++) {
 						var parsedResult = record.paramParsedResultList[i];
 						var content = [
 						    parsedResult.paramName,

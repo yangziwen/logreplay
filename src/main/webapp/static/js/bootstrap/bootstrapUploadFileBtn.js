@@ -43,7 +43,7 @@ define(function(require){
 					var fd = new FormData(),
 						file = $fileInput[0].files[0];
 					var params = $.isFunction(data)? data(): data;
-					for(var key in params) {
+					for (var key in params) {
 						fd.append(key, params[key]);
 					}
 					fd.append($fileInput.attr('name'), file);

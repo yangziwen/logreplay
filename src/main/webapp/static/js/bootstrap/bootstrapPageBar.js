@@ -29,7 +29,7 @@ define(function(require){
 	function buildPageBtnUl(pageNumArr, opts){
 		var $ul = $('<ul></ul>');
 		
-		for(var i=0, l=pageNumArr.length; i<l; i++) {
+		for (var i=0, l=pageNumArr.length; i<l; i++) {
 			if (i > 0 && pageNumArr[i] - pageNumArr[i-1] > 1){
 				var $li = $('<li class="disabled"><a href="javascript:void(0);">...</a></li>');
 				$ul.append($li);
@@ -84,7 +84,7 @@ define(function(require){
 			
 			var centerBtnNum = centerRightPageNum - centerLeftPageNum + 1;
 			
-			for(var i = centerLeftPageNum; i<= centerRightPageNum; i++) {
+			for (var i = centerLeftPageNum; i<= centerRightPageNum; i++) {
 				pageNumArr.push(i);
 			}
 			
@@ -95,16 +95,16 @@ define(function(require){
 				leftBtnNum = rightBtnNum = Math.floor(remainedBtnNum / 2);
 				// 有可能比maxBtnNum少1， 无所谓了
 				var leftOffset = Math.min(centerLeftPageNum - 1, leftBtnNum);
-				for(var i=1; i<=leftBtnNum; i++){
+				for (var i=1; i<=leftBtnNum; i++){
 					pageNumArr.push(i<centerLeftPageNum? i: i+centerRightPageNum - leftOffset);
 				}
 				var rightOffset = Math.max(totalPageNum - rightBtnNum + 1, centerRightPageNum + 1);
-				for(var i = totalPageNum; i> totalPageNum - rightBtnNum; i--) {
+				for (var i = totalPageNum; i> totalPageNum - rightBtnNum; i--) {
 					pageNumArr.push(i > centerRightPageNum? i: i - rightOffset + centerLeftPageNum);
 				}
 			}
 		}else {
-			for(var i=1; i<=totalPageNum; i++){
+			for (var i=1; i<=totalPageNum; i++){
 				pageNumArr.push(i);
 			}
 		}
