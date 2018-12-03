@@ -42,7 +42,7 @@ public class ParserChain {
 	
 	@SuppressWarnings("unchecked")
 	public <T extends Parser> T getParser(Class<T> clazz) {
-		for(Parser parser: parsers.values()) {
+		for (Parser parser: parsers.values()) {
 			if (clazz.isInstance(parser)) {
 				return (T) parser;
 			}
@@ -70,7 +70,7 @@ public class ParserChain {
 	}
 	
 	public void reset() {
-		for(Parser parser: parsers.values()) {
+		for (Parser parser: parsers.values()) {
 			parser.reset();
 		}
 	}
@@ -84,7 +84,7 @@ public class ParserChain {
 			return false;
 		}
 		int offset = 0;
-		for(Parser parser: parsers.values()){
+		for (Parser parser: parsers.values()){
 			if (!parser.parse(log, offset)){
 				return false;
 			}

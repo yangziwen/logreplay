@@ -42,7 +42,7 @@ public abstract class AbstractJdbcDaoImpl<E extends AbstractBean>  extends Abstr
 		Entry<String, String>[] entrys = mappingWithoutId.entrySet().toArray(new Entry[]{});
 		Entry<String, String> entry = entrys[0];
 		updateBuff.append(" set ").append(entry.getValue()).append("=:").append(entry.getKey());
-		for(int i=1; i<entrys.length; i++) {
+		for (int i=1; i<entrys.length; i++) {
 			entry = entrys[i];
 			updateBuff.append(", ").append(entry.getValue()).append("=:").append(entry.getKey());
 		}
@@ -114,7 +114,7 @@ public abstract class AbstractJdbcDaoImpl<E extends AbstractBean>  extends Abstr
 		if (ArrayUtils.isEmpty(entities)) {
 			return 0;
 		}
-		for(E entity: entities) {
+		for (E entity: entities) {
 			if (entity == null) {
 				throw new IllegalArgumentException("Entity should not be null before insertion!");
 			}
@@ -126,10 +126,10 @@ public abstract class AbstractJdbcDaoImpl<E extends AbstractBean>  extends Abstr
 			batchSize = entities.length;
 		}
 		int insertRows = 0;
-		for(int i = 0, l = entities.length; i < l; i += batchSize) {
+		for (int i = 0, l = entities.length; i < l; i += batchSize) {
 			SqlParameterSource[] paramSources = createBatchSqlParameterSource(
 					(E[]) ArrayUtils.subarray(entities, i, Math.min(i + batchSize, l)));
-			for(int c: jdbcInsert.executeBatch(paramSources)) {
+			for (int c: jdbcInsert.executeBatch(paramSources)) {
 				insertRows += c;
 			}
 		}
@@ -156,7 +156,7 @@ public abstract class AbstractJdbcDaoImpl<E extends AbstractBean>  extends Abstr
 		if (ArrayUtils.isEmpty(entities)) {
 			return 0;
 		}
-		for(E entity: entities) {
+		for (E entity: entities) {
 			if (entity == null) {
 				throw new IllegalArgumentException("The entity should not be null before update!");
 			}
@@ -168,10 +168,10 @@ public abstract class AbstractJdbcDaoImpl<E extends AbstractBean>  extends Abstr
 			batchSize = entities.length;
 		}
 		int updateRows = 0;
-		for(int i = 0, l = entities.length; i < l; i += batchSize) {
+		for (int i = 0, l = entities.length; i < l; i += batchSize) {
 			SqlParameterSource[] paramSources = createBatchSqlParameterSource(
 					(E[]) ArrayUtils.subarray(entities, i, Math.min(i + batchSize, l)));
-			for(int c: jdbcTemplate.batchUpdate(updateSql, paramSources)) {
+			for (int c: jdbcTemplate.batchUpdate(updateSql, paramSources)) {
 				updateRows += c;
 			}
 		}
@@ -192,7 +192,7 @@ public abstract class AbstractJdbcDaoImpl<E extends AbstractBean>  extends Abstr
 		int initCapacity = entities.length / 2 + 1;
 		List<E> toSaveList = new ArrayList<E>(initCapacity);
 		List<E> toUpdateList = new ArrayList<E>(initCapacity);
-		for(E entity: entities) {
+		for (E entity: entities) {
 			if (entity == null) {
 				continue;
 			}

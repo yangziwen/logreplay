@@ -44,7 +44,7 @@ public class TagFields {
 			return Collections.emptyList();
 		}
 		List<TagInfoDto> dtoList = Lists.newArrayList();
-		for(Map<String, String> map: mapList) {
+		for (Map<String, String> map: mapList) {
 			dtoList.add(convertToTagInfoDto(map));
 		}
 		return dtoList;
@@ -80,7 +80,7 @@ public class TagFields {
 		tagParam.setComment(tagParamComment);
 		if (StringUtils.isNotBlank(tagParamDisplay)) {
 			List<ParamInfo> paramInfoList = Lists.newArrayList();
-			for(String paramInfoDisplay: StringUtils.split(tagParamDisplay, ';')) {
+			for (String paramInfoDisplay: StringUtils.split(tagParamDisplay, ';')) {
 				paramInfoList.add(parseParamInfo(paramInfoDisplay));
 			}
 			tagParam.setParamInfoList(paramInfoList);

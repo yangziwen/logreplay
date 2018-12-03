@@ -60,7 +60,7 @@ public class MonitorUtil {
 			assert values.length == timestamps.length;
 
 			List<Data<Long, Double>> dataList = Lists.newArrayList();
-			for(int i = 0, l = timestamps.length; i < l; i++) {
+			for (int i = 0, l = timestamps.length; i < l; i++) {
 				dataList.add(new Data<Long, Double>()
 					.key(timestamps[i] * 1000)
 					.value(Double.isNaN(values[i])? 0D: values[i])

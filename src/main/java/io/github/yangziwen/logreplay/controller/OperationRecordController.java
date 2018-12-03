@@ -134,7 +134,7 @@ public class OperationRecordController extends BaseController {
 		List<OperationRecordDto> dtoListWithCommonTag = new ArrayList<OperationRecordDto>();
 		Set<Integer> tagNoSet = new HashSet<Integer>();
 		Set<Integer> pageNoSet = new HashSet<Integer>();
-		for(OperationRecordDto dto: dtoList) {
+		for (OperationRecordDto dto: dtoList) {
 			if (dto.getTagNo() != null && dto.getTagNo() > TagInfo.COMMON_TAG_NO_MIN_VALUE) {
 				dtoListWithCommonTag.add(dto);
 				tagNoSet.add(dto.getTagNo());
@@ -162,7 +162,7 @@ public class OperationRecordController extends BaseController {
 				return tagInfo.getTagNo();
 			}
 		});
-		for(OperationRecordDto dto: dtoListWithCommonTag) {
+		for (OperationRecordDto dto: dtoListWithCommonTag) {
 			PageInfo pageInfo = pageInfoMap.get(dto.getPageNo());
 			if (pageInfo != null) {
 				dto.setPageName(pageInfo.getName());
@@ -187,7 +187,7 @@ public class OperationRecordController extends BaseController {
 			.addParam("id__in", collectTagInfoId(list))
 		);
 		Map<Integer, Map<Integer, TagInfo>> dict = new HashMap<Integer, Map<Integer,TagInfo>>();
-		for(TagInfo tagInfo: tagInfoList) {
+		for (TagInfo tagInfo: tagInfoList) {
 			Map<Integer, TagInfo> subDict = dict.get(tagInfo.getPageNo());
 			if (subDict == null) {
 				subDict = new HashMap<Integer, TagInfo>();
@@ -196,7 +196,7 @@ public class OperationRecordController extends BaseController {
 			subDict.put(tagInfo.getTagNo(), tagInfo);
 		}
 		List<OperationRecordDto> dtoList = new ArrayList<OperationRecordDto>();
-		for(OperationRecord record: list) {
+		for (OperationRecord record: list) {
 			TagInfo tagInfo = null;
 			if (dict.get(record.getPageNo()) != null) {
 				tagInfo = dict.get(record.getPageNo()).get(record.getTagNo());
@@ -211,7 +211,7 @@ public class OperationRecordController extends BaseController {
 			return Collections.emptySet();
 		}
 		Set<Long> tagInfoIdSet = new HashSet<Long>();
-		for(OperationRecord record: list) {
+		for (OperationRecord record: list) {
 			tagInfoIdSet.add(record.getTagInfoId());
 		}
 		return tagInfoIdSet;
@@ -228,14 +228,14 @@ public class OperationRecordController extends BaseController {
 			}
 		});
 		TagParamParser parser = tagParamService.getTagParamParserByTagInfoIdList(tagInfoIdList);
-		for(OperationRecordDto dto: dtoList) {
+		for (OperationRecordDto dto: dtoList) {
 			String params = dto.getParams();
 			if (StringUtils.isBlank(params)) {
 				params = "{}";
 			}
 			JSONObject json = JSON.parseObject(params);
 			List<String> requiredParamNameList = parser.getRequiredParamNameList(dto.getTagInfoId());
-			for(String requiredParamName: requiredParamNameList) {
+			for (String requiredParamName: requiredParamNameList) {
 				if (!json.containsKey(requiredParamName)) {
 					TagParamParsedResult lackOfParamResult = new TagParamParsedResult()
 						.paramName(requiredParamName)
@@ -245,7 +245,7 @@ public class OperationRecordController extends BaseController {
 					dto.addParamParsedResult(lackOfParamResult);
 				}
 			}
-			for(Entry<String, Object> entry: json.entrySet()) {
+			for (Entry<String, Object> entry: json.entrySet()) {
 				String key = entry.getKey();
 				if (TagParamParser.isParamKeyExcluded(key)) {
 					continue;

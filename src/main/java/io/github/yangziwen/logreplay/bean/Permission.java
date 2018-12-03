@@ -68,7 +68,7 @@ public class Permission extends AbstractBean {
 				.append(":")
 				.append(actions[0].name().toLowerCase())
 			;
-			for(int i = 1; i < actions.length; i++) {
+			for (int i = 1; i < actions.length; i++) {
 				buff.append(",").append(actions[i].name().toLowerCase());
 			}
 			return buff.toString();

@@ -78,7 +78,7 @@ public class ExcelUtil {
 			Row row = rowIter.next();
 			Map<String, String> map = new HashMap<String, String>();
 			list.add(map);
-			for(int i = 0; i < len; i++) {
+			for (int i = 0; i < len; i++) {
 				Cell cell = row.getCell(i);
 				String key = headerList.get(i);
 				String value = cell != null? cell.toString(): null;
@@ -120,7 +120,7 @@ public class ExcelUtil {
 		if (CollectionUtils.isEmpty(dataList)) {	// 如果没有数据，则至少创建一个空的sheet，不然excel文件打开时会出错
 			createNewSheet(workbook, ++ sheetIndex, sheetName + (sheetIndex + 1), columnList, headerStyle);
 		} else {
-			for(int i=0, l=dataList.size(); i<l; i++) {
+			for (int i=0, l=dataList.size(); i<l; i++) {
 				if (i / MAX_DATAROW_PER_SHEET > sheetIndex) {
 					sheetIndex ++;
 					createNewSheet(workbook, sheetIndex, sheetName + (sheetIndex + 1), columnList, headerStyle);
@@ -130,7 +130,7 @@ public class ExcelUtil {
 				DataContainer dc = dataList.get(i);
 				Row row = sheet.createRow(rowIndex);
 
-				for(int j = 0, m = columnList.size(); j < m; j++) {
+				for (int j = 0, m = columnList.size(); j < m; j++) {
 					Column column = columnList.get(j);
 					String columnKey = column.getKey();
 					Cell cell = row.createCell(j);
@@ -152,7 +152,7 @@ public class ExcelUtil {
 			dataList = Collections.emptyList();
 		}
 		List<DataContainer> list = new ArrayList<DataContainer>(dataList.size());
-		for(Map<String, Object> m: dataList) {
+		for (Map<String, Object> m: dataList) {
 			list.add(MapDataContainer.newInstance(m));
 		}
 		return exportDataList(columnList, list);
@@ -162,7 +162,7 @@ public class ExcelUtil {
 		Sheet sheet = workbook.createSheet(sheetName);
 		workbook.setSheetName(sheetIndex, sheetName);
 		Row titleRow = sheet.createRow(0);
-		for(int i=0, l=columnList.size(); i<l; i++) {
+		for (int i=0, l=columnList.size(); i<l; i++) {
 			Column column = columnList.get(i);
 			if (column.getWidth() > 1000) {
 				sheet.setColumnWidth(i, column.getWidth());

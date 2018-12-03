@@ -176,7 +176,7 @@ public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 	protected String generateWhereByParam(Map<String, Object> params) {
 		List<Map<String, Object>> orParamList = new ArrayList<Map<String,Object>>();
 		List<String> keyList = new ArrayList<String>(params.keySet());
-		for(String key: keyList) {
+		for (String key: keyList) {
 			if (key == null || !key.toLowerCase().endsWith(DaoConstant.OR_SUFFIX)) {
 				continue;
 			}
@@ -188,7 +188,7 @@ public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 		}
 		StringBuilder whereBuff = new StringBuilder(" where ")
 			.append(generateAndConditionsByParam(params));
-		for(Map<String, Object> orParam: orParamList) {
+		for (Map<String, Object> orParam: orParamList) {
 			whereBuff.append(" and (").append(generateOrConditionsByParam(orParam)).append(")");
 			params.putAll(orParam);
 		}
@@ -197,7 +197,7 @@ public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 	
 	private String generateAndConditionsByParam(Map<String, Object> params) {
 		StringBuilder andBuff = new StringBuilder(" 1 = 1 ");
-		for(Entry<String, Object> entry: params.entrySet()) {
+		for (Entry<String, Object> entry: params.entrySet()) {
 			if (DaoConstant.ORDER_BY.equals(entry.getKey())) {
 				continue;
 			}
@@ -219,7 +219,7 @@ public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 	
 	private String generateOrConditionsByParam(Map<String, Object> params) {
 		StringBuilder orBuff = new StringBuilder(" 1 = 2 ");
-		for(Entry<String, Object> entry: params.entrySet()) {
+		for (Entry<String, Object> entry: params.entrySet()) {
 			if (DaoConstant.ORDER_BY.equals(entry.getKey())) {
 				continue;
 			}
@@ -297,7 +297,7 @@ public abstract class AbstractReadOnlyJdbcDaoImpl <E extends AbstractBean> {
 		}
 		StringBuilder orderByBuff = new StringBuilder();
 		boolean isFirst = true;
-		for(Entry<?, ?> entry: orderByParams.entrySet()) {
+		for (Entry<?, ?> entry: orderByParams.entrySet()) {
 			String key = entry.getKey() != null? beanMapping.getColumnByField(entry.getKey().toString()): "";
 			String value = entry.getValue() != null? entry.getValue().toString(): "";
 			if (StringUtils.isBlank(key) && StringUtils.isBlank(value)) {

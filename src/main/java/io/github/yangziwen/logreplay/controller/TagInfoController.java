@@ -108,7 +108,7 @@ public class TagInfoController extends BaseController {
 			return;
 		}
 		Set<Long> tagInfoIdSet = new HashSet<Long>();
-		for(TagInfo tagInfo: tagInfoList) {
+		for (TagInfo tagInfo: tagInfoList) {
 			tagInfoIdSet.add(tagInfo.getId());
 		}
 		List<TagParam> tagParamList = tagParamService.getTagParamListResult(new QueryParamMap()
@@ -120,7 +120,7 @@ public class TagInfoController extends BaseController {
 				return tagParam.getTagInfoId();
 			}
 		}).keySet();
-		for(TagInfo tagInfo: tagInfoList) {
+		for (TagInfo tagInfo: tagInfoList) {
 			tagInfo.setHasParams(tagInfoIdsWithParam.contains(tagInfo.getId()));
 		}
 
@@ -359,7 +359,7 @@ public class TagInfoController extends BaseController {
 				.addParam("name__contain", pageName)
 				.addParam("productId", ProductUtil.getProductId())
 			);
-			for(PageInfo pageInfo: pageInfoList) {
+			for (PageInfo pageInfo: pageInfoList) {
 				pageInfoIdList.add(pageInfo.getId());
 			}
 		}
@@ -422,18 +422,18 @@ public class TagInfoController extends BaseController {
 
 		Map<String, TagAction> actionMap = Maps.newHashMap();
 		List<TagAction> actionList = tagActionService.getTagActionListResult();
-		for(TagAction action: actionList) {
+		for (TagAction action: actionList) {
 			actionMap.put(action.getName(), action);
 		}
 
 		Map<String, TagTarget> targetMap = Maps.newHashMap();
 		List<TagTarget> targetList = tagTargetService.getTagTargetListResult();
-		for(TagTarget target: targetList) {
+		for (TagTarget target: targetList) {
 			targetMap.put(target.getName(), target);
 		}
 
 		int cnt = 0;
-		for(TagInfoDto tagInfoDto: dtoList) {
+		for (TagInfoDto tagInfoDto: dtoList) {
 			if (createTagInfoByDto(tagInfoDto, pageInfoMap, actionMap, targetMap)) {
 				cnt ++;
 			}

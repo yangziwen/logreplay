@@ -100,7 +100,7 @@ public class TagInfoService {
 			return Collections.emptySet();
 		}
 		Set<Long> existedIdSet = new HashSet<Long>();
-		for(ParamInfo paramInfo: paramInfoList) {
+		for (ParamInfo paramInfo: paramInfoList) {
 			if (paramInfo == null || paramInfo.getId() == null) {
 				continue;
 			}

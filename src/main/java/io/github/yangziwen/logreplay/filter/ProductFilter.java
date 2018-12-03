@@ -40,7 +40,7 @@ public class ProductFilter extends OncePerRequestFilter {
 			filterChain.doFilter(request, response);
 			return;
 		}
-		for(Cookie cookie: cookies) {
+		for (Cookie cookie: cookies) {
 			if (ProductUtil.COOKIE_KEY.equals(cookie.getName())) {
 				ProductUtil.setProductId(NumberUtils.toLong(cookie.getValue(), DEFAULT_PRODUCT_ID));
 				filterChain.doFilter(request, response);

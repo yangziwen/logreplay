@@ -75,7 +75,7 @@ public class BeanMapping<E extends AbstractBean> {
 		if (clazz.getSuperclass() != Object.class) {
 			list.addAll(getFieldsWithColumnAnnotation(clazz.getSuperclass()));
 		}
-		for(Field field: clazz.getDeclaredFields()) {
+		for (Field field: clazz.getDeclaredFields()) {
 			if (field.getAnnotation(Column.class) == null) {
 				continue;
 			}
@@ -91,7 +91,7 @@ public class BeanMapping<E extends AbstractBean> {
 	 */
 	public static Field getIdField(List<Field> fields) {
 		Field idNamedField = null;
-		for(Field field: fields) {
+		for (Field field: fields) {
 			if (field.getAnnotation(Id.class) != null) {
 				return field;
 			}
@@ -107,7 +107,7 @@ public class BeanMapping<E extends AbstractBean> {
 
 	public static Map<String, String> generateFieldColumnMapping(List<Field> fields) {
 		Map<String, String> mapping = new LinkedHashMap<String, String>();
-		for(Field field: fields) {
+		for (Field field: fields) {
 			Column column = field.getAnnotation(Column.class);
 			if (column == null) {
 				continue;

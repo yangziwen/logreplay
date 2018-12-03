@@ -52,7 +52,7 @@ public class TagParamParser {
 			return Collections.emptyList();
 		}
 		List<String> list = new ArrayList<String>();
-		for(ParamInfoHolder paramInfoHolder: tagParamHolder.holderMap.values()) {
+		for (ParamInfoHolder paramInfoHolder: tagParamHolder.holderMap.values()) {
 			if (paramInfoHolder.merelyRequired()) {
 				list.add(paramInfoHolder.paramName);
 			}

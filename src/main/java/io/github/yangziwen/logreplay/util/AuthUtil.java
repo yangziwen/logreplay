@@ -49,7 +49,7 @@ public class AuthUtil {
 	
 	public static List<Role> getAllRoleObjList() {
 		List<Role> list = new ArrayList<Role>();
-		for(Role role: ensureRoleObjMap().values()) {
+		for (Role role: ensureRoleObjMap().values()) {
 			list.add(role.clone());
 		}
 		return list;
@@ -59,7 +59,7 @@ public class AuthUtil {
 		if (roleObjMap == null) {
 			List<Role> list = SpringUtil.getBean(RoleService.class).getRoleListResult(QueryParamMap.emptyMap());
 			Map<String, Role> map = new LinkedHashMap<String, Role>();
-			for(Role role: list) {
+			for (Role role: list) {
 				map.put(role.getName(), role);
 			}
 			roleObjMap = map;
@@ -132,7 +132,7 @@ public class AuthUtil {
 	
 	public static boolean hasAnyRoles(String... roles) {
 		Subject subject = getCurrentSubject();
-		for(String role: roles) {
+		for (String role: roles) {
 			if (subject.hasRole(role)) {
 				return true;
 			}

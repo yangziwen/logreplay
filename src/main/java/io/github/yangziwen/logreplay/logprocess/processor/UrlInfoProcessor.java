@@ -50,7 +50,7 @@ public class UrlInfoProcessor {
 		}
 		int equalityIndex = -1;
 		Map<String, String> params = new LinkedHashMap<String, String>();
-		for(String pair: queryString.split("&")) {
+		for (String pair: queryString.split("&")) {
 			if (StringUtils.isBlank(pair) || (equalityIndex = pair.indexOf("=")) == -1) {
 				continue;
 			}

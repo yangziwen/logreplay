@@ -39,7 +39,7 @@ public class RoleService {
 	public void updateRelatedPermissions(Role role, List<Permission> permissionList) {
 		roleRelPermissionDao.deleteRoleRelPermissionByRoleId(role.getId());
 		List<RoleRelPermission> relList = new ArrayList<RoleRelPermission>();
-		for(Permission permission: permissionList) {
+		for (Permission permission: permissionList) {
 			RoleRelPermission rel = new RoleRelPermission(role.getId(), permission.getId());
 			relList.add(rel);
 		}

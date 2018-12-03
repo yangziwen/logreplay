@@ -236,11 +236,11 @@ public class ImageController extends BaseController {
 		}
 
 		try {
-			for(Image avatarImage: avatarImageList) {
+			for (Image avatarImage: avatarImageList) {
 				persistImage(avatarImage);
 			}
 //			imageService.batchSaveImageList(avatarImageList);
-			for(Image avatarImage: avatarImageList) {
+			for (Image avatarImage: avatarImageList) {
 				imageService.createImage(avatarImage);
 			}
 
@@ -258,7 +258,7 @@ public class ImageController extends BaseController {
 	private List<Avatar> buildAvatarList(List<Image> avatarImageList) {
 		List<Avatar> avatarList = new ArrayList<Avatar>();
 		Long userId = AuthUtil.getCurrentUser().getId();
-		for(Image image: avatarImageList) {
+		for (Image image: avatarImageList) {
 			avatarList.add(new Avatar(userId, image.getId(), image.getType()));
 		}
 		return avatarList;
@@ -271,7 +271,7 @@ public class ImageController extends BaseController {
 		List<Image> avatarList = new ArrayList<Image>();
 		int width = image.getWidth(), height = image.getHeight();
 		Long creatorId = AuthUtil.getCurrentUser().getId();
-		for(Image.Type avatarType: Avatar.IMAGE_TYPES) {
+		for (Image.Type avatarType: Avatar.IMAGE_TYPES) {
 			double scaleX = avatarType.width() * 1D / width;
 			double scaleY = avatarType.height() * 1D / height;
 			BufferedImage zoomedImage = ImageUtil.zoomImage(image, scaleX, scaleY);

@@ -91,7 +91,7 @@ public class UserService {
 		}
 		userDao.save(user);
 		List<UserRelRole> userRelRoleList = new ArrayList<UserRelRole>();
-		for(Role role: roleList) {
+		for (Role role: roleList) {
 			UserRelRole rel = new UserRelRole();
 			rel.setUserId(user.getId());;
 			rel.setRoleId(role.getId());
@@ -111,7 +111,7 @@ public class UserService {
 		userDao.update(user);
 		userRelRoleDao.deleteUserRelRolesByUserId(user.getId());
 		List<UserRelRole> userRelRoleList = new ArrayList<UserRelRole>();
-		for(Role role: roleList) {
+		for (Role role: roleList) {
 			UserRelRole rel = new UserRelRole(user.getId(), role.getId());
 			userRelRoleList.add(rel);
 		}

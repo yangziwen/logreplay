@@ -239,7 +239,7 @@ public class TagInfo extends AbstractBean {
 			if (intValue == null) {
 				return UNKNOWN;
 			}
-			for(InspectStatus status: values()) {
+			for (InspectStatus status: values()) {
 				if (intValue.equals(status.intValue)) {
 					return status;
 				}
@@ -251,7 +251,7 @@ public class TagInfo extends AbstractBean {
 			if (StringUtils.isBlank(description)) {
 				return UNKNOWN;
 			}
-			for(InspectStatus status: values()) {
+			for (InspectStatus status: values()) {
 				if (description.equals(status.description)) {
 					return status;
 				}

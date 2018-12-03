@@ -49,8 +49,8 @@ public class TagParamService {
 		List<TagParam> tagParamList = getTagParamListResultWithInfos(new QueryParamMap()
 			.addParam("tagInfoId__in", tagInfoIdList)
 		);
-		for(TagParam tagParam: tagParamList) {
-			for(ParamInfo paramInfo: tagParam.getParamInfoList()) {
+		for (TagParam tagParam: tagParamList) {
+			for (ParamInfo paramInfo: tagParam.getParamInfoList()) {
 				parser.addParamInfo(tagParam.getTagInfoId(), paramInfo);
 			}
 		}
@@ -71,7 +71,7 @@ public class TagParamService {
 			return;
 		}
 		tagParamDao.saveOrUpdate(tagParam);
-		for(ParamInfo paramInfo: paramInfoList) {
+		for (ParamInfo paramInfo: paramInfoList) {
 			paramInfo.setTagParamId(tagParam.getId());
 		}
 		List<ParamInfo> toSaveParamInfoList = extractToSaveParamInfoList(paramInfoList);
@@ -87,7 +87,7 @@ public class TagParamService {
 			return Collections.emptyList();
 		}
 		List<ParamInfo> toSaveList = new ArrayList<ParamInfo>();
-		for(ParamInfo paramInfo: paramInfoList) {
+		for (ParamInfo paramInfo: paramInfoList) {
 			if (paramInfo == null || paramInfo.getId() != null) {
 				continue;
 			}
@@ -102,7 +102,7 @@ public class TagParamService {
 		}
 		Set<Long> existedIdSet = collectParamInfoId(tagParam.getParamInfoList());
 		List<ParamInfo> toUpdateList = new ArrayList<ParamInfo>();
-		for(ParamInfo paramInfo: paramInfoList) {
+		for (ParamInfo paramInfo: paramInfoList) {
 			if (paramInfo == null || !existedIdSet.contains(paramInfo.getId())) {
 				continue;
 			}
@@ -120,7 +120,7 @@ public class TagParamService {
 		}
 		Set<Long> survivedIdSet = collectParamInfoId(paramInfoList);
 		List<ParamInfo> toDeleteList = new ArrayList<ParamInfo>();
-		for(ParamInfo paramInfo: tagParam.getParamInfoList()) {
+		for (ParamInfo paramInfo: tagParam.getParamInfoList()) {
 			if (paramInfo == null || survivedIdSet.contains(paramInfo.getId())) {
 				continue;
 			}
@@ -134,7 +134,7 @@ public class TagParamService {
 			return Collections.emptySet();
 		}
 		Set<Long> existedIdSet = new HashSet<Long>();
-		for(ParamInfo paramInfo: paramInfoList) {
+		for (ParamInfo paramInfo: paramInfoList) {
 			if (paramInfo == null || paramInfo.getId() == null) {
 				continue;
 			}

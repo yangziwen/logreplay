@@ -59,7 +59,7 @@ public class OperationRecordDao extends AbstractJdbcDaoImpl<OperationRecord> {
 		if (ArrayUtils.isEmpty(records)) {
 			return 0;
 		}
-		for(OperationRecord record: records) {
+		for (OperationRecord record: records) {
 			if (record.getId() != null) {
 				throw new IllegalArgumentException("Id of the OperationRecord should be 0 before insert! [" + record + "]");
 			}
@@ -67,7 +67,7 @@ public class OperationRecordDao extends AbstractJdbcDaoImpl<OperationRecord> {
 		if (batchSize <= 0) {
 			batchSize = 100;
 		}
-		for(int i = 0, l = records.length; i < l; i += batchSize) {
+		for (int i = 0, l = records.length; i < l; i += batchSize) {
 			String sql = generateBatchSaveSql(records, i, Math.min(i + batchSize, l));
 			jdbcTemplate.getJdbcOperations().execute(sql);
 		}
@@ -78,7 +78,7 @@ public class OperationRecordDao extends AbstractJdbcDaoImpl<OperationRecord> {
 		StringBuilder sqlBuff = new StringBuilder()
 			.append(" insert into operation_record (ip, product_id, device_id, uvid, os, version, timestamp, page_no, tag_no, params) values ");
 		OperationRecord record = null;
-		for(int i = startIndexInclusive; i < endIndexExclusive; i++) {
+		for (int i = startIndexInclusive; i < endIndexExclusive; i++) {
 			if (i > startIndexInclusive) {
 				sqlBuff.append(",");
 			}

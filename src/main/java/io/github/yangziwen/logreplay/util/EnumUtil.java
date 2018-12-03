@@ -59,7 +59,7 @@ public class EnumUtil {
 		if (value instanceof Object[] && enumType.isAssignableFrom(value.getClass().getComponentType())) {
 			Object[] array = (Object[]) value;
 			List<Object> list = new ArrayList<Object>();
-			for(Object obj: array) {
+			for (Object obj: array) {
 				list.add(convertValue(obj, enumType, converter));
 			}
 			return list;

@@ -103,7 +103,7 @@ public class InspectionRecordService {
 		List<Long> userIdList = Lists.newArrayList();
 		List<Long> pageInfoIdList = Lists.newArrayList();
 		List<Long> tagInfoIdList = Lists.newArrayList();
-		for(InspectionRecord record: page.getList()) {
+		for (InspectionRecord record: page.getList()) {
 			if (record.getSubmitterId() != null) userIdList.add(record.getSubmitterId());
 			if (record.getSolverId() != null) userIdList.add(record.getSolverId());
 			if (record.getPageInfoId() != null) pageInfoIdList.add(record.getPageInfoId());
@@ -112,7 +112,7 @@ public class InspectionRecordService {
 		Map<Long, User> userMap = getUserMapByIdList(userIdList);
 		Map<Long, PageInfo> pageInfoMap = getPageInfoMapByIdList(pageInfoIdList);
 		Map<Long, TagInfo> tagInfoMap = getTagInfoMapByIdList(tagInfoIdList);
-		for(InspectionRecord record: page.getList()) {
+		for (InspectionRecord record: page.getList()) {
 			record.setSubmitter(userMap.get(record.getSubmitterId()));
 			record.setSolver(userMap.get(record.getSolverId()));
 			record.setPageInfo(pageInfoMap.get(record.getPageInfoId()));

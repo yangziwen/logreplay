@@ -313,7 +313,7 @@ public class TagInfoDto implements DataContainer {
 			Map<Long, TagParam> tagParamMap // Map<tagInfoId, tagParam>
 			) {
 		List<TagInfoDto> dtoList = new ArrayList<TagInfoDto>(list.size());
-		for(TagInfo tagInfo: list) {
+		for (TagInfo tagInfo: list) {
 			dtoList.add(new TagInfoDto().from(tagInfo, actionMap, targetMap, tagParamMap));
 		}
 		return dtoList;

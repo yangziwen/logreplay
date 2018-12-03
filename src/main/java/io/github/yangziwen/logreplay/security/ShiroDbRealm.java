@@ -63,14 +63,14 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		User user = principals.oneByType(User.class);
 		if (user != null) {
 			UserWithRoles userWithRoles = userService.getUserWithRolesById(user.getId());
-			for(Role role: userWithRoles.getRoles()) {
+			for (Role role: userWithRoles.getRoles()) {
 				info.addRole(role.getName());
 				if (Role.ADMIN.equals(role.getName())) {
 					info.addStringPermission("*:*");
 				}
 			}
 			List<Permission> permissionList = permissionService.getPermissionListByRoleList(userWithRoles.getRoles());
-			for(Permission permission: permissionList) {
+			for (Permission permission: permissionList) {
 				info.addStringPermission(permission.toString());
 			}
 		}

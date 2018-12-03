@@ -62,7 +62,7 @@ public class OperationLogProcessor {
 		JSONObject allInfo = JSON.parseObject(allInfoStr);
 		JSONArray eventInfoList = allInfo.getJSONArray("l");
 		JSONObject event6000Info = null;
-		for(int i = 0, l = eventInfoList.size(); i < l; i++) {
+		for (int i = 0, l = eventInfoList.size(); i < l; i++) {
 			JSONObject info = eventInfoList.getJSONObject(i);
 			if (info == null) {
 				continue;
@@ -85,7 +85,7 @@ public class OperationLogProcessor {
 			return null;
 		}
 		List<Map<String, Object>> operationList = new ArrayList<Map<String,Object>>();
-		for(int i = 0, l = subInfoList.size(); i < l; i++) {
+		for (int i = 0, l = subInfoList.size(); i < l; i++) {
 			JSONObject subInfo = subInfoList.getJSONObject(i);
 			if (subInfo.get("tag") != null && subInfo.get("p") != null) {
 				operationList.add(subInfo);

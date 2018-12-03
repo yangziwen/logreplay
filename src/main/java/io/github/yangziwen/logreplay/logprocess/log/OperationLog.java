@@ -67,7 +67,7 @@ public class OperationLog {
 			return Collections.emptyList();
 		}
 		List<OperationRecord> recordList = new ArrayList<OperationRecord>();
-		for(Map<String, Object> operation: operationList) {
+		for (Map<String, Object> operation: operationList) {
 			if (MapUtils.isEmpty(operation)) {
 				continue;
 			}

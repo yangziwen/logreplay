@@ -33,7 +33,7 @@ public abstract class AbstractEditPropertyJdbcDaoImpl<E extends AbstractBean> ex
 		if (value instanceof Collection<?>) {
 			value = ((Collection<?>) value).toArray();
 		}
-		for(CustomPropertyEditor editor: editorMap.values()) {
+		for (CustomPropertyEditor editor: editorMap.values()) {
 			if ((newValue = editor.convertValue(value)) != null) {
 				break;
 			}
@@ -47,7 +47,7 @@ public abstract class AbstractEditPropertyJdbcDaoImpl<E extends AbstractBean> ex
 		return new BeanMapping<E>(entityClass) {
 			@Override
 			protected void afterInitBeanWrapper(BeanWrapper bw) {
-				for(Entry<Class<?>, CustomPropertyEditor> entry: getPropertyEditorMap().entrySet()) {
+				for (Entry<Class<?>, CustomPropertyEditor> entry: getPropertyEditorMap().entrySet()) {
 					bw.registerCustomEditor(entry.getKey(), entry.getValue());
 				}
 			}

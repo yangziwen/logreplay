@@ -61,7 +61,7 @@ public class ProductUtil {
 
 	public static List<Product> getProductList() {
 		List<Product> newList = new ArrayList<Product>();
-		for(Product product: ensureProductMap().values()) {
+		for (Product product: ensureProductMap().values()) {
 			newList.add(product.clone());
 		}
 		return Collections.unmodifiableList(newList);
@@ -71,7 +71,7 @@ public class ProductUtil {
 		if (productMap == null) {
 			List<Product> list = doGetProductList();
 			Map<Long, Product> map = new LinkedHashMap<Long, Product>();
-			for(Product product: list) {
+			for (Product product: list) {
 				map.put(product.getId(), product);
 			}
 			productMap = map;
@@ -111,7 +111,7 @@ public class ProductUtil {
 			return NumberUtils.toInt(version);
 		}
 		String[] arr = StringUtils.split(version, '.');
-		for(int i = 0, l = arr.length; i < l; i++) {
+		for (int i = 0, l = arr.length; i < l; i++) {
 			if (!NumberUtils.isNumber(arr[i])) {
 				return 0;
 			}

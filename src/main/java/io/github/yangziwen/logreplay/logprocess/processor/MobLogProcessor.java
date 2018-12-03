@@ -27,7 +27,7 @@ public class MobLogProcessor {
 		}
 		int colonIndex = -1;
 		Map<String, String> params = new HashMap<String, String>();
-		for(String pair: log.split(",")) {
+		for (String pair: log.split(",")) {
 			if (StringUtils.isBlank(pair) || (colonIndex = pair.indexOf(":")) == -1 ) {
 				continue;
 			}
