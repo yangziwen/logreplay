@@ -19,12 +19,12 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
@@ -58,7 +58,7 @@ import io.github.yangziwen.logreplay.util.ProductUtil;
 import io.github.yangziwen.logreplay.util.TagParamParser;
 import io.github.yangziwen.logreplay.util.TagParamParser.ParamInfoHolder;
 
-@Controller
+@RestController
 @RequestMapping("/operationRecord")
 public class OperationRecordController extends BaseController {
 
@@ -81,8 +81,7 @@ public class OperationRecordController extends BaseController {
 	 * 获取数据库中最新的一条操作记录
 	 * 用于在实时校验(回放)开始时确定第一次轮询的idSince的值
 	 */
-	@ResponseBody
-	@RequestMapping("/latest")
+	@GetMapping("/latest")
 	public ModelMap getLatestRecord() {
 		return successResult(operationRecordService.getLatestOperationRecord());
 	}
@@ -91,8 +90,7 @@ public class OperationRecordController extends BaseController {
 	 * 获取操作记录
 	 * 用于实时校验(回放)
 	 */
-	@ResponseBody
-	@RequestMapping("/query")
+	@GetMapping("/query")
 	@RequiresPermissions("operation_record:view")
 	public ModelMap query(
 			Long idSince,
@@ -271,8 +269,7 @@ public class OperationRecordController extends BaseController {
 	 * 请求串格式如下
 	 * http://127.0.0.1:8075/operationRecord/receive?moblog=sid:,os:Android4%252e1%252e2,d:A00000408A5798,op:460%252d03,density:240,loginid:,net:wifi,vn:6%252e2%252e0,pd:1,v:60200000,u:1420989208035172,md:SCH%252dI829,bsns:807,openid:,mf:samsung,apn:&info={"key":"菜市场","tag":1,"p":4,"t":1421656262063}
 	 */
-	@ResponseBody
-	@RequestMapping(value = "/receive", method = RequestMethod.GET)
+	@GetMapping("/receive")
 	public ModelMap receiveDataViaGet(
 			@RequestParam("moblog") String moblogStr,
 			@RequestParam("info") String infoStr,
@@ -280,8 +277,7 @@ public class OperationRecordController extends BaseController {
 		return doReceiveData(moblogStr, infoStr, request);
 	}
 
-	@ResponseBody
-	@RequestMapping(value = "/receive", method = RequestMethod.POST)
+	@PostMapping("/receive")
 	public ModelMap receiveDataViaPost (
 			@RequestParam("moblog") String moblogStr,
 			@RequestParam("info") String infoStr,
@@ -331,8 +327,7 @@ public class OperationRecordController extends BaseController {
 		eventBus.post(dtoList.get(0));
 	}
 
-	@ResponseBody
-	@RequestMapping(value = "/upload/nginx", method = RequestMethod.POST)
+	@PostMapping("/upload/nginx")
 	@RequiresPermissions("operation_record:modify")
 	public ModelMap uploadNginxLog(MultipartFile file) {
 		if (!AuthUtil.isPermitted(Target.Operation_Record.modify())) {

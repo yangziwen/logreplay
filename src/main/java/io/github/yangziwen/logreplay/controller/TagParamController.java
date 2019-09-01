@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 
@@ -20,7 +20,7 @@ import io.github.yangziwen.logreplay.exception.LogReplayException;
 import io.github.yangziwen.logreplay.service.TagInfoService;
 import io.github.yangziwen.logreplay.service.TagParamService;
 
-@Controller
+@RestController
 @RequestMapping("/tagParam")
 public class TagParamController extends BaseController {
 
@@ -30,15 +30,13 @@ public class TagParamController extends BaseController {
 	@Autowired
 	private TagInfoService tagInfoService;
 
-	@ResponseBody
-	@RequestMapping("/detail")
+	@GetMapping("/detail")
 	@RequiresPermissions("tag_info:view")
 	public ModelMap detail(@RequestParam Long tagInfoId) {
 		return successResult(tagParamService.getTagParamByTagInfoId(tagInfoId));
 	}
 
-	@ResponseBody
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@PostMapping("/update")
 	@RequiresPermissions("tag_info:modify")
 	public ModelMap update(
 			@RequestParam Long tagInfoId,

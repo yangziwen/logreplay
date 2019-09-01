@@ -10,13 +10,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.Lists;
 
@@ -30,7 +30,7 @@ import io.github.yangziwen.logreplay.util.ExcelUtil;
 import io.github.yangziwen.logreplay.util.ExcelUtil.Column;
 import io.github.yangziwen.logreplay.util.ProductUtil;
 
-@Controller
+@RestController
 @RequestMapping("/pageInfo")
 public class PageInfoController extends BaseController {
 
@@ -39,8 +39,7 @@ public class PageInfoController extends BaseController {
 	@Autowired
 	private PageInfoService pageInfoService;
 
-	@ResponseBody
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@GetMapping("/list")
 	@RequiresPermissions("page_info:view")
 	public Map<String, Object> list(
 			@RequestParam(defaultValue = Page.DEFAULT_START) int start,
@@ -61,8 +60,7 @@ public class PageInfoController extends BaseController {
 		return successResult(page);
 	}
 
-	@ResponseBody
-	@RequestMapping(value = "/export", method = RequestMethod.GET)
+	@GetMapping("/export")
 	@RequiresPermissions("page_info:view")
 	public void export(
 			Integer pageNo,
@@ -84,24 +82,21 @@ public class PageInfoController extends BaseController {
 		ExcelUtil.outputExcelToResponse(workbook, filename, response);
 	}
 
-	@ResponseBody
-	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+	@GetMapping("/detail/{id}")
 	@RequiresPermissions("page_info:view")
 	public Map<String, Object> detail(@PathVariable("id") Long id) {
 		PageInfo info = pageInfoService.getPageInfoById(id);
 		return successResult(info);
 	}
 
-	@ResponseBody
-	@RequestMapping(value = "/detailByPageNo/{pageNo}", method = RequestMethod.GET)
+	@GetMapping("/detailByPageNo/{pageNo}")
 	@RequiresPermissions("page_info:view")
 	public Map<String, Object> detailByPageNo(@PathVariable("pageNo") Integer pageNo) {
 		PageInfo info = pageInfoService.getPageInfoByPageNoAndProductId(pageNo, ProductUtil.getProductId());
 		return successResult(info);
 	}
 
-	@ResponseBody
-	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+	@PostMapping("/update/{id}")
 	@RequiresPermissions("page_info:modify")
 	public Map<String, Object> update(@PathVariable("id") Long id,
 			@RequestParam Integer pageNo,
@@ -123,8 +118,7 @@ public class PageInfoController extends BaseController {
 		}
 	}
 
-	@ResponseBody
-	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	@PostMapping("/create")
 	@RequiresPermissions("page_info:modify")
 	public ModelMap create(
 			@RequestParam Integer pageNo,
@@ -142,8 +136,7 @@ public class PageInfoController extends BaseController {
 		}
 	}
 
-	@ResponseBody
-	@RequestMapping("/checkDuplication")
+	@GetMapping("/checkDuplication")
 	public boolean checkDuplication(Long id, Integer pageNo) {
 		if (pageNo == null || pageNo <= 0) {
 			return false;
@@ -162,8 +155,7 @@ public class PageInfoController extends BaseController {
 		return true;
 	}
 
-	@ResponseBody
-	@RequestMapping("/checkExist")
+	@GetMapping("/checkExist")
 	public boolean checkExist(Integer pageNo) {
 		if (pageNo == null || pageNo <= 0) {
 			return false;

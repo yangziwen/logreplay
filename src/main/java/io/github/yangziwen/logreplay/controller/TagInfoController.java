@@ -15,13 +15,15 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.base.Function;
@@ -30,9 +32,9 @@ import com.google.common.collect.Maps;
 import io.github.yangziwen.logreplay.bean.PageInfo;
 import io.github.yangziwen.logreplay.bean.TagAction;
 import io.github.yangziwen.logreplay.bean.TagInfo;
+import io.github.yangziwen.logreplay.bean.TagInfo.InspectStatus;
 import io.github.yangziwen.logreplay.bean.TagParam;
 import io.github.yangziwen.logreplay.bean.TagTarget;
-import io.github.yangziwen.logreplay.bean.TagInfo.InspectStatus;
 import io.github.yangziwen.logreplay.controller.base.BaseController;
 import io.github.yangziwen.logreplay.dao.base.Page;
 import io.github.yangziwen.logreplay.dao.base.QueryParamMap;
@@ -44,12 +46,12 @@ import io.github.yangziwen.logreplay.service.TagInfoService;
 import io.github.yangziwen.logreplay.service.TagParamService;
 import io.github.yangziwen.logreplay.service.TagTargetService;
 import io.github.yangziwen.logreplay.util.ExcelUtil;
-import io.github.yangziwen.logreplay.util.ProductUtil;
-import io.github.yangziwen.logreplay.util.TagFields;
 import io.github.yangziwen.logreplay.util.ExcelUtil.CellType;
 import io.github.yangziwen.logreplay.util.ExcelUtil.Column;
+import io.github.yangziwen.logreplay.util.ProductUtil;
+import io.github.yangziwen.logreplay.util.TagFields;
 
-@Controller
+@RestController
 @RequestMapping("/tagInfo")
 public class TagInfoController extends BaseController {
 
@@ -72,8 +74,7 @@ public class TagInfoController extends BaseController {
 	@Autowired
 	private TagParamService tagParamService;
 
-	@ResponseBody
-	@RequestMapping("/list")
+	@GetMapping("/list")
 	@RequiresPermissions("tag_info:view")
 	public ModelMap list(
 			@RequestParam(defaultValue = Page.DEFAULT_START) int start,
@@ -126,16 +127,14 @@ public class TagInfoController extends BaseController {
 
 	}
 
-	@ResponseBody
-	@RequestMapping("/detail/{id}")
+	@GetMapping("/detail/{id}")
 	@RequiresPermissions("tag_info:view")
 	public ModelMap detail(@PathVariable("id") Long id) {
 		TagInfo tagInfo = tagInfoService.getTagInfoById(id);
 		return successResult(tagInfo);
 	}
 
-	@ResponseBody
-	@RequestMapping("/detailByPageNoAndTagNo/{pageNo}/{tagNo}")
+	@GetMapping("/detailByPageNoAndTagNo/{pageNo}/{tagNo}")
 	@RequiresPermissions("tag_info:view")
 	public ModelMap detailByPageNoAndTagNo(
 			@PathVariable("pageNo") Integer pageNo,
@@ -144,8 +143,7 @@ public class TagInfoController extends BaseController {
 		return successResult(tagInfo);
 	}
 
-	@ResponseBody
-	@RequestMapping("/update")
+	@PostMapping("/update")
 	@RequiresPermissions("tag_info:modify")
 	public ModelMap update(
 			@RequestParam Long id,
@@ -191,8 +189,7 @@ public class TagInfoController extends BaseController {
 
 	}
 
-	@ResponseBody
-	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	@PostMapping("/create")
 	@RequiresPermissions("tag_info:modify")
 	public ModelMap create(
 			@RequestParam Integer tagNo,
@@ -236,8 +233,7 @@ public class TagInfoController extends BaseController {
 
 	}
 
-	@ResponseBody
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	@PostMapping("/delete")
 	@RequiresPermissions("tag_info:modify")
 	public ModelMap delete(@RequestParam("id") Long id) {
 		if (id == null || id <= 0) {
@@ -251,8 +247,7 @@ public class TagInfoController extends BaseController {
 		}
 	}
 
-	@ResponseBody
-	@RequestMapping("/checkDuplication")
+	@GetMapping("/checkDuplication")
 	public boolean checkDuplication(Long id, Integer tagNo, Long pageInfoId) {
 		if (tagNo == null || tagNo <= 0) {
 			return false;
@@ -273,8 +268,7 @@ public class TagInfoController extends BaseController {
 		return true;
 	}
 
-	@ResponseBody
-	@RequestMapping("/checkExist")
+	@GetMapping("/checkExist")
 	public boolean checkExist(Integer pageNo, Integer tagNo) {
 		if (tagNo == null || (tagNo < TagInfo.COMMON_TAG_NO_MIN_VALUE && pageNo == null)) {
 			return false;
@@ -285,8 +279,7 @@ public class TagInfoController extends BaseController {
 		return true;
 	}
 
-	@ResponseBody
-	@RequestMapping("/export")
+	@GetMapping("/export")
 	@RequiresPermissions("tag_info:view")
 	public void exportTagInfos(
 			Integer pageNo,

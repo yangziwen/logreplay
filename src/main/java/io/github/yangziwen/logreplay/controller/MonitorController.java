@@ -5,19 +5,19 @@ import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import io.github.yangziwen.logreplay.controller.base.BaseController;
 import io.github.yangziwen.logreplay.util.MonitorUtil;
-import io.github.yangziwen.logreplay.util.SystemInfoUtil;
 import io.github.yangziwen.logreplay.util.MonitorUtil.ConsolFunc;
 import io.github.yangziwen.logreplay.util.MonitorUtil.Data;
+import io.github.yangziwen.logreplay.util.SystemInfoUtil;
 
-@Controller
+@RestController
 @RequestMapping("/monitor")
 public class MonitorController extends BaseController {
 
@@ -30,8 +30,7 @@ public class MonitorController extends BaseController {
 	/**
 	 * 获取系统相关参数
 	 */
-	@ResponseBody
-	@RequestMapping("/systemInfo")
+	@GetMapping("/systemInfo")
 	public ModelMap getSystemInfo(HttpSession session) {
 		String serverInfo = session.getServletContext().getServerInfo();
 		ModelMap result = new ModelMap()
@@ -55,8 +54,7 @@ public class MonitorController extends BaseController {
 	 * @param endTime	结束时间(毫秒时间戳)
 	 * @param step		取样间隔(秒)
 	 */
-	@ResponseBody
-	@RequestMapping("/memoryData")
+	@GetMapping("/memoryData")
 	public ModelMap getMemoryData(
 			@RequestParam(defaultValue = DEFAULT_START_TIME) long startTime,
 			@RequestParam(defaultValue = DEFAULT_END_TIME) long endTime,
@@ -93,8 +91,7 @@ public class MonitorController extends BaseController {
 		return successResult(result);
 	}
 
-	@ResponseBody
-	@RequestMapping("/appData")
+	@GetMapping("/appData")
 	public ModelMap getAppData(
 			@RequestParam(defaultValue = DEFAULT_START_TIME) long startTime,
 			@RequestParam(defaultValue = DEFAULT_END_TIME) long endTime,

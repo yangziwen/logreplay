@@ -9,13 +9,13 @@ import org.audit4j.core.annotation.Audit;
 import org.audit4j.core.annotation.AuditField;
 import org.audit4j.core.annotation.DeIdentify;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import io.github.yangziwen.logreplay.bean.Role;
 import io.github.yangziwen.logreplay.bean.User;
@@ -28,7 +28,7 @@ import io.github.yangziwen.logreplay.service.RoleService;
 import io.github.yangziwen.logreplay.service.UserService;
 import io.github.yangziwen.logreplay.util.AuthUtil;
 
-@Controller
+@RestController
 @RequestMapping("/admin/user")
 public class AdminUserController extends BaseController {
 
@@ -38,8 +38,7 @@ public class AdminUserController extends BaseController {
 	@Autowired
 	private RoleService roleService;
 
-	@ResponseBody
-	@RequestMapping("/list")
+	@GetMapping("/list")
 	@RequiresPermissions("user:view")
 	public ModelMap list(
 			@RequestParam(defaultValue = Page.DEFAULT_START) int start,
@@ -58,8 +57,7 @@ public class AdminUserController extends BaseController {
 		return successResult(page);
 	}
 
-	@ResponseBody
-	@RequestMapping("/detail/{id}")
+	@GetMapping("/detail/{id}")
 	@RequiresPermissions("user:view")
 	public ModelMap detail(@PathVariable("id") Long id) {
 		UserWithRoles user = userService.getUserWithRolesById(id);
@@ -67,8 +65,7 @@ public class AdminUserController extends BaseController {
 	}
 
 	@Audit(action = "admin.create_user")
-	@ResponseBody
-	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	@PostMapping("/create")
 	@RequiresPermissions("user:modify")
 	public ModelMap create (
 			@AuditField(field = "username")
@@ -105,8 +102,7 @@ public class AdminUserController extends BaseController {
 	}
 
 	@Audit(action = "admin.update_user")
-	@ResponseBody
-	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+	@PostMapping("/update/{id}")
 	@RequiresPermissions("user:modify")
 	public ModelMap update (
 			@AuditField(field = "id")
@@ -146,8 +142,7 @@ public class AdminUserController extends BaseController {
 	 * 管理员重置密码
 	 */
 	@Audit(action = "admin.reset_password")
-	@ResponseBody
-	@RequestMapping(value = "/password/update/{id}", method = RequestMethod.POST)
+	@PostMapping("/password/update/{id}")
 	@RequiresPermissions("user:modify")
 	public ModelMap updatePassword(
 			@AuditField(field = "id")
@@ -171,8 +166,7 @@ public class AdminUserController extends BaseController {
 		}
 	}
 
-	@ResponseBody
-	@RequestMapping("/checkDuplication")
+	@GetMapping("/checkDuplication")
 	public boolean checkDuplication(Long id, String username) {
 		if (id == null && userService.getUserByUsername(username) != null) {
 			return false;

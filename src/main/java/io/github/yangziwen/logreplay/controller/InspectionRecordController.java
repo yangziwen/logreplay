@@ -7,19 +7,19 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import io.github.yangziwen.logreplay.bean.InspectionRecord;
 import io.github.yangziwen.logreplay.bean.PageInfo;
+import io.github.yangziwen.logreplay.bean.Permission.Target;
 import io.github.yangziwen.logreplay.bean.TagInfo;
 import io.github.yangziwen.logreplay.bean.User;
-import io.github.yangziwen.logreplay.bean.Permission.Target;
 import io.github.yangziwen.logreplay.controller.base.BaseController;
 import io.github.yangziwen.logreplay.dao.base.Page;
 import io.github.yangziwen.logreplay.dao.base.QueryParamMap;
@@ -32,7 +32,7 @@ import io.github.yangziwen.logreplay.service.UserService;
 import io.github.yangziwen.logreplay.util.AuthUtil;
 import io.github.yangziwen.logreplay.util.ProductUtil;
 
-@Controller
+@RestController
 @RequestMapping("/inspectionRecord")
 public class InspectionRecordController extends BaseController {
 
@@ -51,8 +51,7 @@ public class InspectionRecordController extends BaseController {
 	/**
 	 * 获取校验结果的列表
 	 */
-	@ResponseBody
-	@RequestMapping("/list")
+	@GetMapping("/list")
 	@RequiresPermissions("inspection_record:view")
 	public ModelMap list(
 			@RequestParam(defaultValue = Page.DEFAULT_START) int start,
@@ -100,8 +99,7 @@ public class InspectionRecordController extends BaseController {
 		return successResult(page);
 	}
 
-	@ResponseBody
-	@RequestMapping("/detail/{id}")
+	@GetMapping("/detail/{id}")
 	@RequiresPermissions("inspection_record:view")
 	public ModelMap detail(@PathVariable("id") Long id) {
 		InspectionRecord record = inspectionRecordService.getInspectionRecordById(id);
@@ -111,8 +109,7 @@ public class InspectionRecordController extends BaseController {
 	/**
 	 * 提交校验结果，相当于创建
 	 */
-	@ResponseBody
-	@RequestMapping(value = "/submit", method = RequestMethod.POST)
+	@PostMapping("/submit")
 	@RequiresPermissions("inspection_record:modify")
 	public ModelMap submit(
 			@RequestParam Integer pageNo,
@@ -150,8 +147,7 @@ public class InspectionRecordController extends BaseController {
 	/**
 	 * 将校验结果标记为“已处理”
 	 */
-	@ResponseBody
-	@RequestMapping(value = "/resolve/{id}", method = RequestMethod.POST)
+	@PostMapping("/resolve/{id}")
 	@RequiresPermissions("inspection_record:modify")
 	public Map<String, Object> resolve(@PathVariable("id") Long id) {
 		if (!AuthUtil.isPermitted(Target.Inspection_Record.modify())) {

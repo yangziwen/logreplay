@@ -5,12 +5,12 @@ import org.audit4j.core.annotation.Audit;
 import org.audit4j.core.annotation.AuditField;
 import org.audit4j.core.annotation.DeIdentify;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import io.github.yangziwen.logreplay.bean.User;
 import io.github.yangziwen.logreplay.controller.base.BaseController;
@@ -18,23 +18,21 @@ import io.github.yangziwen.logreplay.exception.LogReplayException;
 import io.github.yangziwen.logreplay.service.UserService;
 import io.github.yangziwen.logreplay.util.AuthUtil;
 
-@Controller
+@RestController
 @RequestMapping("/user")
 public class UserController extends BaseController {
 
 	@Autowired
 	private UserService userService;
 
-	@ResponseBody
-	@RequestMapping("/detail")
+	@GetMapping("/detail")
 	public ModelMap detail() {
 		User user = userService.getUserByUsername(AuthUtil.getUsername());
 		return successResult(user);
 	}
 
 	@Audit(action = "user.update_profile")
-	@ResponseBody
-	@RequestMapping(value = "/profile/update", method = RequestMethod.POST)
+	@PostMapping("/profile/update")
 	public ModelMap updateProfile(
 			@AuditField(field = "screenName")
 			@RequestParam String screenName) {
@@ -54,8 +52,7 @@ public class UserController extends BaseController {
 	}
 
 	@Audit(action = "user.update_password")
-	@ResponseBody
-	@RequestMapping(value = "/password/update", method = RequestMethod.POST)
+	@PostMapping("/password/update")
 	public ModelMap updatePassword(
 			@DeIdentify(fromRight = 2)
 			@AuditField(field = "oldPassword")
@@ -84,8 +81,7 @@ public class UserController extends BaseController {
 		}
 	}
 
-	@ResponseBody
-	@RequestMapping("/checkPassword")
+	@GetMapping("/checkPassword")
 	public boolean checkPassword(String password) {
 		if (StringUtils.isBlank(password)) {
 			return false;
