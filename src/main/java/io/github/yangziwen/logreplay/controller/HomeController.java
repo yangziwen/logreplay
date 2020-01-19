@@ -13,7 +13,7 @@ public class HomeController {
 	 */
 	@RequestMapping("/")
 	public String toHome() {
-		return "redirect:home.htm";
+		return "redirect:index.html";
 	}
 
 	/**

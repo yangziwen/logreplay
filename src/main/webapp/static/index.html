@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>客户端日志埋点校验系统</title>
+<link rel="stylesheet"
+	href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<body>
+	<div id="app">
+		<app-layout/>
+	</div>
+</body>
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/element-ui"></script>
+<script src="https://unpkg.com/http-vue-loader"></script>
+<script src="https://unpkg.com/vue-router"></script>
+<script>
+	new Vue({
+		el: '#app',
+		components: {
+          'app-layout': httpVueLoader('vue/layout.vue')
+		}
+	})
+</script>
+</html>

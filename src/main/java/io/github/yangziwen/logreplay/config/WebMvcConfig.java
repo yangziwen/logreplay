@@ -42,6 +42,8 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		registry.addResourceHandler("/css/**").addResourceLocations("/static/css/").setCachePeriod(cachePeriod);
 		registry.addResourceHandler("/img/**").addResourceLocations("/static/img/").setCachePeriod(cachePeriod);
 		registry.addResourceHandler("/fonts/**").addResourceLocations("/static/fonts/").setCachePeriod(cachePeriod);
+		registry.addResourceHandler("/vue/**").addResourceLocations("/static/vue/").setCachePeriod(cachePeriod);
+		registry.addResourceHandler("/index.html").addResourceLocations("/static/index.html").setCachePeriod(cachePeriod);
 	}
 
 	@Bean
