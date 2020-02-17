@@ -21,7 +21,7 @@ public class TagActionController extends BaseController {
 	private TagActionService tagActionService;
 
 	@GetMapping("/list")
-	@RequiresPermissions("/tag_info:view")
+	@RequiresPermissions("tag_info:view")
 	public Map<String, Object> list() {
 		List<TagAction> list = tagActionService.getTagActionListResult();
 		return successResult(list);
