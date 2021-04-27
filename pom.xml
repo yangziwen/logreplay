@@ -24,7 +24,7 @@
 		<audit4j.version>2.5.0</audit4j.version>
 		<javamelody.version>1.74.0</javamelody.version>
 		<commons.lang.version>2.6</commons.lang.version>
-		<commons.io.version>2.4</commons.io.version>
+		<commons.io.version>2.7</commons.io.version>
 		<commons.fileupload.version>1.3.3</commons.fileupload.version>
 		<commons.codec.version>1.9</commons.codec.version>
 		<guava.version>18.0</guava.version>
