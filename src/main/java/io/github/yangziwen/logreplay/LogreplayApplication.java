@@ -10,6 +10,9 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 
+import io.github.yangziwen.logreplay.annotation.EnableAudit;
+
+@EnableAudit
 @EnableCaching
 @ServletComponentScan
 @EnableTransactionManagement

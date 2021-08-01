@@ -11,11 +11,15 @@ import org.audit4j.integration.spring.AuditAspect;
 import org.audit4j.integration.spring.SpringAudit4jConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import io.github.yangziwen.logreplay.audit.AuditMetaData;
 
-@Configuration
+/**
+ * 审计相关的配置
+ * 基于@EnableAudit注解控制是否生效
+ *
+ * @author yangziwen
+ */
 public class AuditConfig {
 
 	private CustomizableLayout layout() {
