@@ -20,7 +20,7 @@
 		<java.version>1.8</java.version>
 		<springframework.data.version>1.1.0.RELEASE</springframework.data.version>
 		<shiro.version>1.4.0</shiro.version>
-		<poi.version>3.16</poi.version>
+		<poi.version>4.1.1</poi.version>
 		<audit4j.version>2.5.0</audit4j.version>
 		<javamelody.version>1.74.0</javamelody.version>
 		<commons.lang.version>2.6</commons.lang.version>
